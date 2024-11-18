@@ -40,6 +40,22 @@ export default function AuthenticatedLayout({ header, children }) {
                                     Products
                                 </NavLink>
                             </div>
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink
+                                    href={route('cart.index')}
+                                    active={route().current('cart.index')}
+                                >
+                                    Cart
+                                </NavLink>
+                            </div>
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink
+                                    href={route('wishlist.index')}
+                                    active={route().current('wishlist.index')}
+                                >
+                                    Wishlist
+                                </NavLink>
+                            </div>
                         </div>
 
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">
@@ -152,8 +168,8 @@ export default function AuthenticatedLayout({ header, children }) {
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink
-                            href={route('product.index')}
-                            active={route().current('product.index')}
+                            href={route('cart.index')}
+                            active={route().current('cart.index')}
                         >
                             Cart
                         </ResponsiveNavLink>

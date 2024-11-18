@@ -122,6 +122,7 @@ export default function ProductSearch({ products }) {
                                                     <p className="text-blue-600 font-bold mt-2">${product.price}</p>
                                                     <Link className='' method='get' href={'product/buy/'+ product.id + '/' + 1} >Buy</Link>
                                                     <Link className='' method='get' href={'product/addtocart/'+ product.id + '/' + 1} >Add To Cart</Link>
+                                                    <Link className='' method='get' href={'/wishlist/add/'+ product.id} >Add To Wishlist</Link>
                                                 </div>
                                             ))
                                         ) : (
