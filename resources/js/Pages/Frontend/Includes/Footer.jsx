@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/react";
 import React from "react";
 
 
@@ -8,7 +9,7 @@ export default function Footer() {
                 <div className="row">
                     <div className="col-sm-4">
                         <div className="footer-about">
-                            <a className="navbar-brand" href="index.html"><img className="logo" src="./assets/images/logo.png" alt="Logo" /></a>
+                            <a className="navbar-brand" href="index.html"><img className="logo" src="/assets/images/logo.png" alt="Logo" /></a>
                             <h3>
                                 Handmade<br />
                                 nutritional products delivered with love.
@@ -19,12 +20,12 @@ export default function Footer() {
                         <div className="footer-content">
                             <h4 className="mb-3">Quick Links</h4>
                             <ul>
-                                <li><a href="#">Home </a></li>
-                                <li><a href="#">About Us</a></li>
+                                <li><a href={route('home')} >Home </a></li>
+                                <li><Link href="/view-page/about-us" >About Us</Link></li>
                                 <li><a href="#">Products</a></li>
-                                <li><a href="#">Contact Us</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Terms & Condition</a></li>
+                                <li><Link href="/view-page/contact-us" >Contact Us</Link></li>
+                                <li><Link href="/view-page/privacy-policy" >Privacy Policy</Link></li>
+                                <li><Link href="/view-page/terms-and-conditions" >Terms & Condition</Link></li>
                             </ul>
                         </div>
                     </div>

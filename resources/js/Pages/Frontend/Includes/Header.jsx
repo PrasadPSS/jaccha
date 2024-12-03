@@ -1,13 +1,13 @@
 import React from "react";
 
-const Header = () => {
+const Header = ({auth}) => {
   return (
     <header>
       {/* First Navbar */}
       <nav className="navbar navbar-expand-lg first-navbar">
         <div className="container">
           <a className="navbar-brand" href="index.html">
-            <img className="logo" src="./assets/images/logo.png" alt="Logo" />
+            <img className="logo" src="/assets/images/logo.png" alt="Logo" />
           </a>
           <button
             className="navbar-toggler"
@@ -38,9 +38,14 @@ const Header = () => {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="about-us.html">
+                {auth.user && (<a className="nav-link" href={route('profile.edit')}>
                   Account
-                </a>
+                </a>)}
+
+                {!auth.user && <a className="nav-link" href={route('login')}>
+                  Login
+                </a>}
+                
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="services.html">
@@ -49,7 +54,7 @@ const Header = () => {
               </li>
               <li className="nav-item">
                 <a className="nav-link active" href="contact.html">
-                  Basket <i className="far fa-shopping-basket"></i>
+                  Basket<i className="far fa-shopping-basket"></i>
                 </a>
               </li>
             </ul>

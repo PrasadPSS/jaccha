@@ -59,6 +59,7 @@
                                       <td>
                                         <!-- @can('Update') -->
                                         <!-- @endcan -->
+                                        <a href="{{ url('view-page/'.$cmspage->cms_slug) }}" class="btn btn-primary"><i class="bx bx-show-alt"></i></a>
                                         <a href="{{ url('admin/cmspages/edit/'.$cmspage->cms_pages_id) }}" class="btn btn-primary"><i class="bx bx-pencil"></i></a>
                                         <!-- @can('Delete') -->
                                         <!-- @endcan -->

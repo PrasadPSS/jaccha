@@ -13,7 +13,7 @@ import "../../../public/assets/js/custom/app.js";
 import Header from "@/Pages/Frontend/Includes/Header";
 import Footer from "@/Pages/Frontend/Includes/Footer";
 
-const HomeLayout = ({ children }) => {
+const HomeLayout = ({ children, auth }) => {
   // Initialize AOS
   useEffect(() => {
     if (window.AOS) {
@@ -29,7 +29,7 @@ const HomeLayout = ({ children }) => {
 
   return (
     <div>
-      <Header />
+      <Header auth={auth}/>
       <main>{children}</main>
       <Footer />
     </div>

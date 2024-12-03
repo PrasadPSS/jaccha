@@ -65,6 +65,11 @@ class CmspagesController extends Controller
         return view('backend.cmspages.edit', compact('cmspage'));
     }
 
+    public function view()
+    {
+        $cmspage = Cmspages::findOrFail($id);
+    }
+
     /**
      * Update the specified resource in storage.
      *

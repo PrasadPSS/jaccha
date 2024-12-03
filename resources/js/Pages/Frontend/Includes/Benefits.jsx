@@ -15,8 +15,8 @@ export default function Benefits({ title, subTitle, sectionChildren, paddingTop,
                     </div>
                     <div className="col-sm-7">
                         <div className="benefits-content" data-aos="fade-left" data-aos-delay="800">
-                            <h2 className="mb-4">
-                            {sectionChildren[0].home_page_section_child_title}
+                            <h2 className="mb-4" dangerouslySetInnerHTML={{__html: sectionChildren[0].home_page_section_child_title}}>
+                        
                             </h2>
                             <ul>
                                 <li>

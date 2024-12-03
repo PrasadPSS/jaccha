@@ -775,4 +775,7 @@ Route::prefix('admin')->group(function () {
     });
 });
 
+
+route::get('/view-page/{cms_slug}',[HomeController::class, 'viewPages'])->name('viewPage');
+
 require __DIR__.'/auth.php';

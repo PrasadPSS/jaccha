@@ -15,6 +15,12 @@ class User extends Authenticatable
      *
      * @var array
      */
+
+     public function customer()
+     {
+         return $this->hasOne(Customer::class, 'user_id', 'id');
+     }
+     
     protected $fillable = [
         'name','provider','provider_id', 'email', 'password','mobile_no','last_name','dob',
         'address','profile_pic','adhaar_no','welcome_email','pan',

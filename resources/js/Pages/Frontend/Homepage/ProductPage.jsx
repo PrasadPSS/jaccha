@@ -16,9 +16,9 @@ const componentMap = {
   Testimonials: Testimonials,
 };
 
-export default function ProductPage({ auth, laravelVersion, phpVersion, homepagesections }) {
+export default function ProductPage({ auth, laravelVersion, phpVersion, homepagesections, data }) {
   return (
-    <HomeLayout>
+    <HomeLayout auth={auth}>
       {homepagesections.map((section) => {
         const SectionComponent = componentMap[section.home_page_section_name];
 
@@ -32,6 +32,7 @@ export default function ProductPage({ auth, laravelVersion, phpVersion, homepage
               sectionChildren={section.section_childs}
               paddingTop={section.padding_top}
               paddingBottom={section.padding_bottom}
+              data={data}
             />
           );
         } else {

@@ -10,11 +10,7 @@ export default function About({ title, subTitle, sectionChildren, paddingTop, pa
                     <div className="col-sm-4">
                         <div className="about-what-image" data-aos="fade-left" data-aos-delay="1200">
                             <img className="about-image-1" src={asset('backend-assets/uploads/home_page_section_child_images/'+ sectionChildren[0].home_page_section_child_images)} alt="about image" />
-                            <img
-                                className="about-image-2"
-                                src={asset('backend-assets/uploads/home_page_section_child_images/'+ sectionChildren[1].home_page_section_child_images)}
-                                alt="about image"
-                            />
+                            
                         </div>
                     </div>
                     <div className="col-sm-8">

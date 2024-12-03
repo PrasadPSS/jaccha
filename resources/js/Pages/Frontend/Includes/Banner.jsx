@@ -20,7 +20,7 @@ export default function Banner({ title, subTitle, sectionChildren, paddingTop, p
                     </div>
                     <div className="col-sm-4">
                         <div className="banner-image text-end" data-aos="zoom-in-left" data-aos-delay="1200">
-                            <img src={asset('backend-assets/uploads/home_page_section_child_images/'+sectionChildren[2].home_page_section_child_images)} />
+                            <img src={asset('backend-assets/uploads/home_page_section_child_images/' + sectionChildren[2].home_page_section_child_images)} />
                         </div>
                     </div>
                 </div>
@@ -29,7 +29,7 @@ export default function Banner({ title, subTitle, sectionChildren, paddingTop, p
                 <div className="row">
                     <div className="col-sm-5 pe-0">
                         <div className="about-us-image">
-                            <img src={asset('backend-assets/uploads/home_page_section_child_images/'+sectionChildren[3].home_page_section_child_images)} alt="about image" data-aos="fade-right" />
+                            <img src={asset('backend-assets/uploads/home_page_section_child_images/' + sectionChildren[3].home_page_section_child_images)} alt="about image" data-aos="fade-right" />
 
                             <h6 className="mt-3 mb-2" data-aos="fade-right">{sectionChildren[4].home_page_section_child_title}</h6>
                             <p data-aos="fade-right">
@@ -45,14 +45,15 @@ export default function Banner({ title, subTitle, sectionChildren, paddingTop, p
                         <div className="about_content">
                             <div className="about-us-content" data-aos="fade-right" data-aos-delay="1200">
                                 <h4 className="sub-heading mb-3">About Us</h4>
-                                <p>
-                                {sectionChildren[5].home_page_section_child_sub_title
-                                }
-                                </p>
+                                <p
+                                    dangerouslySetInnerHTML={{
+                                        __html: sectionChildren[5].home_page_section_child_sub_title,
+                                    }}
+                                ></p>
                             </div>
                             <div className="buy-now-box" data-aos="fade-right" data-aos-delay="1200">
                                 <div className="buynow-image">
-                                    <img src={asset("backend-assets/uploads/home_page_section_child_images/"+sectionChildren[7].home_page_section_child_images)} alt="about image" />
+                                    <img src={asset("backend-assets/uploads/home_page_section_child_images/" + sectionChildren[7].home_page_section_child_images)} alt="about image" />
                                 </div>
                                 <div className="buynow-content">
                                     <h3 className="mb-2">Gond Laddoo For Post</h3>
@@ -61,7 +62,7 @@ export default function Banner({ title, subTitle, sectionChildren, paddingTop, p
                                 </div>
                             </div>
                             <div className="about-right">
-                                <img src={asset("backend-assets/uploads/home_page_section_child_images/"+sectionChildren[6].home_page_section_child_images)} alt="about image" data-aos="fade-right" data-aos-delay="1600" />
+                                <img src={asset("backend-assets/uploads/home_page_section_child_images/" + sectionChildren[6].home_page_section_child_images)} alt="about image" data-aos="fade-right" data-aos-delay="1600" />
                             </div>
                             <div className="dot-bg">
                                 <img src="./assets/images/dot.png" alt="about image" data-aos="fade-right" data-aos-delay="1600" />
