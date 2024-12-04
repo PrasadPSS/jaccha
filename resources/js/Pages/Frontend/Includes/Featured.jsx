@@ -2,7 +2,7 @@ import { asset } from "@/Helpers/asset";
 import React from "react";
 
 
-export default function Featured({ title, subTitle, sectionChildren, paddingTop, paddingBottom,data }) {
+export default function Featured({ title, subTitle, sectionChildren, paddingTop, paddingBottom, data }) {
     
     const products = [];
     data.products.forEach(element => {

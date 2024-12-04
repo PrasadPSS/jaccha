@@ -16,11 +16,30 @@ class WishlistController extends Controller
         return Inertia::render('Frontend/Wishlist/Index', $data);
     }
 
-    public function add($product_id)
+    public function add(Request $request)
     {
-        Wishlists::create(['user_id'=> auth()->user()->id, 'product_id' => $product_id]);
+      $user_id = auth()->user()->id;
 
-        return redirect()->back();
+      // dd($request->all());
+
+
+      $product_id = $request->product_id;
+
+
+      $product_exist_in_wishlist = Wishlists::where('user_id',$user_id)->Where('product_id',$product_id)->first();
+      if($product_exist_in_wishlist)
+      {
+        return ['success','Product is alredy in your Wishlist !'];
+      }
+      else
+      {
+        $add_wishlist = new Wishlists();
+        $add_wishlist->user_id = $user_id;
+        $add_wishlist->product_id = $product_id;
+
+        $add_wishlist->save();
+        return ['success','Product Added To The Wishlist !'];
+      }
     }
 
     public function addtocart(Request $request)

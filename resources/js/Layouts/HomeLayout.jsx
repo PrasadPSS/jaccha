@@ -6,6 +6,7 @@ import "../../../public/assets/css/libraries/fancybox.css";
 import "../../../public/assets/css/libraries/bootstrap.min.css";
 import "../../../public/assets/css/custom/style.css";
 
+
 // Importing scripts
 import "../../../public/assets/js/libraries/bootstrap.bundle.min.js";
 import "../../../public/assets/js/custom/app.js";

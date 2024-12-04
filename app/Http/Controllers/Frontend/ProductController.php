@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\backend\HomePageSections;
 use App\Models\backend\Products;
 
 use App\Models\backend\ProductVariants;
@@ -19,6 +20,7 @@ class ProductController extends Controller
    public function index()
    {
         $data['products'] = Products::all();
+        $data['homepagesections'] = HomePageSections::where('visibility', 1)->orderBy('home_page_section_priority')->with('home_page_section_type', 'section_childs')->get();
         return Inertia::render('Frontend/Products/ProductSearch', $data);
    }
 
@@ -34,12 +36,13 @@ class ProductController extends Controller
 
    public function addtocart(Request $request)
    {
+
       $this->validate(request(), [
             'product_id' => 'required',
             'quantity' => 'required',
             'product_type' => 'required',
         ]);
-
+        
         $product_id = $request->product_id;
         
         $product_variant_id = '';
@@ -61,6 +64,7 @@ class ProductController extends Controller
             ]);
         }
         if ($product->product_qty < $request->quantity) {
+            dd('worked');
             return back()->with([
                 'error' => 'Only ' . $product->product_qty . ' Product left (Please select quantity upto ' . $product->product_qty . ')'
             ]);
@@ -73,7 +77,7 @@ class ProductController extends Controller
                 return redirect()->to('/cart')->with('success', 'Product Added To Buy Now!');
             }
 
-            return back()->with('success', 'Product Added To The Cart Successfully !');
+            return back()->with('success', 'Product Added To The Basket Successfully !');
         }
 
 

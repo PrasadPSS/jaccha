@@ -3,8 +3,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { useState } from 'react';
 import axios from 'axios';
 import { asset } from '@/Helpers/asset';
+import HomeLayout from '@/Layouts/HomeLayout';
 
-export default function ProductSearch({ cart }) {
+export default function ProductSearch({ auth, cart }) {
     console.log(cart);
     let cart_items = [];
     if (cart) {
@@ -70,7 +71,7 @@ export default function ProductSearch({ cart }) {
     }
 
     return (
-        <AuthenticatedLayout
+        <HomeLayout auth={auth}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
                     Dashboard
@@ -138,7 +139,7 @@ export default function ProductSearch({ cart }) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </HomeLayout>
     );
     
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\Frontend\HomeController;
 
 use App\Http\Controllers\backend\NotificationController;
 use App\Http\Controllers\Frontend\OrderController;
+use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -78,7 +79,7 @@ use App\Http\Controllers\backend\CustompagetitlesController; //15-09-2022
 use App\Http\Controllers\backend\PaymentModeController;
 use App\Http\Controllers\backend\TrafficsourceController; //22-12-2022
 
-use App\Http\Controllers\frontend\ProductController;
+
 use App\Http\Controllers\frontend\PagesController;
 use App\Http\Controllers\frontend\FaqController;
 use App\Http\Controllers\frontend\UsersController;
@@ -128,7 +129,7 @@ Route::get('/cart/view', [CartController::class, 'index'])
 ->middleware(['auth', 'verified'])->name('cart.index');
 Route::get('/wishlist/view', [WishlistController::class, 'index'])
 ->middleware(['auth', 'verified'])->name('wishlist.index');
-Route::get('/wishlist/add/{product_id}', [WishlistController::class, 'add'])
+Route::post('/wishlist/add', [WishlistController::class, 'add'])
 ->middleware(['auth', 'verified'])->name('wishlist.add');
 Route::post('/wishlist/add-to-cart', [WishlistController::class, 'addToCart'])
 ->middleware(['auth', 'verified'])->name('wishlist.addToCart');

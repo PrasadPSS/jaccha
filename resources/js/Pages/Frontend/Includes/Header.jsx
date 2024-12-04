@@ -33,16 +33,16 @@ const Header = ({auth}) => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto gap-4">
               <li className="nav-item">
-                <a className="nav-link" aria-current="page" href="index.html">
+                <a className="nav-link" aria-current="page" href={route('product.index')}>
                   Shop
                 </a>
               </li>
               <li className="nav-item">
-                {auth.user && (<a className="nav-link" href={route('profile.edit')}>
+                {auth && auth.user && (<a className="nav-link" href={route('profile.edit')}>
                   Account
                 </a>)}
 
-                {!auth.user && <a className="nav-link" href={route('login')}>
+                { !auth.user && <a className="nav-link" href={route('login')}>
                   Login
                 </a>}
                 
@@ -53,7 +53,7 @@ const Header = ({auth}) => {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" href="contact.html">
+                <a className="nav-link active" href={route('cart.index')}>
                   Basket<i className="far fa-shopping-basket"></i>
                 </a>
               </li>
