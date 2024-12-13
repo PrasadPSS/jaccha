@@ -58,7 +58,7 @@
                                       <td>{{ isset($hsncode->category)?$hsncode->category->category_name:'' }}</td>
                                       <td>{{ isset($hsncode->subcategory)?$hsncode->subcategory->subcategory_name:'' }}</td>
                                       <td>{{ isset($hsncode->childcategory)?$hsncode->childcategory->sub_subcategory_name:'' }}</td>
-                                      <td>{{ isset($hsncode->childcategory)?$hsncode->material->material_name:'' }}</td>
+
                                       <td>
                                         <!-- @can('Update') -->
                                         <!-- @endcan -->

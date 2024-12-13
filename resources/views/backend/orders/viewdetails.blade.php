@@ -185,7 +185,7 @@
                                         <td>TOTAL PAYABLE AMOUNT</td><td class="text-right">₹{{$orders->total}}</td>
                                       </tr>
                                       <tr class=" total-amount">
-                                        <td>PAYMENT MODE</td><td class="text-right">@if($orders->payment_mode=='payumoney')Online @elseif($orders->payment_mode=='cod')COD @else- @endif</td>
+                                        <td>PAYMENT MODE</td><td class="text-right">@if($orders->payment_mode=='Online')Online @elseif($orders->payment_mode=='cod')COD @else- @endif</td>
                                       </tr>
                                     </tbody>
                                   </table>

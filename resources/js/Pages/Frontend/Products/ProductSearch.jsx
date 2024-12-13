@@ -12,7 +12,7 @@ import Testimonials from '../Includes/Testimonials';
 
 
 export default function ProductSearch({ auth, products, homepagesections }) {
-    console.log(products);
+
     let productDetails = [];
     products.map((element)=>
         {
@@ -58,12 +58,12 @@ export default function ProductSearch({ auth, products, homepagesections }) {
         <HomeLayout auth={auth}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Dashboard
+                    Product Listing
                 </h2>
             }
         >
 
-            <Head title="Dashboard" />
+            <Head title="Product Listing" />
             <ProductBanner></ProductBanner>
             <ProductListing products={productDetails}></ProductListing>
             <FirstOrder></FirstOrder>

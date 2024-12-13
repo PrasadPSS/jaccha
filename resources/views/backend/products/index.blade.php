@@ -45,7 +45,7 @@
                                       <th>Action</th>
                                       <th>Image</th>
                                       <th>SKU</th>
-                                      <th>Brand</th>
+
                                       <th>Product Name</th>
                                       <th>Price</th>
                                       <th>Discounted Price</th>
@@ -76,7 +76,7 @@
                                       </td>
                                       <td><img class="card-img-top img-fluid mb-1" src="{{ asset('backend-assets/uploads/product_thumbs/') }}/{{ $product->product_thumb }}" alt="Product Image"></td>
                                       <td>{{ $product->product_sku }}</td>
-                                      <td>{{ isset($product->brands)?$product->brands->brand_name:'' }}</td>
+            
                                       <td>{{ $product->product_title }}</td>
                                       <td>{{ $product->product_price }}</td>
                                       <td>{{ $product->product_discounted_price }}</td>

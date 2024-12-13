@@ -122,7 +122,7 @@ class ProfileController extends Controller
 
             return response()->json(['success' => true, 'message' => 'OTP sent successfully']);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Failed to send OTP'], 500);
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
 

@@ -29,12 +29,7 @@
                 <div class="card-header">
                     <h4 class="card-title">Missing Payments</h4>
                 </div>
-{{--                @if ($message = Session::get('success'))--}}
-{{--                    <div class="alert alert-success">--}}
-{{--                        <p>{{ $message }}</p>--}}
-{{--                    </div>--}}
-{{--                @endif--}}
-               @include('frontend.includes.errors')
+
                 <div class="card-content">
                     <div class="card-body card-dashboard">
                         <div class="table-responsive">

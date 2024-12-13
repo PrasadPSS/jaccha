@@ -10,6 +10,7 @@ use App\Models\backend\ProductVariants;
 use App\Models\CartItem;
 
 use App\Models\frontend\Cart;
+use App\Models\frontend\Review;
 use Illuminate\Http\Request;
 
 use Inertia\Inertia;
@@ -17,34 +18,34 @@ use Inertia\Inertia;
 
 class ProductController extends Controller
 {
-   public function index()
-   {
+    public function index()
+    {
         $data['products'] = Products::all();
         $data['homepagesections'] = HomePageSections::where('visibility', 1)->orderBy('home_page_section_priority')->with('home_page_section_type', 'section_childs')->get();
         return Inertia::render('Frontend/Products/ProductSearch', $data);
-   }
+    }
 
-   public function buy($product_id, $quantity)
-   {
-      $product = Products::where('id', $product_id)->first();
-      $cart = Cart::where('user_id', auth()->user()->id)->first();
-      Cart::where('user_id', auth()->user()->id)->update(['total'=> (int)$cart->total + (int)($product->price * $quantity)]);
-      CartItem::create(['cart_id' => $cart->id, 'product_id' => $product_id, 'quantity' => $quantity]);
+    public function buy($product_id, $quantity)
+    {
+        $product = Products::where('id', $product_id)->first();
+        $cart = Cart::where('user_id', auth()->user()->id)->first();
+        Cart::where('user_id', auth()->user()->id)->update(['total' => (int) $cart->total + (int) ($product->price * $quantity)]);
+        CartItem::create(['cart_id' => $cart->id, 'product_id' => $product_id, 'quantity' => $quantity]);
 
-      return redirect()->route('cart.index');
-   }
+        return redirect()->route('cart.index');
+    }
 
-   public function addtocart(Request $request)
-   {
+    public function addtocart(Request $request)
+    {
 
-      $this->validate(request(), [
+        $this->validate(request(), [
             'product_id' => 'required',
             'quantity' => 'required',
             'product_type' => 'required',
         ]);
-        
+
         $product_id = $request->product_id;
-        
+
         $product_variant_id = '';
         if ($request->product_type == 'simple') {
             $product = Products::where('product_id', $product_id)->first();
@@ -64,7 +65,6 @@ class ProductController extends Controller
             ]);
         }
         if ($product->product_qty < $request->quantity) {
-            dd('worked');
             return back()->with([
                 'error' => 'Only ' . $product->product_qty . ' Product left (Please select quantity upto ' . $product->product_qty . ')'
             ]);
@@ -106,7 +106,7 @@ class ProductController extends Controller
         }
 
         if ($product_exist_in_cart) {
-            $product_qty = (int)$product_exist_in_cart->qty;
+            $product_qty = (int) $product_exist_in_cart->qty;
             $product_qty = $product_qty + $quantity;
             $product_exist_in_cart->qty = $product_qty;
 
@@ -150,7 +150,7 @@ class ProductController extends Controller
             if ($request->product_type == 'configurable') {
                 $cart->product_variant_id = $product_variant_id;
             }
-            //$cart->price = ($quantity*$product->price);
+            $cart->price = ($quantity * $request->product_price);
             $cart->qty = $quantity;
             $cart->discount = $product->product_discount;
             // $cart->referral_id = $added_by;
@@ -181,6 +181,36 @@ class ProductController extends Controller
                 return redirect()->to('/cart')->with('success', 'Product Added To Buy Now!');
             }
             return back()->with('success', 'Product Added To The Cart Successfully !');
-   }
-}
+        }
+    }
+
+    public function viewProductDetails($product_id)
+    {
+        $data['product'] = Products::where('product_id', $product_id)->first();
+        $data['product_reviews'] = Review::where('product_id', $product_id)->get()->toArray();
+        
+        return Inertia::render('Frontend/Products/ProductDetail', $data);
+    }
+
+
+    public function checkPincodeServiceability(Request $request)
+    {
+    // Validate the delivery pincode input
+    $request->validate([
+        'pincode' => [
+            'required',
+            'numeric',
+            'digits:6',
+            'regex:/^[1-9][0-9]{5}$/',
+        ],
+    ], [
+        'pincode.required' => 'The pincode field is required.',
+        'pincode.digits' => 'The pincode must be exactly 6 digits.',
+        'pincode.regex' => 'The pincode must start with a non-zero digit and only contain numbers.',
+    ]);
+    $deliveryPincode = $request->pincode;
+    $pincodeServiceability = check_pincode($deliveryPincode);
+    return response()->json($pincodeServiceability);
+    }
+
 }

@@ -124,7 +124,7 @@ class MissingPaymentsController extends Controller
                 {
                     $order = new Orders();
                     $order->user_id = $missingpaymments->user_id;
-                    $order->orders_counter_id = $orders_counter_increment_id;
+                    $order->orders_counter_id = 'JACCHA'. $orders_counter_increment_id;
                     $order->payment_tracking_code = $payment_tracking_code;
                     $order->transaction_id = $missingpaymments->transaction_id;
                     // if(!empty($shipping))

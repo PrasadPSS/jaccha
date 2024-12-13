@@ -164,7 +164,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                     onClick={sendOtp}
                     className="text-blue-600 hover:underline text-sm"
                 >
-                    Reset password via OTP
+                    Reset password via OTPs
                 </button>
             </div>
 

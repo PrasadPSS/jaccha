@@ -116,17 +116,44 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/thankyou', function () {
+    return Inertia::render('Frontend/Orders/ThankYou');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+//shipping address
+Route::get('/shippingaddress/index', [AddressesController::class, 'index'])
+->middleware(['auth', 'verified'])->name('address.index');
+Route::get('/shippingaddress/add', [AddressesController::class, 'addaddress'])
+->middleware(['auth', 'verified'])->name('address.add');
+Route::post('/shippingaddress/store', [AddressesController::class, 'storeaddress'])
+->middleware(['auth', 'verified'])->name('address.store');
+Route::get('/shippingaddress/edit/{shipping_address_id}', [AddressesController::class, 'editaddress'])
+->middleware(['auth', 'verified'])->name('address.edit');
+Route::post('/shippingaddress/update', [AddressesController::class, 'updateaddress'])
+->middleware(['auth', 'verified'])->name('address.update');
+Route::post('/shippingaddress/delete/{shipping_address_id}', [AddressesController::class, 'deleteaddress'])
+->middleware(['auth', 'verified'])->name('address.delete');
+
+
+//products
 Route::get('/products', [ProductController::class, 'index'])
 ->middleware(['auth', 'verified'])->name('product.index');
-
 Route::get('/product/buy/{product_id}/{quantity}', [ProductController::class, 'buy'])
 ->middleware(['auth', 'verified'])->name('product.buy');
-
 Route::post('/product/addtocart', [ProductController::class, 'addtocart'])
 ->middleware(['auth', 'verified'])->name('product.add');
-//cart
-Route::get('/cart/view', [CartController::class, 'index'])
-->middleware(['auth', 'verified'])->name('cart.index');
+Route::get('/product/view/{product_id}', [ProductController::class, 'viewProductDetails'])
+->middleware(['auth', 'verified'])->name('product.view');
+Route::post('product/pincode/check', [ProductController::class, 'checkPincodeServiceability'])
+->middleware(['auth', 'verified'])->name('product.pincode.check');
+
+//rating and reviews
+Route::post('/rating/review', [App\Http\Controllers\Frontend\ReviewController::class, 'store'])->middleware(['auth', 'verified'])
+->name('product.review');
+Route::post('/rating/review/edit', [App\Http\Controllers\Frontend\ReviewController::class, 'update'])->middleware(['auth', 'verified'])
+->name('product.review.edit');
+
+//wishlist
 Route::get('/wishlist/view', [WishlistController::class, 'index'])
 ->middleware(['auth', 'verified'])->name('wishlist.index');
 Route::post('/wishlist/add', [WishlistController::class, 'add'])
@@ -136,23 +163,31 @@ Route::post('/wishlist/add-to-cart', [WishlistController::class, 'addToCart'])
 Route::post('/wishlist/delete', [WishlistController::class, 'delete'])
 ->middleware(['auth', 'verified'])->name('wishlist.delete');
 
-//checkout
-Route::post('/checkout/payment', [OrderController::class, 'checkout'])
-->middleware(['auth', 'verified','isProfileCompleted'])->name('checkout.payment');
 
+//orders
+Route::get('/orders/viewinvoice/{order_id}', [OrderController::class, 'viewInvoice'])
+->middleware(['auth', 'verified'])->name('order.viewinvoice');
+Route::post('/order/place', [OrderController::class, 'placeOrder'])
+->middleware(['auth', 'verified','isProfileCompleted'])->name('order.place');
+Route::get('/checkout/payment', [OrderController::class, 'checkout'])
+->middleware(['auth', 'verified','isProfileCompleted'])->name('checkout.payment');
+Route::post('/order/create', [OrderController::class, 'createOrder'])
+->middleware(['auth', 'verified','isProfileCompleted'])->name('order.create');
+Route::get('/orders/view', [OrderController::class, 'index'])->name('order.index');
+//profile
 Route::post('/profile/sendOtp', [ProfileController::class, 'sendOtp'])
 ->middleware(['auth', 'verified'])->name('profile.sendotp');
-
 Route::post('/profile/checkOtp', [ProfileController::class, 'checkOtp'])
 ->middleware(['auth', 'verified'])->name('profile.reset-via-otp');
 
-//orders
-Route::get('/orders/view', [OrderController::class, 'index'])->name('order.index');
-
+//cart
 Route::post('/api/cart/increase', [CartController::class, 'increaseQuantity']);
 Route::post('/api/cart/decrease', [CartController::class, 'decreaseQuantity']);
 Route::post('/api/cart/remove', [CartController::class, 'removeItem']);
+Route::get('/cart/view', [CartController::class, 'index'])
+->middleware(['auth', 'verified'])->name('cart.index');
 
+//google
 Route::get('/google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('/google/callback', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
 

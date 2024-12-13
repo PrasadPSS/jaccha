@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\backend\Products;
 use App\Models\frontend\Cart;
 use App\Models\Product;
 use Illuminate\Support\Facades\Log;
@@ -21,47 +22,40 @@ class CartController extends Controller
 
    public function increaseQuantity(Request $request)
     {
+        $cart = Cart::where('user_id', auth()->user()->id)->where('product_id', $request->item_id)->first();
+        $product = Products::where('product_id', $request->item_id)->first();
+        Cart::where('user_id', auth()->user()->id)->where('product_id', $request->item_id)->update(['qty'=> $cart->qty + 1, 'price' => $product->product_price * ($cart->qty + 1)]);
 
-        $cartItem = CartItem::findOrFail($request->item_id);
-        $cartItem->quantity += 1;
-        $cartItem->save();
 
-        // Update the total in the cart
-        $cart = Cart::findOrFail($cartItem->cart_id);
-        $cart->total += $cartItem->product->price;
-        $cart->save();
 
-        return response()->json(['updated_quantity' => $cartItem->quantity]);
+        return response()->json(['updated_quantity' => 111]);
     }
 
     public function decreaseQuantity(Request $request)
     {
-        $cartItem = CartItem::findOrFail($request->item_id);
-        
-        if ($cartItem->quantity > 1) {
-            $cartItem->quantity -= 1;
-            $cartItem->save();
-
-            // Update the total in the cart
-            $cart = Cart::findOrFail($cartItem->cart_id);
-            $cart->total -= $cartItem->product->price;
-            $cart->save();
+        $cart = Cart::where('user_id', auth()->user()->id)->where('product_id', $request->item_id)->first();
+    
+        if (!$cart || $cart->qty <= 1) {
+            return response()->json(['error' => 'Quantity cannot be decreased further'], 400);
         }
-
-        return response()->json(['updated_quantity' => $cartItem->quantity]);
+    
+        $product = Products::where('product_id', $request->item_id)->first();
+    
+        Cart::where('user_id', auth()->user()->id)
+            ->where('product_id', $request->item_id)
+            ->update([
+                'qty' => $cart->qty - 1,
+                'price' => $product->product_price * ($cart->qty - 1),
+            ]);
+    
+        return response()->json(['updated_quantity' => $cart->qty - 1]);
     }
+    
 
     public function removeItem(Request $request)
     {
-        $cartItem = CartItem::findOrFail($request->item_id);
-        $cart = Cart::findOrFail($cartItem->cart_id);
+        $cart = Cart::where('user_id', auth()->user()->id)->where('product_id', $request->item_id)->delete();
 
-        // Update the total in the cart
-        $cart->total -= $cartItem->quantity * $cartItem->product->price;
-        $cart->save();
-
-        // Delete the cart item
-        $cartItem->delete();
 
         return response()->json(['message' => 'Item removed']);
     }

@@ -67,6 +67,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
+        
         $categories = Categories::where('visibility', 1)->get();
         $categories = collect($categories)->mapWithKeys(function ($item, $key) {
             return [$item['category_id'] => $item['category_name']];
@@ -174,8 +175,8 @@ class ProductsController extends Controller
      * @return Response
      */
     public function store(Request $request)
-
-    {
+   
+    { 
         $this->validate($request, [
             'product_title' => ['required'],
             'product_sku' => ['required'],
@@ -185,7 +186,6 @@ class ProductsController extends Controller
             'sub_category_id' => ['required'],
             'sub_sub_category_id' => ['required'],
             // 'filter_id' => ['required'],
-            'size_chart_id' => ['required'],
             'country_id' => ['required'],
             'product_thumb' => ['required'],
             'product_discount_type' => ['required'],
@@ -539,6 +539,7 @@ class ProductsController extends Controller
     public function update(Request $request)
     {
         $this->validate($request, [
+            'product_sku' => ['required'],
             'product_title' => ['required'],
             'product_price' => ['required'],
             'product_type' => ['required'],
@@ -546,8 +547,6 @@ class ProductsController extends Controller
             'category_id' => ['required'],
             'sub_category_id' => ['required'],
             'sub_sub_category_id' => ['required'],
-            // 'filter_id' => ['required'],
-            'size_chart_id' => ['required'],
             'country_id' => ['required'],
             'product_discount_type' => ['required'],
             'product_weight' => ['required'],

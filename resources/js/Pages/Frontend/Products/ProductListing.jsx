@@ -1,6 +1,7 @@
 import { Link } from '@inertiajs/react';
 import React, { useState } from 'react';
 
+
 export default function ProductListing({ products }) {
     // State for filters
     const [selectedCategories, setSelectedCategories] = useState([]);
@@ -56,7 +57,6 @@ export default function ProductListing({ products }) {
     });
 
     filteredProducts.sort(function (a, b) {
-        console.log(a.updatedAt > b.updatedAt);
         if (a.updatedAt > b.updatedAt) {
             return selectedSort == 'desc' ? -1 : 1;
         }
@@ -69,6 +69,8 @@ export default function ProductListing({ products }) {
             return selectedSort == 'desc' ? 1 : -1;
         }
     });
+
+
 
     return (
         <section className="section product_listing">
@@ -96,6 +98,7 @@ export default function ProductListing({ products }) {
                                         >
                                             Category
                                         </button>
+                                        
                                     </h2>
                                     <div
                                         id="collapseOne"
@@ -235,13 +238,14 @@ export default function ProductListing({ products }) {
                             </div>
 
                             {filteredProducts.map((product, index) => (
-                                <div className={index > 2 ? "col-sm-4 mt-5" : "col-sm-4"} key={product.id}>
+                                <a href={'product/view/'+ product.id} className={index > 2 ? "col-sm-4 mt-5" : "col-sm-4"} key={product.id}>
                                     <form action="/product/addtocart" method='post'>
 
                                         <input type="hidden" name='_token' value={document.querySelector('meta[name="csrf-token"]').getAttribute('content')} />
                                         <input type="hidden" name='product_id' value={product.id} />
                                         <input type="hidden" name='quantity' value={1} />
                                         <input type="hidden" name='product_type' value='simple' />
+                                        <input type="hidden" name='product_price' value={product.price} />
                                         <div className="feature-box">
 
 
@@ -277,7 +281,7 @@ export default function ProductListing({ products }) {
                                             </div>
                                         </div>
                                     </form>
-                                </div>
+                                </a>
                             ))}
                         </div>
                     </div>

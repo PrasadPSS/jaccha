@@ -22,7 +22,7 @@ export default function Footer() {
                             <ul>
                                 <li><a href={route('home')} >Home </a></li>
                                 <li><Link href="/view-page/about-us" >About Us</Link></li>
-                                <li><a href="#">Products</a></li>
+                                <li><a href="/products">Products</a></li>
                                 <li><Link href="/view-page/contact-us" >Contact Us</Link></li>
                                 <li><Link href="/view-page/privacy-policy" >Privacy Policy</Link></li>
                                 <li><Link href="/view-page/terms-and-conditions" >Terms & Condition</Link></li>
@@ -47,7 +47,7 @@ export default function Footer() {
                                     Subscribe <i className="fal fa-long-arrow-right"></i>
                                 </button>
                                 <div className="footer-image">
-                                    <img src="./assets/images/footer.png" />
+                                    <img src="/assets/images/footer.png" />
                                 </div>
                             </div>
                         </div>

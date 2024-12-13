@@ -1,14 +1,15 @@
+import { Link } from "@inertiajs/react";
 import React from "react";
 
-const Header = ({auth}) => {
+const Header = ({ auth }) => {
   return (
     <header>
       {/* First Navbar */}
       <nav className="navbar navbar-expand-lg first-navbar">
         <div className="container">
-          <a className="navbar-brand" href="index.html">
+          <Link className="navbar-brand" href={route('home')}>
             <img className="logo" src="/assets/images/logo.png" alt="Logo" />
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -33,29 +34,23 @@ const Header = ({auth}) => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto gap-4">
               <li className="nav-item">
-                <a className="nav-link" aria-current="page" href={route('product.index')}>
-                  Shop
-                </a>
+                <Link className={route().current('product.index') ? "nav-link active" : "nav-link"} aria-current="page" href={route('product.index')}>Shop</Link>
               </li>
               <li className="nav-item">
-                {auth && auth.user && (<a className="nav-link" href={route('profile.edit')}>
-                  Account
-                </a>)}
+                {auth && auth.user && (
+                  <Link className={route().current('profile.edit') ? "nav-link active" : "nav-link"} href={route('profile.edit')}> Account</Link>
+                  )}
 
-                { !auth.user && <a className="nav-link" href={route('login')}>
-                  Login
-                </a>}
-                
+                {!auth.user && 
+                <Link className={route().current('login') ? "nav-link active" : "nav-link"} href={route('login')}> Log in</Link>
+                }
+
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="services.html">
-                  Wish List
-                </a>
+                <Link className={route().current('wishlist.index') ? "nav-link active" : "nav-link"} href={route('wishlist.index')}>Wish List ({auth.wishlist_count})</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" href={route('cart.index')}>
-                  Basket<i className="far fa-shopping-basket"></i>
-                </a>
+                <Link className={route().current('cart.index') ? "nav-link active" : "nav-link"} href={route('cart.index')}>Basket<i className="far fa-shopping-basket"></i> ({auth.cart_count})</Link>
               </li>
             </ul>
           </div>

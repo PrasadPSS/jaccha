@@ -1,8 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import HomeLayout from '@/Layouts/HomeLayout';
 import { Head, router } from '@inertiajs/react';
 import React from 'react';
 
-export default function Index ({ wishlist }) {
+export default function Index ({ auth, wishlist }) {
 
     const handleAddToCart = (id, quantity=1) => {
         router.post('/wishlist/add-to-cart', { product_id:id, quantity: quantity }, {
@@ -13,20 +14,20 @@ export default function Index ({ wishlist }) {
 
     const handleDeleteFromCart = (id, quantity=1) => {
         router.post('/wishlist/delete', { product_id:id }, {
-            onSuccess: () => alert('Item Deleted from wishlist!'),
+            onSuccess: () => '',
             onError: (errors) => console.error(errors),
         });
     };
 
     return (
-        <AuthenticatedLayout
+        <HomeLayout auth={auth} 
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
                     Dashboard
                 </h2>
             }
         >
-            <Head title="Dashboard" />
+            <Head title="Wishlist" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -45,28 +46,28 @@ export default function Index ({ wishlist }) {
                                 className="bg-white rounded-lg shadow-md overflow-hidden"
                             >
                                 {/* Item Image */}
-                                <img
-                                    src={'/storage/' + item.product.image}
+                                <img width="100" height="100"
+                                    src={'/backend-assets/uploads/product_thumbs/' + item.products.product_thumb }
                                     alt={item.name}
                                     className="w-full h-48 object-cover"
                                 />
                                 {/* Item Details */}
                                 <div className="p-4">
                                     <h2 className="text-lg font-medium text-gray-800">
-                                        {item.name}
+                                        {item.products.product_title}
                                     </h2>
-                                    <p className="text-gray-600 mt-1">${item.product.price}</p>
+                                    <p className="text-gray-600 mt-1">${item.products.product_price}</p>
                                     <div className="mt-4 flex gap-2">
                                         {/* Add to Cart Button */}
-                                        <button
+                                        {/* <button
                                             onClick={() => handleAddToCart(item.id, 1)}
                                             className="px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
                                         >
                                             Add to Cart
-                                        </button>
+                                        </button> */}
                                         {/* Remove from Wishlist Button */}
                                         <button
-                                            onClick={() => handleDeleteFromCart(item.product.id)}
+                                            onClick={() => handleDeleteFromCart(item.products.product_id)}
                                             className="px-4 py-2 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300"
                                         >
                                             Remove
@@ -85,7 +86,7 @@ export default function Index ({ wishlist }) {
         </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </HomeLayout>
     );
 };
 

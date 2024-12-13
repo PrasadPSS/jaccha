@@ -65,12 +65,12 @@
                                                     {{ Form::text('product_title', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Title', 'required' => true]) }}
                                                 </div>
                                             </div>
-                                            {{-- <div class="col-md-12 col-12">
+                                             <div class="col-md-12 col-12">
                             <div class="form-group">
                               {{ Form::label('product_sub_title', 'Product Sub Title ') }}
                               {{ Form::text('product_sub_title', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Sub Title', ]) }}
                             </div>
-                          </div> --}}
+                          </div> 
                                             <div class="col-md-6 col-12">
                                                 <fieldset class="form-group">
                                                     <div class="input-group">
@@ -101,16 +101,7 @@
                                                     </div>
                                                 </fieldset>
                                             </div>
-                                            <div class="col-md-6 col-12">
-                                                <fieldset class="form-group">
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            {{ Form::label('material_id', 'Material ', ['class' => '']) }}
-                                                        </div>
-                                                        {{ Form::select('material_id', $materials, null, ['class' => 'select2 form-control material_id', 'placeholder' => 'Please Select Material']) }}
-                                                    </div>
-                                                </fieldset>
-                                            </div>
+                                            
                                             <div class="col-md-6 col-12">
                                                 <fieldset class="form-group">
                                                     <div class="input-group">
@@ -155,16 +146,7 @@
                                                     {{ Form::text('product_qty', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Quantity']) }}
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 col-12" id="sim_color_div" style="display:none;">
-                                                {{ Form::label('color_id', 'Colors ', ['class' => '']) }}
-                                                <fieldset class="form-group">
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                        </div>
-                                                        {{ Form::select('color_id', $color_list, null, ['class' => 'select2 form-control ', 'id' => 'sim_color_id']) }}
-                                                    </div>
-                                                </fieldset>
-                                            </div>
+                                            
                                             <div class="col-md-6 col-12" id="sim_size_div" style="display:none;">
                                                 {{ Form::label('size_id', 'Sizes ', ['class' => '']) }}
                                                 <fieldset class="form-group">
@@ -175,16 +157,7 @@
                                                     </div>
                                                 </fieldset>
                                             </div>
-                                            <div class="col-md-6 col-12" id="config_color_div" style="display:none;">
-                                                {{ Form::label('color_id', 'Colors ', ['class' => '']) }}
-                                                <fieldset class="form-group">
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                        </div>
-                                                        {{ Form::select('color_id[]', $color_list, null, ['class' => 'select2 form-control ', 'multiple' => 'multiple', 'id' => 'config_color_id']) }}
-                                                    </div>
-                                                </fieldset>
-                                            </div>
+                                            
                                             <div class="col-md-6 col-12" id="config_size_div" style="display:none;">
                                                 {{ Form::label('size_id', 'Sizes ', ['class' => '']) }}
                                                 <fieldset class="form-group">
@@ -195,12 +168,7 @@
                                                     </div>
                                                 </fieldset>
                                             </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    {{ Form::label('product_generic_name', 'Product Generic Name ') }}
-                                                    {{ Form::text('product_generic_name', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Generic Name']) }}
-                                                </div>
-                                            </div>
+                                           
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     {{ Form::label('product_weight', 'Product Weight(gms) *') }}
@@ -289,67 +257,7 @@
                                                     </div>
                                                 </fieldset>
                                             </div>
-                                            <div class="col-md-6 col-12">
-                                                <fieldset class="form-group">
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            {{ Form::label('seller_id', 'Seller ', ['class' => '']) }}
-                                                        </div>
-                                                        {{ Form::select('seller_id', $sellers, null, ['class' => 'select2 form-control ', 'placeholder' => 'Please Select Seller']) }}
-                                                    </div>
-                                                </fieldset>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <fieldset class="form-group">
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            {{ Form::label('manufacturer_id', 'Manufacturer ', ['class' => '']) }}
-                                                        </div>
-                                                        {{ Form::select('manufacturer_id', $manufacturers, null, ['class' => 'select2 form-control ', 'placeholder' => 'Please Select Manufacturer']) }}
-                                                    </div>
-                                                </fieldset>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <fieldset class="form-group">
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            {{ Form::label('brand_id', 'Brand ', ['class' => '']) }}
-                                                        </div>
-                                                        {{ Form::select('brand_id', [], null, ['class' => 'select2 form-control ', 'placeholder' => 'Please Select Brand', 'id' => 'brand_id']) }}
-                                                    </div>
-                                                </fieldset>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <fieldset class="form-group">
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            {{ Form::label('packer_id', 'Packer ', ['class' => '']) }}
-                                                        </div>
-                                                        {{ Form::select('packer_id', $packers, null, ['class' => 'select2 form-control ', 'placeholder' => 'Please Select Packer']) }}
-                                                    </div>
-                                                </fieldset>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <fieldset class="form-group">
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            {{ Form::label('importer_id', 'Importer ', ['class' => '']) }}
-                                                        </div>
-                                                        {{ Form::select('importer_id', $importers, null, ['class' => 'select2 form-control ', 'placeholder' => 'Please Select Importer']) }}
-                                                    </div>
-                                                </fieldset>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <fieldset class="form-group">
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            {{ Form::label('size_chart_id', 'Size Chart ', ['class' => '']) }}
-                                                        </div>
-                                                        {{ Form::select('size_chart_id', $size_chart_list, null, ['class' => 'select2 form-control ', 'placeholder' => 'Please Select Size Chart']) }}
-                                                    </div>
-                                                </fieldset>
-                                            </div>
-
+                                            
                                             <div class="col-md-6 col-6">
                                                 {{ Form::label('visibility', 'Show / Hide') }}
                                                 <fieldset class="">
@@ -365,7 +273,7 @@
                                                     </div>
                                                 </fieldset>
                                             </div>
-                                            <div class="col-md-6 col-6">
+                                            <!-- <div class="col-md-6 col-6">
                                                 {{ Form::label('filter_id', 'Filters ', ['class' => '']) }}
                                                 <fieldset class="form-group">
                                                     <div class="input-group">
@@ -374,7 +282,7 @@
                                                         {{ Form::select('filter_id[]', $filter_list, null, ['class' => 'select2 form-control ', 'multiple' => 'multiple', 'id' => 'filter_list']) }}
                                                     </div>
                                                 </fieldset>
-                                            </div>
+                                            </div> -->
                                             <div class="col-md-3 col-12">
                                                 <div class="custom-control custom-switch custom-control-inline mb-1">
                                                     <span>Recommended</span>

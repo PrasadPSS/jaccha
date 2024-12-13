@@ -4,13 +4,14 @@ import { useState } from 'react';
 import axios from 'axios';
 import { asset } from '@/Helpers/asset';
 import HomeLayout from '@/Layouts/HomeLayout';
+import { toast } from 'react-toastify';
 
 export default function ProductSearch({ auth, cart }) {
-    console.log(cart);
+    
     let cart_items = [];
     if (cart) {
     cart.forEach(element => {
-        cart_items.push({id: element.product_id, name: element.products.product_name , description: element.products.product_desc, price: element.products.product_price, quantity: 1});
+        cart_items.push({id: element.product_id, name: element.products.product_name , description: element.products.product_sub_title, price: element.products.product_price, quantity: element.qty});
     });
 }
     const [cartItems, setCartItems] = useState(cart_items);
@@ -22,7 +23,7 @@ export default function ProductSearch({ auth, cart }) {
 
     // Increase item quantity
     const increaseQuantity = async (id) => {
-        console.log(id);
+
         setCartItems(cartItems.map(item => item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
         await fetch('/api/cart/increase', {
             method: 'POST',
@@ -32,7 +33,7 @@ export default function ProductSearch({ auth, cart }) {
             },
             body: JSON.stringify({ item_id: id }),
         }).then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => console.log('success', data))
         .catch(error => console.error(error));
     };
 
@@ -60,11 +61,13 @@ export default function ProductSearch({ auth, cart }) {
         } catch (error) {
             console.error("Error removing item:", error);
         }
+        
+        toast.success('Product Removed Successfully', {autoClose:5000});
     };
 
     const handleCheckout  = async () => 
     {
-        router.post('/checkout/payment', {
+        router.get('/checkout/payment', {
             onSuccess: () => alert('Order Placed Successfully'),
             onError: (errors) => console.error(errors),
         });
@@ -78,7 +81,7 @@ export default function ProductSearch({ auth, cart }) {
                 </h2>
             }
         >
-            <Head title="Dashboard" />
+            <Head title="Cart" />
     
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">

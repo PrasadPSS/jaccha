@@ -79,6 +79,7 @@ export default function Login({ auth, status, canResetPassword }) {
                 </div>
 
                 <div className="flex items-center justify-end mt-4">
+                    <Link href={route('register')}>Dont Have an Account ? Register</Link><br/>
                     {canResetPassword && (
                         <Link
                             href={route('password.request')}

@@ -11,7 +11,7 @@ class WishlistController extends Controller
 {
     public function index()
     {
-        $data['wishlist'] = Wishlists::where('user_id', auth()->user()->id)->with('product')->get();
+        $data['wishlist'] = Wishlists::where('user_id', auth()->user()->id)->with('products')->get();
 
         return Inertia::render('Frontend/Wishlist/Index', $data);
     }
@@ -38,7 +38,7 @@ class WishlistController extends Controller
         $add_wishlist->product_id = $product_id;
 
         $add_wishlist->save();
-        return ['success','Product Added To The Wishlist !'];
+        return redirect()->back()->with('success', 'Product Added to Wishlist');
       }
     }
 
@@ -46,11 +46,7 @@ class WishlistController extends Controller
     {
        $product_id = $request->product_id;
        $quantity = $request->quantity;
-       $product = Product::where('id', $product_id)->first();
-       $cart = Cart::where('user_id', auth()->user()->id)->first();
-       Cart::where('user_id', auth()->user()->id)->update(['total'=> (int)$cart->total + (int)($product->price * $quantity) ]);
-       CartItem::create(['cart_id' => $cart->id, 'product_id' => $product_id, 'quantity' => $quantity]);
- 
+       
        return redirect()->route('product.index');
     }
     
@@ -58,8 +54,8 @@ class WishlistController extends Controller
     {
         $product_id = $request->product_id;
         $user_id = auth()->user()->id;
-        Wishlist::where('user_id', $user_id)->where('product_id', $product_id)->delete();
+        Wishlists::where('user_id', $user_id)->where('product_id', $product_id)->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Item deleted from wishlist');
     }
 }
