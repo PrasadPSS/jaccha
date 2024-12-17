@@ -1,0 +1,12 @@
+.print-card{display: none;}
+.order-status-color-cancellation{background:#C00000;color: #fff;padding: 5px 10px; border-radius: 4px;}
+.order-status-color-return{background:#FFA500;color: #fff;padding: 5px 10px;border-radius: 4px;}
+.order-status-color-confirmed{background: #0000ff;color: #fff;padding: 5px 10px;border-radius: 4px;}
+.order-status-color-cancellation{background: red;color: #fff;padding: 5px 10px;border-radius: 4px;}
+.order-status-color-preparing{background:#f2aee5;color: #fff;padding: 5px 10px;border-radius: 4px; white-space: nowrap;}
+.order-status-color-shipped{background:#8F00FF;color: #fff;padding: 5px 10px;border-radius: 4px;}
+.order-status-color-delivery{background:#25D366;color: #fff;padding: 5px 10px;border-radius: 4px;}
+.order-status-color-out-of-delivery{background:#01db01;color: #fff;padding: 5px 10px;border-radius: 4px;}
+.order-status-color-processing{background:#FABF8F;color: #fff;padding: 5px 10px;border-radius: 4px;}
+.order-status-color-default{background:#33342A;color: #fff;padding: 5px 10px;border-radius: 4px;}
+.zero-configuration{ white-space: nowrap; }
