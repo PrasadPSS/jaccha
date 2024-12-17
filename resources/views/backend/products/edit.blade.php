@@ -5,7 +5,10 @@
     @php
 $status = ['No' => 'No', 'Yes' => 'Yes'];
 $product_types = ['simple' => 'Simple', 'configurable' => 'Configurable'];
-
+$gsts = [];
+    foreach ($gst as $gs) {
+        $gsts[$gs->gst_id] = $gs->gst_name; // Use the same key-value structure as $product_types
+    }
     @endphp
     <style>
 
@@ -58,8 +61,10 @@ $product_types = ['simple' => 'Simple', 'configurable' => 'Configurable'];
                                                     {{ Form::label('product_sku', 'Product SKU ') }}
                                                     {{ Form::text('product_sku', null, ['class' => 'form-control', 'placeholder' => 'Enter Product SKU', 'required' => true, 'id' => 'product_sku']) }}
                                                 </div>
+                                               
                                             </div>
                                             <div class="col-md-6 col-12">
+                    
                                                 <fieldset class="form-group">
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
@@ -76,6 +81,14 @@ $product_types = ['simple' => 'Simple', 'configurable' => 'Configurable'];
                                                     {{ Form::label('product_title', 'Product Title ') }}
                                                     {{ Form::text('product_title', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Title', 'required' => true]) }}
                                                 </div>
+                                            </div>
+                                            <div class="col-md-12 col-12 mb-1">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    {{ Form::label('gst_id', 'Gst ', ['class' => '']) }}
+                                                </div>
+                                                {{ Form::select('gst_id', $gsts,  null, ['class' => 'select2 form-control ', 'placeholder' => 'Please Select Type', 'id' => 'gst_id', 'value' => $selectedGst->gst_name ?? null]) }}
+                                            </div>
                                             </div>
                                             <div class="col-md-12 col-12">
                                                 <div class="form-group">

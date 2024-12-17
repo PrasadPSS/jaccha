@@ -3,8 +3,7 @@ import HomeLayout from "@/Layouts/HomeLayout";
 import { Head } from "@inertiajs/react";
 import React from "react";
 
-export default function OrderCheckout({auth, data }) {
-    console.log(data);
+export default function OrderCheckout({ auth, data }) {
     // Destructure the required data
     const {
         cart,
@@ -20,10 +19,9 @@ export default function OrderCheckout({auth, data }) {
     } = data;
 
     // Calculate grand total
-    const finalGrandTotal = cart_amounts.cart.cart_discounted_total + shipping_amount;
-
-    console.log(shipping_amount);
-
+    const finalGrandTotal =  parseFloat(cart_amounts.cart.cart_discounted_total + shipping_amount).toFixed(2);
+    const totalGst = parseFloat(cart_amounts.total_gst).toFixed(2);
+    const savings = parseFloat((cart_amounts.cart.cart_discounted_total - totalGst)-finalGrandTotal ).toFixed(2);
     return (
         <HomeLayout auth={auth}>
             <Head title="Place Order" />
@@ -40,21 +38,41 @@ export default function OrderCheckout({auth, data }) {
                             <div className="row mb-3" key={index}>
                                 <div className="col-md-3">
                                     <img
-                                        src={asset('backend-assets/uploads/product_thumbs/'+ item.products.product_thumb)}
+                                        src={asset('backend-assets/uploads/product_thumbs/' + item.products.product_thumb)}
                                         alt={item.products.product_title}
                                         className="img-fluid"
                                     />
                                 </div>
                                 <div className="col-md-6">
                                     <h5>{item.products.product_title}</h5>
-                                    <p>{item.products.product_desc}</p>
+                                    <p>{item.products.product_sub_title}</p>
                                     <p>
                                         Price: ₹{item.products.product_price} | Quantity: {item.qty}
                                     </p>
                                 </div>
                                 <div className="col-md-3 text-end">
-                                    <h5>₹{item.products.product_price}</h5>
+                                    {/* Original Price with Strike-through */}
+                                    {item.products.product_price > item.products.product_discounted_price && (
+                                        <>
+                                            <h5 className="text-muted text-decoration-line-through d-inline me-2">
+                                                ₹{item.products.product_price}
+                                            </h5>
+                                            {/* Discounted Price */}
+                                            <h5 className="d-inline text-danger">
+                                                ₹{item.products.product_discounted_price}
+                                            </h5>
+                                            {/* Discount Amount */}
+                                            <span className="badge bg-success ms-2">
+                                                -₹{item.products.product_price - item.products.product_discounted_price}
+                                            </span>
+                                        </>
+                                    )}
+                                    {/* If no discount exists */}
+                                    {item.products.product_price <= item.products.product_discounted_price && (
+                                        <h5>₹{item.products.product_price}</h5>
+                                    )}
                                 </div>
+
                             </div>
                         ))}
                         <hr />
@@ -64,11 +82,19 @@ export default function OrderCheckout({auth, data }) {
                         </div>
                         <div className="d-flex justify-content-between">
                             <h5>Discount:</h5>
-                            <h5>- ₹{cart_amounts.total_discount}</h5>
+                            <h5>- ₹{cart_amounts.product_discount}</h5>
                         </div>
                         <div className="d-flex justify-content-between">
                             <h5>Shipping:</h5>
-                            <h5>₹{shipping_amount}</h5>
+                            <h5>₹{parseFloat(shipping_amount).toFixed(2)}</h5>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <h5>Gst:</h5>
+                            <h5>₹{totalGst}</h5>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <h5 className="text-success">Total Savings:</h5>
+                            <h5 className="text-success">₹{savings}</h5>
                         </div>
                         <hr />
                         <div className="d-flex justify-content-between">

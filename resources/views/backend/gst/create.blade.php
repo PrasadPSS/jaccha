@@ -46,7 +46,7 @@
                               {{ Form::text('gst_name', null, ['class' => 'form-control', 'placeholder' => 'Enter Gst Name', 'required' => true]) }}
                             </div>
                           </div>
-                          <div class="col-md-6 col-12">
+                          <!-- <div class="col-md-6 col-12">
                             <div class="form-group">
                               {{ Form::label('gst_min_price', 'GST Min. Price *') }}
                               {{ Form::number('gst_min_price', null, ['class' => 'form-control', 'placeholder' => 'Enter GST Min. Price', 'required' => true,'min'=>0]) }}
@@ -57,7 +57,7 @@
                               {{ Form::label('gst_max_price', 'GST Max. Price *') }}
                               {{ Form::number('gst_max_price', null, ['class' => 'form-control', 'placeholder' => 'Enter GST Max. Price', 'required' => true,'min'=>1]) }}
                             </div>
-                          </div>
+                          </div> -->
                           <div class="col-md-6 col-12">
                             <div class="form-group">
                               {{ Form::label('gst_cgst_percent', 'CGST Percent *') }}

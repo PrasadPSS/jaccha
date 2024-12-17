@@ -11,6 +11,7 @@ use App\Models\CartItem;
 
 use App\Models\frontend\Cart;
 use App\Models\frontend\Review;
+use App\Models\frontend\Wishlists;
 use Illuminate\Http\Request;
 
 use Inertia\Inertia;
@@ -174,9 +175,9 @@ class ProductController extends Controller
             // }
             // ends
             $cart->save();
-            if (isset($request->page_name) && $request->page_name == 'wishlist') {
-                $wishlist = Wishlists::where('wishlist_id', $request->wishlistid)->delete();
-            }
+            
+            Wishlists::where('product_id', $product_id)->where('user_id', auth()->user()->id)->delete();
+            
             if (isset($request->addto) && $request->addto == 'addtobuy') {
                 return redirect()->to('/cart')->with('success', 'Product Added To Buy Now!');
             }

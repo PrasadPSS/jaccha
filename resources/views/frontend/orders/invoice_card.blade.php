@@ -97,13 +97,13 @@
               <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="">{{ $item->rev_taxable_amount }}</td>
               @if(1)
               <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="1">{{ $item->gst_cgst_rate }}</td>
-              <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="1">{{ $item->gst_cgst_amount }}</td>
+              <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="1">{{ number_format($item->gst_cgst_amount,2) }}</td>
               <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="1">{{ $item->gst_sgst_rate }}</td>
-              <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="1">{{ $item->gst_sgst_amount }}</td>
+              <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="1">{{ number_format($item->gst_sgst_amount,2) }}</td>
               <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="1">{{ $item->gst_igst_rate }}</td>
-              <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="1">{{ $item->gst_igst_amount }}</td>
+              <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="1">{{ number_format($item->gst_igst_amount, 2) }}</td>
               @endif
-              <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;" colspan="2">{{ $item->qty*$item->product_discounted_price }}</td>
+              <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;" colspan="2">{{ number_format($item->qty*$item->product_discounted_price, 2) }}</td>
           </tr>
           @php
               $x++;
@@ -167,7 +167,7 @@
 
       <tr>
         <td style="font-family: 'Roboto', sans-serif !important;text-align:right;border:1px solid #000; padding:5px 4px;font-size: 14px;" colspan="13"><p style="font-family: 'Roboto', sans-serif !important;font-size: 14px;margin-bottom: 0rem; font-weight: bold;margin-top:0px !important">TOTAL</p></td>
-        <td style="font-family: 'Roboto', sans-serif !important;border:1px solid #000; padding:5px 4px;font-size: 12px;" colspan="2">{{ $orders->total}}</td>
+        <td style="font-family: 'Roboto', sans-serif !important;border:1px solid #000; padding:5px 4px;font-size: 12px;" colspan="2">{{ number_format($orders->total, 2)}}</td>
       </tr>
       @php
         $digit = new NumberFormatter('en', \NumberFormatter::SPELLOUT);
@@ -199,7 +199,7 @@
         </td>
         <td colspan="7" style="font-family: 'Roboto', sans-serif !important;text-align:end;padding: 0px 5px;border:1px solid #000">
             <p style="font-family: 'Roboto', sans-serif !important;font-size: 14px; font-weight: bold;margin-top:0px !important"> For {{ $company->name }}</p>
-            <img width="100"   src="{{ asset('frontend-assets/images/Signature.png') }}" alt="Signature">
+            <!-- <img width="100"   src="{{ asset('frontend-assets/images/Signature.png') }}" alt="Signature"> -->
             <p style="font-family: 'Roboto', sans-serif !important;font-size: 14px;margin-top: 1rem; font-weight: bold;">Authorized Signatory</p>
         </td>
       </tr>

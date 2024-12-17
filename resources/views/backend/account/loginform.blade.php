@@ -10,7 +10,7 @@
               <div class="card disable-rounded-right mb-0 p-2 h-100 d-flex justify-content-center">
                  <div class="card-header pb-1">
                     <div class="card-title">
-                       <h4 class="text-center mb-2">Dadreeios Control Panel</h4>
+                       <h4 class="text-center mb-2">Jaccha Control Panel</h4>
                        <hr>
                        <p class="text-center">Please fill out the following fields to login:</p>
                        @include('backend.includes.errors')

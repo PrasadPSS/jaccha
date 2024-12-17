@@ -146,8 +146,10 @@ class ProductsController extends Controller
         $hsncodes = HSNCodes::get()->pluck('hsncode_name', 'hsncode_id');
         $materials = Materials::all()->pluck('material_name', 'material_id');
         $disclaimer = Disclaimers::first();
+        $gst = Gst::get();
         // echo "<pre>";print_r($disclaimer->disclaimer_description);exit;
         return view('backend.products.create', compact(
+            'gst',
             'categories',
             'sub_categories',
             'sub_sub_categories',
@@ -500,8 +502,12 @@ class ProductsController extends Controller
         $product_gsts = Gst::get()->pluck('gst_name', 'gst_id');
         $hsncodes = HSNCodes::get()->pluck('hsncode_name', 'hsncode_id');
         $materials = Materials::all()->pluck('material_name', 'material_id');
-
+        $gst = Gst::get();
+        $selectedGst = Gst::where('gst_id', $products->gst_id)->first();
+  
         return view('backend.products.edit', compact(
+            'gst',
+            'selectedGst',
             'products',
             'categories',
             'sub_categories',
@@ -538,6 +544,7 @@ class ProductsController extends Controller
      */
     public function update(Request $request)
     {
+
         $this->validate($request, [
             'product_sku' => ['required'],
             'product_title' => ['required'],
@@ -560,6 +567,7 @@ class ProductsController extends Controller
         // dd($request->sub_category_id);
         $sub_sub_categories = SubSubCategories::where('category_id', $request->input('category_id'))->where('subcategory_id', $request->input('sub_category_id'))->where('sub_subcategory_id', $request->input('sub_sub_category_id'))->first();
         $products->category_slug = $categories->category_slug;
+        $products->gst_id = $request->gst_id;
         $products->sub_category_slug = $sub_categories->sub_category_slug;
         $products->sub_sub_category_slug = $sub_sub_categories->sub_sub_category_slug;
         $products->recommended = isset($request->recommended) ? 1 : 0;

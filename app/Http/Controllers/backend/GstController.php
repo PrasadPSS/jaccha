@@ -46,8 +46,6 @@ class GstController extends Controller
     {
         $this->validate($request, [
           'gst_name' => ['required',],
-          'gst_min_price' => ['required',],
-          'gst_max_price' => ['required',],
           'gst_cgst_percent' => ['required',],
           'gst_sgst_percent' => ['required',],
           'gst_igst_percent' => ['required',],
@@ -93,8 +91,6 @@ class GstController extends Controller
         $gst_id = $request->input('gst_id');
         $this->validate( $request, [
           'gst_name' => ['required',],
-          'gst_min_price' => ['required',],
-          'gst_max_price' => ['required',],
           'gst_cgst_percent' => ['required',],
           'gst_sgst_percent' => ['required',],
           'gst_igst_percent' => ['required',],

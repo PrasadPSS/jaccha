@@ -40,8 +40,8 @@
                                     <tr>
                                       <th>#</th>
                                       <th>Gst Name</th>
-                                      <th>Gst Min Price</th>
-                                      <th>Gst Max Price</th>
+                                      <!-- <th>Gst Min Price</th>
+                                      <th>Gst Max Price</th> -->
                                       <th>Action</th>
                                     </tr>
                                 </thead>
@@ -52,8 +52,8 @@
                                     <tr>
                                       <td>{{ $srno }}</td>
                                       <td>{{ $gst->gst_name }}</td>
-                                      <td>{{ $gst->gst_min_price }}</td>
-                                      <td>{{ $gst->gst_max_price }}</td>
+                                      <!-- <td>{{ $gst->gst_min_price }}</td>
+                                      <td>{{ $gst->gst_max_price }}</td> -->
                                       <td>
                                         <!-- @can('Update') -->
                                         <!-- @endcan -->

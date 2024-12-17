@@ -73,6 +73,7 @@ class MissingPaymentsController extends Controller
         return view('backend.missingpayments.index', compact('missingpayments'));
     }
 
+    
     public function convert($id)
     {
         $sumdiscount=0;
@@ -111,7 +112,13 @@ class MissingPaymentsController extends Controller
 
                 // $cart_remove=Cart::find()->where(['user_id'=>$payment_info->user_id] OR ['guest_unique_id'=>$payment_info->guest_unique_id])->one();
 
-                $gst = Gst::Where('default_gst', 1)->first();
+               
+                
+                $gstMode = 'sgst';
+                $userState = ShippingAddresses::where('user_id', $missingpaymments->user_id)->where('default_address_flag', 1)->first();
+                if (get_pickup_address()->state !== $userState->shipping_state) {
+                    $gstMode = 'igst';
+                }
                 // $discount_setting = DiscountSetting::first();
 
                 $missing_payment_products = MissingPaymentProducts::where('payment_id', $id)->get();
@@ -148,20 +155,41 @@ class MissingPaymentsController extends Controller
                 
                         foreach ($missing_payment_products as $missing_payment_product)
                         {
-                            $product = Products::Where('product_id', $missing_payment_product->product_id)->with(['color', 'size'])->first();
                             
+                            $product = Products::Where('product_id', $missing_payment_product->product_id)->with(['color', 'size'])->first();
+                            $gst = Gst::where('gst_id', $product->gst_id)->first();
                             $order_product = new OrdersProductDetails();
                             $order_product->product_id = $missing_payment_product->product_id;
                             $order_product->qty = $missing_payment_product->qty;
                             $order_product->product_title = $product->product_title;
                             $order_product->product_sub_title = $product->product_sub_title;
                             $order_product->product_price = $product->product_price;
-                            $order_product->product_discounted_price = $product->product_discounted_price;
+                            
                             $order_product->product_discount = $product->product_discount;
                             $order_product->product_discount_type = $product->product_discount_type;
                             $order_product->product_color = (isset($product->color)) ? $product->color->color_name : $product->color_id;
                             $order_product->product_size = (isset($product->size)) ? $product->size->size_name : $product->size_id;
                             $order_product->order_id = $order->order_id;
+
+                            if($gstMode == 'sgst')
+                            {
+                              $order_product->gst_cgst_rate = $gst->gst_cgst_percent;
+                              $order_product->gst_sgst_rate = $gst->gst_sgst_percent;
+                              $order_product->gst_cgst_amount = ($product->product_discounted_price*$missing_payment_product->qty*$gst->gst_cgst_percent)/100;
+                              $order_product->gst_sgst_amount = ($product->product_discounted_price*$missing_payment_product->qty*$gst->gst_sgst_percent)/100;
+                              $order_product->product_discounted_price = ($product->product_discounted_price*$missing_payment_product->qty) + $order_product->gst_cgst_amount + $order_product->gst_sgst_amount;
+                              $order_product->rev_discount = $product->product_price -$product->product_discounted_price;
+                              $order_product->rev_taxable_amount = $product->product_discounted_price;
+                            }
+                            else
+                            {
+                              $order_product->gst_igst_rate = $gst->gst_igst_percent;
+                              $order_product->gst_igst_amount = ($product->product_discounted_price * $missing_payment_product->qty * $gst->gst_igst_percent) / 100;
+                              $order_product->product_discounted_price = ($product->product_discounted_price * $missing_payment_product->qty) + $order_product->gst_igst_amount;
+                              $order_product->rev_discount = $product->product_price -$product->product_discounted_price;
+                              $order_product->rev_taxable_amount = $product->product_discounted_price;
+                            }
+                            
 
                             // $order_product->orders_counter_id = $orders_counter_increment_id;
                             // $order_product->referral_id = $item->referral_id;
@@ -169,7 +197,7 @@ class MissingPaymentsController extends Controller
                             $order_product->save();
 
 
-                            $final_total = $final_total + ($product->product_discounted_price * $missing_payment_product->qty);
+                            $final_total = $final_total + $order_product->product_discounted_price  ;
                             $total_mrp = $total_mrp + ($product->product_price*$missing_payment_product->qty);
                             // decrement the product QTY
                             $product->product_qty = $product->product_qty - $missing_payment_product->qty;

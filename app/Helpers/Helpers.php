@@ -1,4 +1,5 @@
 <?php
+use App\Models\backend\Gst;
 use App\Models\frontend\Cart;
 use App\Models\frontend\Orders;
 // use App\Models\frontend\Orders;
@@ -6,6 +7,7 @@ use App\Models\frontend\CartCoupons;
 use App\Models\backend\OrderReturnManagement;
 use App\Models\backend\OrderCancelManagement;
 use App\Models\backend\StateCodes;
+use App\Models\frontend\ShippingAddresses;
 use Illuminate\Database\Eloquent\Collection;
 
 if (!function_exists('get_shipping_charges')) {
@@ -527,104 +529,181 @@ if (!function_exists('order_creation')) {
 }
 //cart total with all prices
 if (!function_exists('get_cart_amounts')) {
-  function get_cart_amounts()
-  {
-    $cart_total = new stdClass();
-    $cart_mrp_total = 0;
-    $cart_discounted_total = 0;
-    $coupon_discount = 0;
-    $total_discount = 0;
-    // dd('test');
-    if (isset(auth()->user()->id)) {
-      $user_id = auth()->user()->id;
-      if ($user_id) {
-        // $cart_total = Cart::where('user_id',$user_id)->with(['products'])->select(DB::raw('sum(products.product_discounted_price*cart.qty) as cart_total'))->first();
-        // $cart_total = Cart::where('user_id',$user_id)->join('products', 'products.product_id', '=', 'cart.product_id')->select(DB::raw('sum(products.product_price*cart.qty) as cart_mrp_total, sum(products.product_discounted_price*cart.qty) as cart_discounted_total'))->first();
-        $cart = Cart::where('user_id', $user_id)->with(['products', 'product_variant'])->get();
-        foreach ($cart as $item) {
-          $join_table = 'products';
-          if ($item->product_type == "configurable") {
-            $join_table = 'product_variant';
-          }
-          if ($item->{$join_table}->product_discounted_price != null && $item->{$join_table}->product_discount != 0) {
-            $cart_mrp_total += $item->{$join_table}->product_price * $item->qty;
-            $cart_discounted_total += $item->{$join_table}->product_discounted_price * $item->qty;
-          } elseif ($item->{$join_table}->product_discounted_price != null && $item->{$join_table}->product_discount == 0) {
-            $cart_mrp_total += $item->{$join_table}->product_discounted_price * $item->qty;
-            $cart_discounted_total += $item->{$join_table}->product_discounted_price * $item->qty;
-          } else {
-            $cart_mrp_total += $item->{$join_table}->product_price * $item->qty;
-            $cart_discounted_total += $item->{$join_table}->product_discounted_price * $item->qty;
-          }
+    function get_cart_amounts()
+    {
+        $cart_total = new stdClass();
+        $cart_mrp_total = 0;
+        $cart_discounted_total = 0;
+        $total_gst = 0;
+        $coupon_discount = 0;
+        $total_discount = 0;
+
+        // Get GST rates
+
+        $gstMode = 'sgst';
+        $userState = ShippingAddresses::where('user_id', auth()->user()->id)->where('default_address_flag', 1)->first();
+
+        if (get_pickup_address()->state !== $userState->shipping_state) {
+            $gstMode = 'igst';
         }
-        $cart_total->cart_mrp_total = $cart_mrp_total;
-        $cart_total->cart_discounted_total = $cart_discounted_total;
-      }
 
-      if ($cart_total) {
-        //total_discount
-        $total_discount = $cart_total->cart_mrp_total - $cart_total->cart_discounted_total;
-        //coupon discount
-        $cart_coupon = CartCoupons::where('user_id', $user_id)->with('coupon')->first();
+        // GST rates
+        // IGST rate
 
-        if (isset($cart_coupon->coupon)) {
-          $paymentDate = date('Y-m-d');
-          $paymentDate = date('Y-m-d', strtotime($paymentDate));
-          $contractDateBegin = date('Y-m-d', strtotime($cart_coupon->coupon->start_date));
-          $contractDateEnd = date('Y-m-d', strtotime($cart_coupon->coupon->end_date));
+        if (isset(auth()->user()->id)) {
+            $user_id = auth()->user()->id;
+            if ($user_id) {
+                $cart = Cart::where('user_id', $user_id)->with(['products', 'product_variant'])->get();
 
-          if (($paymentDate >= $contractDateBegin) && ($paymentDate <= $contractDateEnd)) {
-            if ($cart_coupon->coupon->coupon_type == 'flat') {
-              $coupon_value = $cart_coupon->coupon->value;
-              $coupon_discount = $coupon_value;
-            } else {
-              $coupon_value = $cart_coupon->coupon->value;
-              if (isset($cart_total->cart_discounted_total)) {
-                $coupon_discount = ($cart_total->cart_discounted_total * $coupon_value) / 100;
-              }
+                foreach ($cart as $item) {
+                    $gst = Gst::where('gst_id', $item->products->gst_id)->first();
+                    $gstSgstRate = $gst->gst_sgst_percent; // SGST rate
+                    $gstCgstRate = $gst->gst_cgst_percent; // CGST rate
+                    $gstIgstRate = $gst->gst_igst_percent;
+                    $join_table = 'products';
+                    if ($item->product_type == "configurable") {
+                        $join_table = 'product_variant';
+                    }
+
+                    $product_price = $item->{$join_table}->product_discounted_price ?? $item->{$join_table}->product_price;
+
+                    // Calculate MRP and discounted total
+                    $cart_mrp_total += $item->{$join_table}->product_price * $item->qty;
+                    $cart_discounted_total += $product_price * $item->qty;
+
+                    // Calculate GST based on gstMode
+                    if ($gstMode === 'sgst') {
+                        $sgst = ($product_price * $item->qty * $gstSgstRate) / 100;
+                        $cgst = ($product_price * $item->qty * $gstCgstRate) / 100;
+                        $total_gst += $sgst + $cgst;
+                    } else if ($gstMode === 'igst') {
+                        $igst = ($product_price * $item->qty * $gstIgstRate) / 100;
+                        $total_gst += $igst;
+                    }
+                }
+
+                $cart_total->cart_mrp_total = $cart_mrp_total;
+                $cart_total->cart_discounted_total = $cart_discounted_total + $total_gst; // Add GST to discounted total
             }
-          } else {
-          }
-        }
-      }
-    } else {
-      if (session('cart') != null) {
-        $cart = new Collection();
-        foreach (session('cart') as $item) {
-          $product_id[] = $item['product_id'];
-          $cart_details = new Cart();
-          $cart_details->fill($item);
-          $cart_details->qty = $item['quantity'];
-          $cart->push($cart_details);
-        }
-        foreach ($cart as $item) {
-          $join_table = 'products';
-          if ($item->product_type == "configurable") {
-            $join_table = 'product_variant';
-          }
-          if ($item->{$join_table}->product_discounted_price != null && $item->{$join_table}->product_discount != 0) {
-            $cart_mrp_total += $item->{$join_table}->product_price * $item->qty;
-            $cart_discounted_total += $item->{$join_table}->product_discounted_price * $item->qty;
-          } elseif ($item->{$join_table}->product_discounted_price != null && $item->{$join_table}->product_discount == 0) {
-            $cart_mrp_total += $item->{$join_table}->product_discounted_price * $item->qty;
-            $cart_discounted_total += $item->{$join_table}->product_discounted_price * $item->qty;
-          } else {
-            $cart_mrp_total += $item->{$join_table}->product_price * $item->qty;
-            $cart_discounted_total += $item->{$join_table}->product_discounted_price * $item->qty;
-          }
-        }
-        $cart_total->cart_mrp_total = $cart_mrp_total;
-        $cart_total->cart_discounted_total = $cart_discounted_total;
-        if ($cart_total) {
-          //total_discount
-          $total_discount = $cart_total->cart_mrp_total - $cart_total->cart_discounted_total;
 
+            if ($cart_total) {
+                // Total discount
+                $total_discount = $cart_total->cart_mrp_total - $cart_total->cart_discounted_total;
+
+                // Coupon discount
+                $cart_coupon = CartCoupons::where('user_id', $user_id)->with('coupon')->first();
+                if (isset($cart_coupon->coupon)) {
+                    $paymentDate = date('Y-m-d');
+                    $contractDateBegin = date('Y-m-d', strtotime($cart_coupon->coupon->start_date));
+                    $contractDateEnd = date('Y-m-d', strtotime($cart_coupon->coupon->end_date));
+
+                    if (($paymentDate >= $contractDateBegin) && ($paymentDate <= $contractDateEnd)) {
+                        if ($cart_coupon->coupon->coupon_type == 'flat') {
+                            $coupon_discount = $cart_coupon->coupon->value;
+                        } else {
+                            $coupon_value = $cart_coupon->coupon->value;
+                            $coupon_discount = ($cart_total->cart_discounted_total * $coupon_value) / 100;
+                        }
+                    }
+                }
+            }
+        } else {
+            if (session('cart') != null) {
+                $cart = new Collection();
+                foreach (session('cart') as $item) {
+                    $product_id[] = $item['product_id'];
+                    $cart_details = new Cart();
+                    $cart_details->fill($item);
+                    $cart_details->qty = $item['quantity'];
+                    $cart->push($cart_details);
+                }
+
+                foreach ($cart as $item) {
+                    $gst = Gst::where('gst_id', $item->products->gst_id)->first();
+                    $gstSgstRate = $gst->gst_sgst_percent; // SGST rate
+                    $gstCgstRate = $gst->gst_cgst_percent; // CGST rate
+                    $gstIgstRate = $gst->gst_igst_percent;
+                    $join_table = 'products';
+                    if ($item->product_type == "configurable") {
+                        $join_table = 'product_variant';
+                    }
+
+                    $product_price = $item->{$join_table}->product_discounted_price ?? $item->{$join_table}->product_price;
+
+                    // Calculate MRP and discounted total
+                    $cart_mrp_total += $item->{$join_table}->product_price * $item->qty;
+                    $cart_discounted_total += $product_price * $item->qty;
+
+                    // Calculate GST based on gstMode
+                    if ($gstMode === 'sgst') {
+                        $sgst = ($product_price * $item->qty * $gstSgstRate) / 100;
+                        $cgst = ($product_price * $item->qty * $gstCgstRate) / 100;
+                        $total_gst += $sgst + $cgst;
+                    } else if ($gstMode === 'igst') {
+                        $igst = ($product_price * $item->qty * $gstIgstRate) / 100;
+                        $total_gst += $igst;
+                    }
+                }
+
+                $cart_total->cart_mrp_total = $cart_mrp_total;
+                $cart_total->cart_discounted_total = $cart_discounted_total + $total_gst; // Add GST to discounted total
+            }
+
+            if ($cart_total) {
+                // Total discount
+                $total_discount = $cart_total->cart_mrp_total - $cart_total->cart_discounted_total;
+            }
         }
-      }
+
+        $product_discounted_price = $cart_total->cart_mrp_total - ($cart_total->cart_discounted_total - $total_gst);
+
+        return (object) [
+            'cart' => $cart_total,
+            'product_discount' => $product_discounted_price,
+            'total_discount' => $total_discount,
+            'coupon_discount' => $coupon_discount,
+            'total_gst' => $total_gst, // Return total GST as well
+        ];
     }
+  
 
-    return (object) ['cart' => $cart_total, 'total_discount' => $total_discount, 'coupon_discount' => $coupon_discount];
+}
+
+if (!function_exists('get_pickup_address')) {
+
+  function get_pickup_address()
+  {
+    $authUrl = 'https://apiv2.shiprocket.in/v1/external/auth/login';
+    $email = env('SHIPROCKET_EMAIL');
+    $password = env('SHIPROCKET_PASSWORD');
+    $pickupUrl = 'https://apiv2.shiprocket.in/v1/external/settings/company/pickup';
+  
+      // Step 1: Authenticate and get access token
+      $authPayload = [
+          'email' => $email,
+          'password' => $password,
+      ];
+  
+      $authResponse = makeCurlRequest($authUrl, $authPayload);
+
+      if (!isset($authResponse['token'])) {
+          throw new Exception('Authentication failed: ' . json_encode($authResponse));
+      }
+  
+      $accessToken = $authResponse['token'];
+      
+
+
+      // Step 2: Prepare order data
+      
+      $payload = [];
+
+      $pickup_address = json_decode(makeCurlGetRequest($pickupUrl, $payload, $accessToken))->data->shipping_address[0];
+
+      return $pickup_address;
   }
+
+
 }
 
 if (!function_exists('order_status')) {

@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import HomeLayout from '@/Layouts/HomeLayout';
-import { Head, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import React from 'react';
 
 export default function Index ({ auth, wishlist }) {
@@ -66,6 +66,7 @@ export default function Index ({ auth, wishlist }) {
                                             Add to Cart
                                         </button> */}
                                         {/* Remove from Wishlist Button */}
+                                        <Link href='/product/addtocart' method="post" data={{ product_id: item.products.product_id, quantity: 1, product_type: item.products.product_type, product_price: item.products.product_price }} className="btn btn-success px-4 py-2 shadow-sm">Add to Cart</Link>
                                         <button
                                             onClick={() => handleDeleteFromCart(item.products.product_id)}
                                             className="px-4 py-2 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300"

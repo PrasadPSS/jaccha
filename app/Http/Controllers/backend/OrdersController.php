@@ -65,7 +65,7 @@ class OrdersController extends Controller
 
     $company = Company::first();
     $pdf = PDF::loadView('backend.orders.downloadinvoice', ['orders' => $orders, 'company' => $company]);
-    return $pdf->download('dadreeiosinvoice.pdf');
+    return $pdf->download('jacchainvoice.pdf');
   }
 
   public function details($id)
@@ -181,7 +181,7 @@ class OrdersController extends Controller
 
       if (isset($order->mobile_no) && strlen($order->mobile_no) == 10) {
         $mobile_no = $order->mobile_no;
-        $message = "Dear {$order->customer_name}, Thank you for Shopping at Dadreeios.com! Your Order Number {$order->orders_counter_id} has been confirmed and is being processed for shipping.\nDadreeios Team,\nG.R. Parwani Trading Co.";
+        $message = "Dear {$order->customer_name}, Thank you for Shopping at Jaccha.com! Your Order Number {$order->orders_counter_id} has been confirmed and is being processed for shipping.\nJaccha Team,\nG.R. Parwani Trading Co.";
         $sms_api = send_sms($mobile_no, $message);
         $sms_api_response = json_decode($sms_api, true);
         $order->order_confirmation_sms = isset($sms_api_response['ErrorCode']) && $sms_api_response['ErrorCode'] == 0 ? 1 : 0;
@@ -193,7 +193,7 @@ class OrdersController extends Controller
       // Shipped stage logic
       if (isset($order->mobile_no) && strlen($order->mobile_no) == 10) {
         $mobile_no = $order->mobile_no;
-        $message = "Dear {$order->customer_name}, Your Order Number {$order->orders_counter_id} from Dadreeios.com has shipped via Delhivery. Your Order's Tracking Number is {$order->wbn}.\nDadreeios Team,\nG.R. Parwani Trading Co.";
+        $message = "Dear {$order->customer_name}, Your Order Number {$order->orders_counter_id} from Jaccha.com has shipped via Delhivery. Your Order's Tracking Number is {$order->wbn}.\nJaccha Team,\nG.R. Parwani Trading Co.";
         $sms_api = send_sms($mobile_no, $message);
         $sms_api_response = json_decode($sms_api, true);
         $order->order_shipped_sms = isset($sms_api_response['ErrorCode']) && $sms_api_response['ErrorCode'] == 0 ? 1 : 0;
@@ -205,7 +205,7 @@ class OrdersController extends Controller
       // Delivered stage logic
       if (isset($order->mobile_no) && strlen($order->mobile_no) == 10) {
         $mobile_no = $order->mobile_no;
-        $message = "Dear {$order->customer_name},\nYour Order Number {$order->orders_counter_id} has been delivered at your given shipping address. Keep Shopping at www.dadreeios.com. Share the Dadreeios love with your family, relatives and friends.\nRegards,\nDadreeios Team,\nG.R. Parwani Trading Co.";
+        $message = "Dear {$order->customer_name},\nYour Order Number {$order->orders_counter_id} has been delivered at your given shipping address. Keep Shopping at www.Jaccha.com. Share the Jaccha love with your family, relatives and friends.\nRegards,\nJaccha Team,\nG.R. Parwani Trading Co.";
         $sms_api = send_sms($mobile_no, $message);
         $sms_api_response = json_decode($sms_api, true);
         $order->order_delivered_sms = isset($sms_api_response['ErrorCode']) && $sms_api_response['ErrorCode'] == 0 ? 1 : 0;
@@ -404,7 +404,7 @@ class OrdersController extends Controller
     } else if ($orders->order_return_flag == 1) {
       return back()->with('error', 'Order already Returned');
     }
-    $reasons = OrderCancellationReasons::where('for_dadreeios', 1)->get()->pluck('order_cancellation_reason_desc', 'order_cancellation_reason_id');
+    $reasons = OrderCancellationReasons::where('for_Jaccha', 1)->get()->pluck('order_cancellation_reason_desc', 'order_cancellation_reason_id');
     return view('backend.orders.cancel_order', compact('orders', 'reasons'));
     // return redirect()->to('/myaccount/profile');
   }
@@ -460,7 +460,7 @@ class OrdersController extends Controller
       if (isset($orders->mobile_no) && $orders->mobile_no != "" && strlen($orders->mobile_no) == 10) {
         $mobile_no = $orders->mobile_no;
 
-        $message = "Dear " . $orders->customer_name . ",\nWe regret to inform you that due to some unforeseen issues, your Order Number " . $orders->orders_counter_id . " has been cancelled by Dadreeios.\nIn case, if you have already made payment for the same Order, your refund will be credited shortly to your original payment method.We apologize for the inconvenience caused.\nDadreeios Team,\nG.R. Parwani Trading Co.";
+        $message = "Dear " . $orders->customer_name . ",\nWe regret to inform you that due to some unforeseen issues, your Order Number " . $orders->orders_counter_id . " has been cancelled by Jaccha.\nIn case, if you have already made payment for the same Order, your refund will be credited shortly to your original payment method.We apologize for the inconvenience caused.\nJaccha Team,\nG.R. Parwani Trading Co.";
         $message_url = urlencode($message);
 
         $sms_api = send_sms($mobile_no, $message);
@@ -523,7 +523,7 @@ class OrdersController extends Controller
       );
 
       // $mail->isHTML(true);
-      $mail->SetFrom('info@dadreeios.com', 'Dadreeios');
+      $mail->SetFrom('info@Jaccha.com', 'Jaccha');
       $mail->AddBCC("maheshm@parasightsolutions.com");
       $mail->AddAddress($email);
       $mail->Subject = "Cancellation of your Order Number: " . $orders->orders_counter_id . " Dated: " . date('d.m.Y', strtotime($orders->created_at));
@@ -564,18 +564,18 @@ class OrdersController extends Controller
         </style>
         </head>
         <body>
-        <div style='margin:auto;'><a href='http://dadreeios.com/'><img src='http://parasightdemo.com/dadreeios/frontend-assets/images/logoparwani.png' width='120'></a></div>
+        <div style='margin:auto;'><a href='http://Jaccha.com/'><img src='http://parasightdemo.com/Jaccha/frontend-assets/images/logoparwani.png' width='120'></a></div>
         <p>Dear " . $customer_name . ",</p>
-        <p>We regret to inform you that your order on www.dadreeios.com has been canceled due to the following reason:</p>
+        <p>We regret to inform you that your order on www.Jaccha.com has been canceled due to the following reason:</p>
         <p>" . $cancel_reason . "</p>
         <p>We apologise for the inconvenience caused to you due to this cancellation. Any amount you have paid for the above mentioned order will be refunded to your source account within 3 to 5 working days.</p>
         <p>Your understanding and support in this regard is highly appreciated. For any further queries in this regard, please feel free to contact our customer care team.</p>
-        <p>Thank you for shopping with Dadreeios!</p>
-        <p>You are always welcome at www.dadreeios.com</p>
+        <p>Thank you for shopping with Jaccha!</p>
+        <p>You are always welcome at www.Jaccha.com</p>
         <br>
         <p>Regards,</p>
         <p>Manali Parwani</p>
-        <p>DADREEIOS</p>
+        <p>Jaccha</p>
         <br>
 
         " . $unsubscribe_data . "</body></html>
@@ -656,7 +656,7 @@ class OrdersController extends Controller
       );
 
       // $mail->isHTML(true);
-      $mail->SetFrom('info@dadreeios.com', 'Dadreeios');
+      $mail->SetFrom('info@Jaccha.com', 'Jaccha');
       $mail->AddBCC("maheshm@parasightsolutions.com");
       $mail->AddAddress($email);
       $mail->Subject = "Order Invoice";
@@ -698,8 +698,8 @@ class OrdersController extends Controller
         }
         </style>
         </head>
-        <body><div style='margin:auto;'><a href='http://dadreeios.com/'><img src='http://parasightdemo.com/dadreeios/frontend-assets/images/logoparwani.png' width='120'></a></div>
-        <h2 style='color:#333;'>Dadreeios</h2><h4 style='color:#333;'>Thank you for shoping at Dadreeios. You order is under process and hopefully will be delivered in <span styly='font-weight:bold;'>7 to 8 days.</span></h4>" . $invoice_msg . "
+        <body><div style='margin:auto;'><a href='http://Jaccha.com/'><img src='http://parasightdemo.com/Jaccha/frontend-assets/images/logoparwani.png' width='120'></a></div>
+        <h2 style='color:#333;'>Jaccha</h2><h4 style='color:#333;'>Thank you for shoping at Jaccha. You order is under process and hopefully will be delivered in <span styly='font-weight:bold;'>7 to 8 days.</span></h4>" . $invoice_msg . "
         " . $unsubscribe_data . "</body></html>
         ";
       $mail->MsgHTML($message);

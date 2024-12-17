@@ -11,7 +11,7 @@ export default function ProductSearch({ auth, cart }) {
     let cart_items = [];
     if (cart) {
     cart.forEach(element => {
-        cart_items.push({id: element.product_id, name: element.products.product_name , description: element.products.product_sub_title, price: element.products.product_price, quantity: element.qty});
+        cart_items.push({id: element.product_id, name: element.products.product_title , description: element.products.product_sub_title, price: element.products.product_price, quantity: element.qty});
     });
 }
     const [cartItems, setCartItems] = useState(cart_items);
