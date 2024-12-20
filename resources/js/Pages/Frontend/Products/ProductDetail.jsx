@@ -4,6 +4,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import RatingAndReviews from './RatingAndReviews';
 import ReviewsListing from './ReviewsListing';
+import ReviewForm from './ReviewForm';
 
 
 const ProductDetail = ({ auth, product, product_reviews, product_images, average_rating }) => {
@@ -345,15 +346,16 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                     <div className="row">
                         <div className="col-sm-12">
                             <div className="reviews-heading">
-                                <h3>{average_rating}<span>Based on {product_reviews.length} reviews</span></h3>
-                                <button
+                                <h3>{Number(average_rating).toFixed(1)}<span>Based on {product_reviews.length} reviews</span></h3>
+                                {canReview(product.product_id) && <button
                                     type="button"
                                     className="btn btn-primary"
                                     data-bs-toggle="modal"
                                     data-bs-target="#exampleModal"
                                 >
                                     Write a Review <i className="fal fa-angle-right ms-3"></i>
-                                </button>
+                                </button>}
+                                
                             </div>
                         </div>
                         <ReviewsListing product_reviews={product_reviews}/>
@@ -683,82 +685,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                 <div className="col-sm-6">
                                     <div className="review-popup-content">
                                         <h2 className="modal-heading">Write A Review</h2>
-                                        <form action="">
-                                            <div className="review-form-box mb-3">
-                                                <label htmlFor="reviewFormControlstar" className="form-label"
-                                                >My Rate</label
-                                                >
-
-                                                <img
-                                                    src="/assets/images/product-details/star3.png"
-                                                    alt=""
-                                                />
-                                                <img
-                                                    src="/assets/images/product-details/star3.png"
-                                                    alt=""
-                                                />
-                                                <img
-                                                    src="/assets/images/product-details/star3.png"
-                                                    alt=""
-                                                />
-                                                <img
-                                                    src="/assets/images/product-details/star3.png"
-                                                    alt=""
-                                                />
-                                                <img
-                                                    src="/assets/images/product-details/star3.png"
-                                                    alt=""
-                                                />
-                                            </div>
-                                            <div className="mb-4">
-                                                <label htmlFor="reviewFormControlTextarea" className="form-label"
-                                                >Review</label
-                                                >
-                                                <textarea
-                                                    className="form-control"
-                                                    id="reviewFormControlTextarea"
-                                                    rows="2"
-                                                ></textarea>
-                                            </div>
-                                            <div className="mb-4">
-                                                <label htmlFor="reviewFormControlInput" className="form-label"
-                                                >Title</label
-                                                >
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    id="reviewFormControlInput"
-                                                />
-                                            </div>
-                                            <div className="">
-                                                <div className="btn review-form-button">
-                                                    <label
-                                                        className="form-label text-white m-1"
-                                                        htmlFor="customFile1"
-                                                    ><i className="fal fa-folder-upload"></i>Upload
-                                                        Photo</label
-                                                    >
-                                                    <input
-                                                        type="file"
-                                                        className="form-control d-none"
-                                                        id="customFile1"
-                                                        onChange="displaySelectedImage(event, 'selectedImage')"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="footer_button mt-5">
-                                                <button type="button" className="button save_button">
-                                                    Save
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    className="button"
-                                                    data-bs-dismiss="modal"
-                                                >
-                                                    Cancel
-                                                </button>
-                                            </div>
-                                        </form>
+                                        <ReviewForm productId={product.product_id}/>
                                     </div>
                                 </div>
                                 <div className="col-sm-6">
