@@ -3,7 +3,9 @@ import HomeLayout from "@/Layouts/HomeLayout";
 import { Head } from "@inertiajs/react";
 import React from "react";
 
+
 export default function OrderCheckout({ auth, data }) {
+
     // Destructure the required data
     const {
         cart,

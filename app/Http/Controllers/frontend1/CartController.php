@@ -677,7 +677,6 @@ class CartController extends Controller
     }
 
     public function paymentstatus(){
-        // dd($_POST);
         if (isset(auth()->user()->id)) {
             $user_session = auth()->user();
             $firstname = auth()->user()->name;
@@ -689,7 +688,7 @@ class CartController extends Controller
             $merchantId=$_POST['merchantId'];
             $transactionId=$_POST['transactionId'];
             $amount=$_POST['amount'];
-            $saltKey = "d22dfcb2-66d1-4f58-a3b2-deaa53201803";
+            $saltKey = "d7fdbcc6-3481-476b-831a-5c786147579e";
             $saltIndex = "1";
 
             $st = "/pg/v1/status/" . $merchantId . "/" . $transactionId . $saltKey;
@@ -706,7 +705,7 @@ class CartController extends Controller
             );
 
             $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, "https://api.phonepe.com/apis/hermes/pg/v1/status/".$merchantId."/".$transactionId);
+            curl_setopt($curl, CURLOPT_URL, "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status/".$merchantId."/".$transactionId);
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, '0');
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, '0');
@@ -1201,7 +1200,7 @@ class CartController extends Controller
         if (isset($_POST['paymentmode']) && $_POST['paymentmode'] == 'cod') {
             return ['flag' => true, 'current_order' => $current_order];
         }
-        return view('frontend.cart.payment.success', compact('current_order'));
+        return Inertia::render('Frontend/Orders/ThankYou');
     }
 
     public function phonepepaymentfailure(){

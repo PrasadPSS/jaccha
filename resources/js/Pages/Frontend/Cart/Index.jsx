@@ -24,7 +24,7 @@ export default function ProductSearch({ auth, cart }) {
     // Increase item quantity
     const increaseQuantity = async (id) => {
 
-        setCartItems(cartItems.map(item => item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
+       
         await fetch('/api/cart/increase', {
             method: 'POST',
             headers: {
@@ -33,7 +33,9 @@ export default function ProductSearch({ auth, cart }) {
             },
             body: JSON.stringify({ item_id: id }),
         }).then(response => response.json())
-        .then(data => console.log('success', data))
+        .then(data => {
+            setCartItems(cartItems.map(item => item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
+        })
         .catch(error => console.error(error));
     };
 

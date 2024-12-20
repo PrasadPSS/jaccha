@@ -415,7 +415,7 @@ class OrderController extends Controller
 
         //var_dump($post_data);exit;
         $transaction_id = "";
-        $payment_mode = $post_data['paymentmode'] == 'Cash On Delivery' ? 'cod' : 'Online';
+        $payment_mode = $post_data['paymentmode'] == 'Cash On Delivery' ? 'cod' : 'phonepe';
 
         // dd($payment_mode);
         $surl = url('cart/paymentsuccess');
@@ -500,7 +500,80 @@ class OrderController extends Controller
         $post_data['grand_amount'] = $grand_total;
         // exit;
         $missing_payment_id = $this->addMissingPayment($post_data, $transaction_id, $shipping_amount, $shipping_charges, $shipping_address);
-        Cart::where('user_id', auth()->user()->id)->delete();
+        session(['missing_payment_id' => $missing_payment_id]);
+        
+        if($payment_mode == 'phonepe'){
+
+            $merchantid  = "M22J3FQGSVWJPUAT";
+            $saltkey = "d7fdbcc6-3481-476b-831a-5c786147579e";
+            $saltindex = "1";
+            if(empty($post_data['txnid'])) {
+                // Generate random transaction id
+                $txnid = substr(hash('sha256', mt_rand() . microtime()), 0, 20);
+              } else {
+                $txnid = $post_data['txnid'];
+              }
+            $payLoad = array(
+                'merchantId' => $merchantid,
+                'merchantTransactionId' => $txnid, // test transactionID
+                "merchantUserId" => $user_id,
+                'amount' => $post_data['amount'] * 100, // phone pe works on paise
+                // 'amount' => 100,
+                'redirectUrl' => $purl,
+                'redirectMode' => "POST",
+                'callbackUrl' => $purl,
+                "mobileNumber" => auth()->user()->mobile_no,
+                "paymentInstrument" => array(
+                    "type" => "PAY_PAGE",
+                )
+            );
+            $jsonencode = json_encode($payLoad);
+            $payloadbase64 = base64_encode($jsonencode);
+            $payloaddata = $payloadbase64 . "/pg/v1/pay" . $saltkey;
+            $sha256 = hash("sha256", $payloaddata);
+            $checksum = $sha256 . '###' . $saltindex;
+            $request = json_encode(array('request' => $payloadbase64));
+
+            $curl = curl_init(); // This extention should be installed
+
+            curl_setopt_array($curl, [
+                CURLOPT_URL => "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_SSL_VERIFYHOST => 0,
+                CURLOPT_SSL_VERIFYPEER => 0,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => $request,
+                CURLOPT_HTTPHEADER => [
+                    "Content-Type: application/json",
+                    "X-VERIFY: " . $checksum,
+                    "accept: application/json"
+                ],
+            ]);
+        
+            $response = curl_exec($curl);
+        
+            $err = curl_error($curl);
+            curl_close($curl);
+        
+            if ($err) {
+              echo "cURL Error #:" . $err;
+            } else {
+              $res = json_decode($response);
+            
+              echo "<br/>response===";
+              print_r($res);
+            
+              if (isset($res->success) && $res->success == '1') {
+                // $paymentCode=$res->code;
+                // $paymentMsg=$res->message;
+                $payUrl = $res->data->instrumentResponse->redirectInfo->url;
+                
+                return redirect($payUrl);
+              }
+        }
+        }
         if($post_data['paymentmode'] == 'Cash On Delivery')
         {
             $this->convert($missing_payment_id);

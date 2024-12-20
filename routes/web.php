@@ -198,6 +198,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/phonepepaymentsuccess', [CartController::class, 'phonepepaymentsuccess'])->name('phonepepaymentsuccess');
+Route::get('/phonepepaymentfailure', [CartController::class, 'phonepepaymentfailure'])->name('phonepepaymentfailure');
+Route::get('/phonepepaymentpending', [CartController::class, 'phonepepaymentpending'])->name('phonepepaymentpending');
+
+Route::post('/cart/paymentstatus', [CartController::class, 'paymentstatus'])->name('cart.paymentstatus');
+
 Route::prefix('admin')->group(function () {
 
     Route::group(['middleware' => 'admin.guest'], function () {
