@@ -37,7 +37,7 @@ class Products extends Model
         'product_specification', 'product_disclaimer', 'product_sku', 'color_id', 'size_id',
         'meta_title', 'meta_desc', 'meta_keywords', 'og_title', 'og_desc',
         'brand_id', 'size_chart_id', 'new_arrival', 'product_thumb', 'product_discount_type', 'rating', 'product_hsn',
-        'product_gst', 'product_delivery_estimate_days', 'hsncode_id', 'popularity',
+        'product_gst', 'product_delivery_estimate_days', 'hsncode_id', 'popularity', 'ingredients',
         'material_id'
 
     ];

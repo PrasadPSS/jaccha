@@ -12,6 +12,7 @@
         <link href="{{asset('frontend-assets/css/toastr.min.css')}}" rel="stylesheet"/>
         
         
+        
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.0/css/all.css" />
         <!-- Scripts -->
         @routes

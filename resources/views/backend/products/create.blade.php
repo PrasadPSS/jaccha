@@ -225,6 +225,12 @@
                                         </div>
                                         <div class="col-lg-12 col-md-12 mt-1">
                                             <fieldset class="form-group">
+                                                {{ Form::label('ingredients', 'Ingredients ') }}
+                                                {{ Form::textarea('ingredients', null, ['class' => 'form-control', 'placeholder' => 'Enter Address', 'id' => 'editor']) }}
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 mt-1">
+                                            <fieldset class="form-group">
                                                 {{ Form::label('product_disclaimer', 'Disclaimer ') }}
                                                 {{ Form::textarea('product_disclaimer', isset($disclaimer) ? $disclaimer->disclaimer_description : '', ['class' => 'form-control', 'placeholder' => 'Enter Address', 'id' => 'editor1']) }}
                                             </fieldset>

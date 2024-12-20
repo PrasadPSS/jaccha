@@ -504,12 +504,14 @@ class ProductsController extends Controller
         $materials = Materials::all()->pluck('material_name', 'material_id');
         $gst = Gst::get();
         $selectedGst = Gst::where('gst_id', $products->gst_id)->first();
+        $ingredients = 12;
   
         return view('backend.products.edit', compact(
             'gst',
             'selectedGst',
             'products',
             'categories',
+            'ingredients',
             'sub_categories',
             'sub_sub_categories',
             'countries',
@@ -558,6 +560,7 @@ class ProductsController extends Controller
             'product_discount_type' => ['required'],
             'product_weight' => ['required'],
             'product_images' => 'max:6',
+            'ingredients' => 'required',
         ], ['product_images.max' => 'You are only allowed to upload a maximum of 6 files',]);
         $id = $request->input('product_id');
         $products = Products::findOrFail($id);

@@ -378,11 +378,16 @@ $gsts = [];
                                             </div>
 
 
-
                                             <div class="col-lg-12 col-md-12 mt-1">
                                                 <fieldset class="form-group">
                                                     {{ Form::label('product_specification', 'Specifications *') }}
                                                     {{ Form::textarea('product_specification', null, ['class' => 'form-control', 'placeholder' => 'Enter Address', 'id' => 'editor']) }}
+                                                </fieldset>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 mt-1">
+                                                <fieldset class="form-group">
+                                                    {{ Form::label('ingredients', 'Ingredients *') }}
+                                                    {{ Form::textarea('ingredients',null, ['class' => 'form-control', 'placeholder' => 'Enter Address', 'id' => 'editor1']) }}
                                                 </fieldset>
                                             </div>
                                             <div class="col-lg-12 col-md-12 mt-1">
