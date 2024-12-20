@@ -3,11 +3,14 @@ import { Link, router, usePage } from '@inertiajs/react';
 import axios from 'axios';
 import React, { useState } from 'react';
 import RatingAndReviews from './RatingAndReviews';
+import ReviewsListing from './ReviewsListing';
 
 
-const ProductDetail = ({ auth, product, product_reviews }) => {
+const ProductDetail = ({ auth, product, product_reviews, product_images, average_rating }) => {
 
-    console.log('sadas', product_reviews);
+    const fullStars = Math.floor(average_rating); // Number of full stars
+    const hasHalfStar = average_rating % 1 >= 0.1; // Check if there's a half star
+
     const { slug } = new URLSearchParams(); // Get the slug from the URL
     const { errors } = usePage().props;
     // Ensure `product` is passed as a prop, or fetch it if needed
@@ -60,29 +63,31 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
     $(document).ready(function () {
         $("#fixedBox").removeClass("visible").addClass("hidden");
         $(window).on("scroll", function () {
-          var $fixedBox = $("#fixedBox");
-          var $section2 = $("#section2");
-          var section2Top = $section2.offset().top;
-          var section2Bottom = section2Top + $section2.outerHeight();
-          var scrollY = $(window).scrollTop() + $(window).height() / 2; // Adjust trigger point
-          // && scrollY <= section2Bottom
-          if (scrollY >= section2Top) {
-            $fixedBox.removeClass("hidden").addClass("visible");
-          } else {
-            $fixedBox.removeClass("visible").addClass("hidden");
-          }
+            var $fixedBox = $("#fixedBox");
+            var $section2 = $("#section2");
+            var section2Top = $section2.offset().top;
+            var section2Bottom = section2Top + $section2.outerHeight();
+            var scrollY = $(window).scrollTop() + $(window).height() / 2; // Adjust trigger point
+            // && scrollY <= section2Bottom
+            if (scrollY >= section2Top) {
+                $fixedBox.removeClass("hidden").addClass("visible");
+            } else {
+                $fixedBox.removeClass("visible").addClass("hidden");
+            }
         });
         $("#addtoBasketButton").on("click", function () {
-          $("#addBasketModal").modal("toggle");
-          // toaster
-          swal({
-            title: "",
-            text: "“Dana Meethi Laddoo” Added to Your Basket!",
-            // imageUrl: "thumbs-up.jpg",
-            timer: 2000,
-          });
+            $("#addBasketModal").modal("toggle");
+            // toaster
+            swal({
+                title: "",
+                text: "“Dana Meethi Laddoo” Added to Your Basket!",
+                // imageUrl: "thumbs-up.jpg",
+                timer: 2000,
+            });
         });
-      });
+    });
+    const [productQty, setQty] = useState(1);
+    const [totalPrice, setPrice] = useState(product.product_discounted_price * productQty);
 
     return (
         <HomeLayout auth={auth}>
@@ -92,7 +97,7 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
                         <div className="col-sm-6">
                             <div className="main-image-box">
                                 <h2 className="product-details-heading mb-4">
-                All Products {'>>'}  <span>{ product.product_title}</span>
+                                    All Products {'>>'}  <span>{product.product_title}</span>
                                 </h2>
                                 <div className="images-box">
                                     <div className="image-b-box">
@@ -103,15 +108,15 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
                                     </div>
                                     <div className="image-s-boxes">
                                         <img
-                                            src="./assets/images/product-details/products-details-2.jpg"
+                                            src={'/backend-assets/uploads/product_images/' + product_images[0].image_name}
                                             alt=""
                                         />
                                         <img
-                                            src="./assets/images/product-details/products-details-3.jpg"
+                                            src={'/backend-assets/uploads/product_images/' + product_images[1].image_name}
                                             alt=""
                                         />
                                         <img
-                                            src="./assets/images/product-details/products-details-4.jpg"
+                                            src={'/backend-assets/uploads/product_images/' + product_images[2].image_name}
                                             alt=""
                                         />
                                     </div>
@@ -124,41 +129,38 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
                                     <span>{product.product_title}</span>
                                 </h2>
                                 <div className="content-price">
-                                    <h4><span>₹850.00</span>₹{product.product_price}.00</h4>
+                                    <h4><span>₹{product.product_price}.00</span>₹{product.product_discounted_price}.00</h4>
                                     <p className="content-offer">Offer</p>
                                 </div>
                                 <div className="content-star star">
-                                    <img
-                                        src="./assets/images/product-details/star1.png"
-                                        alt="star image"
-                                    />
-                                    <img
-                                        src="./assets/images/product-details/star1.png"
-                                        alt="star image"
-                                    />
-                                    <img
-                                        src="./assets/images/product-details/star1.png"
-                                        alt="star image"
-                                    />
-                                    <img
-                                        src="./assets/images/product-details/star1.png"
-                                        alt="star image"
-                                    />
-                                    <img
-                                        src="./assets/images/product-details/star2.png"
-                                        alt="star image"
-                                    />
-                                    <span>(49 Reviews)</span>
+                                    {[...Array(fullStars)].map((_, index) => (
+                                        <img
+                                            key={`full-${index}`}
+                                            src="/assets/images/product-details/star1.png"
+                                            alt="Full star"
+                                        />
+                                    ))}
+
+                                    {/* Render half star */}
+                                    {hasHalfStar && (
+                                        <img
+                                            src="/assets/images/product-details/star2.png"
+                                            alt="Half star"
+                                        />
+                                    )}
+
+
+                                    <span>({product_reviews.length} Reviews)</span>
                                 </div>
                                 <div className="main-content">
                                     <h6>
                                         {product.product_sub_title}
                                     </h6>
-                                    <div dangerouslySetInnerHTML={{__html: product.product_specification}}>
+                                    <div dangerouslySetInnerHTML={{ __html: product.product_specification }}>
 
                                     </div>
                                     <ul className="icon-list mt-3">
-                                        <div dangerouslySetInnerHTML={{__html: product.product_desc}}></div>
+                                        <div dangerouslySetInnerHTML={{ __html: product.product_desc }}></div>
                                     </ul>
                                 </div>
                                 <div className="kg-box position-relative">
@@ -168,27 +170,31 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
                                     <button className="button gram-button">500 g</button>
                                     <button className="button gram-button">250 g</button>
                                     <p className="get-offer">
-                                        <img src="./assets/images/product-details/SVG.png" /><br />Get
+                                        <img src="/assets/images/product-details/SVG.png" /><br />Get
                                         Offer
                                     </p>
                                 </div>
                                 <div className="black-button mt-5">
-                                    <button
+                                    <Link
                                         type="button"
                                         className="btn btn-primary black"
                                         data-bs-toggle="modal"
                                         data-bs-target="#addBasketModal"
+                                        data-price={totalPrice}
+                                        data-quantity={productQty}
                                     >
-                                        ₹750.00 &nbsp;&nbsp;|&nbsp;&nbsp; +
+                                        ₹{totalPrice}.00 &nbsp;&nbsp;|&nbsp;&nbsp; +
                                         &nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; Add 1 to basket
                                         &nbsp;&nbsp; |&nbsp;&nbsp; - &nbsp;&nbsp;|
-                                    </button>
-                                    <button className="gray">
-                                        <img src="./assets/images/product-details/heart.png" />
-                                    </button>
+                                    </Link>
+
+                                    <Link type='button' href={route('wishlist.add')} method="post" as='button' className="gray" data={{product_id: product.product_id}}>
+                                        <img src="/assets/images/product-details/heart.png" />
+                                    </Link>
+                                    
                                     <p className="free-delivery text-center">
                                         <img
-                                            src="./assets/images/product-details/delivery-truck.png"
+                                            src="/assets/images/product-details/delivery-truck.png"
                                         />Free delivery over ₹500
                                     </p>
                                     <div
@@ -213,8 +219,8 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
                                                 className="accordion-collapse collapse"
                                                 data-bs-parent="#accordionExample"
                                             >
-                                                <div className="accordion-body pt-0 ms-3" dangerouslySetInnerHTML={{__html: product.ingredients}}>
-                                                    
+                                                <div className="accordion-body pt-0 ms-3" dangerouslySetInnerHTML={{ __html: product.ingredients }}>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -269,7 +275,7 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
                         <div className="col-sm-6">
                             <div className="instruction-image">
                                 <img
-                                    src="./assets/images/product-details/products-details-1.jpg"
+                                    src={'/backend-assets/uploads/product_thumbs/' + product.product_thumb}
                                     alt=""
                                 />
                             </div>
@@ -316,7 +322,7 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
                     <img src="./assets/images/half-circle.png" />
                 </div>
             </section>
-            
+
             <section className="why-choose">
                 <div className="container">
                     <div className="row">
@@ -325,33 +331,21 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
                                 <h3 className="common-heading">
                                     Why Choose Jaccha Dana Methi Laddoos?
                                 </h3>
-                                <ul className="ms-4">
-                                    <li>
-                                        Handcrafted using traditional recipes passed down through
-                                        generations.
-                                    </li>
-                                    <li>No preservatives, artificial flavors, or colors.</li>
-                                    <li>
-                                        Made with premium-quality ingredients for maximum health
-                                        benefits.
-                                    </li>
-                                    <li>
-                                        Made with premium-quality ingredients for maximum health
-                                        benefits.
-                                    </li>
+                                <ul className="ms-4" dangerouslySetInnerHTML={{ __html: product.product_disclaimer }}>
+
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-        
+
             <section className="section reviews">
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-12">
                             <div className="reviews-heading">
-                                <h3>4.73<span>Based on 49 reviews</span></h3>
+                                <h3>{average_rating}<span>Based on {product_reviews.length} reviews</span></h3>
                                 <button
                                     type="button"
                                     className="btn btn-primary"
@@ -362,246 +356,7 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
                                 </button>
                             </div>
                         </div>
-                        <div className="col-sm-12">
-                            <div className="reviews-listing">
-                                <div className="row align-items-center">
-                                    <div className="col-sm-2">
-                                        <div className="person-name">
-                                            <h4>Name of person</h4>
-                                            <img
-                                                src="./assets/images/product-details/star1.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star1.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-9">
-                                        <div className="review-content">
-                                            <p><b>Perfect for Postpartum Recovery!</b></p>
-                                            <p>
-                                                Very authentic and fresh. My mom recommended it for
-                                                postpartum recovery, and I couldn’t be happier!
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-1">
-                                        <div className="last-day-review">
-                                            <p>1 day ago</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="reviews-listing">
-                                <div className="row align-items-center">
-                                    <div className="col-sm-2">
-                                        <div className="person-name">
-                                            <h4>Name of person</h4>
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-9">
-                                        <div className="review-content">
-                                            <p><b>Perfect for Postpartum Recovery!</b></p>
-                                            <p>
-                                                Very authentic and fresh. My mom recommended it for
-                                                postpartum recovery, and I couldn’t be happier!
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-1">
-                                        <div className="last-day-review">
-                                            <p>1 day ago</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="reviews-listing">
-                                <div className="row align-items-center">
-                                    <div className="col-sm-2">
-                                        <div className="person-name">
-                                            <h4>Name of person</h4>
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-9">
-                                        <div className="review-content">
-                                            <p><b>Perfect for Postpartum Recovery!</b></p>
-                                            <p>
-                                                Very authentic and fresh. My mom recommended it for
-                                                postpartum recovery, and I couldn’t be happier!
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-1">
-                                        <div className="last-day-review">
-                                            <p>1 day ago</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="reviews-listing">
-                                <div className="row align-items-center">
-                                    <div className="col-sm-2">
-                                        <div className="person-name">
-                                            <h4>Name of person</h4>
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-9">
-                                        <div className="review-content">
-                                            <p><b>Perfect for Postpartum Recovery!</b></p>
-                                            <p>
-                                                Very authentic and fresh. My mom recommended it for
-                                                postpartum recovery, and I couldn’t be happier!
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-1">
-                                        <div className="last-day-review">
-                                            <p>1 day ago</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="reviews-listing">
-                                <div className="row align-items-center">
-                                    <div className="col-sm-2">
-                                        <div className="person-name">
-                                            <h4>Name of person</h4>
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                            <img
-                                                src="./assets/images/product-details/star3.png"
-                                                alt=""
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-9">
-                                        <div className="review-content">
-                                            <p><b>Perfect for Postpartum Recovery!</b></p>
-                                            <p>
-                                                Very authentic and fresh. My mom recommended it for
-                                                postpartum recovery, and I couldn’t be happier!
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-1">
-                                        <div className="last-day-review">
-                                            <p>1 day ago</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="Page navigation review-pagination mt-5">
-                                <ul className="pagination">
-                                     <li className="page-item">
-                                        <a className="page-link" href="#">Previous</a>
-                                    </li> 
-                                    <li className="page-item">
-                                        <a className="page-link active" href="#">1</a>
-                                    </li>
-                                    <li className="page-item"><a className="page-link" href="#">2</a></li>
-                                    <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                    <li className="page-item"><a className="page-link" href="#">4</a></li>
-                                    <li className="page-item"><a className="page-link" href="#">5</a></li>
-                                    <li className="page-item"><a className="page-link" href="#">6</a></li>
-                                    <li className="page-item"><a className="page-link" href="#">7</a></li>
-                                    <li className="page-item"><a className="page-link" href="#">8</a></li>
-                                    <li className="page-item"><a className="page-link" href="#">9</a></li>
-                                    <li className="page-item"><a className="page-link" href="#">10</a></li>
-                                     <li className="page-item">
-                                        <a className="page-link" href="#">Next</a>
-                                    </li> 
-                                </ul>
-                            </div>
-                        </div>
+                        <ReviewsListing product_reviews={product_reviews}/>
                     </div>
                 </div>
             </section>
@@ -711,16 +466,16 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
                     <div className="sticky-product">
                         <div className="sticky-product-img">
                             <img
-                                src="./assets/images/product-details/products-details-2.jpg"
+                                src={'/backend-assets/uploads/product_thumbs/' + product.product_thumb}
                                 alt=""
                             />
                             <p>
-                                Baby Ubtan <br />
-                                <span> ₹310.00 </span>
+                                {product.product_title} <br />
+                                <span> ₹{product.product_discounted_price}.00 </span>
                             </p>
                         </div>
                         <div className="sticky-product-button">
-                            <p>₹750.00</p>
+                            <p>₹{totalPrice}.00</p>
                             <a href="#">
                                 <button
                                     type="button"
@@ -728,7 +483,7 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
                                     data-bs-toggle="modal"
                                     data-bs-target="#addBasketModal"
                                 >
-                                    +&nbsp;&nbsp;|<span>Add 1 to basket</span>|&nbsp;&nbsp; -
+                                    +&nbsp;&nbsp;|<span>Add {productQty} to basket</span>|&nbsp;&nbsp; -
                                 </button></a
                             >
                         </div>
@@ -739,7 +494,7 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
             <div
                 className="modal fade addBasket-modal review-modal"
                 id="addBasketModal"
-                tabindex="-1"
+                tabIndex="-1"
                 aria-labelledby="addBasketModalLabel"
                 aria-hidden="true"
             >
@@ -757,142 +512,147 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
                             <div className="row">
                                 <div className="col-sm-12">
                                     <div className="add-modal">
-                                        <div className="modal_header">
-                                            <h2>Customize Your Laddoo!</h2>
-                                        </div>
-                                        <div className="modal_in px-5 pt-4">
-                                            <h5 className="mb-3">Sweetness Level:</h5>
-                                            <div className="checkboxes">
-                                                <div className="form-check">
-                                                    <input
-                                                        className="form-check-input"
-                                                        type="checkbox"
-                                                        value=""
-                                                        id="flexCheckDefault"
-                                                    />
-                                                    <label className="form-check-label" for="flexCheckDefault">
-                                                        Low
-                                                    </label>
-                                                </div>
-                                                <div className="form-check">
-                                                    <input
-                                                        className="form-check-input"
-                                                        type="checkbox"
-                                                        value=""
-                                                        id="flexCheckDefault"
-                                                    />
-                                                    <label className="form-check-label" for="flexCheckDefault">
-                                                        Medium
-                                                    </label>
-                                                </div>
-                                                <div className="form-check">
-                                                    <input
-                                                        className="form-check-input"
-                                                        type="checkbox"
-                                                        value=""
-                                                        id="flexCheckDefault"
-                                                    />
-                                                    <label className="form-check-label" for="flexCheckDefault">
-                                                        High
-                                                    </label>
+
+                                            <div className="modal_header">
+                                                <h2>Customize Your Laddoo!</h2>
+                                            </div>
+                                            <div className="modal_in px-5 pt-4">
+                                                <h5 className="mb-3">Sweetness Level:</h5>
+                                                <div className="checkboxes">
+                                                    <div className="form-check">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            value="low"
+                                                            id="flexCheckDefault"
+                                                        />
+                                                        <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                            Low
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            value="medium"
+                                                            id="flexCheckDefault"
+                                                        />
+                                                        <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                            Medium
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            value="high"
+                                                            id="flexCheckDefault"
+                                                        />
+                                                        <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                            High
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="modal_in px-5 pt-4">
-                                            <h5 className="mb-3">Ingredient Add-ons:</h5>
-                                            <div className="checkboxes">
-                                                <div className="form-check">
-                                                    <input
-                                                        className="form-check-input"
-                                                        type="checkbox"
-                                                        value=""
-                                                        id="flexCheckDefault"
-                                                    />
-                                                    <label className="form-check-label" for="flexCheckDefault">
-                                                        Almonds
-                                                    </label>
-                                                </div>
-                                                <div className="form-check">
-                                                    <input
-                                                        className="form-check-input"
-                                                        type="checkbox"
-                                                        value=""
-                                                        id="flexCheckDefault"
-                                                    />
-                                                    <label className="form-check-label" for="flexCheckDefault">
-                                                        Cashews
-                                                    </label>
-                                                </div>
-                                                <div className="form-check">
-                                                    <input
-                                                        className="form-check-input"
-                                                        type="checkbox"
-                                                        value=""
-                                                        id="flexCheckDefault"
-                                                    />
-                                                    <label className="form-check-label" for="flexCheckDefault">
-                                                        Walnuts
-                                                    </label>
-                                                </div>
-                                                <div className="form-check">
-                                                    <input
-                                                        className="form-check-input"
-                                                        type="checkbox"
-                                                        value=""
-                                                        id="flexCheckDefault"
-                                                    />
-                                                    <label className="form-check-label" for="flexCheckDefault">
-                                                        Dates
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="modal_in px-5 py-4">
-                                            <h5 className="mb-3">Ingredient Exclusions:</h5>
-                                            <div className="checkboxes">
-                                                <div className="form-check">
-                                                    <input
-                                                        className="form-check-input"
-                                                        type="checkbox"
-                                                        value=""
-                                                        id="flexCheckDefault"
-                                                    />
-                                                    <label className="form-check-label" for="flexCheckDefault">
-                                                        No Jaggery
-                                                    </label>
-                                                </div>
-                                                <div className="form-check">
-                                                    <input
-                                                        className="form-check-input"
-                                                        type="checkbox"
-                                                        value=""
-                                                        id="flexCheckDefault"
-                                                    />
-                                                    <label className="form-check-label" for="flexCheckDefault">
-                                                        No Ghee
-                                                    </label>
-                                                </div>
-                                                <div className="form-check">
-                                                    <input
-                                                        className="form-check-input"
-                                                        type="checkbox"
-                                                        value=""
-                                                        id="flexCheckDefault"
-                                                    />
-                                                    <label className="form-check-label" for="flexCheckDefault">
-                                                        No Sugar
-                                                    </label>
+                                            <div className="modal_in px-5 pt-4">
+                                                <h5 className="mb-3">Ingredient Add-ons:</h5>
+                                                <div className="checkboxes">
+                                                    <div className="form-check">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            value="almonds"
+                                                            id="flexCheckDefault"
+                                                        />
+                                                        <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                            Almonds
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            value="cashews"
+                                                            id="flexCheckDefault"
+                                                        />
+                                                        <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                            Cashews
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            value="walnuts"
+                                                            id="flexCheckDefault"
+                                                        />
+                                                        <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                            Walnuts
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            value="dates"
+                                                            id="flexCheckDefault"
+                                                        />
+                                                        <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                            Dates
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div
-                                            className="modal-button black-button pt-3 pb-5 m-auto text-center"
-                                        >
-                                            <button className="black" id="addtoBasketButton">
-                                                ₹750.00 <span>|</span> Add 1 to basket
-                                                <i className="fal fa-angle-right"></i>
-                                            </button>
-                                        </div>
+                                            <div className="modal_in px-5 py-4">
+                                                <h5 className="mb-3">Ingredient Exclusions:</h5>
+                                                <div className="checkboxes">
+                                                    <div className="form-check">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            value="jaggery"
+                                                            id="flexCheckDefault"
+                                                        />
+                                                        <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                            No Jaggery
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            value="ghee"
+                                                            id="flexCheckDefault"
+                                                        />
+                                                        <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                            No Ghee
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            value="sugar"
+                                                            id="flexCheckDefault"
+                                                        />
+                                                        <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                            No Sugar
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                className="modal-button black-button pt-3 pb-5 m-auto text-center"
+                                            >
+                                                
+                                                <Link href="/product/addtocart" method="post" className="black" id="addtoBasketButton" data={{ product_id: product.product_id, product_type: "simple",quantity:productQty,_token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')}}>
+                                                    
+                                                    ₹{totalPrice}.00 <span>|</span> Add {productQty} to basket
+                                                    <i className="fal fa-angle-right"></i>
+                                                </Link>
+                                            </div>
+                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -904,7 +664,7 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
             <div
                 className="modal fade review-modal"
                 id="exampleModal"
-                tabindex="-1"
+                tabIndex="-1"
                 aria-labelledby="exampleModalLabel"
                 aria-hidden="true"
             >
@@ -925,33 +685,33 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
                                         <h2 className="modal-heading">Write A Review</h2>
                                         <form action="">
                                             <div className="review-form-box mb-3">
-                                                <label for="reviewFormControlstar" className="form-label"
+                                                <label htmlFor="reviewFormControlstar" className="form-label"
                                                 >My Rate</label
                                                 >
 
                                                 <img
-                                                    src="./assets/images/product-details/star3.png"
+                                                    src="/assets/images/product-details/star3.png"
                                                     alt=""
                                                 />
                                                 <img
-                                                    src="./assets/images/product-details/star3.png"
+                                                    src="/assets/images/product-details/star3.png"
                                                     alt=""
                                                 />
                                                 <img
-                                                    src="./assets/images/product-details/star3.png"
+                                                    src="/assets/images/product-details/star3.png"
                                                     alt=""
                                                 />
                                                 <img
-                                                    src="./assets/images/product-details/star3.png"
+                                                    src="/assets/images/product-details/star3.png"
                                                     alt=""
                                                 />
                                                 <img
-                                                    src="./assets/images/product-details/star3.png"
+                                                    src="/assets/images/product-details/star3.png"
                                                     alt=""
                                                 />
                                             </div>
                                             <div className="mb-4">
-                                                <label for="reviewFormControlTextarea" className="form-label"
+                                                <label htmlFor="reviewFormControlTextarea" className="form-label"
                                                 >Review</label
                                                 >
                                                 <textarea
@@ -961,7 +721,7 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
                                                 ></textarea>
                                             </div>
                                             <div className="mb-4">
-                                                <label for="reviewFormControlInput" className="form-label"
+                                                <label htmlFor="reviewFormControlInput" className="form-label"
                                                 >Title</label
                                                 >
                                                 <input
@@ -974,7 +734,7 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
                                                 <div className="btn review-form-button">
                                                     <label
                                                         className="form-label text-white m-1"
-                                                        for="customFile1"
+                                                        htmlFor="customFile1"
                                                     ><i className="fal fa-folder-upload"></i>Upload
                                                         Photo</label
                                                     >
@@ -982,7 +742,7 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
                                                         type="file"
                                                         className="form-control d-none"
                                                         id="customFile1"
-                                                        onchange="displaySelectedImage(event, 'selectedImage')"
+                                                        onChange="displaySelectedImage(event, 'selectedImage')"
                                                     />
                                                 </div>
                                             </div>
@@ -1004,7 +764,7 @@ const ProductDetail = ({ auth, product, product_reviews }) => {
                                 <div className="col-sm-6">
                                     <div className="review-popup-image">
                                         <img
-                                            src="./assets/images/product-details/why-choose.jpg"
+                                            src="/assets/images/product-details/why-choose.jpg"
                                             alt=""
                                         />
                                     </div>

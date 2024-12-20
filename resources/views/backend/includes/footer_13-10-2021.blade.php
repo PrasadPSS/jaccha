@@ -66,6 +66,7 @@ $(document).ready(function(){
 
     });
   }
+ 
   if($("#editor2").length != 0)
   {
     CKEDITOR.replace('editor2', {
@@ -73,6 +74,7 @@ $(document).ready(function(){
 
     });
   }
+ 
 
 
 });

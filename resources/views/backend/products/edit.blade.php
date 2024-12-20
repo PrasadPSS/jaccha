@@ -393,7 +393,7 @@ $gsts = [];
                                             <div class="col-lg-12 col-md-12 mt-1">
                                                 <fieldset class="form-group">
                                                     {{ Form::label('product_disclaimer', 'Disclaimer *') }}
-                                                    {{ Form::textarea('product_disclaimer', null, ['class' => 'form-control', 'placeholder' => 'Enter Address', 'id' => 'editor1']) }}
+                                                    {{ Form::textarea('product_disclaimer', null, ['class' => 'form-control', 'placeholder' => 'Enter Address', 'id' => 'editor8']) }}
                                                 </fieldset>
                                             </div>
                                             <div class="col-md-6 col-12">
@@ -705,7 +705,13 @@ if (isset($product_images) && count($product_images) >= 6) {
                     }
                 });
             }
+            if($("#editor8").length != 0)
+  {
+    CKEDITOR.replace('editor8', {
+      height: 260,
 
+    });
+  }
             function getmightprefer(category_id) {
                 $.ajax({
                     url: '{{ url('admin/products/getmightprefer') }}',

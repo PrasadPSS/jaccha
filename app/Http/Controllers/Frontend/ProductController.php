@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\backend\HomePageSections;
+use App\Models\backend\ProductImages;
 use App\Models\backend\Products;
 
 use App\Models\backend\ProductVariants;
@@ -86,7 +87,7 @@ class ProductController extends Controller
         $user_table = 'users';
         $added_by = auth()->user()->id;
 
-        $quantity = 1;
+        $quantity = $request->quantity;
         if (isset($request->quantity)) {
             $quantity = $request->quantity;
         }
@@ -189,6 +190,8 @@ class ProductController extends Controller
     {
         $data['product'] = Products::where('product_id', $product_id)->first();
         $data['product_reviews'] = Review::where('product_id', $product_id)->get()->toArray();
+        $data['product_images'] = ProductImages::where('product_id', $product_id)->limit(3)->get()->toArray();
+        $data['average_rating'] = Review::where('product_id', $product_id)->avg('rating'); 
         
         return Inertia::render('Frontend/Products/ProductDetail', $data);
     }
