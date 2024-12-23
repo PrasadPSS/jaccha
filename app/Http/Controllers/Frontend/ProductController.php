@@ -153,6 +153,9 @@ class ProductController extends Controller
             if ($request->product_type == 'configurable') {
                 $cart->product_variant_id = $product_variant_id;
             }
+            $cart->sweetness_level = $request->sweetnesslevel;
+            $cart->ingredient_addons = $request->ingrediantaddons;
+            $cart->ingredient_exclusions = $request->exclusions;
             $cart->price = ($quantity * $request->product_price);
             $cart->qty = $quantity;
             $cart->discount = $product->product_discount;

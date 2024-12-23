@@ -35,7 +35,7 @@ export default function ProductSearch({ auth, cart }) {
             body: JSON.stringify({ item_id: id }),
         }).then(response => response.json())
             .then(data => {
-                setCartItems(cartItems.map(item => item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
+                setCartItems(cartItems.map(item => item.id === id ? { ...item, quantity: Number(item.quantity) + 1 } : item));
             })
             .catch(error => console.error(error));
     };

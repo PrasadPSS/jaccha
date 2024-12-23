@@ -8,7 +8,9 @@ import ReviewForm from './ReviewForm';
 
 
 const ProductDetail = ({ auth, product, product_reviews, product_images, average_rating, related_product_list }) => {
-
+    const [sweetnessLevel, setSweetness] = useState('');
+    const [ingredients, setIngredients] = useState('');
+    const [exclusions, setExclusions] = useState('');
     const handleAddAllToCart = () => {
         related_product_list.forEach((item) => {
             const { product } = item;
@@ -122,6 +124,52 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
         }
 
     }, [selectedVariant])
+
+    const handleCheckboxChange = (event) => {
+        const { checked, value } = event.target; // Get the checkbox value and its checked status
+        setSweetness((prevState) => {
+          if (checked) {
+            // Append the value if it's checked
+            return prevState ? `${prevState},${value}` : value;
+          } else {
+            // Remove the value if it's unchecked
+            return prevState
+              .split(",")
+              .filter((item) => item !== value) // Remove the unchecked value
+              .join(",");
+          }
+        });
+      };
+      const handleCheckbox1Change = (event) => {
+        const { checked, value } = event.target; // Get the checkbox value and its checked status
+        setIngredients((prevState) => {
+          if (checked) {
+            // Append the value if it's checked
+            return prevState ? `${prevState},${value}` : value;
+          } else {
+            // Remove the value if it's unchecked
+            return prevState
+              .split(",")
+              .filter((item) => item !== value) // Remove the unchecked value
+              .join(",");
+          }
+        });
+      };
+      const handleCheckbox2Change = (event) => {
+        const { checked, value } = event.target; // Get the checkbox value and its checked status
+        setExclusions((prevState) => {
+          if (checked) {
+            // Append the value if it's checked
+            return prevState ? `${prevState},${value}` : value;
+          } else {
+            // Remove the value if it's unchecked
+            return prevState
+              .split(",")
+              .filter((item) => item !== value) // Remove the unchecked value
+              .join(",");
+          }
+        });
+      };
 
     return (
         <HomeLayout auth={auth}>
@@ -547,6 +595,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         type="checkbox"
                                                         value="low"
                                                         id="flexCheckDefault"
+                                                        onChange={handleCheckboxChange}
                                                     />
                                                     <label className="form-check-label" htmlFor="flexCheckDefault">
                                                         Low
@@ -558,6 +607,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         type="checkbox"
                                                         value="medium"
                                                         id="flexCheckDefault"
+                                                        onChange={handleCheckboxChange}
                                                     />
                                                     <label className="form-check-label" htmlFor="flexCheckDefault">
                                                         Medium
@@ -569,6 +619,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         type="checkbox"
                                                         value="high"
                                                         id="flexCheckDefault"
+                                                        onChange={handleCheckboxChange}
                                                     />
                                                     <label className="form-check-label" htmlFor="flexCheckDefault">
                                                         High
@@ -585,6 +636,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         type="checkbox"
                                                         value="almonds"
                                                         id="flexCheckDefault"
+                                                        onChange={handleCheckbox1Change}
                                                     />
                                                     <label className="form-check-label" htmlFor="flexCheckDefault">
                                                         Almonds
@@ -596,6 +648,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         type="checkbox"
                                                         value="cashews"
                                                         id="flexCheckDefault"
+                                                        onChange={handleCheckbox1Change}
                                                     />
                                                     <label className="form-check-label" htmlFor="flexCheckDefault">
                                                         Cashews
@@ -607,6 +660,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         type="checkbox"
                                                         value="walnuts"
                                                         id="flexCheckDefault"
+                                                        onChange={handleCheckbox1Change}
                                                     />
                                                     <label className="form-check-label" htmlFor="flexCheckDefault">
                                                         Walnuts
@@ -618,6 +672,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         type="checkbox"
                                                         value="dates"
                                                         id="flexCheckDefault"
+                                                        onChange={handleCheckbox1Change}
                                                     />
                                                     <label className="form-check-label" htmlFor="flexCheckDefault">
                                                         Dates
@@ -634,6 +689,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         type="checkbox"
                                                         value="jaggery"
                                                         id="flexCheckDefault"
+                                                        onChange={handleCheckbox2Change}
                                                     />
                                                     <label className="form-check-label" htmlFor="flexCheckDefault">
                                                         No Jaggery
@@ -645,6 +701,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         type="checkbox"
                                                         value="ghee"
                                                         id="flexCheckDefault"
+                                                        onChange={handleCheckbox2Change}
                                                     />
                                                     <label className="form-check-label" htmlFor="flexCheckDefault">
                                                         No Ghee
@@ -656,6 +713,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         type="checkbox"
                                                         value="sugar"
                                                         id="flexCheckDefault"
+                                                        onChange={handleCheckbox2Change}
                                                     />
                                                     <label className="form-check-label" htmlFor="flexCheckDefault">
                                                         No Sugar
@@ -667,7 +725,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                             className="modal-button black-button pt-3 pb-5 m-auto text-center"
                                         >
 
-                                            <Link href="/product/addtocart" method="post" className="black" id="addtoBasketButton" data={{ product_id: product.product_id, product_type: selectedVariant !== '' ? "configurable" : "simple", product_variant_id: product_variant_id, quantity: productQty, _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content') }}>
+                                            <Link href="/product/addtocart" method="post" className="black" id="addtoBasketButton" data={{ product_id: product.product_id, product_type: selectedVariant !== '' ? "configurable" : "simple", product_variant_id: product_variant_id, quantity: productQty, _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), sweetnesslevel: sweetnessLevel, ingrediantaddons: ingredients, exclusions: exclusions }}>
 
                                                 ₹{totalPrice}.00 <span>|</span> Add {productQty} to basket
                                                 <i className="fal fa-angle-right"></i>
