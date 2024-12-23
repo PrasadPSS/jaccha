@@ -29,7 +29,7 @@ class WishlistController extends Controller
       $product_exist_in_wishlist = Wishlists::where('user_id',$user_id)->Where('product_id',$product_id)->first();
       if($product_exist_in_wishlist)
       {
-        return ['success','Product is alredy in your Wishlist !'];
+        return back()->with('error','Product is alredy in your Wishlist !');
       }
       else
       {

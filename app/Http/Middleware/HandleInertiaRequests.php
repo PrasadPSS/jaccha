@@ -37,7 +37,7 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
-                'cart_count' => $request->user() ? Cart::where('user_id', $request->user()->id)->get()->count() : "",
+                'cart_count' => $request->user() ? Cart::where('user_id', $request->user()->id)->sum('qty') : "",
                 'wishlist_count'=> $request->user() ? Wishlists::where('user_id', $request->user()->id)->get()->count() : "",
                 'orders' => $request->user() ? Orders::where('user_id', $request->user()->id)->with('orderproducts', 'orderproducts.products')->get() : "",
                 'reviews'=> $request->user() ? Review::where('user_id', $request->user()->id)->get() : "",

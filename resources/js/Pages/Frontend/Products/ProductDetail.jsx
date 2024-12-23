@@ -105,7 +105,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
             // toaster
             swal({
                 title: "",
-                text: "“Dana Meethi Laddoo” Added to Your Basket!",
+                text: product.product_title + " Added to Your Basket!",
                 // imageUrl: "thumbs-up.jpg",
                 timer: 2000,
             });
@@ -206,8 +206,12 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                     <span>{product.product_title}</span>
                                 </h2>
                                 <div className="content-price">
-                                    <h4><span>₹{product.product_price}.00</span>₹{product.product_discounted_price}.00</h4>
-                                    <p className="content-offer">Offer</p>
+                                    {product.product_discounted_price == product.product_price && 
+                                    <h4>₹{product.product_discounted_price}.00</h4>}
+                                    {product.product_discounted_price != product.product_price &&
+                                    <h4><span>₹{product.product_price}.00</span>₹{product.product_discounted_price}.00</h4>}
+                                    
+                                    <p className="content-offer">- {product.product_price - product.product_discounted_price} Off</p>
                                 </div>
                                 <div className="content-star star">
                                     {[...Array(fullStars)].map((_, index) => (
