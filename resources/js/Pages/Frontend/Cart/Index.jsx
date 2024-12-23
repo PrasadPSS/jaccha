@@ -7,13 +7,14 @@ import HomeLayout from '@/Layouts/HomeLayout';
 import { toast } from 'react-toastify';
 
 export default function ProductSearch({ auth, cart }) {
-    
+
     let cart_items = [];
     if (cart) {
-    cart.forEach(element => {
-        cart_items.push({id: element.product_id, name: element.products.product_title , description: element.products.product_sub_title, price: element.products.product_price, quantity: element.qty});
-    });
-}
+        cart.forEach(element => {
+            cart_items.push({ id: element.product_id, name: element.product_variant !=null ? element.product_variant.product_title : element.products.product_title, description: element.products.product_sub_title, price: element.product_variant !=null ? element.product_variant.product_price : element.products.product_price, quantity: element.qty });
+        });
+    }
+
     const [cartItems, setCartItems] = useState(cart_items);
 
     // Calculate total price
@@ -24,7 +25,7 @@ export default function ProductSearch({ auth, cart }) {
     // Increase item quantity
     const increaseQuantity = async (id) => {
 
-       
+
         await fetch('/api/cart/increase', {
             method: 'POST',
             headers: {
@@ -33,10 +34,10 @@ export default function ProductSearch({ auth, cart }) {
             },
             body: JSON.stringify({ item_id: id }),
         }).then(response => response.json())
-        .then(data => {
-            setCartItems(cartItems.map(item => item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
-        })
-        .catch(error => console.error(error));
+            .then(data => {
+                setCartItems(cartItems.map(item => item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
+            })
+            .catch(error => console.error(error));
     };
 
     // Decrease item quantity
@@ -46,7 +47,7 @@ export default function ProductSearch({ auth, cart }) {
         ));
         try {
             const response = await axios.post(`/api/cart/decrease`, { item_id: id });
-            setCartItems(cartItems.map(item => 
+            setCartItems(cartItems.map(item =>
                 item.id === id ? { ...item, quantity: response.data.updated_quantity } : item
             ));
         } catch (error) {
@@ -63,12 +64,11 @@ export default function ProductSearch({ auth, cart }) {
         } catch (error) {
             console.error("Error removing item:", error);
         }
-        
-        toast.success('Product Removed Successfully', {autoClose:5000});
+
+        toast.success('Product Removed Successfully', { autoClose: 5000 });
     };
 
-    const handleCheckout  = async () => 
-    {
+    const handleCheckout = async () => {
         router.get('/checkout/payment', {
             onSuccess: () => alert('Order Placed Successfully'),
             onError: (errors) => console.error(errors),
@@ -84,7 +84,7 @@ export default function ProductSearch({ auth, cart }) {
             }
         >
             <Head title="Cart" />
-    
+
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
@@ -146,5 +146,5 @@ export default function ProductSearch({ auth, cart }) {
             </div>
         </HomeLayout>
     );
-    
+
 }

@@ -8,6 +8,7 @@ use App\Models\backend\ProductImages;
 use App\Models\backend\Products;
 
 use App\Models\backend\ProductVariants;
+use App\Models\backend\RelatedProducts;
 use App\Models\CartItem;
 
 use App\Models\frontend\Cart;
@@ -188,10 +189,14 @@ class ProductController extends Controller
 
     public function viewProductDetails($product_id)
     {
-        $data['product'] = Products::where('product_id', $product_id)->first();
+        $data['product'] = Products::where('product_id', $product_id)->with('product_variants')->first();
         $data['product_reviews'] = Review::where('product_id', $product_id)->get()->toArray();
         $data['product_images'] = ProductImages::where('product_id', $product_id)->limit(3)->get()->toArray();
         $data['average_rating'] = Review::where('product_id', $product_id)->avg('rating'); 
+        $data['related_product_list'] = RelatedProducts::where('product_id', $product_id)->with('product')->get();
+       
+
+
         
         return Inertia::render('Frontend/Products/ProductDetail', $data);
     }

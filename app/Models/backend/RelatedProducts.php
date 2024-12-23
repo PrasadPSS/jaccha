@@ -15,6 +15,6 @@ class RelatedProducts extends Model
     protected $fillable=['product_id','related_product_list_id'];
 
     public function product(){
-        return $this->belongsTo(Products::class);
+        return $this->belongsTo(Products::class, 'related_product_list_id', 'product_id');
     }
 }

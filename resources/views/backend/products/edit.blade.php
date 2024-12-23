@@ -307,7 +307,7 @@ $gsts = [];
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <div class="col-md-12 col-12" id="sim_color_div_edit">
+                                                            <div class="col-md-12 col-12"  >
                                                                 {{ Form::label('variant_color_id', 'Colors ', ['class' => '']) }}
                                                                 <fieldset class="form-group">
                                                                     <div class="input-group">
@@ -317,7 +317,7 @@ $gsts = [];
                                                                     </div>
                                                                 </fieldset>
                                                             </div>
-                                                            <div class="col-md-12 col-12" id="sim_size_div_edit">
+                                                            <div class="col-md-12 col-12" >
                                                                 {{ Form::label('variant_size_id', 'Sizes ', ['class' => '']) }}
                                                                 <fieldset class="form-group">
                                                                     <div class="input-group">
