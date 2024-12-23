@@ -21,7 +21,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                 quantity: 1, // Default quantity; update as required
                 _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             };
-    
+
             // Use Laravel's Inertia Link to make a POST request
             router.post("/product/addtocart", data, {
                 onSuccess: () => {
@@ -128,48 +128,48 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
     const handleCheckboxChange = (event) => {
         const { checked, value } = event.target; // Get the checkbox value and its checked status
         setSweetness((prevState) => {
-          if (checked) {
-            // Append the value if it's checked
-            return prevState ? `${prevState},${value}` : value;
-          } else {
-            // Remove the value if it's unchecked
-            return prevState
-              .split(",")
-              .filter((item) => item !== value) // Remove the unchecked value
-              .join(",");
-          }
+            if (checked) {
+                // Append the value if it's checked
+                return prevState ? `${prevState},${value}` : value;
+            } else {
+                // Remove the value if it's unchecked
+                return prevState
+                    .split(",")
+                    .filter((item) => item !== value) // Remove the unchecked value
+                    .join(",");
+            }
         });
-      };
-      const handleCheckbox1Change = (event) => {
+    };
+    const handleCheckbox1Change = (event) => {
         const { checked, value } = event.target; // Get the checkbox value and its checked status
         setIngredients((prevState) => {
-          if (checked) {
-            // Append the value if it's checked
-            return prevState ? `${prevState},${value}` : value;
-          } else {
-            // Remove the value if it's unchecked
-            return prevState
-              .split(",")
-              .filter((item) => item !== value) // Remove the unchecked value
-              .join(",");
-          }
+            if (checked) {
+                // Append the value if it's checked
+                return prevState ? `${prevState},${value}` : value;
+            } else {
+                // Remove the value if it's unchecked
+                return prevState
+                    .split(",")
+                    .filter((item) => item !== value) // Remove the unchecked value
+                    .join(",");
+            }
         });
-      };
-      const handleCheckbox2Change = (event) => {
+    };
+    const handleCheckbox2Change = (event) => {
         const { checked, value } = event.target; // Get the checkbox value and its checked status
         setExclusions((prevState) => {
-          if (checked) {
-            // Append the value if it's checked
-            return prevState ? `${prevState},${value}` : value;
-          } else {
-            // Remove the value if it's unchecked
-            return prevState
-              .split(",")
-              .filter((item) => item !== value) // Remove the unchecked value
-              .join(",");
-          }
+            if (checked) {
+                // Append the value if it's checked
+                return prevState ? `${prevState},${value}` : value;
+            } else {
+                // Remove the value if it's unchecked
+                return prevState
+                    .split(",")
+                    .filter((item) => item !== value) // Remove the unchecked value
+                    .join(",");
+            }
         });
-      };
+    };
 
     return (
         <HomeLayout auth={auth}>
@@ -206,11 +206,11 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                     <span>{product.product_title}</span>
                                 </h2>
                                 <div className="content-price">
-                                    {product.product_discounted_price == product.product_price && 
-                                    <h4>₹{product.product_discounted_price}.00</h4>}
+                                    {product.product_discounted_price == product.product_price &&
+                                        <h4>₹{product.product_discounted_price}.00</h4>}
                                     {product.product_discounted_price != product.product_price &&
-                                    <h4><span>₹{product.product_price}.00</span>₹{product.product_discounted_price}.00</h4>}
-                                    
+                                        <h4><span>₹{product.product_price}.00</span>₹{product.product_discounted_price}.00</h4>}
+
                                     <p className="content-offer">- {product.product_price - product.product_discounted_price} Off</p>
                                 </div>
                                 <div className="content-star star">
@@ -257,23 +257,40 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                         Offer
                                     </p>
                                 </div>
-                                <div className="black-button mt-5">
-                                    <Link
-                                        type="button"
-                                        className="btn btn-primary black"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#addBasketModal"
-                                        data-price={totalPrice}
-                                        data-quantity={productQty}
-                                    >
-                                        ₹{totalPrice}.00 &nbsp;&nbsp;|&nbsp;&nbsp; +
-                                        &nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; Add 1 to basket
-                                        &nbsp;&nbsp; |&nbsp;&nbsp; - &nbsp;&nbsp;|
-                                    </Link>
+                                <div class="black-button mt-5 d-flex">
+                                    <div class="add-to-card-btn">
+                                        ₹{totalPrice}.00
+                                        <button class="btn plus_button plus" id="plus-btn" onClick={()=>setQty((prev)=> prev+1)}>
+                                            |&nbsp;&nbsp; + &nbsp;&nbsp;|
+                                        </button>
+                                        <div class="number">
+                                            <button
+                                                type="button"
+                                                class="btn btn-primary black"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#addBasketModal"
+                                                data-price={totalPrice}
+                                                data-quantity={productQty}
+                                            >
+                                                Add
+                                                <span id="count"> {productQty} </span>
+                                                to basket
+                                            </button>
+                                        </div>
 
+                                        <button onClick={()=>setQty((prev)=> prev!=0 ? prev-1 : 0)} class="btn minus_button" id="minus-btn">
+                                            |&nbsp;&nbsp; - &nbsp;&nbsp;|
+                                        </button>
+                                    </div>
                                     <Link type='button' href={route('wishlist.add')} method="post" as='button' className="gray" data={{ product_id: product.product_id }}>
                                         <img src="/assets/images/product-details/heart.png" />
                                     </Link>
+                                </div>
+
+                                <div className="black-button mt-5">
+
+
+
 
                                     <p className="free-delivery text-center">
                                         <img
@@ -558,8 +575,8 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                     data-bs-target="#addBasketModal"
                                 >
                                     +&nbsp;&nbsp;|<span>Add {productQty} to basket</span>|&nbsp;&nbsp; -
-                                </button></a
-                            >
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -725,18 +742,18 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div
                                             className="modal-button black-button pt-3 pb-5 m-auto text-center"
                                         >
 
-                                            <Link href="/product/addtocart" method="post" className="black" id="addtoBasketButton" data={{ product_id: product.product_id, product_type: selectedVariant !== '' ? "configurable" : "simple", product_variant_id: product_variant_id, quantity: productQty, _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), sweetnesslevel: sweetnessLevel, ingrediantaddons: ingredients, exclusions: exclusions }}>
+                                            <Link href="/product/addtocart" method="post" className="black px-3 py-2" id="addtoBasketButton" data={{ product_id: product.product_id, product_type: selectedVariant !== '' ? "configurable" : "simple", product_variant_id: product_variant_id, quantity: productQty, _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), sweetnesslevel: sweetnessLevel, ingrediantaddons: ingredients, exclusions: exclusions }}>
 
                                                 ₹{totalPrice}.00 <span>|</span> Add {productQty} to basket
                                                 <i className="fal fa-angle-right"></i>
                                             </Link>
                                         </div>
-
-
+                                        
                                     </div>
                                 </div>
                             </div>

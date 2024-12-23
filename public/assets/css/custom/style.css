@@ -606,7 +606,7 @@ header .second-navbar ul li a span {
 }
 .footer-image img {
   position: absolute;
-  width: 300px;
+  width: 290px;
   right: 15px;
   top: -38px;
 }
@@ -943,13 +943,30 @@ header .second-navbar ul li a span {
 }
 .black-button .black {
   background: var(--black);
-  padding: 10px 20px;
-  width: 88%;
+  color: var(--light);
+  border-radius: 4px;
+  border: 0px;
+  margin-right: 5px;
+  text-align: center;
+  font-weight: 400;
+}
+.black-button .plus_button,
+.black-button .minus_button {
+  color: var(--light);
+}
+.add-to-card-btn {
+  padding: 8px 20px;
+  width: 80%;
+  background: var(--black);
   color: var(--light);
   border-radius: 4px;
   border: 0px;
   margin-right: 5px;
   font-weight: 400;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .products-details .black-button .gray {
   background: rgba(224, 224, 224, 1);
@@ -1282,6 +1299,12 @@ header .second-navbar ul li a span {
   color: var(--light);
   border: 0px;
 }
+.sticky-product-button .add-to-card-btn {
+  padding: 0px !important;
+}
+.sticky-product-button .add-to-card-btn:hover{
+  padding: 0px !important;
+}
 .sticky-product-button button span {
   padding: 0px 10px;
 }
@@ -1447,5 +1470,59 @@ header .second-navbar ul li a span {
 .sweet-alert p {
   font-family: var(--heading-font);
   color: var(--white) !important;
+  font-weight: 700;
+}
+/* end product details page */
+/* checkout page */
+.sub-banner {
+  padding: 50px 0px;
+}
+.sub-banner .banner_heading {
+  border-bottom: 1px solid var(--dark);
+}
+.sub-banner .banner_heading h2 {
+  color: var(--tertiary);
+  letter-spacing: 0.1px;
+}
+.sub-banner .banner_heading p {
+  font-size: 13px;
+  color: var(--tertiary);
+  margin-top: 5px;
+}
+/* Privacy Policy */
+.privacy-policy h2 {
+  font-size: 22px;
+  font-weight: 800;
+}
+.privacy-policy ul {
+  margin-left: 20px;
+}
+.privacy-policy ul li {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--bg-text-color);
+  line-height: 170%;
+  letter-spacing: 0.5px;
+  font-family: var(--serif);
+  list-style-type: disc;
+  margin-bottom: 15px;
+}
+.privacy-policy ul li a {
+  color: var(--primary);
+}
+.privacy-policy h6 {
+  font-size: 18px;
+  letter-spacing: 0.2px;
+  color: var(--dark);
+}
+.privacy-policy h3 {
+  font-weight: 800 !important;
+  font-size: 18px;
+  color: var(--dark);
+  opacity: 1;
+  letter-spacing: 0.1px;
+  margin-top: 18px;
+  margin-bottom: 5px;
+  font-family: var(--heading-font);
   font-weight: 700;
 }
