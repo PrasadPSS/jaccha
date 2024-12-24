@@ -8,7 +8,7 @@ import ReviewForm from './ReviewForm';
 
 
 const ProductDetail = ({ auth, product, product_reviews, product_images, average_rating, related_product_list }) => {
-    
+
     const [sweetnessLevel, setSweetness] = useState('');
     const [ingredients, setIngredients] = useState('');
     const [exclusions, setExclusions] = useState('');
@@ -38,7 +38,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
     const [product_variants, setProductVariants] = useState(product.product_variants);
     const [product_variant_id, setProductVariant] = useState('');
     const [selectedVariant, setSelectedVariant] = useState('');
-    console.log('related', related_product_list);
+
 
     const fullStars = Math.floor(average_rating); // Number of full stars
     const hasHalfStar = average_rating % 1 >= 0.1; // Check if there's a half star
@@ -211,9 +211,9 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                         <h4>₹{product.product_discounted_price}.00</h4>}
                                     {product.product_discounted_price != product.product_price &&
                                         <h4><span>₹{product.product_price}.00</span>₹{product.product_discounted_price}.00</h4>}
-                                {product.product_price - product.product_discounted_price > 0 && 
-                                <p className="content-offer">- {product.product_price - product.product_discounted_price} Off</p>}
-                                    
+                                    {product.product_price - product.product_discounted_price > 0 &&
+                                        <p className="content-offer">- {product.product_price - product.product_discounted_price} Off</p>}
+
                                 </div>
                                 <div className="content-star star">
                                     {[...Array(fullStars)].map((_, index) => (
@@ -233,8 +233,8 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                     )}
 
                                     {product_reviews.length > 0 &&
-                                    <span>({product_reviews.length} Reviews)</span>}
-                                    
+                                        <span>({product_reviews.length} Reviews)</span>}
+
                                 </div>
                                 <div className="main-content">
                                     <h6>
@@ -247,32 +247,32 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                         <div dangerouslySetInnerHTML={{ __html: product.product_desc }}></div>
                                     </ul>
                                 </div>
-                                
-                                {product_variants.length > 0  && 
-                                <div className="kg-box position-relative">
-                                    <p>Choose Weight: {selectedVariant}</p>
-                                    {product_variants.map((variant) => {
-                                        return (
-                                            <button key={variant.product_variant_id} onClick={() => setSelectedVariant(variant.product_title)} className={selectedVariant == variant.product_title ? "button gram-button active" : 'button gram-button'} >{variant.product_title}</button>
-                                        )
-                                    })}
 
-                                    <p className="get-offer">
-                                        <img src="/assets/images/product-details/SVG.png" /><br />Get
-                                        Offer
-                                    </p>
-                                </div>}
-                                
-                                <div class="black-button mt-5 d-flex">
-                                    <div class="add-to-card-btn">
+                                {product_variants.length > 0 &&
+                                    <div className="kg-box position-relative">
+                                        <p>Choose Weight: {selectedVariant}</p>
+                                        {product_variants.map((variant) => {
+                                            return (
+                                                <button key={variant.product_variant_id} onClick={() => setSelectedVariant(variant.product_title)} className={selectedVariant == variant.product_title ? "button gram-button active" : 'button gram-button'} >{variant.product_title}</button>
+                                            )
+                                        })}
+
+                                        <p className="get-offer">
+                                            <img src="/assets/images/product-details/SVG.png" /><br />Get
+                                            Offer
+                                        </p>
+                                    </div>}
+
+                                <div className="black-button mt-5 d-flex">
+                                    <div className="add-to-card-btn">
                                         ₹{totalPrice}.00
-                                        <button class="btn plus_button plus" id="plus-btn" onClick={()=>setQty((prev)=> prev+1)}>
+                                        <button className="btn plus_button plus" id="plus-btn" onClick={() => setQty((prev) => prev + 1)}>
                                             |&nbsp;&nbsp; + &nbsp;&nbsp;|
                                         </button>
-                                        <div class="number">
+                                        <div className="number">
                                             <button
                                                 type="button"
-                                                class="btn btn-primary black"
+                                                className="btn btn-primary black"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#addBasketModal"
                                                 data-price={totalPrice}
@@ -284,7 +284,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                             </button>
                                         </div>
 
-                                        <button onClick={()=>setQty((prev)=> prev!=0 ? prev-1 : 0)} class="btn minus_button" id="minus-btn">
+                                        <button onClick={() => setQty((prev) => prev != 0 ? prev - 1 : 0)} className="btn minus_button" id="minus-btn">
                                             |&nbsp;&nbsp; - &nbsp;&nbsp;|
                                         </button>
                                     </div>
@@ -555,6 +555,8 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
             </section>
 
 
+
+
             <section className="sticky-div" id="fixedBox">
                 <div className="container">
                     <div className="sticky-product">
@@ -564,26 +566,51 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                 alt=""
                             />
                             <p>
-                                {product.product_title} <br />
+                            {product.product_title} <br />
                                 <span> ₹{product.product_discounted_price}.00 </span>
                             </p>
                         </div>
                         <div className="sticky-product-button">
                             <p>₹{totalPrice}.00</p>
-                            <a href="#">
-                                <button
-                                    type="button"
-                                    className="black"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#addBasketModal"
-                                >
-                                    +&nbsp;&nbsp;|<span>Add {productQty} to basket</span>|&nbsp;&nbsp; -
-                                </button>
-                            </a>
+                            <div className="add-to-card-btn">
+                                {/* <button onClick={() => setQty((prev) => prev + 1)} className="btn plus_button plus" id="plus-btn1">
+                                    |&nbsp;&nbsp; + &nbsp;&nbsp;|
+                                </button> */}
+                                <div className="number">
+                                    <button
+                                        type="button"
+                                        className="btn black"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#addBasketModal"
+                                    >
+                                        Add
+                                        <span id="count1">{productQty}</span>
+                                        to basket
+                                    </button>
+                                </div>
+                                {/* <button onClick={() => setQty((prev) => prev != 0 ? prev - 1 : 0)} className="btn minus_button" id="minus-btn1">
+                                    |&nbsp;&nbsp; - &nbsp;&nbsp;|
+                                </button> */}
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             <div
                 className="modal fade addBasket-modal review-modal"
@@ -750,13 +777,13 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                             className="modal-button black-button pt-3 pb-5 m-auto text-center"
                                         >
 
-                                            <Link href="/product/addtocart" method="post" className="black px-3 py-2" id="addtoBasketButton" data={{ product_id: product.product_id, product_type: selectedVariant !== '' ? "configurable" : "simple", product_variant_id: product_variant_id, quantity: productQty, _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), sweetnesslevel: sweetnessLevel, ingrediantaddons: ingredients, exclusions: exclusions }}>
+                                            <Link href="/product/addtocart" as='button' method="post" className="black px-3 py-2" id="addtoBasketButton" data={{ product_id: product.product_id, product_type: selectedVariant !== '' ? "configurable" : "simple", product_variant_id: product_variant_id, quantity: productQty, _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), sweetnesslevel: sweetnessLevel, ingrediantaddons: ingredients, exclusions: exclusions }}>
 
                                                 ₹{totalPrice}.00 <span>|</span> Add {productQty} to basket
                                                 <i className="fal fa-angle-right"></i>
                                             </Link>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>

@@ -35,7 +35,7 @@ const ReviewsListing = ({ product_reviews }) => {
   return (
     <div className="col-sm-12">
       {currentReviews.map((review, index) => (
-      <div className="reviews-listing">
+      <div className="reviews-listing" key={index}>
         
           <div className="row align-items-center" key={index}>
             <div className="col-sm-2">

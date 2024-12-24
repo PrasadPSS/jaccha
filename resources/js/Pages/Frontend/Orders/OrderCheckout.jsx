@@ -1,6 +1,6 @@
 import { asset } from "@/Helpers/asset";
 import HomeLayout from "@/Layouts/HomeLayout";
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import React, { useState } from "react";
 
 
@@ -140,7 +140,20 @@ export default function OrderCheckout({ auth, data }) {
                     {/* Shipping Details */}
                     <div className="card mb-4">
                         <div className="card-header">
-                            <h4>Shipping Details</h4>
+                            <h4>Shipping Details &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <Link
+                                    href="/shippingaddress/index"
+                                    method="get"
+                                    as="button"
+                                    className="btn btn-outline-info"
+                                >
+                                    Add / Edit Shipping Address
+                                </Link>
+                            </h4>
                         </div>
                         <div className="card-body">
                             <p><strong>Name:</strong> {shipping_address.shipping_full_name}</p>
