@@ -132,7 +132,7 @@
         <td style="text-align:left;border:1px solid #000; font-family: 'Roboto', sans-serif !important;padding:5px 4px;" colspan="0"><p style="font-size: 14px;margin-bottom: 0rem; font-weight: bold;margin-top:0px !important">COD CHARGES</p></td>
         <td style="font-family: 'Roboto', sans-serif !important;border:1px solid #000; padding:5px 4px;font-size: 12px;" colspan="">COD</td>
         <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">{{ ($orders->cod_collection_charge)?$orders->cod_collection_charge:0.00 }}</td>
-        <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">{{ ($orders->cod_collection_charge)?$orders->cod_collection_charge:0.00 }}</td>
+        <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">{{ 0.00 }}</td>
         <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0</td>
         <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
         <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">{{ ($orders->cod_collection_charge)?$orders->cod_collection_charge:0.00 }}</td>

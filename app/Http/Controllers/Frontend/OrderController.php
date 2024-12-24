@@ -115,14 +115,20 @@ class OrderController extends Controller
         // dd($shipping_amount);
         $cart_coupon = CartCoupons::where('user_id', $user_id)->with('coupon')->first();
         //pincode verification and COD
-        $pin_response = json_decode(verify_pincode($shipping_address->shipping_pincode), true);
+        $pin_response = json_decode(check_pincode($shipping_address->shipping_pincode))->data->available_courier_companies;
         // dd($pin_response);
         // echo "<pre>"; print_f($pin_response);exit;
-        if (isset($pin_response['delivery_codes']) && count($pin_response['delivery_codes']) > 0) {
-            $cod_response = $pin_response['delivery_codes'][0]['postal_code']['cod'];
+        if (isset($pin_response) && count($pin_response) > 0) {
+    
+            if(json_encode($pin_response[0]->cod))
+            {
+                $cod_response = 'Y';  
+            }
             $pin_response = false;
         } else {
             $cod_response = 'N';
+
+            
             $pin_response = true;
         }
 
@@ -165,6 +171,7 @@ class OrderController extends Controller
         $cod_rmk = '';
         $cod_message = '';
         $cod_management = CODManagement::first();
+        $cod_charges = $cod_management->cod_collection_charge;
         // dd($cod_management);
         if ($cod_management) {
             if (!($cod_management->cod_purchase_min_limit <= $cart_total_with_discount && $cod_management->cod_purchase_max_limit >= $cart_total_with_discount)) {
@@ -184,7 +191,6 @@ class OrderController extends Controller
         // && ($todays_date == $order_date) && ($fake_orders[0]['count'] > $orders_data) && ($fake_orders[0]['status'] == 'active')
 
         if ($cod_response == 'Y') {
-
             if (!($cod_management->cod_purchase_min_limit <= $cart_total_with_discount && $cod_management->cod_purchase_max_limit >= $cart_total_with_discount)) {
                 $cod_message = 'Cash on Delivery facility is available on min. net order amount of ₹ ' . $cod_management->cod_purchase_min_limit . ' and max. ₹ ' . $cod_management->cod_purchase_max_limit . ' ';
             } else if (!empty($fake_orders) && $fake_orders[0]['status'] != 'active') {
@@ -234,6 +240,7 @@ class OrderController extends Controller
             'cod_response',
             'cart_amounts',
             'cod_status',
+            'cod_charges',
             'cod_rmk',
             'pin_response',
             'order_delivery',
@@ -650,6 +657,7 @@ class OrderController extends Controller
                     $order->email = $payment_info->email;
                     $order->customer_name = $payment_info->customer_name;
                     $order->payment_mode = $payment_info->payment_mode;
+                    $order->cod_collection_charge = CODManagement::first()->cod_collection_charge;
 
                     if ($order->save())
                     {
@@ -662,9 +670,19 @@ class OrderController extends Controller
                 
                         foreach ($missing_payment_products as $missing_payment_product)
                         {
+                            if($missing_payment_product->product_variant_id)
+                            {
+                                $product = ProductVariants::where('product_variant_id',$missing_payment_product->product_variant_id)->first();
+                                                            }
+                            else
+                            {
+                                $product = Products::Where('product_id', $missing_payment_product->product_id)->with(['color', 'size'])->first();
+                            }
+                            $product_variant_gst_id = Products::where('product_id', $product->product_id)->with(['color', 'size'])->first()->gst_id;
                             
-                            $product = Products::Where('product_id', $missing_payment_product->product_id)->with(['color', 'size'])->first();
-                            $gst = Gst::where('gst_id', $product->gst_id)->first();
+                            
+                            $gst = Gst::where('gst_id', $product_variant_gst_id)->first();
+              
                             $order_product = new OrdersProductDetails();
                             $order_product->product_id = $missing_payment_product->product_id;
                             $order_product->qty = $missing_payment_product->qty;
@@ -760,13 +778,14 @@ class OrderController extends Controller
                         }
                         // $discount_value = $final_total * $discount_setting->discount_percent/100;
                         $final_discounted_value = $final_total - $discount_value;
-                        $final_discounted_value = $final_discounted_value + $shipping_charge;
+                        $final_discounted_value = $final_discounted_value + $shipping_charge + CODManagement::first()->cod_collection_charge;
                         // $gst_value = $final_discounted_value * $gst->gst_percent/100;
                         // $grand_total = $final_discounted_value + $gst_value;
                         $grand_total = $final_discounted_value;
 
                         $current_order = Orders::Where("order_id", $order->order_id)->first();
                         $current_order->total = $grand_total;
+                        $current_order->cod_collection_charge_amount = CODManagement::first()->cod_collection_charge;
                         $current_order->shipping_amount = $shipping_charge;
                         $current_order->shipping_dump = $missing_payments->shipping_dump;
                         // $current_order->gst_percent = $gst->gst_percent;
@@ -837,6 +856,7 @@ class OrderController extends Controller
 
     public function addMissingPayment($post_data, $transaction_id, $shipping_amount, $shipping_charges, $shipping_address)
     {
+       
         // add missing payments data
         // $shipping=Shipping::where('shipping_method_status',1)->first();
         if (isset(auth()->user()->id)) {
@@ -900,6 +920,7 @@ class OrderController extends Controller
         }
         $payment_code = $post_data['paymentmode'] == 'Cash On Delivery' ? 'cod' : 'Online';
         $payment_info->transaction_id = $transaction_id;
+        
         $payment_info->amount = $post_data['amount'];
         $payment_info->payment_date = date('Y-m-d H:i:s');
         $payment_info->data_dump = json_encode($post_data);
@@ -1000,7 +1021,7 @@ class OrderController extends Controller
 
         $total_mrp_dicount = $total_mrp - $post_data['amount'];
         $payment_info->total_mrp_dicount = $total_mrp_dicount;
-        $payment_info->total_mrp = $total_mrp;
+        $payment_info->total_mrp = $post_data['amount'];
         $payment_info->package_weight = ($product_wt != 0) ? $product_wt : 0;
         $payment_info->save();
         return $payment_info->payment_id;

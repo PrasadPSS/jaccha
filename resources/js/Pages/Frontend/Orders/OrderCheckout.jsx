@@ -1,7 +1,7 @@
 import { asset } from "@/Helpers/asset";
 import HomeLayout from "@/Layouts/HomeLayout";
 import { Head } from "@inertiajs/react";
-import React from "react";
+import React, { useState } from "react";
 
 
 export default function OrderCheckout({ auth, data }) {
@@ -17,13 +17,28 @@ export default function OrderCheckout({ auth, data }) {
         order_delivery,
         increment_id,
         shipping_charges,
-        grand_total
+        grand_total,
+        cod_rmk,
+        cod_response,
+        cod_charges
     } = data;
 
+    const [paymentMode, setPaymentMode] = useState('');
+    let finalGrandTotal;
     // Calculate grand total
-    const finalGrandTotal =  parseFloat(cart_amounts.cart.cart_discounted_total + shipping_amount).toFixed(2);
+    if(paymentMode == 'Cash On Delivery')
+    {
+         finalGrandTotal = parseFloat(cart_amounts.cart.cart_discounted_total + shipping_amount + Number(cod_charges)).toFixed(2);
+    }
+    else
+    {
+         finalGrandTotal = parseFloat(cart_amounts.cart.cart_discounted_total + shipping_amount).toFixed(2);
+    }
+    
     const totalGst = parseFloat(cart_amounts.total_gst).toFixed(2);
-    const savings = parseFloat((cart_amounts.cart.cart_discounted_total - totalGst)-finalGrandTotal ).toFixed(2);
+    const savings = parseFloat((cart_amounts.cart.cart_discounted_total - totalGst + cart_amounts.product_discount) - finalGrandTotal).toFixed(2);
+
+
     return (
         <HomeLayout auth={auth}>
             <Head title="Place Order" />
@@ -86,6 +101,12 @@ export default function OrderCheckout({ auth, data }) {
                             <h5>Discount:</h5>
                             <h5>- ₹{cart_amounts.product_discount}</h5>
                         </div>
+                        {cod_response == 'Y' && paymentMode == 'Cash On Delivery' &&
+                        <div className="d-flex justify-content-between">
+                        <h5>Cod Charges:</h5>
+                        <h5>₹{cod_charges}</h5>
+                    </div>}
+                        
                         <div className="d-flex justify-content-between">
                             <h5>Shipping:</h5>
                             <h5>₹{parseFloat(shipping_amount).toFixed(2)}</h5>
@@ -143,6 +164,7 @@ export default function OrderCheckout({ auth, data }) {
                                         id={`paymentMode${mode.payment_mode_id}`}
                                         value={mode.payment_mode_name}
                                         defaultChecked={mode.default_selected === 1}
+                                        onClick={()=>setPaymentMode(mode.payment_mode_name)}
                                     />
                                     <label className="form-check-label" htmlFor={`paymentMode${mode.payment_mode_id}`}>
                                         {mode.payment_mode_name}

@@ -233,8 +233,18 @@ class CartController extends Controller
                         foreach ($missing_payment_products as $missing_payment_product)
                         {
                             
-                            $product = Products::Where('product_id', $missing_payment_product->product_id)->with(['color', 'size'])->first();
-                            $gst = Gst::where('gst_id', $product->gst_id)->first();
+                            if($missing_payment_product->product_variant_id)
+                            {
+                                $product = ProductVariants::where('product_variant_id',$missing_payment_product->product_variant_id)->first();
+                                info('product'.$product);                            }
+                            else
+                            {
+                                $product = Products::Where('product_id', $missing_payment_product->product_id)->with(['color', 'size'])->first();
+                            }
+                            $product_variant_gst_id = Products::where('product_id', $product->product_id)->with(['color', 'size'])->first()->gst_id;
+                            
+                            
+                            $gst = Gst::where('gst_id', $product_variant_gst_id)->first();
                             $order_product = new OrdersProductDetails();
                             $order_product->product_id = $missing_payment_product->product_id;
                             $order_product->qty = $missing_payment_product->qty;

@@ -8,6 +8,7 @@ import ReviewForm from './ReviewForm';
 
 
 const ProductDetail = ({ auth, product, product_reviews, product_images, average_rating, related_product_list }) => {
+    
     const [sweetnessLevel, setSweetness] = useState('');
     const [ingredients, setIngredients] = useState('');
     const [exclusions, setExclusions] = useState('');
@@ -210,8 +211,9 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                         <h4>₹{product.product_discounted_price}.00</h4>}
                                     {product.product_discounted_price != product.product_price &&
                                         <h4><span>₹{product.product_price}.00</span>₹{product.product_discounted_price}.00</h4>}
-
-                                    <p className="content-offer">- {product.product_price - product.product_discounted_price} Off</p>
+                                {product.product_price - product.product_discounted_price > 0 && 
+                                <p className="content-offer">- {product.product_price - product.product_discounted_price} Off</p>}
+                                    
                                 </div>
                                 <div className="content-star star">
                                     {[...Array(fullStars)].map((_, index) => (
@@ -230,8 +232,9 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                         />
                                     )}
 
-
-                                    <span>({product_reviews.length} Reviews)</span>
+                                    {product_reviews.length > 0 &&
+                                    <span>({product_reviews.length} Reviews)</span>}
+                                    
                                 </div>
                                 <div className="main-content">
                                     <h6>
@@ -244,6 +247,8 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                         <div dangerouslySetInnerHTML={{ __html: product.product_desc }}></div>
                                     </ul>
                                 </div>
+                                
+                                {product_variants.length > 0  && 
                                 <div className="kg-box position-relative">
                                     <p>Choose Weight: {selectedVariant}</p>
                                     {product_variants.map((variant) => {
@@ -256,7 +261,8 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                         <img src="/assets/images/product-details/SVG.png" /><br />Get
                                         Offer
                                     </p>
-                                </div>
+                                </div>}
+                                
                                 <div class="black-button mt-5 d-flex">
                                     <div class="add-to-card-btn">
                                         ₹{totalPrice}.00
@@ -288,9 +294,6 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                 </div>
 
                                 <div className="black-button mt-5">
-
-
-
 
                                     <p className="free-delivery text-center">
                                         <img
@@ -618,7 +621,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         id="flexCheckDefault"
                                                         onChange={handleCheckboxChange}
                                                     />
-                                                    <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                    <label className="form-check-label" htmlFor="low">
                                                         Low
                                                     </label>
                                                 </div>
@@ -630,7 +633,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         id="flexCheckDefault"
                                                         onChange={handleCheckboxChange}
                                                     />
-                                                    <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                    <label className="form-check-label" htmlFor="medium">
                                                         Medium
                                                     </label>
                                                 </div>
@@ -642,7 +645,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         id="flexCheckDefault"
                                                         onChange={handleCheckboxChange}
                                                     />
-                                                    <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                    <label className="form-check-label" htmlFor="high">
                                                         High
                                                     </label>
                                                 </div>
@@ -659,7 +662,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         id="flexCheckDefault"
                                                         onChange={handleCheckbox1Change}
                                                     />
-                                                    <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                    <label className="form-check-label" htmlFor="almonds">
                                                         Almonds
                                                     </label>
                                                 </div>
@@ -671,7 +674,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         id="flexCheckDefault"
                                                         onChange={handleCheckbox1Change}
                                                     />
-                                                    <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                    <label className="form-check-label" htmlFor="cashews">
                                                         Cashews
                                                     </label>
                                                 </div>
@@ -683,7 +686,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         id="flexCheckDefault"
                                                         onChange={handleCheckbox1Change}
                                                     />
-                                                    <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                    <label className="form-check-label" htmlFor="walnuts">
                                                         Walnuts
                                                     </label>
                                                 </div>
@@ -695,7 +698,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         id="flexCheckDefault"
                                                         onChange={handleCheckbox1Change}
                                                     />
-                                                    <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                    <label className="form-check-label" htmlFor="dates">
                                                         Dates
                                                     </label>
                                                 </div>
@@ -712,7 +715,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         id="flexCheckDefault"
                                                         onChange={handleCheckbox2Change}
                                                     />
-                                                    <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                    <label className="form-check-label" htmlFor="jaggery">
                                                         No Jaggery
                                                     </label>
                                                 </div>
@@ -724,7 +727,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         id="flexCheckDefault"
                                                         onChange={handleCheckbox2Change}
                                                     />
-                                                    <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                    <label className="form-check-label" htmlFor="ghee">
                                                         No Ghee
                                                     </label>
                                                 </div>
@@ -736,7 +739,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                         id="flexCheckDefault"
                                                         onChange={handleCheckbox2Change}
                                                     />
-                                                    <label className="form-check-label" htmlFor="flexCheckDefault">
+                                                    <label className="form-check-label" htmlFor="sugar">
                                                         No Sugar
                                                     </label>
                                                 </div>
