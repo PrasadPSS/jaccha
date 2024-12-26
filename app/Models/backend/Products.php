@@ -2,6 +2,7 @@
 
 namespace App\Models\backend;
 
+use App\Models\frontend\Review;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -150,5 +151,10 @@ class Products extends Model
     public function combined_size()
     {
         return $this->hasMany(ProductVariants::class, 'product_id', 'product_id');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'product_id', 'product_id');
     }
 }

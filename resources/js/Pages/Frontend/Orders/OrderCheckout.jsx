@@ -27,7 +27,8 @@ export default function OrderCheckout({ auth, data }) {
     } = data;
 
     const [shippingAmount, setShippingAmount] = useState(shipping_amount);
-
+    const [codResponse, setCodResponse] = useState(cod_response == 'Y' ? 1 : 0);
+    console.log(codResponse);
     const [shippingAddressId, setShippingAddressId] = useState(shipping_address.shipping_address_id);
 
     const [paymentMode, setPaymentMode] = useState('');
@@ -46,7 +47,9 @@ export default function OrderCheckout({ auth, data }) {
         axios.get('/orders/calculaterate/' + shipping_address_id)
             .then(res => {
                 setShippingAmount(res.data.shipping_amount);
+                setCodResponse(res.data.cod_response);
             })
+           
     }
 
     return (
@@ -111,7 +114,7 @@ export default function OrderCheckout({ auth, data }) {
                             <h5>Discount:</h5>
                             <h5>- ₹{cart_amounts.product_discount}</h5>
                         </div>
-                        {cod_response == 'Y' && paymentMode == 'Cash On Delivery' &&
+                        {codResponse == 1 && paymentMode == 'Cash On Delivery' &&
                             <div className="d-flex justify-content-between">
                                 <h5>Cod Charges:</h5>
                                 <h5>₹{cod_charges}</h5>
@@ -206,7 +209,7 @@ export default function OrderCheckout({ auth, data }) {
 
                                 <div className="form-check mb-2" key={index}>
                                     <input
-                                        disabled={mode.payment_mode_name == "Cash On Delivery" && cod_response == 'N'}
+                                        disabled={mode.payment_mode_name == "Cash On Delivery" && codResponse == 0}
                                         className="form-check-input"
                                         type="radio"
                                         name="paymentmode"
@@ -216,7 +219,7 @@ export default function OrderCheckout({ auth, data }) {
                                         onClick={() => setPaymentMode(mode.payment_mode_name)}
                                     />
                                     <label className="form-check-label" htmlFor={`paymentMode${mode.payment_mode_id}`}>
-                                        {mode.payment_mode_name == 'Cash On Delivery' && cod_response == 'N' ? cod_rmk : mode.payment_mode_name}
+                                        {mode.payment_mode_name == 'Cash On Delivery' && codResponse == 0 ? "Cod not available" : mode.payment_mode_name}
                                     </label>
                                 </div>
                             ))}

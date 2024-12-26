@@ -23,7 +23,8 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $data['products'] = Products::all();
+        $data['products'] =  Products::withAvg('reviews', 'rating')->with('reviews')->get();
+  
         $data['homepagesections'] = HomePageSections::where('visibility', 1)->orderBy('home_page_section_priority')->with('home_page_section_type', 'section_childs')->get();
         return Inertia::render('Frontend/Products/ProductSearch', $data);
     }

@@ -117,6 +117,7 @@ class OrderController extends Controller
         $cart_coupon = CartCoupons::where('user_id', $user_id)->with('coupon')->first();
         //pincode verification and COD
         $pin_response = json_decode(check_pincode($shipping_address->shipping_pincode))->data->available_courier_companies;
+
         // dd($pin_response);
         // echo "<pre>"; print_f($pin_response);exit;
         
@@ -397,7 +398,8 @@ class OrderController extends Controller
     {
         $shipping_address = ShippingAddresses::where('user_id', auth()->user()->id)->where('shipping_address_id', $shipping_id)->first();
         $shipping_amount = json_decode(check_pincode($shipping_address->shipping_pincode))->data->available_courier_companies[0]->rate;
-        return response()->json(['shipping_amount'=> $shipping_amount], 200);
+        $cod_response= json_decode(check_pincode($shipping_address->shipping_pincode))->data->available_courier_companies[0]->cod;
+        return response()->json(['shipping_amount'=> $shipping_amount, 'cod_response' => $cod_response], 200);
     }
 
     public function placeOrder(Request $request)
@@ -537,7 +539,7 @@ class OrderController extends Controller
                 'merchantId' => $merchantid,
                 'merchantTransactionId' => $txnid, // test transactionID
                 "merchantUserId" => $user_id,
-                'amount' => $post_data['amount'] * 100, // phone pe works on paise
+                'amount' => round($post_data['amount']) * 100, // phone pe works on paise
                 // 'amount' => 100,
                 'redirectUrl' => $purl,
                 'redirectMode' => "POST",
@@ -548,12 +550,13 @@ class OrderController extends Controller
                 )
             );
             $jsonencode = json_encode($payLoad);
+
             $payloadbase64 = base64_encode($jsonencode);
             $payloaddata = $payloadbase64 . "/pg/v1/pay" . $saltkey;
             $sha256 = hash("sha256", $payloaddata);
             $checksum = $sha256 . '###' . $saltindex;
             $request = json_encode(array('request' => $payloadbase64));
-
+            
             $curl = curl_init(); // This extention should be installed
 
             curl_setopt_array($curl, [
@@ -583,8 +586,7 @@ class OrderController extends Controller
               $res = json_decode($response);
             
               echo "<br/>response===";
-              print_r($res);
-            
+;
               if (isset($res->success) && $res->success == '1') {
                 // $paymentCode=$res->code;
                 // $paymentMsg=$res->message;
