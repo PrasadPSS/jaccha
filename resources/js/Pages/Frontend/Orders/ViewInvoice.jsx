@@ -3,7 +3,7 @@ import React from "react";
 
 const ViewInvoice = () => {
   const { orderId } = new URLSearchParams();
-  console.log(orderId); // Capture the order ID from the URL params
+ // Capture the order ID from the URL params
 
   const printInvoice = (selector) => {
     const data = document.querySelector(selector).innerHTML;

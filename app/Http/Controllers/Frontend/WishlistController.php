@@ -56,6 +56,6 @@ class WishlistController extends Controller
         $user_id = auth()->user()->id;
         Wishlists::where('user_id', $user_id)->where('product_id', $product_id)->delete();
 
-        return redirect()->back()->with('success', 'Item deleted from wishlist');
+        return redirect()->back()->with('success', 'Product Removed from wishlist');
     }
 }

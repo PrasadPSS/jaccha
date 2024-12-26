@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const RatingAndReviews = ({ productReviews, reviews, productId, canReview }) => {
-    console.log('asdasdasdas', productReviews);
+
 
     const [hasReviewed, sethasReviewed] = useState(reviews.find(review => review.product_id === productId));
     const [rating, setRating] = useState(0);

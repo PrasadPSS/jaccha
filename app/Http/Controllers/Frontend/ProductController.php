@@ -30,7 +30,14 @@ class ProductController extends Controller
 
     public function category($category_id)
     {
-        $data['products'] = Products::where('category_id', $category_id)->get();
+        if($category_id == 'new-arrival')
+        {
+            $data['products'] = Products::where('new_arrival', 1)->get();
+        }
+        else
+        {
+            $data['products'] = Products::where('category_id', $category_id)->get();
+        }
         $data['homepagesections'] = HomePageSections::where('visibility', 1)->orderBy('home_page_section_priority')->with('home_page_section_type', 'section_childs')->get();
         return Inertia::render('Frontend/Category/Category', $data);
     }

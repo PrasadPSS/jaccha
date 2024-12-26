@@ -215,7 +215,10 @@ Route::get('/checkout/payment', [OrderController::class, 'checkout'])
 ->middleware(['auth', 'verified','isProfileCompleted'])->name('checkout.payment');
 Route::post('/order/create', [OrderController::class, 'createOrder'])
 ->middleware(['auth', 'verified','isProfileCompleted'])->name('order.create');
+
 Route::get('/orders/view', [OrderController::class, 'index'])->name('order.index');
+Route::get('/orders/calculaterate/{shipping_address_id}', [OrderController::class, 'calculateShippingCost'])
+->name('order.calculaterate');
 //profile
 Route::post('/profile/sendOtp', [ProfileController::class, 'sendOtp'])
 ->middleware(['auth', 'verified'])->name('profile.sendotp');

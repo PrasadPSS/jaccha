@@ -68,6 +68,7 @@ class OrderController extends Controller
             return back()->with('error', 'Your Cart is empty');
         } 
         $shipping_address = ShippingAddresses::where('user_id', $user_id)->where('default_address_flag', 1)->first();
+        $shipping_addresses = ShippingAddresses::where('user_id', $user_id)->get();
         // dd($shipping_address);
        
         if (!$shipping_address) {
@@ -118,11 +119,15 @@ class OrderController extends Controller
         $pin_response = json_decode(check_pincode($shipping_address->shipping_pincode))->data->available_courier_companies;
         // dd($pin_response);
         // echo "<pre>"; print_f($pin_response);exit;
+        
         if (isset($pin_response) && count($pin_response) > 0) {
-    
             if(json_encode($pin_response[0]->cod))
             {
                 $cod_response = 'Y';  
+            }
+            else
+            {
+                $cod_response = 'N';
             }
             $pin_response = false;
         } else {
@@ -232,6 +237,7 @@ class OrderController extends Controller
             'user',
             'increment_id',
             'shipping_address',
+            'shipping_addresses',
             'shipping_charge',
             'shipping_charges',
             'shipping_amount',
@@ -385,6 +391,13 @@ class OrderController extends Controller
         // $this->addMissingPayment($post_data, $transaction_id, $shipping_amount, $shipping_charges, $shipping_address);
         // Cart::where('user_id', auth()->user()->id)->delete();
         // return redirect()->back();
+    }
+
+    public function calculateShippingCost($shipping_id)
+    {
+        $shipping_address = ShippingAddresses::where('user_id', auth()->user()->id)->where('shipping_address_id', $shipping_id)->first();
+        $shipping_amount = json_decode(check_pincode($shipping_address->shipping_pincode))->data->available_courier_companies[0]->rate;
+        return response()->json(['shipping_amount'=> $shipping_amount], 200);
     }
 
     public function placeOrder(Request $request)

@@ -159,11 +159,11 @@
                                   <table class="price-details-table">
                                     <tbody>
                                       <tr class="price-total">
-                                        <td>TOTAL M.R.P. (Inclusive of all taxes)</td><td class="text-right">₹{{ ($orders->total_mrp!='')?$orders->total_mrp:0 }}</td>
+                                        <td>TOTAL M.R.P. (Inclusive of all taxes)</td><td class="text-right">₹{{ ($orders->total!='')?$orders->total - $orders->shipping_amount:0 }}</td>
                                       </tr>
-                                      <tr>
+                                      <!-- <tr>
                                         <td>DISCOUNT ON M.R.P.</td><td class="text-right price-color">- ₹{{($orders->total_mrp_dicount!='')?$orders->total_mrp_dicount:0}}</td>
-                                      </tr>
+                                      </tr> -->
                                       @if($orders->coupon_discount)
                                       <tr>
                                         <td>COUPON DISCOUNT</td><td class="text-right price-color">- ₹{{ ($orders->coupon_discount!='')?$orders->coupon_discount:0 }}</td>

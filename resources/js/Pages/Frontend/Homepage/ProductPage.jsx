@@ -17,7 +17,7 @@ const componentMap = {
 };
 
 export default function ProductPage({ auth, laravelVersion, phpVersion, homepagesections, data }) {
-  console.log(auth);
+
   return (
     <HomeLayout auth={auth}>
       {homepagesections.map((section) => {

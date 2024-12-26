@@ -177,6 +177,15 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
         return auth.wishlist.some(item => item.product_id == productId);
     }
 
+    const handleDeleteFromWishlist = ( quantity=1) => {
+            router.post('/wishlist/delete', { product_id:product.product_id }, {
+                onSuccess: () => '',
+                onError: (errors) => console.error(errors),
+            });
+        };
+
+    
+
     return (
         <HomeLayout auth={auth}>
             <section className="section pt-5 products-details bg_light">
@@ -303,9 +312,15 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                     </div>
                                     {!handleCheck(product.product_id) &&
                                         <Link type='button' href={route('wishlist.add')} method="post" as='button' className="gray" data={{ product_id: product.product_id }}>
-                                            <img src="/assets/images/product-details/heart.png" />
+                                            <img src="/assets/images/product-details/empty-heart.png" />
+
                                         </Link>
-                                        }
+                                    }
+                                    {handleCheck(product.product_id) &&
+                                        <button type='button' onClick={handleDeleteFromWishlist} className="gray">
+                                            <img src="/assets/images/product-details/heart.png" />
+                                        </button>
+                                    }
 
 
                                 </div>

@@ -12,7 +12,7 @@ export default function Index ({ auth, wishlist }) {
         });
     };
 
-    const handleDeleteFromCart = (id, quantity=1) => {
+    const handleDeleteFromWishlist = (id, quantity=1) => {
         router.post('/wishlist/delete', { product_id:id }, {
             onSuccess: () => '',
             onError: (errors) => console.error(errors),
@@ -36,7 +36,7 @@ export default function Index ({ auth, wishlist }) {
         <div className="min-h-screen bg-gray-100 py-8">
             <div className="container mx-auto px-4">
                 <h1 className="text-2xl font-semibold text-gray-800 mb-6">My Wishlist</h1>
-                {console.log(wishlist)}
+
                 {wishlist.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {wishlist.map((item, index) => (
@@ -68,7 +68,7 @@ export default function Index ({ auth, wishlist }) {
                                         {/* Remove from Wishlist Button */}
                                         <Link href='/product/addtocart' method="post" data={{ product_id: item.products.product_id, quantity: 1, product_type: item.products.product_type, product_price: item.products.product_price }} className="btn btn-success px-4 py-2 shadow-sm">Add to Cart</Link>
                                         <button
-                                            onClick={() => handleDeleteFromCart(item.products.product_id)}
+                                            onClick={() => handleDeleteFromWishlist(item.products.product_id)}
                                             className="px-4 py-2 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300"
                                         >
                                             Remove

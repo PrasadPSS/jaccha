@@ -77,16 +77,18 @@ const Header = ({ auth }) => {
             id="navbarNav"
           >
             <ul className="navbar-nav">
+            <li className="nav-item">
+            <Link className="nav-link" aria-current="page" href={"/products/" + 'new-arrival'}>
+              New Arrivals <span># Fresh</span>
+            </Link>
+            </li>
             {auth.categories.map((category) => {
-              console.log(category.category_name);
+  
               return (
               <li className="nav-item">
-                
-                 
                   <Link className="nav-link" aria-current="page" href={"/products/" + category.category_id}>
-                  {category.category_name}{category.category_name == 'New Arrivals' && <span># Fresh</span>}
+                  {category.category_name}
                   </Link>
-                  
 
               </li>
               )

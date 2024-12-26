@@ -18,13 +18,13 @@ const ReviewForm = ({ productId, onClose }) => {
     formData.append("headline", title);
     formData.append("comment", review);
     if (photo) {
-        console.log('worked');
+
       formData.append("photo", photo);
     }
 
     try {
       const response = await axios.post("/rating/review", formData); // Post data to backend
-      console.log('resposne', response);
+
       alert("Review submitted successfully!");
 
     } catch (error) {
