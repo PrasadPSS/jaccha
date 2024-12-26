@@ -9,7 +9,7 @@ export default function FirstOrder() {
                 <div className="row">
                     <div className="col-sm-2">
                         <div className="first-order-image" data-aos="fade-up" data-aos-delay="200">
-                            <img src="./assets/images/about.png" alt="about image" />
+                            <img src="/assets/images/about.png" alt="about image" />
                         </div>
                     </div>
                     <div className="col-sm-8 text-center">
@@ -19,7 +19,7 @@ export default function FirstOrder() {
                     </div>
                     <div className="col-sm-2">
                         <div className="flip-image" data-aos="fade-up" data-aos-delay="400">
-                            <img src="./assets/images/banner.png" alt="about image" />
+                            <img src="/assets/images/banner.png" alt="about image" />
                         </div>
                     </div>
                 </div>

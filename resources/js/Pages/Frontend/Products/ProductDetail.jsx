@@ -41,7 +41,8 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
 
 
     const fullStars = Math.floor(average_rating); // Number of full stars
-    const hasHalfStar = average_rating % 1 >= 0.1; // Check if there's a half star
+    const hasHalfStar = average_rating % 1 >= 0.1;
+    const incompleteStars = 5 - fullStars; // Check if there's a half star
 
     const { slug } = new URLSearchParams(); // Get the slug from the URL
     const { errors } = usePage().props;
@@ -172,6 +173,10 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
         });
     };
 
+    const handleCheck = (productId)=> {
+        return auth.wishlist.some(item => item.product_id == productId);
+    }
+
     return (
         <HomeLayout auth={auth}>
             <section className="section pt-5 products-details bg_light">
@@ -232,8 +237,16 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                         />
                                     )}
 
+                                    {[...Array(incompleteStars)].map((_, index) => (
+                                        <img
+                                            key={`full-${index}`}
+                                            src="/assets/images/product-details/star3.png"
+                                            alt="Full star"
+                                        />
+                                    ))}
+
                                     {product_reviews.length > 0 &&
-                                        <span>({product_reviews.length} Reviews)</span>}
+                                        <span> ({product_reviews.length} Reviews)</span>}
 
                                 </div>
                                 <div className="main-content">
@@ -288,9 +301,13 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                             |&nbsp;&nbsp; - &nbsp;&nbsp;|
                                         </button>
                                     </div>
-                                    <Link type='button' href={route('wishlist.add')} method="post" as='button' className="gray" data={{ product_id: product.product_id }}>
-                                        <img src="/assets/images/product-details/heart.png" />
-                                    </Link>
+                                    {!handleCheck(product.product_id) &&
+                                        <Link type='button' href={route('wishlist.add')} method="post" as='button' className="gray" data={{ product_id: product.product_id }}>
+                                            <img src="/assets/images/product-details/heart.png" />
+                                        </Link>
+                                        }
+
+
                                 </div>
 
                                 <div className="black-button mt-5">
@@ -566,7 +583,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                 alt=""
                             />
                             <p>
-                            {product.product_title} <br />
+                                {product.product_title} <br />
                                 <span> ₹{product.product_discounted_price}.00 </span>
                             </p>
                         </div>

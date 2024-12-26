@@ -2,6 +2,7 @@ import { Link } from "@inertiajs/react";
 import React from "react";
 
 const Header = ({ auth }) => {
+
   return (
     <header>
       {/* First Navbar */}
@@ -39,10 +40,10 @@ const Header = ({ auth }) => {
               <li className="nav-item">
                 {auth && auth.user && (
                   <Link className={route().current('profile.edit') ? "nav-link active" : "nav-link"} href={route('profile.edit')}> Account</Link>
-                  )}
+                )}
 
-                {!auth.user && 
-                <Link className={route().current('login') ? "nav-link active" : "nav-link"} href={route('login')}> Log in</Link>
+                {!auth.user &&
+                  <Link className={route().current('login') ? "nav-link active" : "nav-link"} href={route('login')}> Log in</Link>
                 }
 
               </li>
@@ -76,12 +77,21 @@ const Header = ({ auth }) => {
             id="navbarNav"
           >
             <ul className="navbar-nav">
+            {auth.categories.map((category) => {
+              console.log(category.category_name);
+              return (
               <li className="nav-item">
-                <a className="nav-link" aria-current="page" href="index.html">
-                  New Arrivals<span># Fresh</span>
-                </a>
+                
+                 
+                  <Link className="nav-link" aria-current="page" href={"/products/" + category.category_id}>
+                  {category.category_name}{category.category_name == 'New Arrivals' && <span># Fresh</span>}
+                  </Link>
+                  
+
               </li>
-              <li className="nav-item">
+              )
+              })}
+              {/* <li className="nav-item">
                 <a className="nav-link" href="about-us.html">
                   Vitamins & Supplements
                 </a>
@@ -120,7 +130,7 @@ const Header = ({ auth }) => {
                 <a className="nav-link" href="contact.html">
                   Energy-Boosting Foods
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

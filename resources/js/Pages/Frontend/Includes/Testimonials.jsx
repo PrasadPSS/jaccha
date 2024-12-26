@@ -33,7 +33,7 @@ export default function Testimonials({ title, subTitle, sectionChildren, padding
                         <div className="testimonial-image">
                           <img className="test-img" src={testimonial.image} />
                           <div className="dot-bg">
-                            <img src="./assets/images/dot.png" alt="about image" />
+                            <img src="/assets/images/dot.png" alt="about image" />
                           </div>
                           <h4>{testimonial.name}</h4>
                         </div>
@@ -42,7 +42,7 @@ export default function Testimonials({ title, subTitle, sectionChildren, padding
                         <div className="testimonial-content">
                           <div className="star">
                           {[...Array(testimonial.rating)].map((_, i) => (
-                                            <img key={i} src='./assets/images/star.png' alt="" className="object-contain shrink-0 aspect-[1.12] w-[18px]" />
+                                            <img key={i} src='/assets/images/star.png' alt="" className="object-contain shrink-0 aspect-[1.12] w-[18px]" />
                                         ))}
                           </div>
                           <p>

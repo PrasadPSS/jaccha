@@ -34,7 +34,7 @@ export default function Featured({ title, subTitle, sectionChildren, paddingTop,
                                     <h6>₹{product.price}</h6>
                                     <div className="star">
                                         {[...Array(product.rating)].map((_, i) => (
-                                            <img key={i} src='./assets/images/star.png' alt="" className="object-contain shrink-0 aspect-[1.12] w-[18px]" />
+                                            <img key={i} src='/assets/images/star.png' alt="" className="object-contain shrink-0 aspect-[1.12] w-[18px]" />
                                         ))}
 
                                         <span>( {product.rating} reviews )</span>

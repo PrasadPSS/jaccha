@@ -28,6 +28,13 @@ class ProductController extends Controller
         return Inertia::render('Frontend/Products/ProductSearch', $data);
     }
 
+    public function category($category_id)
+    {
+        $data['products'] = Products::where('category_id', $category_id)->get();
+        $data['homepagesections'] = HomePageSections::where('visibility', 1)->orderBy('home_page_section_priority')->with('home_page_section_type', 'section_childs')->get();
+        return Inertia::render('Frontend/Category/Category', $data);
+    }
+
     public function buy($product_id, $quantity)
     {
         $product = Products::where('id', $product_id)->first();

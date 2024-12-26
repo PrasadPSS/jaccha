@@ -65,7 +65,7 @@ export default function Banner({ title, subTitle, sectionChildren, paddingTop, p
                                 <img src={asset("backend-assets/uploads/home_page_section_child_images/" + sectionChildren[6].home_page_section_child_images)} alt="about image" data-aos="fade-right" data-aos-delay="1600" />
                             </div>
                             <div className="dot-bg">
-                                <img src="./assets/images/dot.png" alt="about image" data-aos="fade-right" data-aos-delay="1600" />
+                                <img src="/assets/images/dot.png" alt="about image" data-aos="fade-right" data-aos-delay="1600" />
                             </div>
                         </div>
                     </div>

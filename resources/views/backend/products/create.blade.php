@@ -3,12 +3,12 @@
 
 @section('content')
 @php
-    $product_types = ['simple' => 'Simple', 'configurable' => 'Configurable'];
-    $gsts = [];
-    foreach ($gst as $gs) {
-        $gsts[$gs->gst_id] = $gs->gst_name; // Use the same key-value structure as $product_types
-    }
-    //dd($product_types1);
+$product_types = ['simple' => 'Simple', 'configurable' => 'Configurable'];
+$gsts = [];
+foreach ($gst as $gs) {
+    $gsts[$gs->gst_id] = $gs->gst_name; // Use the same key-value structure as $product_types
+}
+//dd($product_types1);
 @endphp
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -226,7 +226,7 @@
                                         <div class="col-lg-12 col-md-12 mt-1">
                                             <fieldset class="form-group">
                                                 {{ Form::label('ingredients', 'Ingredients ') }}
-                                                {{ Form::textarea('ingredients', null, ['class' => 'form-control', 'placeholder' => 'Enter Address', 'id' => 'editor']) }}
+                                                {{ Form::textarea('ingredients', null, ['class' => 'form-control', 'placeholder' => 'Enter Address', 'id' => 'editor8']) }}
                                             </fieldset>
                                         </div>
                                         <div class="col-lg-12 col-md-12 mt-1">
@@ -502,7 +502,12 @@
                 productconfiguration(product_type, product_sku);
             }
         });
+        if ($("#editor8").length != 0) {
+            CKEDITOR.replace('editor8', {
+                height: 260,
 
+            });
+        }
         function productconfiguration(product_type, product_sku) {
             // alert('in');
             if (product_type == 'configurable') {

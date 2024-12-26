@@ -6,9 +6,9 @@
 $status = ['No' => 'No', 'Yes' => 'Yes'];
 $product_types = ['simple' => 'Simple', 'configurable' => 'Configurable'];
 $gsts = [];
-    foreach ($gst as $gs) {
-        $gsts[$gs->gst_id] = $gs->gst_name; // Use the same key-value structure as $product_types
-    }
+foreach ($gst as $gs) {
+    $gsts[$gs->gst_id] = $gs->gst_name; // Use the same key-value structure as $product_types
+}
     @endphp
     <style>
 
@@ -87,7 +87,7 @@ $gsts = [];
                                                 <div class="input-group-prepend">
                                                     {{ Form::label('gst_id', 'Gst ', ['class' => '']) }}
                                                 </div>
-                                                {{ Form::select('gst_id', $gsts,  null, ['class' => 'select2 form-control ', 'placeholder' => 'Please Select Type', 'id' => 'gst_id', 'value' => $selectedGst->gst_name ?? null]) }}
+                                                {{ Form::select('gst_id', $gsts, null, ['class' => 'select2 form-control ', 'placeholder' => 'Please Select Type', 'id' => 'gst_id', 'value' => $selectedGst->gst_name ?? null]) }}
                                             </div>
                                             </div>
                                             <div class="col-md-12 col-12">
@@ -387,7 +387,7 @@ $gsts = [];
                                             <div class="col-lg-12 col-md-12 mt-1">
                                                 <fieldset class="form-group">
                                                     {{ Form::label('ingredients', 'Ingredients *') }}
-                                                    {{ Form::textarea('ingredients',null, ['class' => 'form-control', 'placeholder' => 'Enter Address', 'id' => 'editor1']) }}
+                                                    {{ Form::textarea('ingredients', null, ['class' => 'form-control', 'placeholder' => 'Enter Address', 'id' => 'editor1']) }}
                                                 </fieldset>
                                             </div>
                                             <div class="col-lg-12 col-md-12 mt-1">
@@ -705,13 +705,12 @@ if (isset($product_images) && count($product_images) >= 6) {
                     }
                 });
             }
-            if($("#editor8").length != 0)
-  {
-    CKEDITOR.replace('editor8', {
-      height: 260,
+            if ($("#editor8").length != 0) {
+                CKEDITOR.replace('editor8', {
+                    height: 260,
 
-    });
-  }
+                });
+            }
             function getmightprefer(category_id) {
                 $.ajax({
                     url: '{{ url('admin/products/getmightprefer') }}',

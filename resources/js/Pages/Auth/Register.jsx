@@ -141,7 +141,7 @@ export default function Register({auth}) {
                     >
                         Already registered?
                     </Link>
-                    <a href={ route('google.redirect') } class="btn btn-primary"> Login with Google </a>
+                    <a href={ route('google.redirect') } className="btn btn-primary"> Login with Google </a>
                     <PrimaryButton className="ms-4" disabled={processing}>
                         Register
                     </PrimaryButton>

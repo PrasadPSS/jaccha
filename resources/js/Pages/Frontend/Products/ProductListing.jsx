@@ -1,8 +1,9 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import React, { useState } from 'react';
 
 
-export default function ProductListing({ products }) {
+export default function ProductListing({  products }) {
+    let auth= usePage().props.auth;
     // State for filters
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedSizes, setSelectedSizes] = useState([]);
@@ -107,20 +108,20 @@ export default function ProductListing({ products }) {
                                     >
                                         <div className="accordion-body">
                                             <ul>
-                                                {["food", "protein"].map(
+                                                {auth.categories.map(
                                                     (category) => (
-                                                        <li key={category}>
+                                                        <li key={category.category_id}>
                                                             <div className="form-check">
                                                                 <input
                                                                     className="form-check-input"
                                                                     type="checkbox"
-                                                                    value={category}
+                                                                    value={category.category_slug}
                                                                     onChange={() =>
-                                                                        handleCategoryChange(category)
+                                                                        handleCategoryChange(category.category_slug)
                                                                     }
                                                                 />
                                                                 <label className="form-check-label">
-                                                                    {category}
+                                                                    {category.category_name}
                                                                 </label>
                                                             </div>
                                                         </li>
@@ -228,9 +229,9 @@ export default function ProductListing({ products }) {
                     {/* Product Listing Section */}
                     <div className="col-sm-9">
                         <div className="row" data-aos="fade-up">
-                            <div class="col-sm-12 text-right">
-                                <div class="product-select mb-4">
-                                    <select onChange={handleSort} class="form-select" aria-label="Default select example">
+                            <div className="col-sm-12 text-right">
+                                <div className="product-select mb-4">
+                                    <select onChange={handleSort} className="form-select" aria-label="Default select example">
                                         <option selected value="asc">Asc</option>
                                         <option value="desc">Desc</option>
                                     </select>
@@ -272,7 +273,7 @@ export default function ProductListing({ products }) {
                                                         .map((_, i) => (
                                                             <img
                                                                 key={i}
-                                                                src="./assets/images/star.png"
+                                                                src="/assets/images/star.png"
                                                                 alt="star"
                                                             />
                                                         ))}

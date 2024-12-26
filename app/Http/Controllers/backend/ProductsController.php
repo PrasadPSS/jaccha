@@ -177,7 +177,7 @@ class ProductsController extends Controller
      * @return Response
      */
     public function store(Request $request)
-   
+
     { 
         $this->validate($request, [
             'product_title' => ['required'],
@@ -185,6 +185,7 @@ class ProductsController extends Controller
             'product_type' => ['required'],
             'product_price' => ['required'],
             'category_id' => ['required'],
+            'gst_id'=> 'required',
             'sub_category_id' => ['required'],
             'sub_sub_category_id' => ['required'],
             // 'filter_id' => ['required'],
@@ -204,6 +205,7 @@ class ProductsController extends Controller
         $products->fill($request->all());
         $products->category_slug = $categories->category_slug;
         $products->sub_category_slug = $sub_categories->sub_category_slug;
+        $products->gst_id = $request->gst_id;
         $products->sub_sub_category_slug = $sub_sub_categories->sub_sub_category_slug;
         $products->recommended = isset($request->recommended) ? 1 : 0;
         $products->new_arrival = isset($request->new_arrival) ? 1 : 0;
@@ -553,6 +555,7 @@ class ProductsController extends Controller
             'product_price' => ['required'],
             'product_type' => ['required'],
             'product_price' => ['required'],
+            'gst_id' => 'required',
             'category_id' => ['required'],
             'sub_category_id' => ['required'],
             'sub_sub_category_id' => ['required'],

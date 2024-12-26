@@ -112,6 +112,46 @@ use App\Http\Controllers\frontend\DownloadappController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/clear-cache', function () {
+    $exitCode = Artisan::call('cache:clear');
+    // return what you want
+});
+//Clear configurations:
+Route::get('/config-clear', function () {
+    $status = Artisan::call('config:clear');
+    return '<h1>Configurations cleared</h1>';
+});
+
+//Clear cache:
+Route::get('/cache-clear', function () {
+    $status = Artisan::call('cache:clear');
+    return '<h1>Cache cleared</h1>';
+});
+
+//Clear configuration cache:
+Route::get('/config-cache', function () {
+    $status = Artisan::call('config:cache');
+    return '<h1>Configurations cache cleared</h1>';
+});
+
+//Clear route cache:
+Route::get('/route-clear', function () {
+    $status = Artisan::call('route:clear');
+    return '<h1>Route cache cleared</h1>';
+});
+
+//Clear view cache:
+Route::get('/view-clear', function () {
+    $status = Artisan::call('view:clear');
+    return '<h1>View cache cleared</h1>';
+});
+
+//dump autoload:
+Route::get('/dump-autoload', function () {
+    $status = Artisan::call('dump-autoload');
+    return '<h1>Dumped Autoload</h1>';
+});
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -138,6 +178,8 @@ Route::post('/shippingaddress/delete/{shipping_address_id}', [AddressesControlle
 //products
 Route::get('/products', [ProductController::class, 'index'])
 ->middleware(['auth', 'verified'])->name('product.index');
+Route::get('/products/{category_name}', [ProductController::class, 'category'])
+->middleware(['auth', 'verified'])->name('product.category');
 Route::get('/product/buy/{product_id}/{quantity}', [ProductController::class, 'buy'])
 ->middleware(['auth', 'verified'])->name('product.buy');
 Route::post('/product/addtocart', [ProductController::class, 'addtocart'])
