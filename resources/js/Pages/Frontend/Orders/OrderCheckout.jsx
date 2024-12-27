@@ -49,189 +49,390 @@ export default function OrderCheckout({ auth, data }) {
                 setShippingAmount(res.data.shipping_amount);
                 setCodResponse(res.data.cod_response);
             })
-           
+
     }
 
     return (
         <HomeLayout auth={auth}>
             <Head title="Place Order" />
-            <div className="container my-4">
-                <h1 className="text-center mb-4">Place Your Order</h1>
-
-                {/* Cart Summary */}
-                <div className="card mb-4">
-                    <div className="card-header">
-                        <h4>Cart Summary</h4>
-                    </div>
-                    <div className="card-body">
-                        {cart.map((item, index) => (
-                            <div className="row mb-3" key={index}>
-                                <div className="col-md-3">
-                                    <img
-                                        src={asset('backend-assets/uploads/product_thumbs/' + item.products.product_thumb)}
-                                        alt={item.products.product_title}
-                                        className="img-fluid"
-                                    />
-                                </div>
-                                <div className="col-md-6">
-                                    <h5>{item.products.product_title}</h5>
-                                    <p>{item.products.product_sub_title}</p>
-                                    <p>
-                                        Price: ₹{item.products.product_price} | Quantity: {item.qty}
-                                    </p>
-                                </div>
-                                <div className="col-md-3 text-end">
-                                    {/* Original Price with Strike-through */}
-                                    {item.products.product_price > item.products.product_discounted_price && (
-                                        <>
-                                            <h5 className="text-muted text-decoration-line-through d-inline me-2">
-                                                ₹{item.products.product_price}
-                                            </h5>
-                                            {/* Discounted Price */}
-                                            <h5 className="d-inline text-danger">
-                                                ₹{item.products.product_discounted_price}
-                                            </h5>
-                                            {/* Discount Amount */}
-                                            <span className="badge bg-success ms-2">
-                                                -₹{item.products.product_price - item.products.product_discounted_price}
-                                            </span>
-                                        </>
-                                    )}
-                                    {/* If no discount exists */}
-                                    {item.products.product_price <= item.products.product_discounted_price && (
-                                        <h5>₹{item.products.product_price}</h5>
-                                    )}
-                                </div>
-
+            <div className="sub-banner bg-light pb-0">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-sm-12">
+                            <div className="banner_heading pb-4">
+                                <h2>Checkout</h2>
+                                <p>{auth.cart_count} Items</p>
                             </div>
-                        ))}
-                        <hr />
-                        <div className="d-flex justify-content-between">
-                            <h5>Total MRP:</h5>
-                            <h5>₹{cart_amounts.cart.cart_mrp_total}</h5>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                            <h5>Discount:</h5>
-                            <h5>- ₹{cart_amounts.product_discount}</h5>
-                        </div>
-                        {codResponse == 1 && paymentMode == 'Cash On Delivery' &&
-                            <div className="d-flex justify-content-between">
-                                <h5>Cod Charges:</h5>
-                                <h5>₹{cod_charges}</h5>
-                            </div>}
-
-                        <div className="d-flex justify-content-between">
-                            <h5>Shipping:</h5>
-                            <h5>₹{parseFloat(shippingAmount).toFixed(2)}</h5>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                            <h5>Gst:</h5>
-                            <h5>₹{totalGst}</h5>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                            <h5 className="text-success">Total Savings:</h5>
-                            <h5 className="text-success">₹{savings}</h5>
-                        </div>
-                        <hr />
-                        <div className="d-flex justify-content-between">
-                            <h4>Total Amount:</h4>
-
-                            <h4>₹{finalGrandTotal}</h4>
                         </div>
                     </div>
                 </div>
-
-                {/* Form to place order */}
-                <form action="/order/place" method="POST">
-                    <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute('content')} />
-
-                    {/* Hidden Fields */}
-                    <input type="hidden" name="amount" value={finalGrandTotal} />
-                    <input type="hidden" name="shipping_amount" value={shippingAmount} />
-                    <input type="hidden" name="txnid" value={increment_id || ""} />
-                    <input type="hidden" name="shipping_charges" value={JSON.stringify(shipping_charges || {})} />
-                    <input type="hidden" name="shipping_id" value={shippingAddressId} />
-                    {/* Shipping Details */}
-                    <div className="card mb-4">
-                        <div className="card-header">
-                            <h4>Shipping Details &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <Link
-                                    href="/shippingaddress/index"
-                                    method="get"
-                                    as="button"
-                                    className="btn btn-outline-info"
-                                >
-                                    Edit / Add Shipping Address
-                                </Link>
-                            </h4>
-                        </div>
-                        <div className="card-body">
-                            {shipping_addresses.map((address) => {
-                                return (<div style={{ display: 'flex', flexDirection: 'row' }}>
-                                    <input onClick={() => {
-                                        setShippingAddressId(address.shipping_address_id);
-                                        handleAddressChange(address.shipping_address_id);
-                                    }} type="radio" className="me-4" name="shipping_address" checked={address.shipping_address_id == shippingAddressId} />
-                                    <div>
-                                        <p><strong>Name:</strong> {address.shipping_full_name}</p>
-                                        <p><strong>Mobile:</strong> {address.shipping_mobile_no}</p>
-                                        <p><strong>Address:</strong> {`${address.shipping_address_line1}, ${address.shipping_address_line2}, ${address.shipping_city}, ${address.shipping_state}, ${address.shipping_pincode}`}</p>
-                                    </div>
-                                </div>)
-                            })}
-
-                        </div>
-
-                    </div>
-
-                    {/* Payment Options */}
-                    <div className="card mb-4">
-                        <div className="card-header">
-                            <h4>Payment Options</h4>
-                        </div>
-                        <div className="card-body">
-                            {payment_mode.map((mode, index) => (
-
-                                <div className="form-check mb-2" key={index}>
-                                    <input
-                                        disabled={mode.payment_mode_name == "Cash On Delivery" && codResponse == 0}
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="paymentmode"
-                                        id={`paymentMode${mode.payment_mode_id}`}
-                                        value={mode.payment_mode_name}
-                                        defaultChecked={mode.default_selected === 1}
-                                        onClick={() => setPaymentMode(mode.payment_mode_name)}
-                                    />
-                                    <label className="form-check-label" htmlFor={`paymentMode${mode.payment_mode_id}`}>
-                                        {mode.payment_mode_name == 'Cash On Delivery' && codResponse == 0 ? "Cod not available" : mode.payment_mode_name}
-                                    </label>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Place Order Button */}
-                    <div className="text-center">
-                        <button type="submit" className="btn btn-primary btn-lg">Place Order</button>
-                    </div>
-                </form>
             </div>
+
+
+            <section className="checkout bg-light">
+                <div className="container">
+                    <form action="">
+                        <div className="row">
+                            <div className="col-sm-7">
+                                <div className="checkout-form pt-5 d-flex align-items-center">
+                                    <h4 className="mb-0">Address Details</h4>
+                                    <button type="button" className="btn add-new-address-btn" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
+                                        <i className="fas fa-plus-circle"></i> Add New Address
+                                    </button>
+                                    {/* <div className="row">
+                                        <div className="col-sm-12">
+                                            <div className="form-inputs mb-3">
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Address"
+                                                    id="exampleAddress"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-12">
+                                            <div className="form-inputs mb-3">
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Apartment (Optional)"
+                                                    id="exampleAddress"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-6">
+                                            <div className="form-inputs mb-3">
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="City"
+                                                    id="exampleAddress"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-6">
+                                            <div className="form-inputs mb-3">
+                                                <input
+                                                    type="number"
+                                                    className="form-control"
+                                                    placeholder="Post Code"
+                                                    id="exampleAddress"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-6">
+                                            <div className="form-inputs">
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Country/Region"
+                                                    id="exampleAddress"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-6">
+                                            <div className="form-inputs">
+                                                <input
+                                                    type="number"
+                                                    className="form-control"
+                                                    placeholder="Alternate Contact Number"
+                                                    id="exampleAddress"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>  */}
+                                </div>
+                                <div className="checkout-form mt-4 payment-details">
+                                    <h4 className="">Select Address</h4>
+                                    <div className="row">
+                                        {shipping_addresses.map((address) => (
+                                            <div key={address.shipping_address_id} className="col-sm-12">
+                                                <div className="form-check payment-radio-btn">
+                                                    <input onClick={() => {
+                                                        setShippingAddressId(address.shipping_address_id);
+                                                        handleAddressChange(address.shipping_address_id);
+                                                    }} checked={address.shipping_address_id == shippingAddressId} className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                                                    <label className="form-check-label" htmlFor="flexRadioDefault1">
+                                                        {`${address.shipping_address_line1}, ${address.shipping_address_line2}, ${address.shipping_city}, ${address.shipping_state}, ${address.shipping_pincode}`}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        )
+                                        )}
+
+
+                                        {/* <div className="col-sm-12">
+                                            <div className="form-check payment-radio-btn active">
+                                                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                                                    checked />
+                                                <label className="form-check-label" htmlFor="flexRadioDefault2">
+                                                    Address 2
+                                                </label>
+                                            </div>
+                                        </div> */}
+                                    </div>
+                                </div>
+                                <div className="checkout-form mt-4 payment-details">
+                                    <h4 className="">Payment</h4>
+                                    <p className="mb-4">All transactions are secure and encrypted.</p>
+
+                                    <div className="row">
+                                        {payment_mode.map((mode, index) =>
+                                        (
+                                            <div className="col-sm-12">
+                                                <div className="form-check payment-radio-btn">
+                                                    <input className="form-check-input" type="radio" name="paymentRadioDefault"
+                                                        id={`paymentMode${mode.payment_mode_id}`}
+                                                        disabled={mode.payment_mode_name == "Cash On Delivery" && codResponse == 0}
+                                                        onClick={() => setPaymentMode(mode.payment_mode_name)}
+                                                        defaultChecked={mode.default_selected === 1} />
+                                                    <div className="d-flex payment-btn-img">
+                                                        <label className="form-check-label" htmlFor="flexRadioDefault1">
+                                                            {mode.payment_mode_name == 'Cash On Delivery' && codResponse == 0 ? "Cod not available" : mode.payment_mode_name}
+                                                        </label>
+                                                        {mode.payment_mode_name != 'Cash On Delivery' &&
+                                                            <div>
+                                                                <img src="/assets/images/payment/visa.png" />
+                                                                <img src="/assets/images/payment/maestro.png" />
+                                                                <img src="/assets/images/payment/mastercard.png" />
+                                                                <img src="/assets/images/payment/amex.png" />
+                                                                <button>+4</button>
+                                                            </div>
+                                                        }
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-sm-5">
+                                <div className="checkout-right">
+                                    {cart.map((item, index) => (
+                                        <div className="checkout-product mb-3">
+                                            <div className="checkout-product_img position-relative">
+                                                <img src={'/backend-assets/uploads/product_thumbs/' + item.products.product_thumb} alt="" />
+                                                <p>{item.qty}</p>
+                                            </div>
+                                            <div className="checkout-product_content">
+                                                <h5>{item.products.product_title}</h5>
+                                                <p>{item.products.product_weight}gm | {item.sweetness_level} Sweetness | {item.ingredient_addons} | No {item.ingredient_exclusions}</p>
+                                            </div>
+                                            <div className="checkout-product_price">
+                                                <p>₹{item.products.product_price}.00</p>
+                                            </div>
+                                        </div>))}
+
+                                    {/* <div className="checkout-product mb-3">
+                                        <div className="checkout-product_img position-relative">
+                                            <img src="/assets/images/product-details/products-details-3.jpg" alt="" />
+                                            <p>3</p>
+                                        </div>
+                                        <div className="checkout-product_content">
+                                            <h5>Dana Methi Laddoo</h5>
+                                            <p>1kg | Medium Sweetness | Almonds | No Ghee</p>
+                                        </div>
+                                        <div className="checkout-product_price">
+                                            <p>₹750.00</p>
+                                        </div>
+                                    </div>
+                                    <div className="checkout-product mb-5">
+                                        <div className="checkout-product_img position-relative">
+                                            <img src="/assets/images/product-details/products-details-3.jpg" alt="" />
+                                            <p>3</p>
+                                        </div>
+                                        <div className="checkout-product_content">
+                                            <h5>Dana Methi Laddoo</h5>
+                                            <p>1kg | Medium Sweetness | Almonds | No Ghee</p>
+                                        </div>
+                                        <div className="checkout-product_price">
+                                            <p>₹750.00</p>
+                                        </div>
+                                    </div> */}
+                                    {/* <div className="discount-code">
+                                        <input type="text" className="form-control" placeholder="Discount Code" />
+                                        <button className="discount-button" type="button">Apply</button>
+                                    </div> */}
+                                    <div className="payment-history mt-5">
+                                        <div className="payment-display mb-2">
+                                            <p>Subtotal . {auth.cart_count} Items</p>
+                                            <p>₹{finalGrandTotal - parseFloat(shippingAmount).toFixed(2)} </p>
+                                        </div>
+                                        <div className="payment-display mb-3">
+                                            <p>Shipping</p>
+                                            <p>₹{parseFloat(shippingAmount).toFixed(2)}</p>
+                                        </div>
+                                        <div className="payment-display">
+                                            <p><b>Total</b></p>
+                                            <p><b>₹{finalGrandTotal}</b></p>
+                                        </div>
+                                    </div>
+                                    <form action="/order/place" method="POST">
+                                        <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute('content')} />
+
+                                        {/* Hidden Fields */}
+                                        <input type="hidden" name="amount" value={finalGrandTotal} />
+                                        <input type="hidden" name="shipping_amount" value={shippingAmount} />
+                                        <input type="hidden" name="txnid" value={increment_id || ""} />
+                                        <input type="hidden" name="shipping_charges" value={JSON.stringify(shipping_charges || {})} />
+                                        <input type="hidden" name="shipping_id" value={shippingAddressId} />
+                                        <input type="hidden" name="paymentmode" value={paymentMode} />
+                                        <div className="pay-now-button">
+                                            <button type="submit" >Pay now & Confirm Order</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog add-address-form">
+                    <div className="modal-content bg-light py-2">
+                        <div className="modal-header">
+                            <h5 className="modal-title text-center m-auto" id="exampleModalLabel">
+                                Add new Address
+                            </h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                <i className="far fa-times"></i>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="row">
+                                <div className="col-sm-12">
+                                    <div className="form-inputs mb-3">
+                                        <input type="text" className="form-control" placeholder="Address" id="exampleAddress" />
+                                    </div>
+                                </div>
+                                <div className="col-sm-12">
+                                    <div className="form-inputs mb-3">
+                                        <input type="text" className="form-control" placeholder="Apartment (Optional)" id="exampleAddress" />
+                                    </div>
+                                </div>
+                                <div className="col-sm-6">
+                                    <div className="form-inputs mb-3">
+                                        <input type="text" className="form-control" placeholder="City" id="exampleAddress" />
+                                    </div>
+                                </div>
+                                <div className="col-sm-6">
+                                    <div className="form-inputs mb-3">
+                                        <input type="number" className="form-control" placeholder="Post Code" id="exampleAddress" />
+                                    </div>
+                                </div>
+                                <div className="col-sm-6">
+                                    <div className="form-inputs">
+                                        <input type="text" className="form-control" placeholder="Country/Region" id="exampleAddress" />
+                                    </div>
+                                </div>
+                                <div className="col-sm-6">
+                                    <div className="form-inputs">
+                                        <input type="number" className="form-control" placeholder="Alternate Contact Number" id="exampleAddress" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="modal-footer m-auto border-0">
+                            <button type="button" className="btn button black">Add Address</button>
+                            <button type="button" className="button cancel_btn black" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* <section className="section product_listing">
+                <div className="container">
+                    <div className="row align-items-center">
+                        <div className="col-sm-3">
+                            <div className="product-accordian product-listing-heading" data-aos="fade-up" data-aos-delay="200">
+                                <h3 className="common-heading">You may also like</h3>
+                                <p>Handpicked treats to complement your wellness journey.</p>
+                                <div className="product-details-listing">
+                                    <p>Total<br /><span>₹3500</span></p>
+                                    <a href="#">Add all to basket</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-sm-9">
+                            <div className="row" data-aos="fade-up">
+                                <div className="col-sm-4">
+                                    <div className="feature-box">
+                                        <div className="basket-box">
+                                            <i className="fal fa-shopping-basket"></i>
+                                        </div>
+                                        <i className="fal fa-heart heart"></i>
+                                        <img src="/assets/images/feature/feature-1.png" alt="feature image" />
+                                        <div className="features-content">
+                                            <p>1st Month of Pregnant</p>
+                                            <h5>Baby Ubtan</h5>
+                                            <h6>₹310.00</h6>
+                                            <div className="star">
+                                                <img src="/assets/images/star.png" alt="star image" />
+                                                <img src="/assets/images/star.png" alt="star image" />
+                                                <img src="/assets/images/star.png" alt="star image" />
+                                                <img src="/assets/images/star.png" alt="star image" />
+                                                <img src="/assets/images/star.png" alt="star image" />
+                                                <span>( 6 reviews )</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-sm-4">
+                                    <div className="feature-box">
+                                        <div className="basket-box">
+                                            <i className="fal fa-shopping-basket"></i>
+                                        </div>
+                                        <i className="fal fa-heart heart"></i>
+                                        <img src="/assets/images/feature/feature-2.png" alt="feature image" />
+                                        <div className="features-content">
+                                            <p>1st Month of Pregnant</p>
+                                            <h5>Baby Ubtan</h5>
+                                            <h6>₹310.00</h6>
+                                            <div className="star">
+                                                <img src="/assets/images/star.png" alt="star image" />
+                                                <img src="/assets/images/star.png" alt="star image" />
+                                                <img src="/assets/images/star.png" alt="star image" />
+                                                <img src="/assets/images/star.png" alt="star image" />
+                                                <img src="/assets/images/star.png" alt="star image" />
+                                                <span>( 6 reviews )</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-sm-4">
+                                    <div className="feature-box">
+                                        <div className="basket-box">
+                                            <i className="fal fa-shopping-basket"></i>
+                                        </div>
+                                        <i className="fal fa-heart heart"></i>
+                                        <img src="/assets/images/feature/feature-1.png" alt="feature image" />
+                                        <div className="features-content">
+                                            <p>1st Month of Pregnant</p>
+                                            <h5>Baby Ubtan</h5>
+                                            <h6>₹310.00</h6>
+                                            <div className="star">
+                                                <img src="/assets/images/star.png" alt="star image" />
+                                                <img src="/assets/images/star.png" alt="star image" />
+                                                <img src="/assets/images/star.png" alt="star image" />
+                                                <img src="/assets/images/star.png" alt="star image" />
+                                                <img src="/assets/images/star.png" alt="star image" />
+                                                <span>( 6 reviews )</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section> */}
         </HomeLayout>
     );
 }
