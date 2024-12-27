@@ -14,7 +14,7 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
     let cart_items = [];
     if (cart) {
         cart.forEach(element => {
-            cart_items.push({ id: element.product_id, weight: element.products.product_weight,swt: element.sweetness_level, addons: element.ingredient_addons, excl: element.ingredient_exclusions, name: element.product_variant != null ? element.product_variant.product_title : element.products.product_title, description: element.products.product_sub_title, price: element.product_variant != null ? element.product_variant.product_price : element.products.product_price, quantity: element.qty });
+            cart_items.push({ id: element.product_id, weight: element.products.product_weight,swt: element.sweetness_level, addons: element.ingredient_addons, excl: element.ingredient_exclusions, name: element.product_variant != null ? element.product_variant.product_title : element.products.product_title, description: element.products.product_sub_title, price: element.product_variant != null ? element.product_variant.product_price : element.products.product_price, quantity: element.qty, image: element.products.product_thumb });
         });
     }
 
@@ -111,13 +111,13 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
 
                                         <div key={item.id} className="checkout-product mb-5">
                                             <div className="cart-product_image">
-                                                {/* <div className="checkout-product_img position-relative">
+                                                <div className="checkout-product_img position-relative">
                                                     <img
-                                                        src="/assets/images/product-details/products-details-3.jpg"
+                                                        src={'/backend-assets/uploads/product_thumbs/' + item.image}
                                                         alt=""
                                                     />
-                                                    <p>3</p>
-                                                </div> */}
+                                                    
+                                                </div>
                                                 <div className="cart-product_content">
                                                     <div className="checkout-product_content">
                                                         <h5>{item.name}</h5>
