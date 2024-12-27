@@ -4,11 +4,12 @@ import React from "react";
 
 
 export default function Featured({ title, subTitle, sectionChildren, paddingTop, paddingBottom, data }) {
-    
+
     const products = [];
     console.log('products', data.products);
     data.products.forEach(element => {
         products.push({
+            id: element.product_id,
             image: asset('backend-assets/uploads/product_thumbs/' + element.product_thumb), name: element.product_title, price: element.product_price
             , category: "Pregnancy Care", stage: "1st Month of Pregnan", rating: 6
         });
@@ -26,9 +27,14 @@ export default function Featured({ title, subTitle, sectionChildren, paddingTop,
                         <div key={index} className="col-sm-3">
                             <div className="feature-box">
                                 <div className="basket-box">
-                                    <i className="fal fa-shopping-basket"></i>
+                                    <Link href="/product/addtocart" method="post" data={{ product_id: product.id, product_type: "simple", product_variant_id: null, quantity: 1, _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), sweetnesslevel: null, ingrediantaddons: null, exclusions: null }}>
+                                        <i className="fal fa-shopping-basket"></i>
+                                    </Link>
+
                                 </div>
-                                <i className="fal fa-heart heart"></i>
+                                <Link type='button' href={route('wishlist.add')} method="post" as='button' className="gray" data={{ product_id: product.id }}>
+                                    <i className="fal fa-heart heart"></i>
+                                </Link>
                                 <img src={product.image} alt={product.name} />
                                 <div className="features-content">
                                     <p>{product.stage}</p>
