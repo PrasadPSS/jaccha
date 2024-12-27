@@ -1,10 +1,12 @@
 import { asset } from "@/Helpers/asset";
+import { Link } from "@inertiajs/react";
 import React from "react";
 
 
 export default function Featured({ title, subTitle, sectionChildren, paddingTop, paddingBottom, data }) {
     
     const products = [];
+    console.log('products', data.products);
     data.products.forEach(element => {
         products.push({
             image: asset('backend-assets/uploads/product_thumbs/' + element.product_thumb), name: element.product_title, price: element.product_price
@@ -45,7 +47,7 @@ export default function Featured({ title, subTitle, sectionChildren, paddingTop,
 
                     ))}
                     <div className="col-sm-12 m-auto text-center mt-5">
-                        <button className="button">See All</button>
+                        <Link as="button" href="/products" className="button">See All</Link>
                     </div>
                 </div>
             </div>

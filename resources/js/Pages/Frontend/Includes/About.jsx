@@ -1,4 +1,5 @@
 import { asset } from "@/Helpers/asset";
+import { Link } from "@inertiajs/react";
 import React from "react";
 
 
@@ -19,7 +20,7 @@ export default function About({ title, subTitle, sectionChildren, paddingTop, pa
                             <p>
                             {sectionChildren[3].home_page_section_child_title}
                             </p>
-                            <button className="button">{sectionChildren[4].home_page_section_child_title}</button>
+                            <Link as="button" href="/products" className="button">{sectionChildren[4].home_page_section_child_title}</Link>
                         </div>
                     </div>
                 </div>

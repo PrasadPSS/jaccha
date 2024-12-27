@@ -1,4 +1,5 @@
 import { asset } from "@/Helpers/asset";
+import { Link } from "@inertiajs/react";
 import React from "react";
 
 
@@ -35,7 +36,7 @@ export default function Benefits({ title, subTitle, sectionChildren, paddingTop,
                                     <img src="./assets/images/tickmark.png" alt="tickmark" />{sectionChildren[6].home_page_section_child_title}
                                 </li>
                             </ul>
-                            <button className="button mt-4">{sectionChildren[7].home_page_section_child_title}</button>
+                            <Link as="button" href="/products" className="button mt-4">{sectionChildren[7].home_page_section_child_title}</Link>
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 import { asset } from "@/Helpers/asset";
+import { Link } from "@inertiajs/react";
 import React from "react";
 
 
@@ -56,9 +57,9 @@ export default function Banner({ title, subTitle, sectionChildren, paddingTop, p
                                     <img src={asset("backend-assets/uploads/home_page_section_child_images/" + sectionChildren[7].home_page_section_child_images)} alt="about image" />
                                 </div>
                                 <div className="buynow-content">
-                                    <h3 className="mb-2">Gond Laddoo For Post</h3>
-                                    <h3 className="mb-2">₹550.00</h3>
-                                    <button className="button">BUY NOW</button>
+                                    <h3 className="mb-2">{sectionChildren[7].home_page_section_child_title}</h3>
+                                    <h3 className="mb-2">₹{sectionChildren[7].home_page_section_child_sub_title}.00</h3>
+                                    <Link href={sectionChildren[7].home_page_section_child_url} className="button">BUY NOW</Link>
                                 </div>
                             </div>
                             <div className="about-right">

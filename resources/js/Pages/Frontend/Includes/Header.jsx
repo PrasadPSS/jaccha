@@ -48,10 +48,10 @@ const Header = ({ auth }) => {
 
               </li>
               <li className="nav-item">
-                <Link className={route().current('wishlist.index') ? "nav-link active" : "nav-link"} href={route('wishlist.index')}>Wish List ({auth.wishlist_count})</Link>
+                <Link className={route().current('wishlist.index') ? "nav-link active" : "nav-link"} href={route('wishlist.index')}>Wish List {auth.wishlist_count != 0 ? "("+auth.wishlist_count+")" : ''}</Link>
               </li>
               <li className="nav-item">
-                <Link className={route().current('cart.index') ? "nav-link active" : "nav-link"} href={route('cart.index')}>Basket<i className="far fa-shopping-basket"></i> ({auth.cart_count})</Link>
+                <Link className={route().current('cart.index') ? "nav-link active" : "nav-link"} href={route('cart.index')}>Basket<i className="far fa-shopping-basket"></i> {auth.cart_count != 0 ? "("+auth.cart_count+")" : ''}</Link>
               </li>
             </ul>
           </div>

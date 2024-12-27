@@ -1302,7 +1302,7 @@ header .second-navbar ul li a span {
 .sticky-product-button .add-to-card-btn {
   padding: 0px !important;
 }
-.sticky-product-button .add-to-card-btn:hover{
+.sticky-product-button .add-to-card-btn:hover {
   padding: 0px !important;
 }
 .sticky-product-button button span {
@@ -1525,4 +1525,519 @@ header .second-navbar ul li a span {
   margin-bottom: 5px;
   font-family: var(--heading-font);
   font-weight: 700;
+}
+/* checkout */
+.checkout {
+  padding-bottom: 80px;
+}
+.checkout-form {
+  padding: 0px 80px 0px 20px;
+  justify-content: space-between;
+}
+.checkout-form i {
+  color: var(--secondary);
+}
+.checkout .form-inputs input {
+  padding: 15px 15px;
+  border: 1px solid #e4e4e4;
+  font-size: 12px;
+}
+.checkout h4 {
+  font-family: var(--heading-font);
+  font-size: 18px;
+  letter-spacing: -0.1px;
+  margin-bottom: 15px;
+}
+.payment-radio-btn {
+  border: 1px solid #e4e4e4;
+  padding: 15px 15px 15px 35px;
+  border-radius: 5px;
+}
+.payment-radio-btn.active {
+  background: var(--white);
+}
+.payment-radio-btn .form-check-input:focus {
+  box-shadow: none;
+}
+.payment-radio-btn .form-check-input:checked {
+  background-color: var(--dark);
+  border-color: var(--dark);
+}
+.payment-details p {
+  font-size: 12px;
+}
+.payment-radio-btn label {
+  font-size: 14px;
+}
+.payment-radio-btn img {
+  width: 40px;
+}
+.payment-radio-btn button {
+  width: 40px;
+  font-size: 13px;
+  border: 1px solid #e4e4e4;
+  padding: 1px;
+  background: var(--white);
+  text-align: center;
+}
+.payment-btn-img {
+  justify-content: space-between;
+}
+.checkout-product {
+  display: flex;
+  /* gap: 10px; */
+  justify-content: space-between;
+  align-items: center;
+}
+.checkout-right {
+  padding: 25px;
+  background: rgba(242, 242, 242, 1);
+  position: sticky;
+  top: 0px;
+}
+.checkout-right .checkout-product_img img {
+  width: 55px;
+  height: 55px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+.checkout-right .checkout-product_img p {
+  background: var(--bg-text-color);
+  color: var(--light);
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  font-size: 10px;
+  position: absolute;
+  right: -7px;
+  top: -7px;
+  text-align: center;
+}
+.checkout-right .checkout-product_content h5 {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.1px;
+  color: var(--tertiary);
+  font-family: var(--heading-font);
+}
+.checkout-right .checkout-product_content p {
+  font-size: 10px;
+  color: var(--tertiary);
+  font-family: var(--heading-font);
+  font-weight: 500;
+}
+.checkout-right .checkout-product_price p {
+  color: var(--black);
+  font-size: 13px;
+}
+.discount-code {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.discount-code input {
+  border: 1px solid var(--border-color);
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--black);
+}
+.discount-code button {
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  font-size: 12px;
+  border-radius: 5px;
+  background: rgb(234 234 234 / 80%);
+}
+.payment-display {
+  display: flex;
+  justify-content: space-between;
+}
+.payment-display p {
+  font-size: 12px;
+  color: var(--dark);
+  letter-spacing: 0.1px;
+}
+.payment-display p b {
+  font-size: 16px;
+}
+.pay-now-button button {
+  background: var(--dark);
+  padding: 10px 30px;
+  text-align: center;
+  color: var(--white);
+  margin: auto;
+  width: 100%;
+  border-radius: 4px;
+  border: 0px;
+  margin-top: 40px;
+}
+
+.account-list ul {
+  border: 1px solid var(--border-color);
+  width: 100%;
+}
+.account-list ul li {
+  border-bottom: 1px solid var(--border-color);
+}
+.account-list .nav-pills .nav-link {
+  width: 100%;
+  text-align: left;
+  padding: 12px 20px;
+  color: var(--tertiary);
+  font-weight: 700;
+  font-family: var(--heading-font);
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  transition: 0.5s ease-in-out;
+}
+.account-list .nav-pills .nav-link.active,
+.account-list .nav-pills .nav-link:hover,
+.account-list .nav-pills .show > .nav-link {
+  background-color: var(--white);
+}
+.account-right-content {
+  background: rgb(234 234 234 / 40%);
+}
+.account-details .account-right-content {
+  gap: 60px;
+  border: 1px solid var(--border-color);
+}
+.account-details .account-right-content .contact_details p {
+  font-family: var(--heading-font);
+  color: var(--dark);
+  font-weight: 500;
+  font-size: 16px;
+}
+.account-right-content .details-heading h3 {
+  font-family: var(--heading-font);
+  color: var(--dark);
+  font-weight: 600;
+  font-size: 18px;
+  opacity: 1;
+}
+.account-right-content .details-heading {
+  border-bottom: 1px solid var(--border-color);
+  justify-content: space-between;
+}
+
+.add-address-form input {
+  padding: 15px 15px;
+  border: 1px solid #e4e4e4;
+  font-size: 12px;
+}
+.add-address-form .btn-close {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  color: var(--tertiary);
+  background: unset;
+}
+.add-address-form .btn-close:focus {
+  box-shadow: none;
+}
+.add-address-form .btn-close i {
+  color: var(--tertiary);
+  font-size: 15px;
+}
+.add-address-form .modal-header h5 {
+  font-family: var(--heading-font);
+  color: var(--tertiary);
+  letter-spacing: 0.1px;
+  font-size: 22px;
+}
+.add-address-form .modal-footer button {
+  opacity: 1;
+}
+.add-address-form .modal-footer .cancel_btn {
+  border: 1px solid var(--black);
+  background: var(--white);
+  color: var(--black);
+}
+.add-new-address-btn {
+  border: 0;
+  font-size: 13px;
+  font-family: var(--heading-font);
+}
+.add-new-address-btn i {
+  color: var(--secondary);
+  margin-right: 5px;
+}
+.order_boxes {
+  border: 1px solid var(--border-color);
+  margin: 20px 25px;
+}
+.order_boxes .order_heading {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  background: var(--white);
+  align-items: center;
+}
+.order_boxes .order_heading p {
+  font-size: 12px;
+  margin-bottom: 0px;
+  color: var(--dark);
+}
+.order_boxes .order_heading p b {
+  font-weight: 500;
+}
+.order_boxes .order_heading button {
+  opacity: 1;
+  text-transform: uppercase;
+  font-size: 10px;
+  padding: 8px 12px 6px 12px;
+  line-height: 13px;
+  letter-spacing: 0.1px;
+}
+.order_content {
+  padding: 20px 15px;
+  background: var(--white);
+  border-top: 1px solid var(--border-color);
+}
+.order_content .checkout-product_img p {
+  color: var(--white);
+  font-size: 10px;
+  line-height: 19px;
+}
+.order_boxes .order_heading span {
+  background: #a3ffd6;
+  padding: 3px 5px;
+  border-radius: 4px;
+}
+.checkout-product_img img {
+  width: 55px;
+  height: 55px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+.checkout-product_img p {
+  background: var(--bg-text-color);
+  color: var(--light);
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  font-size: 10px;
+  position: absolute;
+  right: -7px;
+  top: -7px;
+  text-align: center;
+}
+.checkout-product_content h5 {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.1px;
+  color: var(--tertiary);
+  font-family: var(--heading-font);
+}
+.checkout-product_content p {
+  font-size: 10px;
+  color: var(--tertiary);
+  font-family: var(--heading-font);
+  font-weight: 500;
+}
+
+.delivery-date p {
+  font-size: 12px;
+  font-family: var(--heading-font);
+  opacity: 1;
+  color: var(--black);
+}
+.delivery-date h5 {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+  margin-bottom: 2px;
+}
+.order_button button {
+  display: block;
+  border: 1px solid var(--black);
+  background: var(--white);
+  font-size: 10px;
+  padding: 3px 5px;
+  border-radius: 6px;
+  width: 100px;
+  text-transform: uppercase;
+}
+
+.order_button .buy-again {
+  border: 1px solid var(--secondary);
+  color: var(--secondary);
+}
+/* Login Page */
+.login-sec{
+  background-color: var(--background);
+}
+.login-sec h2{
+  font-family: var(--sans-serif);
+  color: var(--black2);
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 1.7px;
+  opacity: 50% !important;
+  position: relative;
+  margin-left: 20px;
+}
+.login-sec h2::before{
+content: "";
+height: 28px;
+width: 1.5px;
+background: var(--black2);
+position: absolute;
+left: -20px;
+opacity: 70%;
+}
+.login-sec .login-img, .login-sec .login-form{
+margin-top: 60px;
+}
+.login-sec .login-form {
+  margin-left: 30px;
+}
+.login-sec .login-img{
+  position: relative;
+  margin-right: 30px;
+}
+.login-sec .login-img .laddo-img{
+  position: relative;
+  z-index: 100;
+  height: 547px;
+  object-fit: cover;
+  transition: all 1.5s ease-in-out;
+}
+.login-sec .login-img .laddo-img:hover{
+  transform: scale(1.1);
+}
+.laddo-img-wrap{
+overflow: hidden;
+}
+.login-sec .login-img .dots-img{
+width: 100px;
+height: 67px;
+position: absolute;
+right: -60px;
+}
+.login-sec .login-img .d-i1{
+  top: -50px;
+}
+.login-sec .login-img .d-i2{
+  bottom: -50px;
+}
+.login-sec .login-form h3{
+  font-family: var(--heading-font);
+  color: var(--dark);
+  opacity: 100%;
+  text-transform: uppercase;
+font-size: 28px;
+font-weight: 600;
+letter-spacing: 1px;
+padding-bottom: 14px;
+}
+.login-sec .login-form p{
+  color: var(--black);
+  font-size: 14px;
+  letter-spacing: 0.30px;
+}
+.login-form form input{
+  padding: 10px 12px;
+  border-radius: 6px;
+}
+.login-form form input::placeholder{
+  font-family: var(--serif);
+  color: var(--dark);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.28px;
+}
+.login-form form .login-btn{
+  background: var(--dark);
+  color: var(--white);
+  border-radius: 6px;
+  padding: 10px;
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-family: var(--heading-font);
+font-size: 18px;
+font-weight: 500;
+letter-spacing: 1.2px;
+transition: all 1s ease-in-out;
+}
+.login-form form .login-btn:hover{
+  background: transparent;
+  color: var(--dark);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.login-form form{
+border-bottom: 1px solid var(--border-color2);
+}
+.login-sec h4{
+  font-family: var(--heading-font);
+  color: var(--dark);
+  text-transform: uppercase;
+  font-size: 17px;
+  letter-spacing: 1px;
+}
+.login-sec ul li{
+  font-family: var(--heading-font);
+  color: var(--dark);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 34px;
+  letter-spacing: 0.28px;
+  position: relative;
+  margin-left: 35px;
+}
+.login-sec ul li::before{
+content: "";
+background: url(../../images/login/li.png);
+background-repeat: no-repeat;
+background-position: center;
+background-size: cover;
+height: 18px;
+width: 18px;
+position: absolute;
+left: -35px;
+top: 7px;
+}
+.login-sec ul li::marker{
+  font-size: 40px;
+}
+.login-sec .create-acc-btn{
+  border: 1px solid var(--tertiary);
+  color: var(--tertiary);
+  background: var(--background);
+  position: relative;
+  text-align: center;
+display: block;
+width: 100%;
+border-radius: 6px;
+margin-top: 20px;
+padding: 8px;
+font-family: var(--heading-font);
+font-size: 18px;
+font-weight: 600;
+letter-spacing: 1.2px;
+transition: all 1s ease-in-out;
+}
+.login-sec .create-acc-btn:hover{
+  color: var(--white);
+  background: var(--dark);
+  border-color: var(--dark);
+}
+.forgt-pass{
+position: absolute;
+right: 20px;
+bottom: 15px;
+border-bottom: 2px solid var(--tertiary);
+}
+.forgt-pass a{
+  font-family: var(--serif);
+  color: var(--dark);
+font-size: 9px ;
+font-weight: 400;
+letter-spacing: 0.19px;
+}
+/* Create Account Page */
+.create-acc .laddo-img{
+  height: 568px !important;
 }
