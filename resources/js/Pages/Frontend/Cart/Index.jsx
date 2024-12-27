@@ -98,7 +98,7 @@ export default function ProductSearch({ auth, cart }) {
                                                 <div className='w-[100px] truncate ...'>
                                                     <h2 className="text-lg font-medium">{item.name}</h2>
                                                     <p className="text-gray-600 text-sm">{item.description}</p>
-                                                    <p className="text-gray-800 font-semibold">Price: ${item.price}</p>
+                                                    <p className="text-gray-800 font-semibold">Price: Rs{item.price}</p>
                                                 </div>
                                                 <div className="flex items-center">
                                                     <button
@@ -132,7 +132,7 @@ export default function ProductSearch({ auth, cart }) {
                                 {cartItems.length > 0 && (
                                     <>
                                         <div className="mt-4 text-right">
-                                            <h2 className="text-xl font-bold">Total: ${calculateTotal()}</h2>
+                                            <h2 className="text-xl font-bold">Total: Rs {calculateTotal()}</h2>
                                         </div>
                                         <div className="mt-4 text-right">
                                             <button onClick={() => handleCheckout()} className='text-gray-900 hover:text-gray-950 border border-black p-1 rounded hover:bg-gray-900 hover:text-white'>Checkout</button>
