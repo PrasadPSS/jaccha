@@ -240,24 +240,15 @@ export default function ProductListing({  products }) {
 
                             {filteredProducts.map((product, index) => (
                                 <a href={'/product/view/'+ product.id} className={index > 2 ? "col-sm-4 mt-5" : "col-sm-4"} key={product.id}>
-                                    <form action="/product/addtocart" method='post'>
-
-                                        <input type="hidden" name='_token' value={document.querySelector('meta[name="csrf-token"]').getAttribute('content')} />
-                                        <input type="hidden" name='product_id' value={product.id} />
-                                        <input type="hidden" name='quantity' value={1} />
-                                        <input type="hidden" name='product_type' value='simple' />
-                                        <input type="hidden" name='product_price' value={product.price} />
+                                    
                                         <div className="feature-box">
 
 
-                                            <button
-                                                type='submit'
-
-                                            >
+                                            <Link as="button" method="post" href='/product/addtocart' data={{ product_id: product.id, product_type: "simple", product_variant_id: null, quantity: 1, _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), sweetnesslevel: null, ingrediantaddons: null, exclusions: null }}>
                                                 <div className="basket-box">
                                                     <i className="fal fa-shopping-basket"></i>
                                                 </div>
-                                            </button>
+                                            </Link>
                                             <Link method="post" href={route('wishlist.add')} as='button' type='button' data={{product_id: product.id}}><i className="fal fa-heart heart"></i></Link>
                                             <img
                                                 src={product.image}
@@ -281,7 +272,7 @@ export default function ProductListing({  products }) {
                                                 </div>
                                             </div>
                                         </div>
-                                    </form>
+                                    
                                 </a>
                             ))}
                         </div>
