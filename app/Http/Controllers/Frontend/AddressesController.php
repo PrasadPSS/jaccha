@@ -57,6 +57,7 @@ class AddressesController extends Controller
 
   public function storeaddress(Request $request)
   {
+
     // dd('test');
     if(!auth()->user())
     {
@@ -87,7 +88,7 @@ class AddressesController extends Controller
     $add_shipping_address = new ShippingAddresses();
     $add_shipping_address->fill($request->all());
     $add_shipping_address->user_id = $user_id;
-
+    $defaultExists = ShippingAddresses::where('user_id',$user_id)->where('default_address_flag' , 1)->exists();
     if (isset($request->default_address_flag) && $request->default_address_flag==1)
     {
       // dd('in');
@@ -103,7 +104,15 @@ class AddressesController extends Controller
       }
       else
       {
-        $add_shipping_address->default_address_flag = 0;
+        if($defaultExists)
+        {
+          $add_shipping_address->default_address_flag = 0;
+        }
+        else
+        {
+          $add_shipping_address->default_address_flag = 1;
+        }
+        
       }
     }
 
@@ -163,7 +172,7 @@ class AddressesController extends Controller
     $update_shipping_address = ShippingAddresses::where('user_id',$user_id)->where('shipping_address_id',$shipping_address_id)->first();
     $update_shipping_address->fill($request->all());
     $update_shipping_address->user_id = $user_id;
-
+    $defaultExists = ShippingAddresses::where('user_id',$user_id)->where('default_address_flag' , 1)->exists();
     if (isset($request->default_address_flag) && $request->default_address_flag==1)
     {
       ShippingAddresses::where('user_id',$user_id)->update(['default_address_flag'=>0]);
@@ -172,6 +181,10 @@ class AddressesController extends Controller
     {
       $shipping_addresses = ShippingAddresses::where('user_id',$user_id)->where('shipping_address_id','!=',$shipping_address_id)->first();
       if (!$shipping_addresses)
+      {
+        $update_shipping_address->default_address_flag = 1;
+      }
+      if(!$defaultExists)
       {
         $update_shipping_address->default_address_flag = 1;
       }
