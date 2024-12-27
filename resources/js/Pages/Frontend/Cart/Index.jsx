@@ -1,3 +1,6 @@
+
+
+
 import { Head, Link, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { useState } from 'react';
@@ -6,12 +9,12 @@ import { asset } from '@/Helpers/asset';
 import HomeLayout from '@/Layouts/HomeLayout';
 import { toast } from 'react-toastify';
 
-export default function ProductSearch({ auth, cart }) {
+export default function ProductSearch({ auth, cart, cart_amount }) {
 
     let cart_items = [];
     if (cart) {
         cart.forEach(element => {
-            cart_items.push({ id: element.product_id, name: element.product_variant !=null ? element.product_variant.product_title : element.products.product_title, description: element.products.product_sub_title, price: element.product_variant !=null ? element.product_variant.product_price : element.products.product_price, quantity: element.qty });
+            cart_items.push({ id: element.product_id, weight: element.products.product_weight,swt: element.sweetness_level, addons: element.ingredient_addons, excl: element.ingredient_exclusions, name: element.product_variant != null ? element.product_variant.product_title : element.products.product_title, description: element.products.product_sub_title, price: element.product_variant != null ? element.product_variant.product_price : element.products.product_price, quantity: element.qty });
         });
     }
 
@@ -85,65 +88,123 @@ export default function ProductSearch({ auth, cart }) {
         >
             <Head title="Cart" />
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">
-                            <div className="container mx-auto p-6">
-                                <h1 className="text-2xl font-bold mb-4">Shopping Cart</h1>
-                                <div className="bg-white shadow-md rounded-lg p-4">
-                                    {cartItems.length > 0 ? (
-                                        cartItems.map(item => (
-                                            <div key={item.id} className="flex items-center justify-between border-b py-4">
-                                                <div className='w-[100px] truncate ...'>
-                                                    <h2 className="text-lg font-medium">{item.name}</h2>
-                                                    <p className="text-gray-600 text-sm">{item.description}</p>
-                                                    <p className="text-gray-800 font-semibold">Price: Rs{item.price}</p>
-                                                </div>
-                                                <div className="flex items-center">
-                                                    <button
-                                                        onClick={() => decreaseQuantity(item.id)}
-                                                        className="px-3 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                                    >
-                                                        -
-                                                    </button>
-                                                    <span className="mx-3">{item.quantity}</span>
-                                                    <button
-                                                        onClick={() => increaseQuantity(item.id)}
-                                                        className="px-3 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                                    >
-                                                        +
-                                                    </button>
-                                                </div>
-                                                <button
-                                                    onClick={() => removeItem(item.id)}
-                                                    className="text-red-500 hover:text-red-600"
-                                                >
-                                                    Delete
-                                                </button>
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <p className="text-gray-600 text-center py-4">
-                                            Your cart is currently empty.
-                                        </p>
-                                    )}
-                                </div>
-                                {cartItems.length > 0 && (
-                                    <>
-                                        <div className="mt-4 text-right">
-                                            <h2 className="text-xl font-bold">Total: Rs {calculateTotal()}</h2>
-                                        </div>
-                                        <div className="mt-4 text-right">
-                                            <button onClick={() => handleCheckout()} className='text-gray-900 hover:text-gray-950 border border-black p-1 rounded hover:bg-gray-900 hover:text-white'>Checkout</button>
-                                        </div>
-                                    </>
-                                )}
+            <div className="sub-banner bg-light pb-0">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-sm-12">
+                            <div className="banner_heading pb-4">
+                                <h2>My Basket</h2>
+                                <p>{auth.cart_count} Items</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <section className="checkout bg-light cart">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-sm-12">
+                            <div className="checkout-right">
+                                {cartItems.length > 0 ? (
+                                    cartItems.map(item => (
+
+                                        <div key={item.id} className="checkout-product mb-5">
+                                            <div className="cart-product_image">
+                                                {/* <div className="checkout-product_img position-relative">
+                                                    <img
+                                                        src="/assets/images/product-details/products-details-3.jpg"
+                                                        alt=""
+                                                    />
+                                                    <p>3</p>
+                                                </div> */}
+                                                <div className="cart-product_content">
+                                                    <div className="checkout-product_content">
+                                                        <h5>{item.name}</h5>
+                                                        <p>
+                                                        {item.weight}gm | {item.swt ?? "low"} Sweetness | {item.addons ?? 'NA'} | No {item.excl ?? 'NA'}
+                                                            {/* <button
+                                                        type="button"
+                                                        className="btn edit-cart_btn"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#addBasketModal"
+                                                    >
+                                                        Edit
+                                                    </button> */}
+                                                        </p>
+                                                    </div>
+                                                    <div className="checkout-product_price">
+                                                        <p>₹{item.price}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="add-to-card-btn">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => increaseQuantity(item.id)}
+                                                    className="btn plus_button plus"
+                                                    id="plus-btn1"
+                                                >
+                                                    +
+                                                </button>
+                                                <div className="number">
+                                                    <button
+                                                        type="button"
+                                                        className="btn black"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#addBasketModal"
+                                                    >
+                                                        <span id="count1">{item.quantity}</span>
+                                                    </button>
+                                                </div>
+                                                <button
+                                                onClick={() => decreaseQuantity(item.id)}
+                                                    type="button"
+                                                    className="btn minus_button"
+                                                    id="minus-btn1"
+                                                >
+                                                    -
+                                                </button>
+                                            </div>
+                                            <a href="#" onClick={() => removeItem(item.id)}>
+                                                <p className="cart_remove">
+                                                    <i className="far fa-trash-alt"></i>Remove
+                                                </p>
+                                            </a>
+                                        </div>
+                                    ))): 'Cart is Empty'}
+
+
+                                {/* <div className="discount-code">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Discount Code"
+                                    />
+                                    <button className="discount-button" type="button">Apply</button>
+                                </div> */}
+                                <div className="payment-history mt-5">
+                                    <div className="payment-display mb-2">
+                                        <p>Subtotal . {auth.cart_count} Items</p>
+                                        <p>₹{cart_amount}</p>
+                                    </div>
+                                    <div className="payment-display mb-3">
+                                        <p>Shipping</p>
+                                        <p>₹0.00</p>
+                                    </div>
+                                    <div className="payment-display">
+                                        <p><b>Total</b></p>
+                                        <p><b>₹{cart_amount}</b></p>
+                                    </div>
+                                </div>
+                                <div className="pay-now-button">
+                                     <button onClick={() => handleCheckout()}>Checkout</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </HomeLayout>
     );
 
