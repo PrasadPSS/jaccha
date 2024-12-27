@@ -239,7 +239,7 @@ export default function ProductListing({  products }) {
                             </div>
 
                             {filteredProducts.map((product, index) => (
-                                <a href={'product/view/'+ product.id} className={index > 2 ? "col-sm-4 mt-5" : "col-sm-4"} key={product.id}>
+                                <a href={'/product/view/'+ product.id} className={index > 2 ? "col-sm-4 mt-5" : "col-sm-4"} key={product.id}>
                                     <form action="/product/addtocart" method='post'>
 
                                         <input type="hidden" name='_token' value={document.querySelector('meta[name="csrf-token"]').getAttribute('content')} />
