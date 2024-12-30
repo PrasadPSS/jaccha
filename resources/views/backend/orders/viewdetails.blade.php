@@ -65,7 +65,7 @@
                                     <div class="row mb-3 tracker-details-row">
                                       <div class="col-md-3 col-sm-3 col-4 ">
                                         <div class="">
-                                          <img src="{{ asset('backend-assets/uploads/product_images/') }}/{{ isset($orderproducts->productthumb)?$orderproducts->productthumb->image_name:'' }}" class="img-fluid" alt="">
+                                          <img src="{{ asset('backend-assets/uploads/product_thumbs/'. $orderproducts->products->product_thumb) }}" class="img-fluid" alt="">
                                         </div>
                                       </div>
                                       <div class="col-md-9 col-sm-9 col-8 ">

@@ -103,7 +103,7 @@
               <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="1">{{ $item->gst_igst_rate }}</td>
               <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="1">{{ number_format($item->gst_igst_amount, 2) }}</td>
               @endif
-              <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;" colspan="2">{{ number_format($item->qty*$item->product_discounted_price, 2) }}</td>
+              <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;" colspan="2">{{ number_format($item->product_discounted_price, 2) }}</td>
           </tr>
           @php
               $x++;

@@ -70,7 +70,7 @@ class OrdersController extends Controller
 
   public function details($id)
   {
-    $orders = Orders::where('order_id', $id)->with('orderproducts', 'cancelreason')->first();
+    $orders = Orders::where('order_id', $id)->with('orderproducts', 'cancelreason', 'orderproducts.products')->first();
     $shipping_address = ShippingAddresses::where('user_id', $orders->user_id)->where('default_address_flag', 1)->first();
     if (!$shipping_address) {
       $shipping_address = ShippingAddresses::where('user_id', $orders->user_id)->first();
