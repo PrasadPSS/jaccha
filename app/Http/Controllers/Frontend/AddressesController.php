@@ -123,7 +123,7 @@ class AddressesController extends Controller
        {
          return redirect()->to('/cart/checkout')->with('success','New Address Added Successfully !');
        }
-        return redirect()->route('address.index')->with('success','New Address Added Successfully !');
+        return back()->with('success','New Address Added Successfully !');
     }
     else
     {

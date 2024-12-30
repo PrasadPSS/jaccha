@@ -50,12 +50,16 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
 
 
     function canReview(productId) {
+        if(auth.orders != '')
+        {
+                const hasPurchased = auth.orders.some((order) =>
+                    order.orderproducts.some((product) => product.product_id === productId)
+                );
+        
+                return hasPurchased;
+        }
         // Check if the given productId exists in any order's products
-        const hasPurchased = auth.orders.some((order) =>
-            order.orderproducts.some((product) => product.product_id === productId)
-        );
-
-        return hasPurchased;
+        return false;
 
     }
 
@@ -104,13 +108,16 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
         });
         $("#addtoBasketButton").on("click", function () {
             $("#addBasketModal").modal("toggle");
+            if(auth.user)
+            {
+                swal({
+                    title: "",
+                    text: product.product_title + " Added to Your Basket!",
+                    // imageUrl: "thumbs-up.jpg",
+                    timer: 2000,
+                });
+            }
             // toaster
-            swal({
-                title: "",
-                text: product.product_title + " Added to Your Basket!",
-                // imageUrl: "thumbs-up.jpg",
-                timer: 2000,
-            });
         });
     });
     const [productQty, setQty] = useState(1);
@@ -174,7 +181,13 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
     };
 
     const handleCheck = (productId)=> {
-        return auth.wishlist.some(item => item.product_id == productId);
+        if(auth.wishlist != '')
+        {
+         
+            return auth.wishlist.some(item => item.product_id == productId);
+        }
+
+        return false;
     }
 
     const handleDeleteFromWishlist = ( quantity=1) => {
@@ -420,7 +433,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                 <h2 className="product-details-heading mb-4">Usage Instructions</h2>
                                 <p>
                                     <img
-                                        src="./assets/images/product-details/consumed-hours.png"
+                                        src="/assets/images/product-details/consumed-hours.png"
                                         alt=""
                                     />When to Consume
                                 </p>
@@ -432,7 +445,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                 </ul>
                                 <p>
                                     <img
-                                        src="./assets/images/product-details/basket.png"
+                                        src="/assets/images/product-details/basket.png"
                                         alt=""
                                     />How to Store
                                 </p>
@@ -442,7 +455,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                 </ul>
                                 <p>
                                     <img
-                                        src="./assets/images/product-details/milk.png"
+                                        src="/assets/images/product-details/milk.png"
                                         alt=""
                                     />Shelf Life
                                 </p>
@@ -454,7 +467,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                     </div>
                 </div>
                 <div className="half-circle">
-                    <img src="./assets/images/half-circle.png" />
+                    <img src="/assets/images/half-circle.png" />
                 </div>
             </section>
 

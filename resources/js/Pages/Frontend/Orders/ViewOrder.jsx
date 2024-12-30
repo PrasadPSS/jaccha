@@ -4,7 +4,7 @@ import { Head, Link, router } from '@inertiajs/react';
 import React from 'react';
 
 export default function ViewOrder({ auth, orders }) {
-    console.log(orders);
+
 
     return (
         <HomeLayout auth={auth}>

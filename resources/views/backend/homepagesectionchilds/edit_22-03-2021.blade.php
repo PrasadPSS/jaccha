@@ -165,7 +165,7 @@ $product_types = ['simple'=>'Simple','configurable'=>'Configurable'];
         $(".subcategory").change(function(){
           var subcategory_id = $(this).val();
           var category_id = $(".category").val();
-            console.log(subcategory_id);
+
           subsubcategories(category_id,subcategory_id);
         });
         function subcategories(category_id)

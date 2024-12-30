@@ -85,7 +85,7 @@ const Header = ({ auth }) => {
             {auth.categories.map((category) => {
   
               return (
-              <li className="nav-item">
+              <li key={category.category_name} className="nav-item">
                   <Link className="nav-link" aria-current="page" href={"/products/" + category.category_id}>
                   {category.category_name}
                   </Link>

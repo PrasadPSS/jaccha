@@ -180,7 +180,6 @@ $product_types = ['simple'=>'Simple','configurable'=>'Configurable'];
         $(".subcategory").change(function(){
           var subcategory_id = $(this).val();
           var category_id = $(".category").val();
-            console.log(subcategory_id);
           subsubcategories(category_id,subcategory_id);
         });
         function subcategories(category_id)
@@ -342,7 +341,6 @@ $product_types = ['simple'=>'Simple','configurable'=>'Configurable'];
           // $("input[name^='variants']").each(function() {
           //   console.log('test'+$(this).product_sku+'-'+$(this).val());
           // });
-          console.log(added_variants);
           // for (key in added_variants1) {
           //   // console.log(key);
           // }
@@ -360,7 +358,7 @@ $product_types = ['simple'=>'Simple','configurable'=>'Configurable'];
                 dataType: 'json',
                 success: function (data)
                 {
-                  console.log(data['flag']);
+       
                   // $('#variantsdiv').show();
                   // $('#variantstable').html(data);
                   // $('#sim_color_div').hide();
@@ -368,13 +366,13 @@ $product_types = ['simple'=>'Simple','configurable'=>'Configurable'];
                   if (data.flag == "new")
                   {
 
-                    console.log(data);
+         
                     $('#variantstable').append(data['table']);
                     variants_cnt++;
                   }
                   else
                   {
-                    console.log(data);
+           
                     // $('#variant_toast').toast("show");
                     // toastr.warning("Variant with same attribute options already exists.");
                     $('#variant_toast').modal('show');

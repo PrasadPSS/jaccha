@@ -1,12 +1,26 @@
 import { asset } from "@/Helpers/asset";
 import HomeLayout from "@/Layouts/HomeLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Head, Link, router, useForm } from "@inertiajs/react";
 import axios from "axios";
 import React, { useState } from "react";
 
 
 export default function OrderCheckout({ auth, data }) {
 
+    const [formData, setFormData] = useState({
+        shipping_full_name: auth.user.name,
+        shipping_mobile_no: auth.user.mobile_no,
+        shipping_address_line1: "",
+        shipping_address_line2: "",
+        shipping_landmark: "NA",
+        shipping_city: "",
+        shipping_pincode: "",
+        shipping_district: "Thane",
+        shipping_state: "",
+        shipping_address_type: "Home",
+        shipping_email: auth.user.email,
+        default_address_flag: false,
+    });
 
     // Destructure the required data
     const {
@@ -28,7 +42,7 @@ export default function OrderCheckout({ auth, data }) {
 
     const [shippingAmount, setShippingAmount] = useState(shipping_amount);
     const [codResponse, setCodResponse] = useState(cod_response == 'Y' ? 1 : 0);
-    console.log(codResponse);
+
     const [shippingAddressId, setShippingAddressId] = useState(shipping_address.shipping_address_id);
 
     const [paymentMode, setPaymentMode] = useState('');
@@ -51,6 +65,28 @@ export default function OrderCheckout({ auth, data }) {
             })
 
     }
+    const handleInputChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData({
+            ...formData,
+            [name]: type === "checkbox" ? checked : value,
+        });
+    };
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // Submit form data to the route `address.store`
+        router.post(route("address.store"), formData, {
+            onSuccess: () => {
+                console.log("Address submitted successfully");
+            },
+            onError: (errors) => {
+                console.error("Validation Errors: ", errors);
+            },
+        });
+    };
 
     return (
         <HomeLayout auth={auth}>
@@ -223,7 +259,7 @@ export default function OrderCheckout({ auth, data }) {
                                                 <p>{item.products.product_weight}gm | {item.sweetness_level} Sweetness | {item.ingredient_addons} | No {item.ingredient_exclusions}</p>
                                             </div>
                                             <div className="checkout-product_price">
-                                                <p>₹{item.products.product_price}.00</p>
+                                                <p>₹{item.product_variant_id ? item.product_variant.product_price : item.products.product_price}.00</p>
                                             </div>
                                         </div>))}
 
@@ -303,46 +339,64 @@ export default function OrderCheckout({ auth, data }) {
                                 <i className="far fa-times"></i>
                             </button>
                         </div>
-                        <div className="modal-body">
-                            <div className="row">
-                                <div className="col-sm-12">
-                                    <div className="form-inputs mb-3">
-                                        <input type="text" className="form-control" placeholder="Address" id="exampleAddress" />
+                        <form action="" onSubmit={handleSubmit}>
+                            <div className="modal-body">
+
+                                <div className="row" action="" >
+                                    <div className="col-sm-12">
+                                        <div className="form-inputs mb-3">
+                                            <input type="text" className="form-control" placeholder="Address" id="shipping_address_line1" name="shipping_address_line1"
+                                                value={formData.shipping_address_line1}
+                                                onChange={handleInputChange} />
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-12">
+                                        <div className="form-inputs mb-3">
+                                            <input type="text" className="form-control" placeholder="Apartment (Optional)" id="shipping_address_line2"
+                                                name="shipping_address_line2"
+                                                value={formData.shipping_address_line2}
+                                                onChange={handleInputChange} />
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-6">
+                                        <div className="form-inputs mb-3">
+                                            <input type="text" className="form-control" placeholder="City" id="shipping_city"
+                                                name="shipping_city"
+                                                value={formData.shipping_city}
+                                                onChange={handleInputChange} />
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-6">
+                                        <div className="form-inputs mb-3">
+                                            <input type="number" className="form-control" placeholder="Post Code" id="shipping_pincode"
+                                                name="shipping_pincode"
+                                                value={formData.shipping_pincode}
+                                                onChange={handleInputChange} />
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-6">
+                                        <div className="form-inputs">
+                                            <input type="text" className="form-control" placeholder="Country/Region" id="shipping_state"
+                                                name="shipping_state"
+                                                value={formData.shipping_state}
+                                                onChange={handleInputChange} />
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-6">
+                                        <div className="form-inputs">
+                                            <input type="number" className="form-control" placeholder="Alternate Contact Number" id="exampleAddress" />
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="col-sm-12">
-                                    <div className="form-inputs mb-3">
-                                        <input type="text" className="form-control" placeholder="Apartment (Optional)" id="exampleAddress" />
-                                    </div>
-                                </div>
-                                <div className="col-sm-6">
-                                    <div className="form-inputs mb-3">
-                                        <input type="text" className="form-control" placeholder="City" id="exampleAddress" />
-                                    </div>
-                                </div>
-                                <div className="col-sm-6">
-                                    <div className="form-inputs mb-3">
-                                        <input type="number" className="form-control" placeholder="Post Code" id="exampleAddress" />
-                                    </div>
-                                </div>
-                                <div className="col-sm-6">
-                                    <div className="form-inputs">
-                                        <input type="text" className="form-control" placeholder="Country/Region" id="exampleAddress" />
-                                    </div>
-                                </div>
-                                <div className="col-sm-6">
-                                    <div className="form-inputs">
-                                        <input type="number" className="form-control" placeholder="Alternate Contact Number" id="exampleAddress" />
-                                    </div>
-                                </div>
+
                             </div>
-                        </div>
-                        <div className="modal-footer m-auto border-0">
-                            <button type="button" className="btn button black">Add Address</button>
-                            <button type="button" className="button cancel_btn black" data-bs-dismiss="modal">
-                                Cancel
-                            </button>
-                        </div>
+                            <div className="modal-footer m-auto border-0">
+                                <button type="submit" className="btn button black">Add Address</button>
+                                <button type="button" className="button cancel_btn black" data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -177,7 +177,7 @@ Route::post('/shippingaddress/delete/{shipping_address_id}', [AddressesControlle
 
 //products
 Route::get('/products', [ProductController::class, 'index'])
-->middleware(['auth', 'verified'])->name('product.index');
+->name('product.index');
 Route::get('/products/{category_name}', [ProductController::class, 'category'])
 ->middleware(['auth', 'verified'])->name('product.category');
 Route::get('/product/buy/{product_id}/{quantity}', [ProductController::class, 'buy'])
@@ -185,7 +185,7 @@ Route::get('/product/buy/{product_id}/{quantity}', [ProductController::class, 'b
 Route::post('/product/addtocart', [ProductController::class, 'addtocart'])
 ->middleware(['auth', 'verified'])->name('product.add');
 Route::get('/product/view/{product_id}', [ProductController::class, 'viewProductDetails'])
-->middleware(['auth', 'verified'])->name('product.view');
+->name('product.view');
 Route::post('product/pincode/check', [ProductController::class, 'checkPincodeServiceability'])
 ->middleware(['auth', 'verified'])->name('product.pincode.check');
 

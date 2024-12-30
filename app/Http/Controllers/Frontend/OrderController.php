@@ -607,6 +607,7 @@ class OrderController extends Controller
         if($post_data['paymentmode'] == 'Cash On Delivery')
         {
             $this->convert($missing_payment_id);
+            Cart::where('user_id', auth()->user()->id)->delete();
         }
         return Inertia::render('Frontend/Orders/ThankYou');
     }

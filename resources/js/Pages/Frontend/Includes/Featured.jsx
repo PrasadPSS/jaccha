@@ -6,7 +6,6 @@ import React from "react";
 export default function Featured({ title, subTitle, sectionChildren, paddingTop, paddingBottom, data }) {
 
     const products = [];
-    console.log('products', data.products);
     data.products.forEach(element => {
         products.push({
             id: element.product_id,
@@ -24,7 +23,7 @@ export default function Featured({ title, subTitle, sectionChildren, paddingTop,
                 </div>
                 <div className="row mt-5" data-aos="fade-up">
                     {products.map((product, index) => (
-                        <div key={index} className="col-sm-3">
+                        <Link href={"/product/view/" + product.id} key={index} className="col-sm-3">
                             <div className="feature-box">
                                 <div className="basket-box">
                                     <Link href="/product/addtocart" method="post" data={{ product_id: product.id, product_type: "simple", product_variant_id: null, quantity: 1, _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), sweetnesslevel: null, ingrediantaddons: null, exclusions: null }}>
@@ -49,7 +48,7 @@ export default function Featured({ title, subTitle, sectionChildren, paddingTop,
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
 
                     ))}
                     <div className="col-sm-12 m-auto text-center mt-5">

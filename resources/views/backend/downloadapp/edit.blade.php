@@ -94,7 +94,7 @@
         $(".subcategory").change(function(){
           var subcategory_id = $(this).val();
           var category_id = $(".category").val();
-            console.log(subcategory_id);
+           
           subsubcategories(category_id,subcategory_id);
         });
         $(".subsubcategory").change(function(){
