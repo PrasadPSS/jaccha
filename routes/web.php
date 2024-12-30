@@ -230,7 +230,7 @@ Route::post('/api/cart/increase', [CartController::class, 'increaseQuantity']);
 Route::post('/api/cart/decrease', [CartController::class, 'decreaseQuantity']);
 Route::post('/api/cart/remove', [CartController::class, 'removeItem']);
 Route::get('/cart/view', [CartController::class, 'index'])
-->middleware(['auth', 'verified'])->name('cart.index');
+->middleware(['auth', 'verified','isProfileCompleted'])->name('cart.index');
 
 //google
 Route::get('/google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
