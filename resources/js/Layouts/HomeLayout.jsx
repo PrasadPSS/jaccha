@@ -21,9 +21,10 @@ import { usePage } from "@inertiajs/react";
 const HomeLayout = ({ children, auth }) => {
   let flash =  usePage().props.flash;
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (flash.success) {
       toast.success(flash.success);
+      console.log(flash.success);
     }
     if(flash.error)
       {

@@ -48,9 +48,11 @@ export default function Login({ auth, status, canResetPassword }) {
                                 <form onSubmit={submit}>
                                     <div className="mb-3 mt-4">
                                         <input type="email" className="form-control" id="emailAddrs" placeholder="Enter email address*" onChange={(e) => setData('email', e.target.value)}/>
+                                        <InputError message={errors.email} className="mt-2" />
                                     </div>
                                     <div className="mb-3 position-relative">
                                         <input type="password" className="form-control" id="passoword" placeholder="Password*" onChange={(e) => setData('password', e.target.value)}/>
+                                        <InputError message={errors.password} className="mt-2" />
                                             <div className="forgt-pass">
                                                 <a href="forgot-password.html">Forgot password?</a>
                                             </div>
