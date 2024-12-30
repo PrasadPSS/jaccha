@@ -179,7 +179,7 @@ Route::post('/shippingaddress/delete/{shipping_address_id}', [AddressesControlle
 Route::get('/products', [ProductController::class, 'index'])
 ->name('product.index');
 Route::get('/products/{category_name}', [ProductController::class, 'category'])
-->middleware(['auth', 'verified'])->name('product.category');
+->name('product.category');
 Route::get('/product/buy/{product_id}/{quantity}', [ProductController::class, 'buy'])
 ->middleware(['auth', 'verified'])->name('product.buy');
 Route::post('/product/addtocart', [ProductController::class, 'addtocart'])
