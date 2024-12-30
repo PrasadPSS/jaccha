@@ -1,7 +1,11 @@
-import { Link } from "@inertiajs/react";
-import React from "react";
+import { Link, router } from "@inertiajs/react";
+
+import React, { useEffect, useState } from "react";
 
 const Header = ({ auth }) => {
+ const [querys, setQuerys] = useState(auth.querys != null ? auth.querys : "");
+
+
 
   return (
     <header>
@@ -26,11 +30,19 @@ const Header = ({ auth }) => {
             <span className="input-group-text bg-transparent border-end-0">
               <i className="far fa-search"></i>
             </span>
-            <input
-              type="text"
-              className="form-control border-start-0"
-              placeholder="Search for an item..."
-            />
+            <form action={"/products"} method="get">
+              <input
+                
+                id="querys"
+                value={querys}
+                onChange={(e) => {setQuerys(e.target.value)}}
+                name="querys"
+                type="text"
+                className="form-control border-start-0"
+                placeholder="Search for an item..."
+              />
+            </form>
+
           </div>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto gap-4">
@@ -48,10 +60,10 @@ const Header = ({ auth }) => {
 
               </li>
               <li className="nav-item">
-                <Link className={route().current('wishlist.index') ? "nav-link active" : "nav-link"} href={route('wishlist.index')}>Wish List {auth.wishlist_count != 0 ? "("+auth.wishlist_count+")" : ''}</Link>
+                <Link className={route().current('wishlist.index') ? "nav-link active" : "nav-link"} href={route('wishlist.index')}>Wish List {auth.wishlist_count != 0 ? "(" + auth.wishlist_count + ")" : ''}</Link>
               </li>
               <li className="nav-item">
-                <Link className={route().current('cart.index') ? "nav-link active" : "nav-link"} href={route('cart.index')}>Basket<i className="far fa-shopping-basket"></i> {auth.cart_count != 0 ? "("+auth.cart_count+")" : ''}</Link>
+                <Link className={route().current('cart.index') ? "nav-link active" : "nav-link"} href={route('cart.index')}>Basket<i className="far fa-shopping-basket"></i> {auth.cart_count != 0 ? "(" + auth.cart_count + ")" : ''}</Link>
               </li>
             </ul>
           </div>
@@ -77,21 +89,21 @@ const Header = ({ auth }) => {
             id="navbarNav"
           >
             <ul className="navbar-nav">
-            <li className="nav-item">
-            <Link className="nav-link" aria-current="page" href={"/products/" + 'new-arrival'}>
-              New Arrivals <span># Fresh</span>
-            </Link>
-            </li>
-            {auth.categories.map((category) => {
-  
-              return (
-              <li key={category.category_name} className="nav-item">
-                  <Link className="nav-link" aria-current="page" href={"/products/" + category.category_id}>
-                  {category.category_name}
-                  </Link>
-
+              <li className="nav-item">
+                <Link className="nav-link" aria-current="page" href={"/products/" + 'new-arrival'}>
+                  New Arrivals <span># Fresh</span>
+                </Link>
               </li>
-              )
+              {auth.categories.map((category) => {
+
+                return (
+                  <li key={category.category_name} className="nav-item">
+                    <Link className="nav-link" aria-current="page" href={"/products/" + category.category_id}>
+                      {category.category_name}
+                    </Link>
+
+                  </li>
+                )
               })}
               {/* <li className="nav-item">
                 <a className="nav-link" href="about-us.html">

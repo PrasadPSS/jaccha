@@ -21,11 +21,17 @@ use Inertia\Inertia;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data['products'] =  Products::withAvg('reviews', 'rating')->with('reviews')->get();
-  
+        $data['products'] =  Products::withAvg('reviews', 'rating');
+        if($request->querys != null || $request->querys != '')
+        {
+            $data['products']->where('product_title', 'like', '%' . $request->querys . '%')
+            ->orWhere('category_slug', 'like', '%' . $request->querys . '%');
+        }
+        $data['products'] = $data['products']->with('reviews')->get();
         $data['homepagesections'] = HomePageSections::where('visibility', 1)->orderBy('home_page_section_priority')->with('home_page_section_type', 'section_childs')->get();
+
         return Inertia::render('Frontend/Products/ProductSearch', $data);
     }
 

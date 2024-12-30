@@ -44,6 +44,7 @@ class HandleInertiaRequests extends Middleware
                 'categories' => Categories::all(),
                 'orders' => $request->user() ? Orders::where('user_id', $request->user()->id)->with('orderproducts', 'orderproducts.products')->get() : "",
                 'reviews'=> $request->user() ? Review::where('user_id', $request->user()->id)->get() : "",
+                'querys'=>  $request->querys,
             ],
             'flash' => [
             'success' => $request->session()->get('success'),
