@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\frontend\ShippingAddresses;
 use App\Services\phpMailerService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -25,6 +26,18 @@ class ProfileController extends Controller
             'status' => session('status'),
             'customer' => auth()->user()->customer
         ]);
+    }
+
+    public function viewProfile(Request $request)
+    {
+        $data['shipping_addresses'] = ShippingAddresses::where('user_id', auth()->user()->id)->get();
+        return Inertia::render('Frontend/Profile/ViewProfile', [
+            'shipping_addresses'=> $data['shipping_addresses'],
+            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'status' => session('status'),
+            'customer' => auth()->user()->customer,
+            
+        ], );
     }
 
     public function customerUpdate(Request $request)

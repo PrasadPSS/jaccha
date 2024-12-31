@@ -31,35 +31,42 @@ export default function UserMenu({children, auth, activeTab}) {
                                     </button>
                                 </li>
                                 <li className="nav-item" role="presentation">
-                                    <button
-                                        className="nav-link position-relative"
+                                    <Link
+                                        as="button"
+                                        href={route('profile.view')}
+                                        className={activeTab == 'profile' ? "nav-link active position-relative" : "nav-link position-relative"}
                                         id="pills-second-tab"
                                         data-bs-toggle="pill"
                                         data-bs-target="#pills-second"
                                         type="button"
                                         role="tab"
                                         aria-controls="pills-second"
-                                        aria-selected="false"
+                                        aria-selected={activeTab == 'profile'}
                                     >
                                         Personal & Address Details
-                                    </button>
+                                    </Link>
                                 </li>
                                 <li className="nav-item" role="presentation">
-                                    <button
-                                        className="nav-link position-relative"
+                                    <Link
+                                        as="button"
+                                        href={route('order.index')}
+                                        className={activeTab == 'orders' ? "nav-link active position-relative" : "nav-link position-relative"}
                                         id="pills-third-tab"
                                         data-bs-toggle="pill"
                                         data-bs-target="#pills-third"
                                         type="button"
                                         role="tab"
                                         aria-controls="pills-third"
-                                        aria-selected="false"
+                                        aria-selected={activeTab == 'orders'}
                                     >
                                         My Orders
-                                    </button>
+                                    </Link>
                                 </li>
                                 <li className="nav-item" role="presentation">
-                                    <button
+                                    <Link
+                                        as="button"
+                                        href={route('wishlist.index')}
+
                                         className={activeTab == 'wishlist' ? "nav-link active position-relative" : "nav-link position-relative"}
                                         id="pills-fourth-tab"
                                         data-bs-toggle="pill"
@@ -67,10 +74,10 @@ export default function UserMenu({children, auth, activeTab}) {
                                         type="button"
                                         role="tab"
                                         aria-controls="pills-fourth"
-                                        aria-selected="true"
+                                        aria-selected={activeTab == 'wishlist'}
                                     >
                                         Wishlist's
-                                    </button>
+                                    </Link>
                                 </li>
 
                                 <li className="nav-item" role="presentation">

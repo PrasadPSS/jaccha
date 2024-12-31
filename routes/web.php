@@ -215,6 +215,8 @@ Route::get('/checkout/payment', [OrderController::class, 'checkout'])
 ->middleware(['auth', 'verified','isProfileCompleted'])->name('checkout.payment');
 Route::post('/order/create', [OrderController::class, 'createOrder'])
 ->middleware(['auth', 'verified','isProfileCompleted'])->name('order.create');
+Route::get('/order/details', [OrderController::class, 'viewDetails'])
+->middleware(['auth', 'verified','isProfileCompleted'])->name('order.details');
 
 Route::get('/orders/view', [OrderController::class, 'index'])->name('order.index');
 Route::get('/orders/calculaterate/{shipping_address_id}', [OrderController::class, 'calculateShippingCost'])
@@ -241,6 +243,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/profile/customer/update', [ProfileController::class, 'customerUpdate'])->name('profile.customer.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/view', [ProfileController::class, 'viewProfile'])->name('profile.view');
 });
 
 Route::get('/phonepepaymentsuccess', [CartController::class, 'phonepepaymentsuccess'])->name('phonepepaymentsuccess');

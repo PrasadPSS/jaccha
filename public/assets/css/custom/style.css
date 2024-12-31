@@ -2501,3 +2501,83 @@ opacity: 100%;
 
 /* Added by Sanket Shetty on 27/12/2024 - Ends  */
 
+/* Added by Deepali 31-12-2024 */
+
+.update-details-btn {
+  border: 0;
+  font-size: 13px;
+  font-family: var(--heading-font);
+}
+
+.update-details-btn i {
+  color: var(--secondary);
+  margin-right: 5px;
+}
+
+.update-address-btn {
+  border: 0;
+  font-size: 13px;
+  font-family: var(--heading-font);
+}
+
+.update-address-btn i {
+  color: var(--secondary);
+  margin-right: 5px;
+}
+
+.edit-address-btn {
+  border: 0;
+  font-size: 13px;
+  font-family: var(--heading-font);
+  text-decoration: underline;
+}
+
+.remove-address-btn {
+  border: 0;
+  font-size: 13px;
+  font-family: var(--heading-font);
+  text-decoration: underline;
+}
+
+.address-modal .modal-dialog{
+  max-width: 1000px;
+}
+
+.form-inputs select {
+  padding: 15px 15px;
+  border: 1px solid #e4e4e4 !important;
+  font-size: 12px;
+}
+
+.form-inputs label {
+  padding: 15px 15px;
+  font-size: 12px;
+}
+
+.form-inputs input {
+  padding: 15px 15px;
+  font-size: 12px;
+  vertical-align: middle;
+  accent-color: var(--tertiary);
+}
+
+.empty-cart-content {
+  margin-top: 50px;
+  text-align: center;
+  padding-bottom: 80px;
+}
+.empty-cart-content img {
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+.empty-cart-content h1 {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--secondary);
+  font-style: var(--sans-serif);
+}
+.empty-cart-content p {
+  font-size: 16px;
+  color: #58595B; 
+}

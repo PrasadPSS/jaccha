@@ -410,6 +410,12 @@ class OrderController extends Controller
         return response()->json(['shipping_amount'=> $shipping_amount, 'cod_response' => $cod_response], 200);
     }
 
+    public function viewDetails(Request $request)
+    {
+        $data['orders'] = \App\Models\frontend\Orders::where('user_id', auth()->user()->id)->where('order_id', $request->order_id)->with('orderproducts', 'orderproducts.products')->first();
+        return Inertia::render('Frontend/Orders/ViewOrderDetails', $data);
+    }
+
     public function placeOrder(Request $request)
     {
         
