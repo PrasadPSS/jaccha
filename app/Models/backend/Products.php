@@ -3,6 +3,7 @@
 namespace App\Models\backend;
 
 use App\Models\frontend\Review;
+use App\Models\frontend\Wishlists;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;

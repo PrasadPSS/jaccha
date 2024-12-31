@@ -65,7 +65,7 @@ export default function ProductSearch({ auth, products, homepagesections }) {
         >
 
             <Head title="Product Listing" />
-            <ProductBanner></ProductBanner>
+            {/* <ProductBanner></ProductBanner> */}
             <ProductListing products={productDetails}></ProductListing>
             <FirstOrder></FirstOrder>
             <div className='pt-4 mb-4'></div>
