@@ -200,8 +200,8 @@ Route::get('/wishlist/view', [WishlistController::class, 'index'])
 ->middleware(['auth', 'verified'])->name('wishlist.index');
 Route::post('/wishlist/add', [WishlistController::class, 'add'])
 ->middleware(['auth', 'verified'])->name('wishlist.add');
-Route::post('/wishlist/add-to-cart', [WishlistController::class, 'addToCart'])
-->middleware(['auth', 'verified'])->name('wishlist.addToCart');
+Route::get('/wishlist/add-all-to-cart', [WishlistController::class, 'addAllToCart'])
+->middleware(['auth', 'verified'])->name('wishlist.addAllToCart');
 Route::post('/wishlist/delete', [WishlistController::class, 'delete'])
 ->middleware(['auth', 'verified'])->name('wishlist.delete');
 

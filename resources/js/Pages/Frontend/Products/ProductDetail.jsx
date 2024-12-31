@@ -50,13 +50,12 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
 
 
     function canReview(productId) {
-        if(auth.orders != '')
-        {
-                const hasPurchased = auth.orders.some((order) =>
-                    order.orderproducts.some((product) => product.product_id === productId)
-                );
-        
-                return hasPurchased;
+        if (auth.orders != '') {
+            const hasPurchased = auth.orders.some((order) =>
+                order.orderproducts.some((product) => product.product_id === productId)
+            );
+
+            return hasPurchased;
         }
         // Check if the given productId exists in any order's products
         return false;
@@ -108,8 +107,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
         });
         $("#addtoBasketButton").on("click", function () {
             $("#addBasketModal").modal("toggle");
-            if(auth.user)
-            {
+            if (auth.user) {
                 swal({
                     title: "",
                     text: product.product_title + " Added to Your Basket!",
@@ -180,24 +178,23 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
         });
     };
 
-    const handleCheck = (productId)=> {
-        if(auth.wishlist != '')
-        {
-         
+    const handleCheck = (productId) => {
+        if (auth.wishlist != '') {
+
             return auth.wishlist.some(item => item.product_id == productId);
         }
 
         return false;
     }
 
-    const handleDeleteFromWishlist = ( quantity=1) => {
-            router.post('/wishlist/delete', { product_id:product.product_id }, {
-                onSuccess: () => '',
-                onError: (errors) => console.error(errors),
-            });
-        };
+    const handleDeleteFromWishlist = (quantity = 1) => {
+        router.post('/wishlist/delete', { product_id: product.product_id }, {
+            onSuccess: () => '',
+            onError: (errors) => console.error(errors),
+        });
+    };
 
-    
+
 
     return (
         <HomeLayout auth={auth}>
