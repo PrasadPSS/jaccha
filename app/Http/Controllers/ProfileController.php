@@ -34,6 +34,11 @@ class ProfileController extends Controller
         return Inertia::render('Frontend/Profile/ViewBasic', $data);
     }
 
+    public function changePassword()
+    {
+        return Inertia::render('Frontend/Profile/ChangePassword');
+    }
+
     public function viewProfile(Request $request)
     {
         $data['shipping_addresses'] = ShippingAddresses::where('user_id', auth()->user()->id)->get();

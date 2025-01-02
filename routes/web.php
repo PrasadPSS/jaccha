@@ -228,6 +228,10 @@ Route::post('/profile/checkOtp', [ProfileController::class, 'checkOtp'])
 ->middleware(['auth', 'verified'])->name('profile.reset-via-otp');
 Route::get('/profile/view-basic', [ProfileController::class, 'viewBasic'])
 ->middleware(['auth', 'verified'])->name('profile.viewBasic');
+Route::get('/profile/changepassword', [ProfileController::class, 'changePassword'])
+->middleware(['auth', 'verified'])->name('profile.changePassword');
+
+
 
 //need help
 Route::get('/faq/view', [FaqController::class, 'index'])->name('faq.view');

@@ -98,20 +98,22 @@ export default function UserMenu({ children, auth, activeTab }) {
                                             Need Help?
                                         </Link>
                                     </li>
-                                    {/* <li className="nav-item" role="presentation">
-                                    <button
-                                        className="nav-link position-relative"
+                                    <li className="nav-item" role="presentation">
+                                    <Link
+                                    as="button"
+                                        href={route('profile.changePassword')}
+                                        className={activeTab == 'changepassword' ? "nav-link active position-relative" : "nav-link position-relative"}
                                         id="pills-sixth-tab"
                                         data-bs-toggle="pill"
                                         data-bs-target="#pills-sixth"
                                         type="button"
                                         role="tab"
                                         aria-controls="pills-sixth"
-                                        aria-selected="false"
+                                        aria-selected={activeTab == 'changepassword'}
                                     >
                                         Change Password
-                                    </button>
-                                </li> */}
+                                    </Link>
+                                    </li>
                                     <li className="nav-item" role="presentation">
                                         <Link
                                             method="post"
