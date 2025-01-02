@@ -54,7 +54,7 @@ class WishlistController extends Controller
 
 		foreach ($wishlistItems as $item) {
 			$wishlistProduct = Products::where('product_id', $item->product_id)->first();
-
+			$cartItem = Cart::where('user_id', auth()->user()->id)->where('product_id', $item->product_id)->first();
 			// Check stock availability
 			if (!$wishlistProduct || $wishlistProduct->product_qty <= 0 || $wishlistProduct->out_of_stock_flag == 0) {
 				$outOfStockProducts[] = $wishlistProduct->product_title ?? "Unknown Product";
@@ -66,6 +66,14 @@ class WishlistController extends Controller
 				$outOfStockProducts[] = $wishlistProduct->name . " (Only " . $wishlistProduct->product_qty . " available)";
 				continue;
 			}
+
+			if($cartItem)
+			{
+				Cart::where('user_id', auth()->user()->id)->where('product_id', $item->product_id)->update(['qty'=> $cartItem->qty + 1]);
+				$item->delete();
+				continue;
+			}
+			
 
 			// Add the product to the cart
 			$cart = new Cart();

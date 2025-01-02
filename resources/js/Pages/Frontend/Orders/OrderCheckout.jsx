@@ -256,7 +256,7 @@ export default function OrderCheckout({ auth, data }) {
                                             </div>
                                             <div className="checkout-product_content">
                                                 <h5>{item.products.product_title}</h5>
-                                                <p>{item.products.product_weight}gm | {item.sweetness_level} Sweetness | {item.ingredient_addons} | No {item.ingredient_exclusions}</p>
+                                                <p></p>
                                             </div>
                                             <div className="checkout-product_price">
                                                 <p>₹{item.product_variant_id ? item.product_variant.product_price : item.products.product_price}.00</p>

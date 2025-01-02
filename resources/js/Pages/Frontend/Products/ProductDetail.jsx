@@ -302,18 +302,18 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                             |&nbsp;&nbsp; + &nbsp;&nbsp;|
                                         </button>
                                         <div className="number">
-                                            <button
+                                            <Link
                                                 type="button"
                                                 className="btn btn-primary black"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#addBasketModal"
+                                                href="/product/addtocart" as='button' method="post"
+                                                data={{ product_id: product.product_id, product_type: selectedVariant !== '' ? "configurable" : "simple", product_variant_id: product_variant_id, quantity: productQty, _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), sweetnesslevel: sweetnessLevel, ingrediantaddons: ingredients, exclusions: exclusions }}
                                                 data-price={totalPrice}
                                                 data-quantity={productQty}
                                             >
                                                 Add
                                                 <span id="count"> {productQty} </span>
                                                 to basket
-                                            </button>
+                                            </Link>
                                         </div>
 
                                         <button onClick={() => setQty((prev) => prev != 0 ? prev - 1 : 0)} className="btn minus_button" id="minus-btn">
@@ -619,16 +619,18 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                     |&nbsp;&nbsp; + &nbsp;&nbsp;|
                                 </button> */}
                                 <div className="number">
-                                    <button
-                                        type="button"
+                                    <Link
+                                
+                                        href="/product/addtocart" as='button' method="post"
+                                        data={{ product_id: product.product_id, product_type: selectedVariant !== '' ? "configurable" : "simple", product_variant_id: product_variant_id, quantity: productQty, _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), sweetnesslevel: sweetnessLevel, ingrediantaddons: ingredients, exclusions: exclusions }}
+                                        
                                         className="btn black"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#addBasketModal"
+                                        
                                     >
                                         Add
                                         <span id="count1">{productQty}</span>
                                         to basket
-                                    </button>
+                                    </Link>
                                 </div>
                                 {/* <button onClick={() => setQty((prev) => prev != 0 ? prev - 1 : 0)} className="btn minus_button" id="minus-btn1">
                                     |&nbsp;&nbsp; - &nbsp;&nbsp;|
@@ -661,7 +663,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                 aria-labelledby="addBasketModalLabel"
                 aria-hidden="true"
             >
-                <div className="modal-dialog">
+                {/* <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-body">
                             <button
@@ -831,7 +833,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
 
             <div

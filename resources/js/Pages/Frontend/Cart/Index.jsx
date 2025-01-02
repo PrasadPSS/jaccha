@@ -14,7 +14,7 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
     let cart_items = [];
     if (cart) {
         cart.forEach(element => {
-            cart_items.push({ id: element.product_id, weight: element.products.product_weight,swt: element.sweetness_level, addons: element.ingredient_addons, excl: element.ingredient_exclusions, name: element.product_variant != null ? element.product_variant.product_title : element.products.product_title, description: element.products.product_sub_title, price: element.product_variant != null ? element.product_variant.product_price : element.products.product_price, quantity: element.qty, image: element.products.product_thumb });
+            cart_items.push({ id: element.product_id, weight: element.products.product_weight, swt: element.sweetness_level, addons: element.ingredient_addons, excl: element.ingredient_exclusions, name: element.product_variant != null ? element.product_variant.product_title : element.products.product_title, description: element.products.product_sub_title, price: element.product_variant != null ? element.product_variant.product_price : element.products.product_price, quantity: element.qty, image: element.products.product_thumb });
         });
     }
 
@@ -88,6 +88,32 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
         >
             <Head title="Cart" />
 
+           {cartItems.length == 0 &&
+            <div className="sub-banner bg-light pb-0">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-sm-12">
+                            <div className="banner_heading pb-4">
+                                <h2>My Basket</h2>
+                                <p>0 Items</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="empty-cart-content">
+                    <img
+                        src="/assets/images/empty-wishlist.png"
+                        alt="Empty Cart"
+                        className="img-fluid mb-4"
+                        style={{maxWidth: "200px"}}
+                    />
+                    <h1>Oops! Fill Your Basket with Care! 👩‍👧💛</h1>
+                    <p className="mt-2">Your shopping basket is empty. Start adding items to it!</p>
+                    <Link as='button' href='/products'  className="button mt-4">Explore Our Products</Link>
+                </div>
+            </div>
+            } 
+            {cartItems.length > 0 &&(<>
             <div className="sub-banner bg-light pb-0">
                 <div className="container">
                     <div className="row">
@@ -100,7 +126,7 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
                     </div>
                 </div>
             </div>
-
+                
             <section className="checkout bg-light cart">
                 <div className="container">
                     <div className="row">
@@ -116,13 +142,13 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
                                                         src={'/backend-assets/uploads/product_thumbs/' + item.image}
                                                         alt=""
                                                     />
-                                                    
+
                                                 </div>
                                                 <div className="cart-product_content">
                                                     <div className="checkout-product_content">
                                                         <h5>{item.name}</h5>
                                                         <p>
-                                                        {item.weight}gm | {item.swt ?? "low"} Sweetness | {item.addons ?? 'NA'} | No {item.excl ?? 'NA'}
+                                                            
                                                             {/* <button
                                                         type="button"
                                                         className="btn edit-cart_btn"
@@ -158,7 +184,7 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
                                                     </button>
                                                 </div>
                                                 <button
-                                                onClick={() => decreaseQuantity(item.id)}
+                                                    onClick={() => decreaseQuantity(item.id)}
                                                     type="button"
                                                     className="btn minus_button"
                                                     id="minus-btn1"
@@ -172,7 +198,7 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
                                                 </p>
                                             </a>
                                         </div>
-                                    ))): 'Cart is Empty'}
+                                    ))) : 'Cart is Empty'}
 
 
                                 {/* <div className="discount-code">
@@ -198,13 +224,14 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
                                     </div>
                                 </div>
                                 <div className="pay-now-button">
-                                     <button onClick={() => handleCheckout()}>Checkout</button>
+                                    <button onClick={() => handleCheckout()}>Checkout</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
+            </section></>)
+            }
         </HomeLayout>
     );
 
