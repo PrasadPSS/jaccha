@@ -51,7 +51,7 @@ const Header = ({ auth }) => {
               </li>
               <li className="nav-item">
                 {auth && auth.user && (
-                  <Link className={route().current('profile.edit') ? "nav-link active" : "nav-link"} href={route('profile.edit')}> Account</Link>
+                  <Link className={route().current('profile.view') ? "nav-link active" : "nav-link"} href={route('profile.view')}> Account</Link>
                 )}
 
                 {!auth.user &&

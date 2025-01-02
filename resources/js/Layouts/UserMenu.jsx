@@ -83,18 +83,20 @@ export default function UserMenu({ children, auth, activeTab }) {
                                     </li>
 
                                     <li className="nav-item" role="presentation">
-                                        <button
-                                            className="nav-link position-relative"
+                                        <Link
+                                            as="button"
+                                            href={route('faq.view')}
+                                            className={activeTab == 'faq' ? "nav-link active position-relative" : "nav-link position-relative"}
                                             id="pills-fifth-tab"
                                             data-bs-toggle="pill"
                                             data-bs-target="#pills-fifth"
                                             type="button"
                                             role="tab"
                                             aria-controls="pills-fifth"
-                                            aria-selected="false"
+                                            aria-selected={activeTab == 'faq'}
                                         >
                                             Need Help?
-                                        </button>
+                                        </Link>
                                     </li>
                                     {/* <li className="nav-item" role="presentation">
                                     <button

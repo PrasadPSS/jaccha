@@ -229,6 +229,9 @@ Route::post('/profile/checkOtp', [ProfileController::class, 'checkOtp'])
 Route::get('/profile/view-basic', [ProfileController::class, 'viewBasic'])
 ->middleware(['auth', 'verified'])->name('profile.viewBasic');
 
+//need help
+Route::get('/faq/view', [FaqController::class, 'index'])->name('faq.view');
+
 //cart
 Route::post('/api/cart/increase', [CartController::class, 'increaseQuantity']);
 Route::post('/api/cart/decrease', [CartController::class, 'decreaseQuantity']);
