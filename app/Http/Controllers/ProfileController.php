@@ -24,8 +24,14 @@ class ProfileController extends Controller
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'customer' => auth()->user()->customer
+           
         ]);
+    }
+
+    public function viewBasic(Request $request): Response
+    {
+        $data['shipping_address'] = ShippingAddresses::where('user_id',auth()->user()->id)->where('default_address_flag', 1)->first();
+        return Inertia::render('Frontend/Profile/ViewBasic', $data);
     }
 
     public function viewProfile(Request $request)
@@ -35,7 +41,7 @@ class ProfileController extends Controller
             'shipping_addresses'=> $data['shipping_addresses'],
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'customer' => auth()->user()->customer,
+       
             
         ], );
     }
@@ -54,19 +60,10 @@ class ProfileController extends Controller
         ]);
 
         // Check if the user has a customer
-        $customer = $request->user()->customer;
-
-        if ($customer) {
-            // If customer exists, update it
-            $customer->fill($customerValidated);
-            $customer->save();
-        } else {
-            // If customer doesn't exist, create a new one
-            $request->user()->customer()->create($customerValidated);
-        }
+       
 
         // Redirect back to the profile edit page
-        return Redirect::route('profile.edit');
+        return Redirect::route('profile.view');
     }
 
 
@@ -84,7 +81,7 @@ class ProfileController extends Controller
         $request->user()->save();
 
 
-        return Redirect::route('profile.edit');
+        return Redirect::route('profile.view')->with('success', 'Your profile has been updated.');
     }
 
     /**

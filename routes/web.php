@@ -226,6 +226,8 @@ Route::post('/profile/sendOtp', [ProfileController::class, 'sendOtp'])
 ->middleware(['auth', 'verified'])->name('profile.sendotp');
 Route::post('/profile/checkOtp', [ProfileController::class, 'checkOtp'])
 ->middleware(['auth', 'verified'])->name('profile.reset-via-otp');
+Route::get('/profile/view-basic', [ProfileController::class, 'viewBasic'])
+->middleware(['auth', 'verified'])->name('profile.viewBasic');
 
 //cart
 Route::post('/api/cart/increase', [CartController::class, 'increaseQuantity']);

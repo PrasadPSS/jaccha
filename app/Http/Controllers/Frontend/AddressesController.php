@@ -137,7 +137,7 @@ class AddressesController extends Controller
     $user_id = auth()->user()->id;
     $shipping_address = ShippingAddresses::where('user_id',$user_id)->where('shipping_address_id',$id)->first();
 
-    return Inertia::render('Frontend/Address/EditAddress', compact('shipping_address'));
+    return response()->json(['shipping_address' => $shipping_address]);
   }
 
   public function updateaddress(Request $request)

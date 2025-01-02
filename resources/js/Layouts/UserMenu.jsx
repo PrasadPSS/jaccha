@@ -2,99 +2,101 @@ import { Head, Link } from "@inertiajs/react";
 import React from "react";
 import HomeLayout from "./HomeLayout";
 
-export default function UserMenu({children, auth, activeTab}) {
+export default function UserMenu({ children, auth, activeTab }) {
     return (
-        <HomeLayout  auth={auth}>
-        
-        <section className="myaccount bg-light pt-5 pb-5">
-            <div className="container">
-                <div className="row">
-                    <div className="col-sm-3">
-                        <div className="account-list">
-                            <ul
-                                className="nav nav-pills flex-column nav-pills"
-                                id="pills-tab"
-                                role="tablist"
-                            >
-                                <li className="nav-item" role="presentation">
-                                    <button
-                                        className={activeTab == 'account' ? "nav-link active position-relative" : "nav-link position-relative"}
-                                        id="pills-first-tab"
-                                        data-bs-toggle="pill"
-                                        data-bs-target="#pills-first"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="pills-first"
-                                        aria-selected="false"
-                                    >
-                                        My Account
-                                    </button>
-                                </li>
-                                <li className="nav-item" role="presentation">
-                                    <Link
-                                        as="button"
-                                        href={route('profile.view')}
-                                        className={activeTab == 'profile' ? "nav-link active position-relative" : "nav-link position-relative"}
-                                        id="pills-second-tab"
-                                        data-bs-toggle="pill"
-                                        data-bs-target="#pills-second"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="pills-second"
-                                        aria-selected={activeTab == 'profile'}
-                                    >
-                                        Personal & Address Details
-                                    </Link>
-                                </li>
-                                <li className="nav-item" role="presentation">
-                                    <Link
-                                        as="button"
-                                        href={route('order.index')}
-                                        className={activeTab == 'orders' ? "nav-link active position-relative" : "nav-link position-relative"}
-                                        id="pills-third-tab"
-                                        data-bs-toggle="pill"
-                                        data-bs-target="#pills-third"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="pills-third"
-                                        aria-selected={activeTab == 'orders'}
-                                    >
-                                        My Orders
-                                    </Link>
-                                </li>
-                                <li className="nav-item" role="presentation">
-                                    <Link
-                                        as="button"
-                                        href={route('wishlist.index')}
+        <HomeLayout auth={auth}>
 
-                                        className={activeTab == 'wishlist' ? "nav-link active position-relative" : "nav-link position-relative"}
-                                        id="pills-fourth-tab"
-                                        data-bs-toggle="pill"
-                                        data-bs-target="#pills-fourth"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="pills-fourth"
-                                        aria-selected={activeTab == 'wishlist'}
-                                    >
-                                        Wishlist's
-                                    </Link>
-                                </li>
+            <section className="myaccount bg-light pt-5 pb-5">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-sm-3">
+                            <div className="account-list">
+                                <ul
+                                    className="nav nav-pills flex-column nav-pills"
+                                    id="pills-tab"
+                                    role="tablist"
+                                >
+                                    <li className="nav-item" role="presentation">
+                                        <Link
+                                            as="button"
+                                            className={activeTab == 'account' ? "nav-link active position-relative" : "nav-link position-relative"}
+                                            id="pills-first-tab"
+                                            href={route('profile.viewBasic')}
+                                            data-bs-toggle="pill"
+                                            data-bs-target="#pills-first"
+                                            type="button"
+                                            role="tab"
+                                            aria-controls="pills-first"
+                                            aria-selected={activeTab == 'account'}
+                                        >
+                                            My Account
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item" role="presentation">
+                                        <Link
+                                            as="button"
+                                            href={route('profile.view')}
+                                            className={activeTab == 'profile' ? "nav-link active position-relative" : "nav-link position-relative"}
+                                            id="pills-second-tab"
+                                            data-bs-toggle="pill"
+                                            data-bs-target="#pills-second"
+                                            type="button"
+                                            role="tab"
+                                            aria-controls="pills-second"
+                                            aria-selected={activeTab == 'profile'}
+                                        >
+                                            Personal & Address Details
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item" role="presentation">
+                                        <Link
+                                            as="button"
+                                            href={route('order.index')}
+                                            className={activeTab == 'orders' ? "nav-link active position-relative" : "nav-link position-relative"}
+                                            id="pills-third-tab"
+                                            data-bs-toggle="pill"
+                                            data-bs-target="#pills-third"
+                                            type="button"
+                                            role="tab"
+                                            aria-controls="pills-third"
+                                            aria-selected={activeTab == 'orders'}
+                                        >
+                                            My Orders
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item" role="presentation">
+                                        <Link
+                                            as="button"
+                                            href={route('wishlist.index')}
 
-                                <li className="nav-item" role="presentation">
-                                    <button
-                                        className="nav-link position-relative"
-                                        id="pills-fifth-tab"
-                                        data-bs-toggle="pill"
-                                        data-bs-target="#pills-fifth"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="pills-fifth"
-                                        aria-selected="false"
-                                    >
-                                        Need Help?
-                                    </button>
-                                </li>
-                                {/* <li className="nav-item" role="presentation">
+                                            className={activeTab == 'wishlist' ? "nav-link active position-relative" : "nav-link position-relative"}
+                                            id="pills-fourth-tab"
+                                            data-bs-toggle="pill"
+                                            data-bs-target="#pills-fourth"
+                                            type="button"
+                                            role="tab"
+                                            aria-controls="pills-fourth"
+                                            aria-selected={activeTab == 'wishlist'}
+                                        >
+                                            Wishlist's
+                                        </Link>
+                                    </li>
+
+                                    <li className="nav-item" role="presentation">
+                                        <button
+                                            className="nav-link position-relative"
+                                            id="pills-fifth-tab"
+                                            data-bs-toggle="pill"
+                                            data-bs-target="#pills-fifth"
+                                            type="button"
+                                            role="tab"
+                                            aria-controls="pills-fifth"
+                                            aria-selected="false"
+                                        >
+                                            Need Help?
+                                        </button>
+                                    </li>
+                                    {/* <li className="nav-item" role="presentation">
                                     <button
                                         className="nav-link position-relative"
                                         id="pills-sixth-tab"
@@ -108,28 +110,31 @@ export default function UserMenu({children, auth, activeTab}) {
                                         Change Password
                                     </button>
                                 </li> */}
-                                <li className="nav-item" role="presentation">
-                                    <button
-                                        className="nav-link position-relative"
-                                        id="pills-seventh-tab"
-                                        data-bs-toggle="pill"
-                                        data-bs-target="#pills-seventh"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="pills-seventh"
-                                        aria-selected="false"
-                                    >
-                                        Logout
-                                    </button>
-                                </li>
-                            </ul>
+                                    <li className="nav-item" role="presentation">
+                                        <Link
+                                            method="post"
+                                            href={route('logout')}
+                                            as="button"
+                                            className="nav-link position-relative"
+                                            id="pills-seventh-tab"
+                                            data-bs-toggle="pill"
+                                            data-bs-target="#pills-seventh"
+                                            type="button"
+                                            role="tab"
+                                            aria-controls="pills-seventh"
+                                            aria-selected="false"
+                                        >
+                                            Logout
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-sm-9">
-                        <div className="account-details">
-                            <div className="tab-content w-100" id="pills-tabContent">
-                                {children}
-                                {/* <div
+                        <div className="col-sm-9">
+                            <div className="account-details">
+                                <div className="tab-content w-100" id="pills-tabContent">
+                                    {children}
+                                    {/* <div
                                     className="tab-pane fade show active"
                                     id="pills-first"
                                     role="tabpanel"
@@ -527,12 +532,12 @@ export default function UserMenu({children, auth, activeTab}) {
                                         </div>
                                     </div>
                                 </div> */}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
         </HomeLayout>
     );
 };

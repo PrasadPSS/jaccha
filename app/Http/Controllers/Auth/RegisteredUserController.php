@@ -52,7 +52,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'mobile_no'=> $request->phoneNo,
         ]);
-        Customer::create(['user_id'=> $user->id]);
+    
         
         event(new Registered($user));
 
