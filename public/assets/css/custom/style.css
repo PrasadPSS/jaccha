@@ -2581,3 +2581,38 @@ opacity: 100%;
   font-size: 16px;
   color: #58595B; 
 }
+
+.empty-wishlist-content{
+  text-align: center;
+}
+.empty-wishlist-content h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.empty-wishlist-content p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #58595b;
+}
+
+.empty-wishlist-content .btn {
+  background-color: var(--black);
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.empty-wishlist-content .btn:hover {
+  background-color: #e64932;
+}
+
+.empty-wishlist-image img {
+  max-width: 300px;
+  height: auto;
+  display: block;
+  margin-left: auto;
+}
