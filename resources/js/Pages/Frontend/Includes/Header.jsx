@@ -98,7 +98,7 @@ const Header = ({ auth }) => {
 
                 return (
                   <li key={category.category_name} className="nav-item">
-                    <Link className="nav-link" aria-current="page" href={"/products/" + category.category_id}>
+                    <Link className="nav-link" aria-current="page" href={"/products/" + category.category_slug}>
                       {category.category_name}
                     </Link>
 
