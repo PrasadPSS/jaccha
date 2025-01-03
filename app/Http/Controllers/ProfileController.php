@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\backend\District;
 use App\Models\frontend\ShippingAddresses;
 use App\Services\phpMailerService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -46,6 +47,7 @@ class ProfileController extends Controller
             'shipping_addresses'=> $data['shipping_addresses'],
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+            'districts'=> District::all(),
        
             
         ], );

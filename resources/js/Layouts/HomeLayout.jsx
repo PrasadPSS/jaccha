@@ -21,6 +21,7 @@ import { usePage } from "@inertiajs/react";
 const HomeLayout = ({ children, auth }) => {
   let flash = usePage().props.flash;
 
+  useEffect(()=>{
     if (flash.success ) {
       toast.success(flash.success);
 
@@ -29,6 +30,8 @@ const HomeLayout = ({ children, auth }) => {
       toast.warning(flash.error);
 
     }
+  },[flash.success, flash.error])
+    
 
   useEffect(() => {
     if (window.AOS) {

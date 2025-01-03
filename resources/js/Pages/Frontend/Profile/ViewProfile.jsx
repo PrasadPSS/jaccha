@@ -8,10 +8,26 @@ import UserMenu from '@/Layouts/UserMenu';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function UpdateProfileInformation({ shipping_addresses, mustVerifyEmail, status, className = '', }) {
+export default function UpdateProfileInformation({ shipping_addresses, mustVerifyEmail, status, className = '', districts }) {
+
+    const diststates = districts.filter((value, index, self) =>
+        index === self.findIndex((t) => (
+            t.state_name === value.state_name
+        )));
+
     const user = usePage().props.auth.user;
     const auth = usePage().props.auth;
     const error = usePage().props.flash.error;
+
+    const [selectedState, setSelectedState] = useState("");
+
+    const [states, setStates] = useState(diststates);
+    const [selDistrict, setSelectedDistrict] = useState("");
+    const [liDistrict, setLiDistrict] = useState([])
+
+
+    useEffect(() => setLiDistrict(districts.filter((district) => district.state_name == selectedState)), [selectedState])
+
     const [formData, setFormData] = useState({
         shipping_full_name: "",
         shipping_mobile_no: "",
@@ -27,12 +43,21 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
         default_address_flag: false,
     });
     const [validationErrors, setValidationErrors] = useState('');
+    const [defaultAddFlg, setDefaultAdd] = useState(false);
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData({
             ...formData,
             [name]: type === "checkbox" ? checked : value,
         });
+        if (name == 'shipping_state') {
+            setSelectedState(value);
+
+        }
+        if (name == 'shipping_district') {
+            setSelectedDistrict(value)
+
+        }
     };
 
     const handleSubmit = (e) => {
@@ -42,13 +67,15 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
         router.post(route("address.store"), formData, {
             onSuccess: () => {
                 console.log("Address submitted successfully");
+                $('#exampleModal').modal('hide');
             },
             onError: (errors) => {
                 setValidationErrors(errors);
-
+                return false;
             },
         });
     };
+    const [editDistricts, setEditDistricts] = useState([]);
     let shipping_address = '';
     const handleEditAddress = (shipping_address_id) => {
         axios.get('/shippingaddress/edit/' + shipping_address_id)
@@ -69,11 +96,14 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                     shipping_email: shipping_address.shipping_email || "",
                     default_address_flag: shipping_address.default_address_flag || 0,
                 })
+                setEditDistricts(districts.filter((district) => district.state_name == shipping_address.shipping_state))
+                setDefaultAdd(shipping_address.default_address_flag);
             })
             .catch(function (error) {
                 console.log(error);
             })
     }
+
     const [formData2, setFormData2] = useState({
         shipping_address_id: shipping_address.shipping_address_id || "",
         shipping_full_name: shipping_address.shipping_full_name || "",
@@ -94,6 +124,14 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
         const { name, value } = e.target;
         console.log(name, value);
         setFormData2({ ...formData2, [name]: value });
+
+
+        if (name == 'default_address_flag') {
+            setDefaultAdd(e.target.checked );
+            setFormData2({ ...formData2, [name]: e.target.checked });
+        }
+
+
     };
 
     const handleSubmit2 = (e) => {
@@ -120,6 +158,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
         mobile_no: user.mobile_no,
     });
 
+    useEffect(() => console.log('selected disctrict', selDistrict), [selDistrict]);
     function handleChange(e) {
         const key = e.target.name;
         const value = e.target.value
@@ -413,10 +452,8 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             name="shipping_district"
                                             value={formData2.shipping_district}
                                             onChange={handleChange2}>
-                                            <option value="">Select District</option>
-                                            <option value="district1">District 1</option>
-                                            <option value="district2">District 2</option>
-                                            <option value="district3">District 3</option>
+
+                                            {editDistricts.map((district) => <option value={district.name}>{district.name}</option>)}
                                         </select>
                                     </div>
                                 </div>
@@ -426,10 +463,8 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             name="shipping_state"
                                             value={formData2.shipping_state}
                                             onChange={handleChange2}>
-                                            <option value="">Select State</option>
-                                            <option value="district1">State 1</option>
-                                            <option value="district2">State 2</option>
-                                            <option value="district3">State 3</option>
+
+                                            {states.map((state) => <option value={state.state_name}>{state.state_name}</option>)}
                                         </select>
                                     </div>
                                 </div>
@@ -463,8 +498,8 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                     <div className="form-inputs mb-3">
                                         <label for="defaultAddress">
                                             <input type="checkbox" id="default_address_flag"
-                                                name="default_address_flag"  value={formData2.default_address_flag}
-                                                onChange={handleChange2} checked={formData2.default_address_flag ==1}/> Set as Default Address
+                                                name="default_address_flag"
+                                                onChange={handleChange2} checked={defaultAddFlg} /> Set as Default Address
                                         </label>
                                     </div>
                                 </div>
@@ -615,10 +650,8 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             name="shipping_district"
                                             value={formData.shipping_district}
                                             onChange={handleInputChange}>
-                                            <option value="">Select District</option>
-                                            <option value="district1">District 1</option>
-                                            <option value="district2">District 2</option>
-                                            <option value="district3">District 3</option>
+                                            <option value="" selected disabled>Select District</option>
+                                            {liDistrict.map((district) => <option value={district.name}>{district.name}</option>)}
                                         </select>
                                         <InputError message={validationErrors.shipping_district} className="mt-2" />
                                     </div>
@@ -627,12 +660,13 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                     <div className="form-inputs mb-3">
                                         <select className="form-control" id="shipping_state"
                                             name="shipping_state"
-                                            value={formData.shipping_state}
+                                            value={selectedState}
                                             onChange={handleInputChange}>
-                                            <option value="">Select State</option>
-                                            <option value="district1">State 1</option>
-                                            <option value="district2">State 2</option>
-                                            <option value="district3">State 3</option>
+                                            <option value="" selected disabled>Select State</option>
+                                            {states.map((state) => <option value={state.state_name}>{state.state_name}</option>)}
+
+
+
                                         </select>
                                         <InputError message={validationErrors.shipping_state} className="mt-2" />
                                     </div>
@@ -669,7 +703,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                     <div className="form-inputs mb-3">
                                         <label for="defaultAddress">
                                             <input type="checkbox" id="default_address_flag"
-                                                name="default_address_flag"  value={formData.default_address_flag}
+                                                name="default_address_flag" value={formData.default_address_flag}
                                                 onChange={handleInputChange} /> Set as Default Address
                                         </label>
                                     </div>
@@ -677,7 +711,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                             </div>
                         </div>
                         <div className="modal-footer m-auto border-0">
-                            <button type="submit" className="btn button black" data-bs-dismiss={validationErrors  ? "" : "modal"}>Add Address</button>
+                            <button type="submit" className="btn button black">Add Address</button>
                             <button
                                 type="button"
                                 className="button cancel_btn black"

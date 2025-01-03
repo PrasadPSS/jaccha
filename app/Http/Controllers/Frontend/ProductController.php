@@ -219,9 +219,6 @@ class ProductController extends Controller
         $data['average_rating'] = Review::where('product_id', $product_id)->avg('rating'); 
         $data['related_product_list'] = RelatedProducts::where('product_id', $product_id)->with('product')->get();
        
-
-
-        
         return Inertia::render('Frontend/Products/ProductDetail', $data);
     }
 
