@@ -104,11 +104,11 @@ console.log('sadsa',orders);
                             </div> */}
                             <div class="view-order-summary">
                               <p>Tax</p>
-                              <p>+₹{-Number(orders.total_mrp_dicount)}</p>
+                              <p>+₹{-Number(orders.total_mrp_dicount).toFixed(2)}</p>
                             </div>
                             <div class="view-order-summary">
                               <p><b>Total</b></p>
-                              <p><b>₹{orders.total}.00</b></p>
+                              <p><b>₹{Number(orders.total).toFixed(2)}</b></p>
                             </div>
                           </div>
                         </div>

@@ -35,7 +35,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <a href="{{ route('admin.orders') }}" class="btn btn-outline-secondary float-right ml-1"><i class="bx bx-arrow-back"></i><span class="align-middle ml-25">Back</span></a>
+                <a href="{{ route('order.index') }}" class="btn btn-outline-secondary float-right ml-1"><i class="bx bx-arrow-back"></i><span class="align-middle ml-25">Back</span></a>
                 <a href="javascript:void(0);" class="btn btn-outline-secondary float-right ml-1" onclick="PrintElem('.printinvoice');"><span class="align-middle ml-25">Print</span></a>
                 <a href="{{url('admin/orders/invoice/'. $orders->order_id)}}" class="btn btn-outline-secondary float-right ml-1"></i><span class="align-middle ml-25">Download Invoice</span></a>
                 <h4 class="card-title">Order Invoice
