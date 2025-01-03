@@ -85,7 +85,9 @@ export default function Index({ wishlist }) {
 
                                     </div>
 
-                                    <i onClick={() => handleDeleteFromWishlist(item.products.product_id)} className="fas fa-heart heart"></i>
+                                    <Link method="post" href={route('wishlist.delete')} data={{ product_id:  item.products.product_id }}>
+                                    <i className="fas fa-heart heart"></i>
+                                    </Link>
                                     <img
                                         src={'/backend-assets/uploads/product_thumbs/' + item.products.product_thumb}
                                         alt="feature image"
