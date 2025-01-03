@@ -127,7 +127,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
 
 
         if (name == 'default_address_flag') {
-            setDefaultAdd(e.target.checked );
+            setDefaultAdd(e.target.checked);
             setFormData2({ ...formData2, [name]: e.target.checked });
         }
 
