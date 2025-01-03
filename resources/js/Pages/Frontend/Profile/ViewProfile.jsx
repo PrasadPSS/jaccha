@@ -5,13 +5,13 @@ import TextInput from '@/Components/TextInput';
 import { Link, router, useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
 import UserMenu from '@/Layouts/UserMenu';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function UpdateProfileInformation({ shipping_addresses, mustVerifyEmail, status, className = '', }) {
     const user = usePage().props.auth.user;
     const auth = usePage().props.auth;
-
+    const error = usePage().props.flash.error;
     const [formData, setFormData] = useState({
         shipping_full_name: "",
         shipping_mobile_no: "",
@@ -26,7 +26,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
         shipping_email: "",
         default_address_flag: false,
     });
-
+    const [validationErrors, setValidationErrors] = useState('');
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData({
@@ -44,7 +44,8 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                 console.log("Address submitted successfully");
             },
             onError: (errors) => {
-                console.error("Validation Errors: ", errors);
+                setValidationErrors(errors);
+
             },
         });
     };
@@ -133,7 +134,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
 
     return (
         <UserMenu auth={auth} activeTab={'profile'}>
-            
+
             <div
                 className="tab-pane fade show active"
                 id="pills-second"
@@ -187,7 +188,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                         onClick={() => handleEditAddress(shipping.shipping_address_id)}
                                     > Edit
                                     </button>
-                                
+
                                     <Link
                                         as="button"
                                         href={'/shippingaddress/delete/' + shipping.shipping_address_id}
@@ -461,7 +462,9 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                 <div className="col-sm-4">
                                     <div className="form-inputs mb-3">
                                         <label for="defaultAddress">
-                                            <input type="checkbox" id="defaultAddress" checked /> Set as Default Address
+                                            <input type="checkbox" id="default_address_flag"
+                                                name="default_address_flag"  value={formData2.default_address_flag}
+                                                onChange={handleChange2} checked={formData2.default_address_flag ==1}/> Set as Default Address
                                         </label>
                                     </div>
                                 </div>
@@ -517,7 +520,9 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             name="shipping_full_name"
                                             value={formData.shipping_full_name}
                                             onChange={handleInputChange}
+
                                         />
+                                        <InputError message={validationErrors.shipping_full_name} className="mt-2" />
                                     </div>
                                 </div>
                                 <div className="col-sm-6">
@@ -531,6 +536,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             value={formData.shipping_mobile_no}
                                             onChange={handleInputChange}
                                         />
+                                        <InputError message={validationErrors.shipping_mobile_no} className="mt-2" />
                                     </div>
                                 </div>
                                 <div className="col-sm-6">
@@ -544,6 +550,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             value={formData.shipping_address_line1}
                                             onChange={handleInputChange}
                                         />
+                                        <InputError message={validationErrors.shipping_address_line1} className="mt-2" />
                                     </div>
                                 </div>
                                 <div className="col-sm-6">
@@ -557,6 +564,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             value={formData.shipping_address_line2}
                                             onChange={handleInputChange}
                                         />
+                                        <InputError message={validationErrors.shipping_address_line2} className="mt-2" />
                                     </div>
                                 </div>
                                 <div className="col-sm-4">
@@ -570,6 +578,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             value={formData.shipping_landmark}
                                             onChange={handleInputChange}
                                         />
+                                        <InputError message={validationErrors.shipping_landmark} className="mt-2" />
                                     </div>
                                 </div>
                                 <div className="col-sm-4">
@@ -583,6 +592,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             value={formData.shipping_city}
                                             onChange={handleInputChange}
                                         />
+                                        <InputError message={validationErrors.shipping_city} className="mt-2" />
                                     </div>
                                 </div>
                                 <div className="col-sm-4">
@@ -596,6 +606,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             value={formData.shipping_pincode}
                                             onChange={handleInputChange}
                                         />
+                                        <InputError message={validationErrors.shipping_pincode} className="mt-2" />
                                     </div>
                                 </div>
                                 <div className="col-sm-4">
@@ -609,6 +620,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             <option value="district2">District 2</option>
                                             <option value="district3">District 3</option>
                                         </select>
+                                        <InputError message={validationErrors.shipping_district} className="mt-2" />
                                     </div>
                                 </div>
                                 <div className="col-sm-4">
@@ -622,6 +634,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             <option value="district2">State 2</option>
                                             <option value="district3">State 3</option>
                                         </select>
+                                        <InputError message={validationErrors.shipping_state} className="mt-2" />
                                     </div>
                                 </div>
                                 <div className="col-sm-4">
@@ -635,6 +648,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             value={formData.shipping_email}
                                             onChange={handleInputChange}
                                         />
+                                        <InputError message={validationErrors.shipping_email} className="mt-2" />
                                     </div>
                                 </div>
                                 <div className="col-sm-6">
@@ -648,19 +662,22 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             <option value="district2">Work</option>
                                             <option value="district3">Other</option>
                                         </select>
+                                        <InputError message={validationErrors.shipping_address_type} className="mt-2" />
                                     </div>
                                 </div>
                                 <div className="col-sm-4">
                                     <div className="form-inputs mb-3">
                                         <label for="defaultAddress">
-                                            <input type="checkbox" id="defaultAddress" checked /> Set as Default Address
+                                            <input type="checkbox" id="default_address_flag"
+                                                name="default_address_flag"  value={formData.default_address_flag}
+                                                onChange={handleInputChange} /> Set as Default Address
                                         </label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="modal-footer m-auto border-0">
-                            <button type="submit" className="btn button black" data-bs-dismiss="modal">Add Address</button>
+                            <button type="submit" className="btn button black" data-bs-dismiss={validationErrors  ? "" : "modal"}>Add Address</button>
                             <button
                                 type="button"
                                 className="button cancel_btn black"

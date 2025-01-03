@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 // Importing styles
 import "../../../public/assets/css/libraries/aos.css";
@@ -19,19 +19,16 @@ import Footer from "@/Pages/Frontend/Includes/Footer";
 import { usePage } from "@inertiajs/react";
 
 const HomeLayout = ({ children, auth }) => {
-  let flash =  usePage().props.flash;
+  let flash = usePage().props.flash;
 
-  useEffect(() => {
-    if (flash.success) {
+    if (flash.success ) {
       toast.success(flash.success);
-      console.log(flash.success);
-    }
-    if(flash.error)
-      {
-        toast.warning(flash.error);
-      }
-  }, [flash.success,flash.error]);
 
+    }
+    if (flash.error) {
+      toast.warning(flash.error);
+
+    }
 
   useEffect(() => {
     if (window.AOS) {
@@ -47,8 +44,8 @@ const HomeLayout = ({ children, auth }) => {
 
   return (
     <div>
-      <ToastContainer/>
-      <Header auth={auth}/>
+      <ToastContainer />
+      <Header auth={auth} />
       <main>{children}</main>
       <Footer />
     </div>
