@@ -91,7 +91,7 @@ const Header = ({ auth }) => {
             <ul className="navbar-nav">
               <li className="nav-item">
                 <Link className="nav-link" aria-current="page" href={"/products/" + 'new-arrival'}>
-                  New Arrivals <span># Fresh</span>
+                  New Arrivals<span># Fresh</span>
                 </Link>
               </li>
               {auth.categories.map((category) => {
