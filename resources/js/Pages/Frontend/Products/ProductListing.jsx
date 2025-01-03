@@ -70,7 +70,21 @@ export default function ProductListing({ products }) {
             return selectedSort == 'desc' ? 1 : -1;
         }
     });
+    const clearFilters = () => {
+        setSelectedCategories([]);
+        setSelectedPriceRange(null);
+        setSelectedSizes([]);
+        const inputs = document.querySelectorAll('.product-accordian input');
 
+        // Iterate over inputs and reset their state
+        inputs.forEach((input) => {
+            if (input.type === 'checkbox' || input.type === 'radio') {
+                input.checked = false; // Uncheck checkboxes and radio buttons
+            } else {
+                input.value = ''; // Clear other input fields if present
+            }
+        });
+    };
 
 
     return (
@@ -154,9 +168,8 @@ export default function ProductListing({ products }) {
                                         <div className="accordion-body">
                                             <ul>
                                                 {[
-                                                    { label: "Below ₹500", min: 0, max: 500 },
-                                                    { label: "₹500 - ₹1000", min: 500, max: 1000 },
-                                                    { label: "Above ₹1000", min: 1000, max: Infinity },
+                                                    { label: "Low", min: 0, max: 1000 },
+                                                    { label: "High", min: 1000, max: Infinity },
                                                 ].map((range) => (
                                                     <li key={range.label}>
                                                         <div className="form-check">
@@ -220,9 +233,16 @@ export default function ProductListing({ products }) {
                                                 ))}
                                             </ul>
                                         </div>
+
+                                        
                                     </div>
                                 </div>
                             </div>
+                            <div className="mt-3">
+                                            <button className="btn btn-secondary" onClick={clearFilters}>
+                                                Clear Filters
+                                            </button>
+                                        </div>
                         </div>
                     </div>
 
