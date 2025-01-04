@@ -81,7 +81,7 @@ use App\Http\Controllers\backend\TrafficsourceController; //22-12-2022
 
 
 use App\Http\Controllers\frontend\PagesController;
-use App\Http\Controllers\frontend\FaqController;
+use App\Http\Controllers\Frontend\FaqController;
 use App\Http\Controllers\frontend\UsersController;
 use App\Http\Controllers\frontend\WishlistsController;
 use App\Http\Controllers\frontend\SimilarController;
