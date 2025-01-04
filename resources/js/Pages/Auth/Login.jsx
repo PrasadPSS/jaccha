@@ -54,7 +54,7 @@ export default function Login({ auth, status, canResetPassword }) {
                                         <input type="password" className="form-control" id="passoword" placeholder="Password*" onChange={(e) => setData('password', e.target.value)}/>
                                         <InputError message={errors.password} className="mt-2" />
                                             <div className="forgt-pass">
-                                                <a href="forgot-password.html">Forgot password?</a>
+                                                <a href={route('profile.forgotPassword')}>Forgot password?</a>
                                             </div>
                                     </div>
                                     <div className="mb-4">

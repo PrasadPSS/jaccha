@@ -230,6 +230,15 @@ Route::get('/profile/view-basic', [ProfileController::class, 'viewBasic'])
 ->middleware(['auth', 'verified'])->name('profile.viewBasic');
 Route::get('/profile/changepassword', [ProfileController::class, 'changePassword'])
 ->middleware(['auth', 'verified'])->name('profile.changePassword');
+Route::get('/profile/forgot-password', [ProfileController::class, 'forgotPassword'])
+->name('profile.forgotPassword');
+Route::post('/profile/reset-link', [ProfileController::class, 'sendResetLink'])
+->name('profile.sendresetlink');
+Route::get('/profile/reset-password', [ProfileController::class, 'resetPassword'])
+->name('profile.resetpassword');
+Route::post('/profile/update-password', [ProfileController::class, 'updatePassword'])
+->name('profile.updatepassword');
+
 
 
 

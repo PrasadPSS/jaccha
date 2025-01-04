@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\backend\District;
 use App\Models\frontend\ShippingAddresses;
+use App\Models\frontend\User;
 use App\Services\phpMailerService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -171,5 +172,52 @@ class ProfileController extends Controller
             'success' => true,
             'message' => 'Password updated successfully.',
         ]);
+    }
+
+    public function forgotPassword()
+    {
+        return Inertia::render('Frontend/Profile/ForgotPassword');
+    }
+
+    public function sendResetLink(Request $request)
+    {
+        
+        if($request->email == "")
+        {
+            info($request->email);
+            return back()->with('error', 'Email Field is required.');
+        }
+        
+        info('worked');
+        $resetToken = str()->random(10);
+        $userEmail = $request->email;
+        $url = 'Click on this click to reset your password for jaccha ' .route('profile.resetpassword') . '/?token=' . $resetToken . "&email=" .$userEmail;
+        User::where('email', $userEmail)->update(['password_reset_token' => $resetToken]);
+        $phpMailerService = new phpMailerService();
+        $phpMailerService->sendMail($userEmail, 'Reset Password', $url, $url);
+        return back()->with('success', 'Reset password link sent to ' . $request->email . " check email for furthur instructions");
+        
+    }
+
+    public function resetPassword()
+    {
+        return Inertia::render('Frontend/Profile/ResetPassword');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $userToken = User::where('email', $request->email)->first()->password_reset_token;
+        if($request->token == $userToken)
+        {
+         
+            if($request->password != $request->confirm_password)
+            {
+                return back()->with('error', 'Password and Confirm Password does not match');
+            }
+            User::where('email', $request->email)->update(['password'=>Hash::make($request->password)]);
+            User::where('email', $request->email)->update(['password_reset_token'=>null]);
+            return back()->with('success', 'Your Password Has Been Reset Successfully');
+        }
+        return back()->with('error', 'Invalid Url Please Try Again');
     }
 }

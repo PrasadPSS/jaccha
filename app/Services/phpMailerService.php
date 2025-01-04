@@ -21,7 +21,13 @@ class phpMailerService
         $mail->Password = 'Prasad@12345';                               //SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
         $mail->Port = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-
+        $mail->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
+        );
         //Recipients
         $mail->setFrom('support@jaccha.com', 'Jaccha');
         $mail->addAddress($email, 'Prasad');     //Add a recipient               //Name is optional
