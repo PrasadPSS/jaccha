@@ -5,10 +5,7 @@ import { Head } from '@inertiajs/react';
 export default function View({ auth, cms_pages }) {
 
     return (
-        <HomeLayout auth={auth}
-
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
-        >
+        <HomeLayout auth={auth}>
             <Head title={cms_pages.cms_pages_title} />
             <div className="sub-banner bg-light">
                 <div className="container">
