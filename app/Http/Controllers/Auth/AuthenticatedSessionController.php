@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\frontend\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,6 +31,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        $user = User::where('email', $request->email)->first()->account_status;
+        if($user == 0)
+        {
+            return redirect()->back()->with('error', 'Your account is not active');
+        }
         $request->authenticate();
 
         $request->session()->regenerate();
