@@ -62,7 +62,8 @@ class RolesController extends Controller
         $role = Role::create(['name' => $request->input('name'),'menu_ids' => $menu_ids,'submenu_ids' => $submenu_ids,'is_sub'=>$is_sub ]);
         // $role->syncPermissions($request->input('permission'));
         // $role->givePermissionTo('Update');
-        $role->syncPermissions($request->input('permissions'));
+        $permissions = Permission::whereIn('id', $request->input('permissions'))->get();
+        $role->syncPermissions($permissions);
         return redirect()->route('admin.roles')->with('success', 'New Role Added!');
     }
 
