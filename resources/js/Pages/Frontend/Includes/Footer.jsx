@@ -26,6 +26,7 @@ export default function Footer() {
                                 <li><Link href="/view-page/contact-us" >Contact Us</Link></li>
                                 <li><Link href="/view-page/privacy-policy" >Privacy Policy</Link></li>
                                 <li><Link href="/view-page/terms-and-conditions" >Terms & Condition</Link></li>
+                                <li><Link href="/view-page/cancellation-policy">Cancellation Policy</Link></li>
                             </ul>
                         </div>
                     </div>
