@@ -51,40 +51,40 @@ use Session;
 
 class OrderController extends Controller
 {
-   public function checkout()
+    public function checkout()
     {
-  
+
         if (isset(auth()->user()->id)) {
             $user_id = auth()->user()->id;
 
             $user = auth()->user();
         }
-       
+
         $cart = Cart::where('user_id', $user_id)->with(['products', 'product_images', 'product_variant'])->get();
-        
+
         // dd($cart);
         if (count($cart) <= 0) {
             // dd($cart);
             return back()->with('error', 'Your Cart is empty');
-        } 
+        }
         $shipping_address = ShippingAddresses::where('user_id', $user_id)->where('default_address_flag', 1)->first();
         $shipping_addresses = ShippingAddresses::where('user_id', $user_id)->get();
         // dd($shipping_address);
-       
+
         if (!$shipping_address) {
             // exit;
             $shipping_address = ShippingAddresses::where('user_id', $user_id)->first();
         }
-        
+
         if (!$shipping_address) {
             // return back()->with('error', 'Please add Delivery Address First');
             return redirect()->to('/cart')->with('error', 'Please add Delivery Address First');
         }
-        
+
         // $shipping_address = ShippingAddresses::where('user_id',$user_id)->where('shipping_address_id',$_GET['shipping_address_id'])->first();
         //   $user = auth()->user();
         // $gst = Gst::Where('default_gst',1)->first();
-        $payment_mode = PaymentMode::Where('status', 1)->orderby('priority','asc')->get();
+        $payment_mode = PaymentMode::Where('status', 1)->orderby('priority', 'asc')->get();
         // dd($payment_mode);
         $increment_id = substr(md5(microtime()), rand(0, 20), 20);
         // $discount_setting = DiscountSetting::first();
@@ -100,7 +100,7 @@ class OrderController extends Controller
         //
         // }
         $product_wt = get_cart_product_weight();
-       
+
         $company = Company::first();
         // dd($company);
         $shipping_charge = get_shipping_charges('S', $product_wt, $company->pincode, 'Delivered', $shipping_address->shipping_pincode);
@@ -120,21 +120,18 @@ class OrderController extends Controller
 
         // dd($pin_response);
         // echo "<pre>"; print_f($pin_response);exit;
-        
+
         if (isset($pin_response) && count($pin_response) > 0) {
-            if(json_encode($pin_response[0]->cod))
-            {
-                $cod_response = 'Y';  
-            }
-            else
-            {
+            if (json_encode($pin_response[0]->cod)) {
+                $cod_response = 'Y';
+            } else {
                 $cod_response = 'N';
             }
             $pin_response = false;
         } else {
             $cod_response = 'N';
 
-            
+
             $pin_response = true;
         }
 
@@ -233,26 +230,28 @@ class OrderController extends Controller
         }
         $order_delivery = OrderDeliveryManagement::first();
 
-        return Inertia::render('Frontend/Orders/OrderCheckout', ['data'=>compact(
-            'cart',
-            'user',
-            'increment_id',
-            'shipping_address',
-            'shipping_addresses',
-            'shipping_charge',
-            'shipping_charges',
-            'shipping_amount',
-            'cart_coupon',
-            'payment_mode',
-            'cod_response',
-            'cart_amounts',
-            'cod_status',
-            'cod_charges',
-            'cod_rmk',
-            'pin_response',
-            'order_delivery',
-            'cod_message'
-        )]);
+        return Inertia::render('Frontend/Orders/OrderCheckout', [
+            'data' => compact(
+                'cart',
+                'user',
+                'increment_id',
+                'shipping_address',
+                'shipping_addresses',
+                'shipping_charge',
+                'shipping_charges',
+                'shipping_amount',
+                'cart_coupon',
+                'payment_mode',
+                'cod_response',
+                'cart_amounts',
+                'cod_status',
+                'cod_charges',
+                'cod_rmk',
+                'pin_response',
+                'order_delivery',
+                'cod_message'
+            )
+        ]);
 
         // dd(compact(
         //     'cart',
@@ -396,18 +395,18 @@ class OrderController extends Controller
 
     public function calculateShippingCost($shipping_id)
     {
-        $shipping_charges= ShippingChargesManagement::first();
-        $shipping_amount=0;
-        $cod_response='';
+        $shipping_charges = ShippingChargesManagement::first();
+        $shipping_amount = 0;
+        $cod_response = '';
         info($shipping_charges->purchase_min_limit);
         info(get_cart_amounts()->cart->cart_discounted_total);
-        if($shipping_charges->purchase_min_limit >= get_cart_amounts()->cart->cart_discounted_total){
-        $shipping_address = ShippingAddresses::where('user_id', auth()->user()->id)->where('shipping_address_id', $shipping_id)->first();
-        $shipping_amount = json_decode(check_pincode($shipping_address->shipping_pincode))->data->available_courier_companies[0]->rate;
-        $cod_response= json_decode(check_pincode($shipping_address->shipping_pincode))->data->available_courier_companies[0]->cod;
+        if ($shipping_charges->purchase_min_limit >= get_cart_amounts()->cart->cart_discounted_total) {
+            $shipping_address = ShippingAddresses::where('user_id', auth()->user()->id)->where('shipping_address_id', $shipping_id)->first();
+            $shipping_amount = json_decode(check_pincode($shipping_address->shipping_pincode))->data->available_courier_companies[0]->rate;
+            $cod_response = json_decode(check_pincode($shipping_address->shipping_pincode))->data->available_courier_companies[0]->cod;
         }
 
-        return response()->json(['shipping_amount'=> $shipping_amount, 'cod_response' => $cod_response], 200);
+        return response()->json(['shipping_amount' => $shipping_amount, 'cod_response' => $cod_response], 200);
     }
 
     public function viewDetails(Request $request)
@@ -416,9 +415,20 @@ class OrderController extends Controller
         return Inertia::render('Frontend/Orders/ViewOrderDetails', $data);
     }
 
+    public function thankYou()
+    {
+
+        $latestOrderId = Orders::where('user_id', auth()->user()->id)
+            ->orderBy('created_at', 'desc') // Sort by the latest creation time.
+            ->value('order_id');
+        $data['orders'] = \App\Models\frontend\Orders::where('user_id', auth()->user()->id)->where('order_id', $latestOrderId)->with('orderproducts', 'orderproducts.products')->first();
+        $order_delivery = OrderDeliveryManagement::first();
+        return Inertia::render('Frontend/Orders/ThankYou', $data);
+    }
+
     public function placeOrder(Request $request)
     {
-        
+
         $post_data = $request->all();
         $user_session = auth()->user();
         $user_id = auth()->user()->id;
@@ -537,18 +547,18 @@ class OrderController extends Controller
         // exit;
         $missing_payment_id = $this->addMissingPayment($post_data, $transaction_id, $shipping_amount, $shipping_charges, $shipping_address);
         session(['missing_payment_id' => $missing_payment_id]);
-        
-        if($payment_mode == 'phonepe'){
 
-            $merchantid  = "M22J3FQGSVWJPUAT";
+        if ($payment_mode == 'phonepe') {
+
+            $merchantid = "M22J3FQGSVWJPUAT";
             $saltkey = "d7fdbcc6-3481-476b-831a-5c786147579e";
             $saltindex = "1";
-            if(empty($post_data['txnid'])) {
+            if (empty($post_data['txnid'])) {
                 // Generate random transaction id
                 $txnid = substr(hash('sha256', mt_rand() . microtime()), 0, 20);
-              } else {
+            } else {
                 $txnid = $post_data['txnid'];
-              }
+            }
             $payLoad = array(
                 'merchantId' => $merchantid,
                 'merchantTransactionId' => $txnid, // test transactionID
@@ -560,8 +570,8 @@ class OrderController extends Controller
                 'callbackUrl' => $purl,
                 "mobileNumber" => auth()->user()->mobile_no,
                 "paymentInstrument" => array(
-                    "type" => "PAY_PAGE",
-                )
+                        "type" => "PAY_PAGE",
+                    )
             );
             $jsonencode = json_encode($payLoad);
 
@@ -570,7 +580,7 @@ class OrderController extends Controller
             $sha256 = hash("sha256", $payloaddata);
             $checksum = $sha256 . '###' . $saltindex;
             $request = json_encode(array('request' => $payloadbase64));
-            
+
             $curl = curl_init(); // This extention should be installed
 
             curl_setopt_array($curl, [
@@ -583,302 +593,277 @@ class OrderController extends Controller
                 CURLOPT_CUSTOMREQUEST => "POST",
                 CURLOPT_POSTFIELDS => $request,
                 CURLOPT_HTTPHEADER => [
-                    "Content-Type: application/json",
-                    "X-VERIFY: " . $checksum,
-                    "accept: application/json"
-                ],
+                        "Content-Type: application/json",
+                        "X-VERIFY: " . $checksum,
+                        "accept: application/json"
+                    ],
             ]);
-        
+
             $response = curl_exec($curl);
-        
+
             $err = curl_error($curl);
             curl_close($curl);
-        
+
             if ($err) {
-              echo "cURL Error #:" . $err;
+                echo "cURL Error #:" . $err;
             } else {
-              $res = json_decode($response);
-            
-              echo "<br/>response===";
-;
-              if (isset($res->success) && $res->success == '1') {
-                // $paymentCode=$res->code;
-                // $paymentMsg=$res->message;
-                $payUrl = $res->data->instrumentResponse->redirectInfo->url;
-                
-                return redirect($payUrl);
-              }
+                $res = json_decode($response);
+
+                echo "<br/>response===";
+                ;
+                if (isset($res->success) && $res->success == '1') {
+                    // $paymentCode=$res->code;
+                    // $paymentMsg=$res->message;
+                    $payUrl = $res->data->instrumentResponse->redirectInfo->url;
+
+                    return redirect($payUrl);
+                }
+            }
         }
-        }
-        if($post_data['paymentmode'] == 'Cash On Delivery')
-        {
+        if ($post_data['paymentmode'] == 'Cash On Delivery') {
             $this->convert($missing_payment_id);
             Cart::where('user_id', auth()->user()->id)->delete();
         }
-        return Inertia::render('Frontend/Orders/ThankYou');
+        return redirect()->route('orders.thankyou');
     }
 
     public function convert($id)
     {
-        $sumdiscount=0;
+        $sumdiscount = 0;
         $payment_tracking_code = substr(md5(microtime()), rand(0, 20), 20);
         $missingpaymments = MissingPayments::where('payment_id', $id)->first();
-        if ($missingpaymments)
-        {
-          $exitingorder = Orders::where('transaction_id', $missingpaymments->transaction_id)->first();
-          if (empty($exitingorder))
-          {
-            $payment_info = new PaymentInfo();
-            $payment_info->status = 'processing';
-            $payment_info->user_id = $missingpaymments->user_id;
-            $payment_info->email = $missingpaymments->email;
-            $payment_info->customer_name = $missingpaymments->customer_name;
-            $payment_info->transaction_id = $missingpaymments->transaction_id;
-            $payment_info->amount = $missingpaymments->amount;
-            $payment_info->payment_date = $missingpaymments->payment_date;
-            $payment_info->data_dump = $missingpaymments->data_dump;
-            $payment_info->payment_tracking_code = $payment_tracking_code;
-            // $payment_info->payment_mode = 'payumoney';
-            $payment_info->payment_mode = $missingpaymments->payment_mode;
+        if ($missingpaymments) {
+            $exitingorder = Orders::where('transaction_id', $missingpaymments->transaction_id)->first();
+            if (empty($exitingorder)) {
+                $payment_info = new PaymentInfo();
+                $payment_info->status = 'processing';
+                $payment_info->user_id = $missingpaymments->user_id;
+                $payment_info->email = $missingpaymments->email;
+                $payment_info->customer_name = $missingpaymments->customer_name;
+                $payment_info->transaction_id = $missingpaymments->transaction_id;
+                $payment_info->amount = $missingpaymments->amount;
+                $payment_info->payment_date = $missingpaymments->payment_date;
+                $payment_info->data_dump = $missingpaymments->data_dump;
+                $payment_info->payment_tracking_code = $payment_tracking_code;
+                // $payment_info->payment_mode = 'payumoney';
+                $payment_info->payment_mode = $missingpaymments->payment_mode;
 
-            $payment_info->converted_flag=1;
-            if ($payment_info->save()) {
-                //var_dump($payment_info);exit;
-                $missing_payments = MissingPayments::where('payment_id', $id)->first();
-                $missing_payments->payu_response = 'Y';
-                $missing_payments->data_dump = $payment_info->data_dump;
-                $missing_payments->status='success';
-                // $missing_payments->shipping_method_code = $shipping->shipping_method_code;
-                // $missing_payments->shipping_method_cost = $shipping->shipping_method_cost;
-                $missing_payments->save();
-                //Yii::$app->runAction('subscription/add',['payment_tracking_code'=>$payment_tracking_code]);
+                $payment_info->converted_flag = 1;
+                if ($payment_info->save()) {
+                    //var_dump($payment_info);exit;
+                    $missing_payments = MissingPayments::where('payment_id', $id)->first();
+                    $missing_payments->payu_response = 'Y';
+                    $missing_payments->data_dump = $payment_info->data_dump;
+                    $missing_payments->status = 'success';
+                    // $missing_payments->shipping_method_code = $shipping->shipping_method_code;
+                    // $missing_payments->shipping_method_cost = $shipping->shipping_method_cost;
+                    $missing_payments->save();
+                    //Yii::$app->runAction('subscription/add',['payment_tracking_code'=>$payment_tracking_code]);
 
 
-                // $cart_remove=Cart::find()->where(['user_id'=>$payment_info->user_id] OR ['guest_unique_id'=>$payment_info->guest_unique_id])->one();
-
-               
-                
-                $gstMode = 'sgst';
-                $userState = ShippingAddresses::where('user_id', $missingpaymments->user_id)->where('default_address_flag', 1)->first();
-                if (get_pickup_address()->state !== $userState->shipping_state) {
-                    $gstMode = 'igst';
-                }
-                // $discount_setting = DiscountSetting::first();
-
-                $missing_payment_products = MissingPaymentProducts::where('payment_id', $id)->get();
-                $orders_counter = OrdersCounter::first();
-                $orders_counter_increment_id = $orders_counter->orders_counter + 1;
-                $orders_counter->orders_counter = $orders_counter_increment_id;
-                $orders_counter->save();
-                //$order_total = Cart::where('user_id',$user_id)->select(\DB::raw('sum(price*qty) AS total_sales'))->first();
-                if ($missing_payment_products)
-                {
-                    $order = new Orders();
-                    $order->user_id = $missingpaymments->user_id;
-                    $order->orders_counter_id = 'JACCHA'. $orders_counter_increment_id;
-                    $order->payment_tracking_code = $payment_tracking_code;
-                    $order->transaction_id = $missingpaymments->transaction_id;
-                    // if(!empty($shipping))
-                    // {
-                    //   $order->shipping_method_code = $shipping->shipping_method_code;
-                    //   $order->shipping_method_cost = $shipping->shipping_method_cost;
-                    // }
-                    $order->data_dump = $payment_info->data_dump;
-                    $order->email = $payment_info->email;
-                    $order->customer_name = $payment_info->customer_name;
-                    $order->payment_mode = $payment_info->payment_mode;
-                    $order->cod_collection_charge = CODManagement::first()->cod_collection_charge;
-
-                    if ($order->save())
-                    {
-                        $final_total = 0;
-                        $shipping_charges = [];
-                        $shipping_amount = 0;
-                        $product_wt = 0;
-                        $total_mrp = 0;
-                        $total_mrp_dicount = 0;
-                
-                        foreach ($missing_payment_products as $missing_payment_product)
-                        {
-                            if($missing_payment_product->product_variant_id)
-                            {
-                                $product = ProductVariants::where('product_variant_id',$missing_payment_product->product_variant_id)->first();
-                                                            }
-                            else
-                            {
-                                $product = Products::Where('product_id', $missing_payment_product->product_id)->with(['color', 'size'])->first();
-                            }
-                            $product_variant_gst_id = Products::where('product_id', $product->product_id)->with(['color', 'size'])->first()->gst_id;
-                            
-                            
-                            $gst = Gst::where('gst_id', $product_variant_gst_id)->first();
-              
-                            $order_product = new OrdersProductDetails();
-                            $order_product->product_id = $missing_payment_product->product_id;
-                            $order_product->qty = $missing_payment_product->qty;
-                            $order_product->product_title = $product->product_title;
-                            $order_product->product_sub_title = $product->product_sub_title;
-                            $order_product->product_price = $product->product_price;
-                            
-                            $order_product->product_discount = $product->product_discount;
-                            $order_product->product_discount_type = $product->product_discount_type;
-                            $order_product->product_color = (isset($product->color)) ? $product->color->color_name : $product->color_id;
-                            $order_product->product_size = (isset($product->size)) ? $product->size->size_name : $product->size_id;
-                            $order_product->order_id = $order->order_id;
-
-                            if($gstMode == 'sgst')
-                            {
-                              $order_product->gst_cgst_rate = $gst->gst_cgst_percent;
-                              $order_product->gst_sgst_rate = $gst->gst_sgst_percent;
-                              $order_product->gst_cgst_amount = ($product->product_discounted_price*$missing_payment_product->qty*$gst->gst_cgst_percent)/100;
-                              $order_product->gst_sgst_amount = ($product->product_discounted_price*$missing_payment_product->qty*$gst->gst_sgst_percent)/100;
-                              $order_product->product_discounted_price = ($product->product_discounted_price*$missing_payment_product->qty) + $order_product->gst_cgst_amount + $order_product->gst_sgst_amount;
-                              $order_product->rev_discount = $product->product_price -$product->product_discounted_price;
-                              $order_product->rev_taxable_amount = $product->product_discounted_price;
-                            }
-                            else
-                            {
-                              $order_product->gst_igst_rate = $gst->gst_igst_percent;
-                              $order_product->gst_igst_amount = ($product->product_discounted_price * $missing_payment_product->qty * $gst->gst_igst_percent) / 100;
-                              $order_product->product_discounted_price = ($product->product_discounted_price * $missing_payment_product->qty) + $order_product->gst_igst_amount;
-                              $order_product->rev_discount = $product->product_price -$product->product_discounted_price;
-                              $order_product->rev_taxable_amount = $product->product_discounted_price;
-                            }
-                            
-
-                            // $order_product->orders_counter_id = $orders_counter_increment_id;
-                            // $order_product->referral_id = $item->referral_id;
-                            // $order_product->distributor_id = $item->distributor_id;
-                            $order_product->save();
+                    // $cart_remove=Cart::find()->where(['user_id'=>$payment_info->user_id] OR ['guest_unique_id'=>$payment_info->guest_unique_id])->one();
 
 
-                            $final_total = $final_total + $order_product->product_discounted_price  ;
-                            $total_mrp = $total_mrp + ($product->product_price*$missing_payment_product->qty);
-                            // decrement the product QTY
-                            $product->product_qty = $product->product_qty - $missing_payment_product->qty;
-                            $product->save();
 
-                            //chipping charge calculation
-                            $product_wt = $product_wt + $product->product_weight;
+                    $gstMode = 'sgst';
+                    $userState = ShippingAddresses::where('user_id', $missingpaymments->user_id)->where('default_address_flag', 1)->first();
+                    if (get_pickup_address()->state !== $userState->shipping_state) {
+                        $gstMode = 'igst';
+                    }
+                    // $discount_setting = DiscountSetting::first();
 
-                        }
+                    $missing_payment_products = MissingPaymentProducts::where('payment_id', $id)->get();
+                    $orders_counter = OrdersCounter::first();
+                    $orders_counter_increment_id = $orders_counter->orders_counter + 1;
+                    $orders_counter->orders_counter = $orders_counter_increment_id;
+                    $orders_counter->save();
+                    //$order_total = Cart::where('user_id',$user_id)->select(\DB::raw('sum(price*qty) AS total_sales'))->first();
+                    if ($missing_payment_products) {
+                        $order = new Orders();
+                        $order->user_id = $missingpaymments->user_id;
+                        $order->orders_counter_id = 'JACCHA' . $orders_counter_increment_id;
+                        $order->payment_tracking_code = $payment_tracking_code;
+                        $order->transaction_id = $missingpaymments->transaction_id;
+                        // if(!empty($shipping))
+                        // {
+                        //   $order->shipping_method_code = $shipping->shipping_method_code;
+                        //   $order->shipping_method_cost = $shipping->shipping_method_cost;
+                        // }
+                        $order->data_dump = $payment_info->data_dump;
+                        $order->email = $payment_info->email;
+                        $order->customer_name = $payment_info->customer_name;
+                        $order->payment_mode = $payment_info->payment_mode;
+                        $order->cod_collection_charge = CODManagement::first()->cod_collection_charge;
 
-                        $total_mrp_dicount = $total_mrp-$final_total;
+                        if ($order->save()) {
+                            $final_total = 0;
+                            $shipping_charges = [];
+                            $shipping_amount = 0;
+                            $product_wt = 0;
+                            $total_mrp = 0;
+                            $total_mrp_dicount = 0;
 
-//                        $shipping_charge = get_shipping_charges('S', $product_wt, '421601', 'Delivered', '421605');
-                        $shipping_charge = $missing_payments->shipping_method_cost;
-//                        $shipping_charges = $shipping_charge[0];
-                        // $shipping_amount = $shipping_charge[0]->total_amount;
-                        // $shipping_amount = $shipping_amount+$shipping_charge[0]->total_amount;
-
-
-                        //coupon discount
-                        $discount_value = 0;
-                        $cart_coupon = CartCoupons::where('user_id', $missingpaymments->user_id)->with('coupon')->first();
-                        if (isset($cart_coupon->coupon))
-                        {
-                            $paymentDate = date('Y-m-d');
-                            $paymentDate = date('Y-m-d', strtotime($paymentDate));
-                            $contractDateBegin = date('Y-m-d', strtotime($cart_coupon->coupon->start_date));
-                            $contractDateEnd = date('Y-m-d', strtotime($cart_coupon->coupon->end_date));
-
-                            if (($paymentDate >= $contractDateBegin) && ($paymentDate <= $contractDateEnd))
-                            {
-                                if ($cart_coupon->coupon->coupon_type == 'flat')
-                                {
-                                    $coupon_value = $cart_coupon->coupon->value;
-                                    $discount_value = $coupon_value;
+                            foreach ($missing_payment_products as $missing_payment_product) {
+                                if ($missing_payment_product->product_variant_id) {
+                                    $product = ProductVariants::where('product_variant_id', $missing_payment_product->product_variant_id)->first();
+                                } else {
+                                    $product = Products::Where('product_id', $missing_payment_product->product_id)->with(['color', 'size'])->first();
                                 }
-                                else
-                                {
-                                    $coupon_value = $cart_coupon->coupon->value;
-                                    $discount_value = ($final_total * $coupon_value) / 100;
+                                $product_variant_gst_id = Products::where('product_id', $product->product_id)->with(['color', 'size'])->first()->gst_id;
+
+
+                                $gst = Gst::where('gst_id', $product_variant_gst_id)->first();
+
+                                $order_product = new OrdersProductDetails();
+                                $order_product->product_id = $missing_payment_product->product_id;
+                                $order_product->qty = $missing_payment_product->qty;
+                                $order_product->product_title = $product->product_title;
+                                $order_product->product_sub_title = $product->product_sub_title;
+                                $order_product->product_price = $product->product_price;
+
+                                $order_product->product_discount = $product->product_discount;
+                                $order_product->product_discount_type = $product->product_discount_type;
+                                $order_product->product_color = (isset($product->color)) ? $product->color->color_name : $product->color_id;
+                                $order_product->product_size = (isset($product->size)) ? $product->size->size_name : $product->size_id;
+                                $order_product->order_id = $order->order_id;
+
+                                if ($gstMode == 'sgst') {
+                                    $order_product->gst_cgst_rate = $gst->gst_cgst_percent;
+                                    $order_product->gst_sgst_rate = $gst->gst_sgst_percent;
+                                    $order_product->gst_cgst_amount = ($product->product_discounted_price * $missing_payment_product->qty * $gst->gst_cgst_percent) / 100;
+                                    $order_product->gst_sgst_amount = ($product->product_discounted_price * $missing_payment_product->qty * $gst->gst_sgst_percent) / 100;
+                                    $order_product->product_discounted_price = ($product->product_discounted_price * $missing_payment_product->qty) + $order_product->gst_cgst_amount + $order_product->gst_sgst_amount;
+                                    $order_product->rev_discount = $product->product_price - $product->product_discounted_price;
+                                    $order_product->rev_taxable_amount = $product->product_discounted_price;
+                                } else {
+                                    $order_product->gst_igst_rate = $gst->gst_igst_percent;
+                                    $order_product->gst_igst_amount = ($product->product_discounted_price * $missing_payment_product->qty * $gst->gst_igst_percent) / 100;
+                                    $order_product->product_discounted_price = ($product->product_discounted_price * $missing_payment_product->qty) + $order_product->gst_igst_amount;
+                                    $order_product->rev_discount = $product->product_price - $product->product_discounted_price;
+                                    $order_product->rev_taxable_amount = $product->product_discounted_price;
                                 }
 
 
+                                // $order_product->orders_counter_id = $orders_counter_increment_id;
+                                // $order_product->referral_id = $item->referral_id;
+                                // $order_product->distributor_id = $item->distributor_id;
+                                $order_product->save();
+
+
+                                $final_total = $final_total + $order_product->product_discounted_price;
+                                $total_mrp = $total_mrp + ($product->product_price * $missing_payment_product->qty);
+                                // decrement the product QTY
+                                $product->product_qty = $product->product_qty - $missing_payment_product->qty;
+                                $product->save();
+
+                                //chipping charge calculation
+                                $product_wt = $product_wt + $product->product_weight;
+
                             }
-                            else
-                            {
+
+                            $total_mrp_dicount = $total_mrp - $final_total;
+
+                            //                        $shipping_charge = get_shipping_charges('S', $product_wt, '421601', 'Delivered', '421605');
+                            $shipping_charge = $missing_payments->shipping_method_cost;
+                            //                        $shipping_charges = $shipping_charge[0];
+                            // $shipping_amount = $shipping_charge[0]->total_amount;
+                            // $shipping_amount = $shipping_amount+$shipping_charge[0]->total_amount;
+
+
+                            //coupon discount
+                            $discount_value = 0;
+                            $cart_coupon = CartCoupons::where('user_id', $missingpaymments->user_id)->with('coupon')->first();
+                            if (isset($cart_coupon->coupon)) {
+                                $paymentDate = date('Y-m-d');
+                                $paymentDate = date('Y-m-d', strtotime($paymentDate));
+                                $contractDateBegin = date('Y-m-d', strtotime($cart_coupon->coupon->start_date));
+                                $contractDateEnd = date('Y-m-d', strtotime($cart_coupon->coupon->end_date));
+
+                                if (($paymentDate >= $contractDateBegin) && ($paymentDate <= $contractDateEnd)) {
+                                    if ($cart_coupon->coupon->coupon_type == 'flat') {
+                                        $coupon_value = $cart_coupon->coupon->value;
+                                        $discount_value = $coupon_value;
+                                    } else {
+                                        $coupon_value = $cart_coupon->coupon->value;
+                                        $discount_value = ($final_total * $coupon_value) / 100;
+                                    }
+
+
+                                } else {
+                                    $discount_value = 0;
+                                }
+                            } else {
                                 $discount_value = 0;
                             }
+                            // $discount_value = $final_total * $discount_setting->discount_percent/100;
+                            $final_discounted_value = $final_total - $discount_value;
+                            $final_discounted_value = $final_discounted_value + $shipping_charge + CODManagement::first()->cod_collection_charge;
+                            // $gst_value = $final_discounted_value * $gst->gst_percent/100;
+                            // $grand_total = $final_discounted_value + $gst_value;
+                            $grand_total = $final_discounted_value;
+
+                            $current_order = Orders::Where("order_id", $order->order_id)->first();
+                            $current_order->total = $grand_total;
+                            $current_order->cod_collection_charge_amount = CODManagement::first()->cod_collection_charge;
+                            $current_order->shipping_amount = $shipping_charge;
+                            $current_order->shipping_dump = $missing_payments->shipping_dump;
+                            // $current_order->gst_percent = $gst->gst_percent;
+                            // $current_order->discount_percent = $discount_setting->discount_percent;
+                            $current_order->gst_value = $grand_total;
+                            $current_order->confirmed_stage = 1;
+                            $current_order->total_mrp_dicount = $total_mrp_dicount;
+                            $current_order->total_mrp = $total_mrp;
+                            $shipping_address = ShippingAddresses::where('user_id', $missingpaymments->user_id)->where('shipping_address_id', $missingpaymments['shipping_address_id'])->first();
+                            if ($shipping_address) {
+                                $current_order->shipping_address_id = $shipping_address->shipping_address_id;
+                                $current_order->shipping_full_name = $shipping_address->shipping_full_name;
+                                $current_order->shipping_mobile_no = $shipping_address->shipping_mobile_no;
+                                $current_order->shipping_alt_mobile_no = $shipping_address->shipping_alt_mobile_no;
+                                $current_order->shipping_address_line1 = $shipping_address->shipping_address_line1;
+                                $current_order->shipping_address_line2 = $shipping_address->shipping_address_line2;
+                                $current_order->shipping_landmark = $shipping_address->shipping_landmark;
+                                $current_order->shipping_city = $shipping_address->shipping_city;
+                                $current_order->shipping_pincode = $shipping_address->shipping_pincode;
+                                $current_order->shipping_district = $shipping_address->shipping_district;
+                                $current_order->shipping_state = $shipping_address->shipping_state;
+                                $current_order->shipping_address_type = $shipping_address->shipping_address_type;
+                            }
+
+                            if (isset($cart_coupon->coupon)) {
+                                $current_order->coupon_type = $cart_coupon->coupon->coupon_type;
+                                $current_order->coupon_value = $cart_coupon->coupon->value;
+                                $current_order->coupon_discount = $discount_value;
+                                $current_order->coupon_code = $cart_coupon->coupon->coupon_code;
+                                $current_order->cart_coupon_id = $cart_coupon->cart_coupon_id;
+                            }
+
+
+                            $current_order->save();
+
+                            $invoicemodel = $current_order;
+                            // $this->SendInvoice($invoicemodel,$payment_info->email,$payment_info->payment_date,$payment_info->payment_mode);
+                            // $this->Sendneworder($invoicemodel,$payment_info->payment_mode,$payment_info->customer_name);
+
+
                         }
-                        else
-                        {
-                            $discount_value = 0;
+                        if (isset($cart_coupon)) {
+                            $cart_coupon->delete();
                         }
-                        // $discount_value = $final_total * $discount_setting->discount_percent/100;
-                        $final_discounted_value = $final_total - $discount_value;
-                        $final_discounted_value = $final_discounted_value + $shipping_charge + CODManagement::first()->cod_collection_charge;
-                        // $gst_value = $final_discounted_value * $gst->gst_percent/100;
-                        // $grand_total = $final_discounted_value + $gst_value;
-                        $grand_total = $final_discounted_value;
-
-                        $current_order = Orders::Where("order_id", $order->order_id)->first();
-                        $current_order->total = $grand_total;
-                        $current_order->cod_collection_charge_amount = CODManagement::first()->cod_collection_charge;
-                        $current_order->shipping_amount = $shipping_charge;
-                        $current_order->shipping_dump = $missing_payments->shipping_dump;
-                        // $current_order->gst_percent = $gst->gst_percent;
-                        // $current_order->discount_percent = $discount_setting->discount_percent;
-                        $current_order->gst_value = $grand_total;
-                        $current_order->confirmed_stage = 1;
-                        $current_order->total_mrp_dicount = $total_mrp_dicount;
-                        $current_order->total_mrp = $total_mrp;
-                        $shipping_address = ShippingAddresses::where('user_id',$missingpaymments->user_id)->where('shipping_address_id',$missingpaymments['shipping_address_id'])->first();
-                        if ($shipping_address)
-                        {
-                          $current_order->shipping_address_id = $shipping_address->shipping_address_id;
-                          $current_order->shipping_full_name = $shipping_address->shipping_full_name;
-                          $current_order->shipping_mobile_no = $shipping_address->shipping_mobile_no;
-                          $current_order->shipping_alt_mobile_no = $shipping_address->shipping_alt_mobile_no;
-                          $current_order->shipping_address_line1 = $shipping_address->shipping_address_line1;
-                          $current_order->shipping_address_line2 = $shipping_address->shipping_address_line2;
-                          $current_order->shipping_landmark = $shipping_address->shipping_landmark;
-                          $current_order->shipping_city = $shipping_address->shipping_city;
-                          $current_order->shipping_pincode = $shipping_address->shipping_pincode;
-                          $current_order->shipping_district = $shipping_address->shipping_district;
-                          $current_order->shipping_state = $shipping_address->shipping_state;
-                          $current_order->shipping_address_type = $shipping_address->shipping_address_type;
-                        }
-
-                        if (isset($cart_coupon->coupon))
-                        {
-                            $current_order->coupon_type = $cart_coupon->coupon->coupon_type;
-                            $current_order->coupon_value = $cart_coupon->coupon->value;
-                            $current_order->coupon_discount = $discount_value;
-                            $current_order->coupon_code = $cart_coupon->coupon->coupon_code;
-                            $current_order->cart_coupon_id = $cart_coupon->cart_coupon_id;
-                        }
-
-
-                        $current_order->save();
-
-                        $invoicemodel = $current_order;
+                        // Cart::where('user_id', $missing_payments->user_id)->delete();
                         // $this->SendInvoice($invoicemodel,$payment_info->email,$payment_info->payment_date,$payment_info->payment_mode);
                         // $this->Sendneworder($invoicemodel,$payment_info->payment_mode,$payment_info->customer_name);
 
 
+                        return redirect()->route('admin.missingpayments')->with('success', 'MissedPayments Converted to Success!!!');
                     }
-                    if (isset($cart_coupon)) {
-                        $cart_coupon->delete();
-                    }
-                    // Cart::where('user_id', $missing_payments->user_id)->delete();
-                    // $this->SendInvoice($invoicemodel,$payment_info->email,$payment_info->payment_date,$payment_info->payment_mode);
-                    // $this->Sendneworder($invoicemodel,$payment_info->payment_mode,$payment_info->customer_name);
-                
 
-                  return redirect()->route('admin.missingpayments')->with('success', 'MissedPayments Converted to Success!!!');
+                } else {
+                    return redirect()->route('admin.missingpayments')->withErrors('Something Went Wrong!!! Please try again');
+
                 }
-
             } else {
-                return redirect()->route('admin.missingpayments')->withErrors('Something Went Wrong!!! Please try again');
-
+                return redirect()->route('admin.missingpayments')->withErrors('Order Already Present with same Transaction ID');
             }
-          }
-          else
-          {
-            return redirect()->route('admin.missingpayments')->withErrors('Order Already Present with same Transaction ID');
-          }
         }
 
         return redirect()->route('admin.missingpayments')->with('success', 'MissedPayments Converted to Success!!!');
@@ -886,7 +871,7 @@ class OrderController extends Controller
 
     public function addMissingPayment($post_data, $transaction_id, $shipping_amount, $shipping_charges, $shipping_address)
     {
-       
+
         // add missing payments data
         // $shipping=Shipping::where('shipping_method_status',1)->first();
         if (isset(auth()->user()->id)) {
@@ -950,7 +935,7 @@ class OrderController extends Controller
         }
         $payment_code = $post_data['paymentmode'] == 'Cash On Delivery' ? 'cod' : 'Online';
         $payment_info->transaction_id = $transaction_id;
-        
+
         $payment_info->amount = $post_data['amount'];
         $payment_info->payment_date = date('Y-m-d H:i:s');
         $payment_info->data_dump = json_encode($post_data);
@@ -1056,23 +1041,23 @@ class OrderController extends Controller
         $payment_info->save();
         return $payment_info->payment_id;
     }
-    
 
-   public function index()
-   {
+
+    public function index()
+    {
         $data['orders'] = \App\Models\frontend\Orders::where('user_id', auth()->user()->id)->with('orderproducts')->get();
 
         return Inertia::render('Frontend/Orders/ViewOrder', $data);
-   }
+    }
 
-   public function viewInvoice($id)
-   {
-     $data['orders'] = \App\Models\frontend\Orders::where('order_id', $id)->with(['orderproducts'])->first();
-     $data['shipping_address'] = ShippingAddresses::where('user_id', $data['orders']->user_id)->where('default_address_flag', 1)->first();
-     if (!$data['shipping_address']) {
-        $data['shipping_address'] = ShippingAddresses::where('user_id', $data['orders']->user_id)->first();
-     }
-     $data['company'] = Company::first();
-     return view('frontend.orders.viewinvoice', $data);
-   }
+    public function viewInvoice($id)
+    {
+        $data['orders'] = \App\Models\frontend\Orders::where('order_id', $id)->with(['orderproducts'])->first();
+        $data['shipping_address'] = ShippingAddresses::where('user_id', $data['orders']->user_id)->where('default_address_flag', 1)->first();
+        if (!$data['shipping_address']) {
+            $data['shipping_address'] = ShippingAddresses::where('user_id', $data['orders']->user_id)->first();
+        }
+        $data['company'] = Company::first();
+        return view('frontend.orders.viewinvoice', $data);
+    }
 }

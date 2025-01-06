@@ -1200,7 +1200,8 @@ class CartController extends Controller
         if (isset($_POST['paymentmode']) && $_POST['paymentmode'] == 'cod') {
             return ['flag' => true, 'current_order' => $current_order];
         }
-        return Inertia::render('Frontend/Orders/ThankYou');
+     
+        return redirect()->route('orders.thankyou');
     }
 
     public function phonepepaymentfailure(){

@@ -399,7 +399,7 @@ class CartController extends Controller
                     // $this->Sendneworder($invoicemodel,$payment_info->payment_mode,$payment_info->customer_name);
                 
 
-                    return Inertia::render('Frontend/Orders/ThankYou');
+                    return redirect()->route('orders.thankyou');
                 }
 
             } else {
@@ -413,6 +413,6 @@ class CartController extends Controller
           }
         }
 
-        return Inertia::render('Frontend/Orders/ThankYou');
+        return redirect()->route('orders.thankyou');
     }
 }

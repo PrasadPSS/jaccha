@@ -156,9 +156,8 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/thankyou', function () {
-    return Inertia::render('Frontend/Orders/ThankYou');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/thankyou',[OrderController::class, 'thankYou']
+)->middleware(['auth', 'verified'])->name('orders.thankyou');
 
 //shipping address
 Route::get('/shippingaddress/index', [AddressesController::class, 'index'])
