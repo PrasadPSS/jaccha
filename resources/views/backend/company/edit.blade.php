@@ -80,6 +80,12 @@
                                       {{ Form::text('landmark', null, ['class' => 'form-control', 'placeholder' => 'Enter Landmark', 'required' => true]) }}
                                   </div>
                               </div>
+                              <div class="col-md-12 col-12">
+                                  <div class="form-group">
+                                      {{ Form::label('timings', 'Timings *') }}
+                                      {{ Form::text('timings', null, ['class' => 'form-control', 'placeholder' => 'Enter Timing', 'required' => true]) }}
+                                  </div>
+                              </div>
                               <div class="col-md-6 col-12">
                                   <div class="form-group">
                                       {{ Form::label('city', 'City *') }}

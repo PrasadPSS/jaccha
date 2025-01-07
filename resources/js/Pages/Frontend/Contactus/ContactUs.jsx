@@ -104,8 +104,7 @@ export default function ContactUs({ auth, company }) {
                             <div className="assistYou-sec">
                                 <h5 className="pb-4">Email Address</h5>
                                 <h5 className="my-4"><a href={"mailto:"+ company.email }>jaccha@info.com</a></h5>
-                                <p>Assistance hours: <br />
-                                    Monday - Friday 6 am <br /> to 8 pm IST</p>
+                                <p style={{width:'170px'}}>{company.timings}</p>
                             </div>
                         </div>
                         <div className="col-lg-3">
