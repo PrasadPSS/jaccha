@@ -1,8 +1,19 @@
-import { Link } from "@inertiajs/react";
+import InputError from "@/Components/InputError";
+import { Link, useForm } from "@inertiajs/react";
 import React from "react";
+import { useState } from "react";
 
 
 export default function Footer() {
+    const { data, setData, post, processing, errors } = useForm({
+        email: ''
+      })
+
+      function submit(e) {
+        e.preventDefault()
+        post(route('newsletter.subscribe'))
+      }
+
     return (
         <footer className="footer">
             <div className="container">
@@ -43,14 +54,18 @@ export default function Footer() {
                         <div className="footer-content mt-4">
                             <h4 className="mb-3">Subscribe to our Newsletter</h4>
                             <div className="newsletter d-flex align-items-center">
-                                <input type="email" placeholder="Email address here..." id="email" />
-                                <button className="submit" id="subscribe-btn">
+                                <input onChange={(e)=>setData('email', e.target.value)} value={data.email} type="email" placeholder="Email address here..." id="email" />
+                                
+                                <button className="submit" id="subscribe-btn" type="button" onClick={submit}>
                                     Subscribe <i className="fal fa-long-arrow-right"></i>
                                 </button>
+                               
                                 <div className="footer-image">
                                     <img src="/assets/images/footer.png" />
                                 </div>
+                                
                             </div>
+                            <InputError message={errors.email}/>
                         </div>
                     </div>
                 </div>

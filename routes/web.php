@@ -173,6 +173,8 @@ Route::post('/shippingaddress/update', [AddressesController::class, 'updateaddre
 Route::post('/shippingaddress/delete/{shipping_address_id}', [AddressesController::class, 'deleteaddress'])
 ->middleware(['auth', 'verified'])->name('address.delete');
 
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])->name('newsletter.subscribe');
+
 
 //products
 Route::get('/products', [ProductController::class, 'index'])
