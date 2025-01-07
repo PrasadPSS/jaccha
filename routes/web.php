@@ -93,7 +93,7 @@ use App\Http\Controllers\frontend\DealsController;
 use App\Http\Controllers\frontend\SuggestionController;
 use App\Http\Controllers\frontend\DealController;
 use App\Http\Controllers\frontend\SearchController;
-use App\Http\Controllers\Frontend\NewsletterController;
+use App\Http\Controllers\Frontend\NewsLetterController;
 use App\Http\Controllers\frontend\CouponsController;
 use App\Http\Controllers\frontend\ContactusController;
 use App\Http\Controllers\frontend\HotofferController;
@@ -173,7 +173,7 @@ Route::post('/shippingaddress/update', [AddressesController::class, 'updateaddre
 Route::post('/shippingaddress/delete/{shipping_address_id}', [AddressesController::class, 'deleteaddress'])
 ->middleware(['auth', 'verified'])->name('address.delete');
 
-Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])->name('newsletter.subscribe');
+Route::post('/newsletter/subscribe', [NewsLetterController::class, 'store'])->name('newsletter.subscribe');
 
 
 //products
