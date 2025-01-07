@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\backend\Cmspages;
+use App\Models\backend\Company;
 use App\Models\backend\FeaturedProducts;
 use App\Models\backend\HomePageSections;
 use App\Models\backend\Orders;
 use App\Models\backend\Products;
+use App\Models\frontend\Contactus;
 use App\Models\OrderItem;
 use App\Models\PaymentDetail;
+use App\Services\phpMailerService;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -42,5 +45,30 @@ class HomeController extends Controller
         return Inertia::render('Frontend/Pages/View', [
             'cms_pages' => $cmspage,
         ]);
+    }
+
+    public function contactus()
+    {
+        $company = Company::first();
+
+        return Inertia::render('Frontend/Contactus/ContactUs', ['company' => $company]);
+    }
+
+    public function storeContactUs(Request $request)
+    {
+        
+        $data = request()->validate(['name' =>'required', 
+        'email'=>'required', 
+        'mobile_no'=>'required', 
+        'comment'=>'required']);
+    
+        $userDetails = ['name'=>$data['name'],'email'=> $data['email'], 'mobile_no'=> $data['mobile_no'], 'comment'=>$data['comment']];
+        Contactus::create($userDetails);
+        $mailService = new phpMailerService();
+        $company = Company::first();
+        $mailService->sendMail($company->email,'Contact us', $data['comment'], $data['comment']);
+
+        return redirect()->route('contactus')->with('success', 'Your message has been sent successfully.');
+
     }
 }

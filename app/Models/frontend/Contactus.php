@@ -12,5 +12,5 @@ class Contactus extends Model
     protected $table='contactuss';
     protected $primaryKey='contactus_id';
 
-    protected $fillable=['name','email','mobile_no','order_no','issue','comment'];
+    protected $fillable=['name','email','mobile_no','comment'];
 }

@@ -111,6 +111,8 @@ use App\Http\Controllers\frontend\DownloadappController;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/contact-us', [HomeController::class, 'contactUs'])->name('contactus');
+Route::post('/contact-us/store', [HomeController::class, 'storeContactUs'])->name('contactus.store');
 
 Route::get('/clear-cache', function () {
     $exitCode = Artisan::call('cache:clear');
