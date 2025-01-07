@@ -93,7 +93,7 @@ use App\Http\Controllers\frontend\DealsController;
 use App\Http\Controllers\frontend\SuggestionController;
 use App\Http\Controllers\frontend\DealController;
 use App\Http\Controllers\frontend\SearchController;
-use App\Http\Controllers\frontend\NewsletterController;
+use App\Http\Controllers\Frontend\NewsletterController;
 use App\Http\Controllers\frontend\CouponsController;
 use App\Http\Controllers\frontend\ContactusController;
 use App\Http\Controllers\frontend\HotofferController;
