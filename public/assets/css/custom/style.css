@@ -2616,3 +2616,26 @@ opacity: 100%;
   display: block;
   margin-left: auto;
 }
+
+.empty-product{
+  margin-top: 50px;
+}
+
+.filter-reset{
+  background-color: var(--black);
+    border: none;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.filter-reset:hover {
+  background-color: #e64932;
+}
+.product-filter{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

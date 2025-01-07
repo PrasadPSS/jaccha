@@ -103,7 +103,7 @@ export default function ContactUs({ auth, company }) {
                         <div className="col-lg-3">
                             <div className="assistYou-sec">
                                 <h5 className="pb-4">Email Address</h5>
-                                <h5 className="my-4"><a href={"mailto:"+ company.email }>jaccha@info.com</a></h5>
+                                <h5 className="my-4"><a href={"mailto:"+ company.email }>{company.email}</a></h5>
                                 <p style={{width:'170px'}}>{company.timings}</p>
                             </div>
                         </div>
