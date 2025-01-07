@@ -36,7 +36,7 @@ export default function Benefits({ title, subTitle, sectionChildren, paddingTop,
                                     <img src="./assets/images/tickmark.png" alt="tickmark" />{sectionChildren[6].home_page_section_child_title}
                                 </li>
                             </ul>
-                            <Link as="button" href="/products" className="button mt-4">{sectionChildren[7].home_page_section_child_title}</Link>
+                            <Link as="button" href={sectionChildren[7].home_page_section_child_url} className="button mt-4">{sectionChildren[7].home_page_section_child_title}</Link>
                         </div>
                     </div>
                 </div>

@@ -20,7 +20,7 @@ export default function About({ title, subTitle, sectionChildren, paddingTop, pa
                             <p>
                             {sectionChildren[3].home_page_section_child_title}
                             </p>
-                            <Link as="button" href="/products" className="button">{sectionChildren[4].home_page_section_child_title}</Link>
+                            <Link as="button" href={sectionChildren[4].home_page_section_child_url} className="button">{sectionChildren[4].home_page_section_child_title}</Link>
                         </div>
                     </div>
                 </div>

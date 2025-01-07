@@ -54,11 +54,24 @@
                                   @endif
                                 </thead>
                                 <tbody>
+                                   
                                   @if(isset($home_page_section_childs) && count($home_page_section_childs)>0)
                                     @php $srno = 1; @endphp
                                     @foreach($home_page_section_childs as $home_page_section_child)
+
                                     <tr>
                                       <td>{{ $srno }}</td>
+                                      <td>
+                                        <a href="{{ url('admin/homepagesectionchilds/edit/'.$home_page_section_child->home_page_section_child_id) }}" class="btn btn-primary"><i class="bx bx-pencil"></i></a>
+
+                                        {!! Form::open([
+                                            'method'=>'GET',
+                                            'url' => ['admin/homepagesectionchilds/delete', $home_page_section_child->home_page_section_child_id],
+                                            'style' => 'display:inline'
+                                        ]) !!}
+                                            {!! Form::button('<i class="bx bx-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger','onclick'=>"return confirm('Are you sure you want to Delete this Entry ?')"]) !!}
+                                        {!! Form::close() !!}
+                                      </td>
                                       @if(isset($home_page_section_types))
                                       @foreach ($home_page_section_types as $home_page_section_type)
                                       @if($home_page_section_type->home_page_section_field_code == 'images' && isset($home_page_section_child->home_page_section_child_images))
@@ -76,17 +89,7 @@
                                         <td>{{ $home_page_section_child->{'home_page_section_child_'.$home_page_section_type->home_page_section_field_code} }}</td>
                                       @endif
                                       @endforeach
-                                      <td>
-                                        <a href="{{ url('admin/homepagesectionchilds/edit/'.$home_page_section_child->home_page_section_child_id) }}" class="btn btn-primary"><i class="bx bx-pencil"></i></a>
-
-                                        {!! Form::open([
-                                            'method'=>'GET',
-                                            'url' => ['admin/homepagesectionchilds/delete', $home_page_section_child->home_page_section_child_id],
-                                            'style' => 'display:inline'
-                                        ]) !!}
-                                            {!! Form::button('<i class="bx bx-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger','onclick'=>"return confirm('Are you sure you want to Delete this Entry ?')"]) !!}
-                                        {!! Form::close() !!}
-                                      </td>
+                                     
 
                                       @endif
                                     </tr>

@@ -59,12 +59,12 @@ $size_types = ['upper'=>'Uppers','lower'=>'Lowers','shoes'=>'Shoes'];
                                       <td>
 
                                         <a href="{{ url('admin/homepagesections/edit/'.$home_page_section->home_page_section_id) }}" class="btn btn-primary"><i class="bx bx-pencil"></i></a>
-                                        @if(isset($home_page_section->home_page_section_type->home_page_section_type_code) && $home_page_section->home_page_section_type->home_page_section_type_code == 'best_seller')
+                                        @if(isset($home_page_section->home_page_section_type->home_page_section_type_code) && $home_page_section->home_page_section_type->home_page_section_type_code == 'featured_products')
                                           <a href="{{ url('admin/homepagefeaturedproducts/') }}" class="btn btn-primary"><i class="bx bx-eye"></i>Content</a>
                                         @else
                                           <a href="{{ url('admin/homepagesectionchilds/index/'.$home_page_section->home_page_section_id) }}" class="btn btn-primary"><i class="bx bx-eye"></i>Content</a>
                                         @endif
-
+                                        @if(!isset($home_page_section->home_page_section_type->home_page_section_type_code) && $home_page_section->home_page_section_type->home_page_section_type_code != 'featured_products')
                                         {!! Form::open([
                                             'method'=>'GET',
                                             'url' => ['admin/homepagesections/delete', $home_page_section->home_page_section_id],
@@ -72,6 +72,7 @@ $size_types = ['upper'=>'Uppers','lower'=>'Lowers','shoes'=>'Shoes'];
                                         ]) !!}
                                             {!! Form::button('<i class="bx bx-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger','onclick'=>"return confirm('Are you sure you want to Delete this Entry ?')"]) !!}
                                         {!! Form::close() !!}
+                                        @endif
                                       </td>
                                     </tr>
                                     @php $srno++; @endphp

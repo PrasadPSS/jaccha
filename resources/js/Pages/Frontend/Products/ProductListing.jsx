@@ -1,5 +1,6 @@
 import { Link, usePage } from '@inertiajs/react';
 import React, { useState } from 'react';
+import ProductList from './ProductList';
 
 
 export default function ProductListing({ products }) {
@@ -258,47 +259,7 @@ export default function ProductListing({ products }) {
                                 </div>
                             </div>
 
-                            {filteredProducts.map((product, index) => (
-                                <a href={'/product/view/' + product.id} className={index > 2 ? "col-sm-4 mt-5" : "col-sm-4"} key={product.id}>
-
-                                    <div className="feature-box">
-
-
-                                        <Link as="a" method="post" href='/product/addtocart' data={{ product_id: product.id, product_type: "simple", product_variant_id: null, quantity: 1, _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), sweetnesslevel: null, ingrediantaddons: null, exclusions: null }}>
-                                            <div className="basket-box">
-                                                <i className="fal fa-shopping-basket"></i>
-                                            </div>
-                                        </Link>
-                                        {product.added &&
-                                            <Link method="post" href={route('wishlist.delete')} data={{ product_id: product.id }}><i className="fas fa-heart heart" style={{ color: 'red' }}></i></Link>
-                                        }
-                                        {!product.added &&
-                                            <Link method="post" href={route('wishlist.add')} as='a' data={{ product_id: product.id }}><i className="fal fa-heart heart"></i></Link>}
-                                        <img
-                                            src={product.image}
-                                            alt={product.name}
-                                        />
-                                        <div className="features-content">
-                                            <p>{product.category}</p>
-                                            <h5>{product.name}</h5>
-                                            <h6>₹{product.price}.00</h6>
-                                            <div className="star">
-                                                {Array(product.rating)
-                                                    .fill()
-                                                    .map((_, i) => (
-                                                        <img
-                                                            key={i}
-                                                            src="/assets/images/star.png"
-                                                            alt="star"
-                                                        />
-                                                    ))}
-                                                <span>( {product.reviews} reviews )</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </a>
-                            ))}
+                            <ProductList filteredProducts={filteredProducts}/>
                         </div>
                     </div>
                 </div>

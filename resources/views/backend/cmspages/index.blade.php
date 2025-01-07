@@ -51,12 +51,7 @@
                                     @php $srno = 1; @endphp
                                     @foreach($cmspages as $cmspage)
                                     <tr>
-                                      <td>{{ $srno }}</td>
-                                      <td>{{ $cmspage->cms_pages_title }}</td>
-                                      <td>{{ $cmspage->cms_pages_top == 1 ? 'Yes':'No' }}</td>
-                                      <td>{{ $cmspage->cms_pages_footer == 1 ? 'Yes':'No' }}</td>
-                                      <td>{{ $cmspage->show_hide == 1 ? 'Yes':'No' }}</td>
-                                      <td>
+                                    <td>
                                         <!-- @can('Update') -->
                                         <!-- @endcan -->
                                         <a target="_blank" href="{{ url('view-page/'.$cmspage->cms_slug) }}" class="btn btn-primary"><i class="bx bx-show-alt"></i></a>
@@ -71,6 +66,12 @@
                                             {!! Form::button('<i class="bx bx-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger','onclick'=>"return confirm('Are you sure you want to Delete this Entry ?')"]) !!}
                                         {!! Form::close() !!}
                                       </td>
+                                      <td>{{ $srno }}</td>
+                                      <td>{{ $cmspage->cms_pages_title }}</td>
+                                      <td>{{ $cmspage->cms_pages_top == 1 ? 'Yes':'No' }}</td>
+                                      <td>{{ $cmspage->cms_pages_footer == 1 ? 'Yes':'No' }}</td>
+                                      <td>{{ $cmspage->show_hide == 1 ? 'Yes':'No' }}</td>
+                                     
                                     </tr>
                                     @php $srno++; @endphp
                                     @endforeach

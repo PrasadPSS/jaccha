@@ -7,10 +7,17 @@ export default function Featured({ title, subTitle, sectionChildren, paddingTop,
 
     const products = [];
     data.products.forEach(element => {
+        let avg_rating = 0;
+        let sum_rating = 0;
+        element.reviews.map((reviews)=>
+            {
+                sum_rating = sum_rating + reviews.rating;
+            })
+        avg_rating = sum_rating / element.reviews.length;
         products.push({
             id: element.product_id,
             image: asset('backend-assets/uploads/product_thumbs/' + element.product_thumb), name: element.product_title, price: element.product_price
-            , category: "Pregnancy Care", stage: "1st Month of Pregnan", rating: 6
+            , category: element.category_slug, stage: element.category_slug, rating: isNaN(avg_rating) ?  0 : avg_rating
         });
     });
     return (

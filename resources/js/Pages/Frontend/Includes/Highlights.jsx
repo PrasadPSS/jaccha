@@ -16,12 +16,12 @@ export default function Highlights({ title, subTitle, sectionChildren, paddingTo
                         <div className="highlight_box" data-aos="zoom-in-up" data-aos-delay="400">
                             <img src={asset("backend-assets/uploads/home_page_section_child_images/" + sectionChildren[1].home_page_section_child_images)} alt="hightlight image" />
                             <div className="highlight-heading">
-                                <h2>New Arrivals</h2>
+                                <h2>{sectionChildren[1].home_page_section_child_title}</h2>
                             </div>
                             <div className="highlight_box-content">
-                                <h6>New Arrivals</h6>
-                                <span>PRICE 20% OFF</span>
-                                <p className="mt-2">DISCOUNT CODE - VATR3920</p>
+                                <h6>{sectionChildren[1].home_page_section_child_title}</h6>
+                                <span>{sectionChildren[1].home_page_section_child_sub_title}</span>
+                                <p className="mt-2">{sectionChildren[1].home_page_section_child_footer_title}</p>
                             </div>
                         </div>
                     </div>
@@ -29,12 +29,12 @@ export default function Highlights({ title, subTitle, sectionChildren, paddingTo
                         <div className="highlight_box" data-aos="zoom-in-up" data-aos-delay="1200">
                             <img src={asset("backend-assets/uploads/home_page_section_child_images/" + sectionChildren[2].home_page_section_child_images)} alt="hightlight image" />
                             <div className="highlight-heading">
-                                <h2>Exclusive Items</h2>
+                                <h2>{sectionChildren[2].home_page_section_child_title}</h2>
                             </div>
                             <div className="highlight_box-content">
-                                <h6>Exclusive Items</h6>
-                                <span>PRICE 20% OFF</span>
-                                <p className="mt-2">DISCOUNT CODE - VATR3920</p>
+                                <h6>{sectionChildren[2].home_page_section_child_title}</h6>
+                                <span>{sectionChildren[2].home_page_section_child_sub_title}</span>
+                                <p className="mt-2">{sectionChildren[2].home_page_section_child_footer_title}</p>
                             </div>
                         </div>
                     </div>

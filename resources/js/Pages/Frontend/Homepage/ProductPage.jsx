@@ -17,14 +17,13 @@ const componentMap = {
 };
 
 export default function ProductPage({ auth, laravelVersion, phpVersion, homepagesections, data }) {
-
   return (
     <HomeLayout auth={auth}>
       {homepagesections.map((section) => {
         const SectionComponent = componentMap[section.home_page_section_name];
 
         // Pass relevant data from the section object to the components
-        if (SectionComponent) {
+        if (SectionComponent && section.visibility == 1) {
           return (
             <SectionComponent
               key={section.home_page_section_id}
@@ -33,6 +32,7 @@ export default function ProductPage({ auth, laravelVersion, phpVersion, homepage
               sectionChildren={section.section_childs}
               paddingTop={section.padding_top}
               paddingBottom={section.padding_bottom}
+            
               data={data}
             />
           );
