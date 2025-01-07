@@ -20,7 +20,7 @@ export default function Footer() {
                 <div className="row">
                     <div className="col-sm-4">
                         <div className="footer-about">
-                            <a className="navbar-brand" href="index.html"><img className="logo" src="/assets/images/logo.png" alt="Logo" /></a>
+                            <a className="navbar-brand" href="/"><img className="logo" src="/assets/images/logo.png" alt="Logo" /></a>
                             <h3>
                                 Handmade<br />
                                 nutritional products delivered with love.
