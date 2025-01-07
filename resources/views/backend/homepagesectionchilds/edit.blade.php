@@ -86,7 +86,13 @@ $product_types = ['simple'=>'Simple','configurable'=>'Configurable'];
                             <div class="col-md-12 col-12">
                               <div class="form-group">
                                 {{ Form::label('home_page_section_child_footer_title', 'Home Page Section Child Footer Title') }}
+                 
+                                @if($homepagesections->home_page_section_name == 'Testimonials')
+
+                                {{ Form::number('home_page_section_child_footer_title', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Child Footer Title']) }}
+                                @else
                                 {{ Form::text('home_page_section_child_footer_title', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Child Footer Title']) }}
+                                @endif
                               </div>
                             </div>
                             @endif

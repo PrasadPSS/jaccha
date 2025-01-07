@@ -1,6 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
 import React, { useState } from 'react';
 import ProductList from './ProductList';
+import { useEffect } from 'react';
 
 
 export default function ProductListing({ products }) {
@@ -10,7 +11,7 @@ export default function ProductListing({ products }) {
     const [selectedSizes, setSelectedSizes] = useState([]);
     const [selectedPriceRange, setSelectedPriceRange] = useState("");
     const [selectedSort, setSelectedSort] = useState("asc");
-
+    const [currentPage, setCurrentPage] = useState(1);
     // Handle filter changes
     const handleCategoryChange = (category) => {
         setSelectedCategories((prev) =>
@@ -53,10 +54,14 @@ export default function ProductListing({ products }) {
             !selectedPriceRange ||
             (product.price >= selectedPriceRange.min &&
                 product.price <= selectedPriceRange.max);
+        
+       
 
 
         return matchesCategory && matchesSize && matchesPrice;
     });
+
+    useEffect(()=> setCurrentPage(1), [selectedCategories,selectedSizes,selectedPriceRange]);
 
     filteredProducts.sort(function (a, b) {
         if (a.updatedAt > b.updatedAt) {
@@ -259,7 +264,7 @@ export default function ProductListing({ products }) {
                                 </div>
                             </div>
 
-                            <ProductList filteredProducts={filteredProducts}/>
+                            <ProductList filteredProducts={filteredProducts} setCurrentPage={setCurrentPage} currentPage={currentPage}/>
                         </div>
                     </div>
                 </div>

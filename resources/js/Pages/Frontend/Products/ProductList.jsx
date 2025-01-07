@@ -1,9 +1,9 @@
 import { Link } from "@inertiajs/react";
 import React, { useState } from "react";
 
-const ProductList = ({ filteredProducts }) => {
+const ProductList = ({ filteredProducts, setCurrentPage, currentPage }) => {
     // Pagination state
-    const [currentPage, setCurrentPage] = useState(1);
+    
     const productsPerPage = 6; // Number of products per page
 
     // Calculate indices for slicing the product list

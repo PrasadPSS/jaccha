@@ -43,6 +43,7 @@
                                 <thead>
                                   @if(isset($home_page_section_types))
                                     </tr>
+                                      <th></th>
                                       <th>#</th>
                                       @foreach ($home_page_section_types as $home_page_section_type)
                                         <th>
@@ -60,18 +61,25 @@
                                     @foreach($home_page_section_childs as $home_page_section_child)
 
                                     <tr>
-                                      <td>{{ $srno }}</td>
-                                      <td>
-                                        <a href="{{ url('admin/homepagesectionchilds/edit/'.$home_page_section_child->home_page_section_child_id) }}" class="btn btn-primary"><i class="bx bx-pencil"></i></a>
-
-                                        {!! Form::open([
+                                    <td>
+                                        <div class="dropdown">
+                                          <span class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu"></span>
+                                          <div class="dropdown-menu dropdown-menu-right">
+                           
+                                            <a href="{{ url('admin/homepagesectionchilds/edit/'.$home_page_section_child->home_page_section_child_id) }}" class="dropdown-item">Edit</a>
+                                            {!! Form::open([
                                             'method'=>'GET',
                                             'url' => ['admin/homepagesectionchilds/delete', $home_page_section_child->home_page_section_child_id],
                                             'style' => 'display:inline'
                                         ]) !!}
-                                            {!! Form::button('<i class="bx bx-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger','onclick'=>"return confirm('Are you sure you want to Delete this Entry ?')"]) !!}
-                                        {!! Form::close() !!}
+                                            <button type="submit" onclick="return confirm('Are you sure you want to Delete this Entry ?')" class="dropdown-item">Delete</button>
+                                            {!! Form::close() !!}
+                                          </div>
+                                        </div>
                                       </td>
+                                      <td>{{ $srno }}</td>
+                                     
                                       @if(isset($home_page_section_types))
                                       @foreach ($home_page_section_types as $home_page_section_type)
                                       @if($home_page_section_type->home_page_section_field_code == 'images' && isset($home_page_section_child->home_page_section_child_images))
@@ -89,7 +97,17 @@
                                         <td>{{ $home_page_section_child->{'home_page_section_child_'.$home_page_section_type->home_page_section_field_code} }}</td>
                                       @endif
                                       @endforeach
-                                     
+                                      <td>
+                                        <a href="{{ url('admin/homepagesectionchilds/edit/'.$home_page_section_child->home_page_section_child_id) }}" class="btn btn-primary"><i class="bx bx-pencil"></i></a>
+
+                                        {!! Form::open([
+                                            'method'=>'GET',
+                                            'url' => ['admin/homepagesectionchilds/delete', $home_page_section_child->home_page_section_child_id],
+                                            'style' => 'display:inline'
+                                        ]) !!}
+                                            {!! Form::button('<i class="bx bx-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger','onclick'=>"return confirm('Are you sure you want to Delete this Entry ?')"]) !!}
+                                        {!! Form::close() !!}
+                                      </td>
 
                                       @endif
                                     </tr>

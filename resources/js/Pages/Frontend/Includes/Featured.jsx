@@ -9,15 +9,14 @@ export default function Featured({ title, subTitle, sectionChildren, paddingTop,
     data.products.forEach(element => {
         let avg_rating = 0;
         let sum_rating = 0;
-        element.reviews.map((reviews)=>
-            {
-                sum_rating = sum_rating + reviews.rating;
-            })
+        element.reviews.map((reviews) => {
+            sum_rating = sum_rating + reviews.rating;
+        })
         avg_rating = sum_rating / element.reviews.length;
         products.push({
             id: element.product_id,
             image: asset('backend-assets/uploads/product_thumbs/' + element.product_thumb), name: element.product_title, price: element.product_price
-            , category: element.category_slug, stage: element.category_slug, rating: isNaN(avg_rating) ?  0 : avg_rating
+            , category: element.category_slug, stage: element.category_slug, rating: isNaN(avg_rating) ? 0 : avg_rating
         });
     });
     return (
@@ -46,13 +45,20 @@ export default function Featured({ title, subTitle, sectionChildren, paddingTop,
                                     <p>{product.stage}</p>
                                     <h5>{product.name}</h5>
                                     <h6>₹{product.price}</h6>
-                                    <div className="star">
-                                        {[...Array(product.rating)].map((_, i) => (
-                                            <img key={i} src='/assets/images/star.png' alt="" className="object-contain shrink-0 aspect-[1.12] w-[18px]" />
-                                        ))}
+                                    {product.rating > 0 &&
+                                        <div className="star">
+                                            {[...Array(product.rating)].map((_, i) => (
+                                                <img key={i} src='/assets/images/star.png' alt="" className="object-contain shrink-0 aspect-[1.12] w-[18px]" />
+                                            ))}
 
-                                        <span>( {product.rating} reviews )</span>
-                                    </div>
+                                            {[...Array(5 - product.rating)].map((_, i) => (
+                                                <img key={i} src='/assets/images/star1.png' alt="" className="object-contain shrink-0 aspect-[1.12] w-[18px]" />
+                                            ))}
+
+                                            <span>( {product.rating} reviews )</span>
+                                        </div>
+                                    }
+
                                 </div>
                             </div>
                         </Link>

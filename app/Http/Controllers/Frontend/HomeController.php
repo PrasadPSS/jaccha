@@ -19,7 +19,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $featuredProductCodes = FeaturedProducts::where('home_page_featured_product_name', 'Best Sellers')->first()->product_id;
+        $featuredProductCodes = FeaturedProducts::where('home_page_featured_product_name', 'Featured Products')->first()->product_id;
         $ids = explode(',', $featuredProductCodes);
 
         // Step 2: Retrieve the products

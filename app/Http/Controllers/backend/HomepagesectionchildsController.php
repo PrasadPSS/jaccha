@@ -168,6 +168,13 @@ class HomepagesectionchildsController extends Controller
         // 'home_page_section_child_images' => ['required'],
         // 'product_price' => ['required'],
       ]);
+      if(is_numeric($request->input('home_page_section_child_footer_title')) && $request->input('home_page_section_child_footer_title') > 5)
+      {
+       
+        $this->validate($request, [
+         'home_page_section_child_footer_title' => 'digits_between::1,5',
+        ]);
+      }
       $id = $request->input('home_page_section_child_id');
       $home_page_section_child = HomePageSectionChilds::findOrFail($id);
       $home_page_section_child->fill($request->all());

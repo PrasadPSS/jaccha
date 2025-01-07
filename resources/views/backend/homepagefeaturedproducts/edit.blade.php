@@ -50,7 +50,7 @@ $home_page_featured_product_types = ['default'=>'Default','price'=>'Price','colo
                                 {{ Form::text('home_page_featured_product_name', null, ['class' => 'form-control', 'placeholder' => 'Enter Featured Product Name', 'required' => true]) }}
                               </div>
                             </div>
-                            <div class="col-md-6 col-12">
+                            <!-- <div class="col-md-6 col-12">
                               <fieldset class="form-group">
                                 <div class="input-group">
                                   <div class="input-group-prepend">
@@ -59,7 +59,7 @@ $home_page_featured_product_types = ['default'=>'Default','price'=>'Price','colo
                                   {{ Form::select('home_page_featured_product_type', ['manual'=>'Manual','auto'=>'Automatic'], null,['class'=>'select2 form-control', 'placeholder' => 'Please Select Type']) }}
                                 </div>
                               </fieldset>
-                            </div>
+                            </div> -->
                             <div class="col-md-12 col-12">
                               <fieldset class="form-group">
                                 <div class="input-group">

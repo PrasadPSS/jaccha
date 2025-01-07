@@ -42,7 +42,7 @@
                                 <thead>
                                     <tr>
                                       <th>#</th>
-                                      <th>Action</th>
+                                      <th>Actions</th>
                                       <th>Image</th>
                                       <th>SKU</th>
 
@@ -51,6 +51,7 @@
                                       <th>Discounted Price</th>
                                       <th>Quantity</th>
                                       <th>Type</th>
+                                      <th>Action</th>
                                       
                                     </tr>
                                 </thead>
@@ -60,6 +61,34 @@
                                     @foreach($products as $product)
                                     <tr>
                                       <td>{{ $srno }}</td>
+                                      <td>
+                                      <div class="dropdown">
+                                          <span class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu"></span>
+                                          <div class="dropdown-menu dropdown-menu-right">
+                           
+                                          <a href="{{ url('admin/products/edit/'.$product->product_id) }}" class="btn btn-primary">Edit</a>
+                                        @if($product->product_type == 'configurable')
+                                          <a href="{{ url('admin/productvariants/index/'.$product->product_id) }}" class="btn btn-primary"><i class="bx bx-eye"></i>Variants</a>
+                                        @endif
+                                        {!! Form::open([
+                                            'method'=>'GET',
+                                            'url' => ['admin/products/delete', $product->product_id],
+                                            'style' => 'display:inline'
+                                        ]) !!}
+                                            {!! Form::button('Delete', ['type' => 'submit', 'class' => 'btn btn-danger','onclick'=>"return confirm('Are you sure you want to Delete this Entry ?')"]) !!}
+                                        {!! Form::close() !!}
+                                          </div>
+                                        </div>
+                                      </td>
+                                      <td><img class="card-img-top img-fluid mb-1" src="{{ asset('backend-assets/uploads/product_thumbs/') }}/{{ $product->product_thumb }}" alt="Product Image"></td>
+                                      <td>{{ $product->product_sku }}</td>
+            
+                                      <td>{{ $product->product_title }}</td>
+                                      <td>{{ $product->product_price }}</td>
+                                      <td>{{ $product->product_discounted_price }}</td>
+                                      <td>{{ ($product->product_type == 'configurable')?isset($product->product_variants)?$product->product_variants->sum('product_qty'):0:$product->product_qty }}</td>
+                                      <td>{{ ($product->product_type=='configurable')?'Configurable':'Simple' }}</td>
                                       <td>
 
                                         <a href="{{ url('admin/products/edit/'.$product->product_id) }}" class="btn btn-primary"><i class="bx bx-pencil"></i></a>
@@ -74,15 +103,6 @@
                                             {!! Form::button('<i class="bx bx-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger','onclick'=>"return confirm('Are you sure you want to Delete this Entry ?')"]) !!}
                                         {!! Form::close() !!}
                                       </td>
-                                      <td><img class="card-img-top img-fluid mb-1" src="{{ asset('backend-assets/uploads/product_thumbs/') }}/{{ $product->product_thumb }}" alt="Product Image"></td>
-                                      <td>{{ $product->product_sku }}</td>
-            
-                                      <td>{{ $product->product_title }}</td>
-                                      <td>{{ $product->product_price }}</td>
-                                      <td>{{ $product->product_discounted_price }}</td>
-                                      <td>{{ ($product->product_type == 'configurable')?isset($product->product_variants)?$product->product_variants->sum('product_qty'):0:$product->product_qty }}</td>
-                                      <td>{{ ($product->product_type=='configurable')?'Configurable':'Simple' }}</td>
-                                      
                                     </tr>
                                     @php $srno++; @endphp
                                     @endforeach

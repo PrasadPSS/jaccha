@@ -60,7 +60,7 @@ $size_types = ['upper'=>'Uppers','lower'=>'Lowers','shoes'=>'Shoes'];
 
                                         <a href="{{ url('admin/homepagesections/edit/'.$home_page_section->home_page_section_id) }}" class="btn btn-primary"><i class="bx bx-pencil"></i></a>
                                         @if(isset($home_page_section->home_page_section_type->home_page_section_type_code) && $home_page_section->home_page_section_type->home_page_section_type_code == 'featured_products')
-                                          <a href="{{ url('admin/homepagefeaturedproducts/') }}" class="btn btn-primary"><i class="bx bx-eye"></i>Content</a>
+                                          <a href="{{ url('admin/homepagefeaturedproducts/edit/1') }}" class="btn btn-primary"><i class="bx bx-eye"></i>Content</a>
                                         @else
                                           <a href="{{ url('admin/homepagesectionchilds/index/'.$home_page_section->home_page_section_id) }}" class="btn btn-primary"><i class="bx bx-eye"></i>Content</a>
                                         @endif
