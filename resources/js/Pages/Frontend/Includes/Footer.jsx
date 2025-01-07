@@ -11,7 +11,7 @@ export default function Footer() {
 
       function submit(e) {
         e.preventDefault()
-        post(route('newsletter.subscribe'))
+        post(route('newsletter.subscribe'),{ preserveScroll: 'errors' })
       }
 
     return (
