@@ -187,6 +187,11 @@ class ProfileController extends Controller
             info($request->email);
             return back()->with('error', 'Email Field is required.');
         }
+        $exists = User::where('email', $request->email)->exists();
+        if(!$exists)
+        {
+            return back()->with('error', 'Account does not exist for given email.');
+        }
         
         info('worked');
         $resetToken = str()->random(10);
