@@ -130,8 +130,9 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
             setDefaultAdd(e.target.checked);
             setFormData2({ ...formData2, [name]: e.target.checked });
         }
-
-
+        if (name == 'shipping_state') {
+            setEditDistricts(districts.filter((district) => district.state_name == value))
+        }
     };
 
     const handleSubmit2 = (e) => {
