@@ -2,9 +2,14 @@ import { asset } from "@/Helpers/asset";
 import { Link } from "@inertiajs/react";
 import React from "react";
 
-
-export default function Featured({ title, subTitle, sectionChildren, paddingTop, paddingBottom, data }) {
-
+export default function Featured({
+    title,
+    subTitle,
+    sectionChildren,
+    paddingTop,
+    paddingBottom,
+    data,
+}) {
     const products = [];
     data.products.forEach(element => {
         let avg_rating = 0;
@@ -15,8 +20,11 @@ export default function Featured({ title, subTitle, sectionChildren, paddingTop,
         avg_rating = sum_rating / element.reviews.length;
         products.push({
             id: element.product_id,
-            image: asset('backend-assets/uploads/product_thumbs/' + element.product_thumb), name: element.product_title, price: element.product_price
-            , category: element.category_slug, stage: element.category_slug, rating: isNaN(avg_rating) ? 0 : avg_rating
+            image: asset('backend-assets/uploads/product_thumbs/' + element.product_thumb), 
+            name: element.product_title, price: element.product_price, 
+            category: element.category_slug, 
+            stage: element.category_slug, 
+            rating: isNaN(avg_rating) ? 0 : avg_rating
         });
     });
     return (
@@ -29,15 +37,38 @@ export default function Featured({ title, subTitle, sectionChildren, paddingTop,
                 </div>
                 <div className="row mt-5" data-aos="fade-up">
                     {products.map((product, index) => (
-                        <Link href={"/product/view/" + product.id} key={index} className="col-sm-3">
+                         <Link href={"/product/view/" + product.id} key={index} className="col-sm-3">
                             <div className="feature-box">
                                 <div className="basket-box">
-                                    <Link href="/product/addtocart" method="post" data={{ product_id: product.id, product_type: "simple", product_variant_id: null, quantity: 1, _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), sweetnesslevel: null, ingrediantaddons: null, exclusions: null }}>
+                                    <Link
+                                        href="/product/addtocart"
+                                        method="post"
+                                        data={{
+                                            product_id: product.id,
+                                            product_type: "simple",
+                                            product_variant_id: null,
+                                            quantity: 1,
+                                            _token: document
+                                                .querySelector(
+                                                    'meta[name="csrf-token"]'
+                                                )
+                                                .getAttribute("content"),
+                                            sweetnesslevel: null,
+                                            ingrediantaddons: null,
+                                            exclusions: null,
+                                        }}
+                                    >
                                         <i className="fal fa-shopping-basket"></i>
                                     </Link>
-
                                 </div>
-                                <Link type='button' href={route('wishlist.add')} method="post" as='button' className="gray" data={{ product_id: product.id }}>
+                                <Link
+                                    type="button"
+                                    href={route("wishlist.add")}
+                                    method="post"
+                                    as="button"
+                                    className="gray"
+                                    data={{ product_id: product.id }}
+                                >
                                     <i className="fal fa-heart heart"></i>
                                 </Link>
                                 <img src={product.image} alt={product.name} />
@@ -58,18 +89,17 @@ export default function Featured({ title, subTitle, sectionChildren, paddingTop,
                                             <span>( {product.rating} reviews )</span>
                                         </div>
                                     }
-
                                 </div>
                             </div>
                         </Link>
-
                     ))}
                     <div className="col-sm-12 m-auto text-center mt-5">
-                        <Link as="button" href="/products" className="button">See All</Link>
+                        <Link as="button" href="/products" className="button">
+                            See All
+                        </Link>
                     </div>
                 </div>
             </div>
         </section>
     );
-};
-
+}
