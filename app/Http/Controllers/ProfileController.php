@@ -193,7 +193,6 @@ class ProfileController extends Controller
             return back()->with('error', 'Account does not exist for given email.');
         }
         
-        info('worked');
         $resetToken = str()->random(10);
         $userEmail = $request->email;
         $url = 'Click on this click to reset your password for jaccha ' .route('profile.resetpassword') . '/?token=' . $resetToken . "&email=" .$userEmail;

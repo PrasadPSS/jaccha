@@ -73,6 +73,13 @@ class HomepagesectionchildsController extends Controller
       $this->validate($request, [
         // 'home_page_section_child_images' => ['required'],
       ]);
+      if(is_numeric($request->input('home_page_section_child_footer_title')) && $request->input('home_page_section_child_footer_title') > 5)
+      {
+       
+        $this->validate($request, [
+         'home_page_section_child_footer_title' => 'digits_between::1,5',
+        ]);
+      }
       // setlocale(LC_MONETARY, 'en_IN.UTF-8');
       $home_page_section_child = new HomePageSectionChilds();
       $home_page_section_child->fill($request->all());
