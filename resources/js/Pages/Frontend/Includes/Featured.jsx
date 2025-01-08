@@ -60,18 +60,18 @@ export default function Featured({
                                     >
                                         <i className="fal fa-shopping-basket"></i>
                                     </Link>
-                                    <Link
-                                        type="button"
-                                        href={route("wishlist.add")}
-                                        method="post"
-                                        as="button"
-                                        className="gray"
-                                        data={{ product_id: product.id }}
-                                    >
-                                        <i className="fal fa-heart heart"></i>
-                                    </Link>
-                                </div>
 
+                                </div>
+                                <Link
+
+                                    href={route("wishlist.add")}
+                                    method="post"
+                                    
+                                    className="gray"
+                                    data={{ product_id: product.id }}
+                                >
+                                    <i className="fal fa-heart heart"></i>
+                                </Link>
                                 <img src={product.image} alt={product.name} />
                                 <div className="features-content">
                                     <p>{product.stage}</p>
