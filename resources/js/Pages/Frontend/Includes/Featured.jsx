@@ -20,10 +20,10 @@ export default function Featured({
         avg_rating = sum_rating / element.reviews.length;
         products.push({
             id: element.product_id,
-            image: asset('backend-assets/uploads/product_thumbs/' + element.product_thumb), 
-            name: element.product_title, price: element.product_price, 
-            category: element.category_slug, 
-            stage: element.category_slug, 
+            image: asset('backend-assets/uploads/product_thumbs/' + element.product_thumb),
+            name: element.product_title, price: element.product_price,
+            category: element.category_slug,
+            stage: element.category_slug,
             rating: isNaN(avg_rating) ? 0 : avg_rating
         });
     });
@@ -37,7 +37,7 @@ export default function Featured({
                 </div>
                 <div className="row mt-5" data-aos="fade-up">
                     {products.map((product, index) => (
-                         <Link href={"/product/view/" + product.id} key={index} className="col-sm-3">
+                        <Link href={"/product/view/" + product.id} key={index} className="col-sm-3">
                             <div className="feature-box">
                                 <div className="basket-box">
                                     <Link
@@ -60,17 +60,18 @@ export default function Featured({
                                     >
                                         <i className="fal fa-shopping-basket"></i>
                                     </Link>
+                                    <Link
+                                        type="button"
+                                        href={route("wishlist.add")}
+                                        method="post"
+                                        as="button"
+                                        className="gray"
+                                        data={{ product_id: product.id }}
+                                    >
+                                        <i className="fal fa-heart heart"></i>
+                                    </Link>
                                 </div>
-                                <Link
-                                    type="button"
-                                    href={route("wishlist.add")}
-                                    method="post"
-                                    as="button"
-                                    className="gray"
-                                    data={{ product_id: product.id }}
-                                >
-                                    <i className="fal fa-heart heart"></i>
-                                </Link>
+
                                 <img src={product.image} alt={product.name} />
                                 <div className="features-content">
                                     <p>{product.stage}</p>
