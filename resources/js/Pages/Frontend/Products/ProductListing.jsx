@@ -5,13 +5,18 @@ import { useEffect } from 'react';
 
 
 export default function ProductListing({ products }) {
+
     let auth = usePage().props.auth;
     // State for filters
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedSizes, setSelectedSizes] = useState([]);
     const [selectedPriceRange, setSelectedPriceRange] = useState("");
-    const [selectedSort, setSelectedSort] = useState("asc");
+    const [selectedSort, setSelectedSort] = useState("low-to-high");
+
     const [currentPage, setCurrentPage] = useState(1);
+
+
+
     // Handle filter changes
     const handleCategoryChange = (category) => {
         setSelectedCategories((prev) =>
@@ -35,7 +40,7 @@ export default function ProductListing({ products }) {
 
     const handleSort = () => {
         setSelectedSort((prev) =>
-            prev == 'asc' ? 'desc' : 'asc'
+            prev == 'low-to-high' ? 'high-to-low' : 'low-to-high'
         );
 
     }
@@ -62,18 +67,18 @@ export default function ProductListing({ products }) {
     });
 
     useEffect(() => setCurrentPage(1), [selectedCategories, selectedSizes, selectedPriceRange]);
-
+    console.log(filteredProducts);
     filteredProducts.sort(function (a, b) {
-        if (a.updatedAt > b.updatedAt) {
-            return selectedSort == 'desc' ? -1 : 1;
+        if ((a.price - a.discount) > (b.price - b.discount)) {
+            return selectedSort == 'low-to-high' ? 1 : -1;
         }
 
-        if (a.updatedAt == b.updatedAt) {
+        if ((a.price - a.discount) == (b.price - b.discount)) {
             return 0;
         }
 
-        if (a.updatedAt < b.updatedAt) {
-            return selectedSort == 'desc' ? 1 : -1;
+        if ((a.price - a.discount) < (b.price - b.discount)) {
+            return selectedSort == 'high-to-low' ? 1 : -1;
         }
     });
     const clearFilters = () => {
@@ -108,7 +113,7 @@ export default function ProductListing({ products }) {
                                 <h2 className="">Filters</h2>
                                 <button onClick={clearFilters} className="btn btn-primary filter-reset">Reset All</button>
                             </div>
-                            
+
                             <div className="accordion" id="accordionExample">
                                 {/* Category Filter */}
                                 <div className="accordion-item">
@@ -178,8 +183,9 @@ export default function ProductListing({ products }) {
                                         <div className="accordion-body">
                                             <ul>
                                                 {[
-                                                    { label: "Low", min: 0, max: 1000 },
-                                                    { label: "High", min: 1000, max: Infinity },
+                                                    { label: "₹ 0 to ₹ 500", min: 0, max: 500 },
+                                                    { label: "₹ 500 to ₹ 1000", min: 500, max: 1000 },
+                                                    { label: "Above ₹ 1000", min: 1000, max: Infinity },
                                                 ].map((range) => (
                                                     <li key={range.label}>
                                                         <div className="form-check">
@@ -248,7 +254,7 @@ export default function ProductListing({ products }) {
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
 
@@ -258,12 +264,35 @@ export default function ProductListing({ products }) {
                             <div className="col-sm-12 text-right">
                                 <div className="product-select mb-4">
                                     <select onChange={handleSort} className="form-select" aria-label="Default select example">
-                                        <option selected value="asc">Asc</option>
-                                        <option value="desc">Desc</option>
+                                        <option selected disabled value="">Sort By</option>
+                                        <option value="low-to-high">Price low to high</option>
+                                        <option value="high-to-low">Price high to low</option>
                                     </select>
                                 </div>
                             </div>
+                            {filteredProducts.length == 0 && 
+                            <div className="container">
+                                <div className="row align-items-center empty-product">
+                                 
+                                    <div className="col-md-8">
+                                        <div className="empty-wishlist-content">
+                                            <h2>Oops! No products found.</h2>
+                                            <p>
+                                                It seems like we couldn't find any products matching your filters.
+                                            </p>
+                                            <button onClick={clearFilters} className="btn btn-primary">Reset All</button>
+                                        </div>
+                                    </div>
 
+
+                                    <div className="col-md-4">
+                                        <div className="empty-wishlist-image">
+                                            <img src="/assets/images/empty-wishlist.png" alt="Empty Wishlist Illustration" className="img-fluid" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>}
+                            
                             <ProductList filteredProducts={filteredProducts} setCurrentPage={setCurrentPage} currentPage={currentPage} />
                         </div>
                     </div>

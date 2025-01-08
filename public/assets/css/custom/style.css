@@ -2829,3 +2829,11 @@ header .second-navbar ul li a span {
         right: -15px;
     }
 }
+
+.features-content .feature-box h6 span {
+    color: rgba(83, 80, 81, 0.4) !important;
+    text-decoration: line-through;
+    font-size: 14px;
+    font-weight: 500;
+    padding-left: 10px;
+  }

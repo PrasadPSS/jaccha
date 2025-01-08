@@ -24,7 +24,8 @@ export default function Featured({
             name: element.product_title, price: element.product_price,
             category: element.category_slug,
             stage: element.category_slug,
-            rating: isNaN(avg_rating) ? 0 : avg_rating
+            rating: isNaN(avg_rating) ? 0 : avg_rating,
+            discount: element.product_discounted_amount,
         });
     });
     return (
@@ -76,7 +77,13 @@ export default function Featured({
                                 <div className="features-content">
                                     <p>{product.stage}</p>
                                     <h5>{product.name}</h5>
+                                    {(product.price-product.discount) < product.price && 
+                                    <div class="feature-box"><h6>₹{product.price - product.discount}.00<span>₹{product.price}.00</span></h6></div>
+                                    }
+                                    {product.discount == 0 && 
                                     <h6>₹{product.price}</h6>
+                                    }
+                                    
                                     {product.rating > 0 &&
                                         <div className="star">
                                             {[...Array(product.rating)].map((_, i) => (
