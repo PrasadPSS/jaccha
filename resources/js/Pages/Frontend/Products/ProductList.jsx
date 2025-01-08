@@ -62,31 +62,22 @@ const ProductList = ({ filteredProducts, setCurrentPage, currentPage }) => {
                                         ))}
 
             {/* Pagination Controls */}
-            <div className="pagination">
-                <button
-                    disabled={currentPage === 1}
-                    onClick={() => paginate(currentPage - 1)}
-                >
-                    Previous
-                </button>
-                &nbsp;
+            <div className="Page navigation review-pagination mt-5">
+              <ul className="pagination">
+                <li className="page-item">
+                  <button href="#" className="page-link" disabled={currentPage == 1}
+                    onClick={() => paginate(currentPage - 1)} >Previous</button>
+                </li> 
                 {Array.from({ length: totalPages }, (_, i) => (
-                    
-                    <button
-                        key={i}
-                        className={currentPage === i + 1 ? "active m-4" : "m-4"}
-                        onClick={() => paginate(i + 1)}
-                    >
-                        {i + 1}
-                    </button>
-                    
+                    <li className="page-item" ><a className={currentPage === i + 1 ? "page-link active" : "page-link"} key={i} onClick={() => paginate(i + 1)} href="#">{i + 1}</a></li>
                 ))}
-                <button
-                    disabled={currentPage === totalPages}
-                    onClick={() => paginate(currentPage + 1)}
-                >
-                    Next
-                </button>
+ 
+     
+                <li className="page-item">
+                  <button className="page-link" href="#" disabled={currentPage === totalPages}
+                    onClick={() => paginate(currentPage + 1)}>Next</button>
+                </li>
+              </ul>
             </div>
         </div>
     );

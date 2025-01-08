@@ -54,14 +54,14 @@ export default function ProductListing({ products }) {
             !selectedPriceRange ||
             (product.price >= selectedPriceRange.min &&
                 product.price <= selectedPriceRange.max);
-        
-       
+
+
 
 
         return matchesCategory && matchesSize && matchesPrice;
     });
 
-    useEffect(()=> setCurrentPage(1), [selectedCategories,selectedSizes,selectedPriceRange]);
+    useEffect(() => setCurrentPage(1), [selectedCategories, selectedSizes, selectedPriceRange]);
 
     filteredProducts.sort(function (a, b) {
         if (a.updatedAt > b.updatedAt) {
@@ -104,7 +104,11 @@ export default function ProductListing({ products }) {
                             data-aos="fade-up"
                             data-aos-delay="200"
                         >
-                            <h2>All Products</h2>
+                            <div className="product-filter">
+                                <h2 className="">Filters</h2>
+                                <button onClick={clearFilters} className="btn btn-primary filter-reset">Reset All</button>
+                            </div>
+                            
                             <div className="accordion" id="accordionExample">
                                 {/* Category Filter */}
                                 <div className="accordion-item">
@@ -240,15 +244,11 @@ export default function ProductListing({ products }) {
                                             </ul>
                                         </div>
 
-                                        
+
                                     </div>
                                 </div>
                             </div>
-                            <div className="mt-3">
-                                            <button className="btn btn-secondary" onClick={clearFilters}>
-                                                Clear Filters
-                                            </button>
-                                        </div>
+                            
                         </div>
                     </div>
 
@@ -264,7 +264,7 @@ export default function ProductListing({ products }) {
                                 </div>
                             </div>
 
-                            <ProductList filteredProducts={filteredProducts} setCurrentPage={setCurrentPage} currentPage={currentPage}/>
+                            <ProductList filteredProducts={filteredProducts} setCurrentPage={setCurrentPage} currentPage={currentPage} />
                         </div>
                     </div>
                 </div>
