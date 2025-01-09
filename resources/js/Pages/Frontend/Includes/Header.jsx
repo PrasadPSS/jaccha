@@ -179,14 +179,22 @@ const Header = ({ auth }) => {
                                     New Arrivals<span># Fresh</span>
                                 </Link>
                             </li>
+                            <li className="nav-item">
+                                <Link
+                                    className="nav-link"
+                                    aria-current="page"
+                                    href={"/view-page/about-us"}
+                                >
+                                    About Us
+                                </Link>
+                            </li>
                             <li className="nav-item dropdown position-static">
                                 <a
                                     className="nav-link dropdown-toggle"
-                                    href="#"
+                                    href="/products"
                                     id="productsDropdown"
                                     role="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
+                                    aria-expanded="true"
                                 >
                                     Our Products
                                 </a>
@@ -201,10 +209,11 @@ const Header = ({ auth }) => {
                                             {auth.categories.map((category) => {
                                                 return (
                                                     <div className="col-md-2">
-                                                        <a href={
+                                                        <h6 class="dropdown-header"><a class="dropdown-header" href={
                                                                     "/products/" +
                                                                     category.category_slug
-                                                                } className="dropdown-header">{category.category_name}</a>
+                                                                }>{category.category_name}</a></h6>
+                                                      
                                                         <ul className="list-unstyled">
                                                             {category.subcategories.map((sub)=>
                                                             <li>
@@ -228,6 +237,15 @@ const Header = ({ auth }) => {
                                         </div>
                                     </div>
                                 </div>
+                            </li>
+                            <li className="nav-item">
+                                <Link
+                                    className="nav-link"
+                                    aria-current="page"
+                                    href={"/view-page/our-publications"}
+                                >
+                                    Our Publications
+                                </Link>
                             </li>
                             {/* <li className="nav-item">
                 <a className="nav-link" href="about-us.html">
