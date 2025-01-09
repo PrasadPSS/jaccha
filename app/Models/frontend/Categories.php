@@ -26,7 +26,7 @@ class Categories extends Model
 
     // use SoftDeletes;
     // protected $dates = ['deleted_at'];
-    public function sluggable():array
+    public function sluggable(): array
     {
         return [
             'category_slug' => [

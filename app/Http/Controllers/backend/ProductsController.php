@@ -187,7 +187,6 @@ class ProductsController extends Controller
             'category_id' => ['required'],
             'gst_id'=> 'required',
             'sub_category_id' => ['required'],
-            'sub_sub_category_id' => ['required'],
             // 'filter_id' => ['required'],
             'country_id' => ['required'],
             'product_thumb' => ['required'],
@@ -199,14 +198,14 @@ class ProductsController extends Controller
         $categories = Categories::where('category_id', $request->input('category_id'))->first();
         $sub_categories = SubCategories::where('category_id', $request->input('category_id'))->where('subcategory_id', $request->input('sub_category_id'))->first();
         //dd($request->all());
-        $sub_sub_categories = SubSubCategories::where('category_id', $request->input('category_id'))->where('subcategory_id', $request->input('sub_category_id'))->where('sub_subcategory_id', $request->input('sub_sub_category_id'))->first();
+        // $sub_sub_categories = SubSubCategories::where('category_id', $request->input('category_id'))->where('subcategory_id', $request->input('sub_category_id'))->where('sub_subcategory_id', $request->input('sub_sub_category_id'))->first();
 
         $products = new Products();
         $products->fill($request->all());
         $products->category_slug = $categories->category_slug;
         $products->sub_category_slug = $sub_categories->sub_category_slug;
         $products->gst_id = $request->gst_id;
-        $products->sub_sub_category_slug = $sub_sub_categories->sub_sub_category_slug;
+        // $products->sub_sub_category_slug = $sub_sub_categories->sub_sub_category_slug;
         $products->recommended = isset($request->recommended) ? 1 : 0;
         $products->new_arrival = isset($request->new_arrival) ? 1 : 0;
         $products->popularity = isset($request->popularity) ? 1 : 0;
@@ -558,7 +557,7 @@ class ProductsController extends Controller
             'gst_id' => 'required',
             'category_id' => ['required'],
             'sub_category_id' => ['required'],
-            'sub_sub_category_id' => ['required'],
+
             'country_id' => ['required'],
             'product_discount_type' => ['required'],
             'product_weight' => ['required'],
@@ -571,11 +570,11 @@ class ProductsController extends Controller
         $categories = Categories::where('category_id', $request->input('category_id'))->first();
         $sub_categories = SubCategories::where('category_id', $request->input('category_id'))->where('subcategory_id', $request->input('sub_category_id'))->first();
         // dd($request->sub_category_id);
-        $sub_sub_categories = SubSubCategories::where('category_id', $request->input('category_id'))->where('subcategory_id', $request->input('sub_category_id'))->where('sub_subcategory_id', $request->input('sub_sub_category_id'))->first();
+        // $sub_sub_categories = SubSubCategories::where('category_id', $request->input('category_id'))->where('subcategory_id', $request->input('sub_category_id'))->where('sub_subcategory_id', $request->input('sub_sub_category_id'))->first();
         $products->category_slug = $categories->category_slug;
         $products->gst_id = $request->gst_id;
         $products->sub_category_slug = $sub_categories->sub_category_slug;
-        $products->sub_sub_category_slug = $sub_sub_categories->sub_sub_category_slug;
+        // $products->sub_sub_category_slug = $sub_sub_categories->sub_sub_category_slug;
         $products->recommended = isset($request->recommended) ? 1 : 0;
         $products->new_arrival = isset($request->new_arrival) ? 1 : 0;
         $products->popularity = isset($request->popularity) ? 1 : 0;

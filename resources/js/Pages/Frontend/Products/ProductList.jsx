@@ -5,7 +5,7 @@ const ProductList = ({ filteredProducts, setCurrentPage, currentPage }) => {
     // Pagination state
 
     const productsPerPage = 6; // Number of products per page
-
+    console.log('sadsadsa', filteredProducts);
     // Calculate indices for slicing the product list
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -52,18 +52,30 @@ const ProductList = ({ filteredProducts, setCurrentPage, currentPage }) => {
                             {product.discount == 0 &&
                                 <h6>₹{product.price}</h6>
                             }
-                            <div className="star">
-                                {Array(product.rating)
-                                    .fill()
-                                    .map((_, i) => (
-                                        <img
-                                            key={i}
-                                            src="/assets/images/star.png"
-                                            alt="star"
-                                        />
-                                    ))}
-                                <span>( {product.reviews} reviews )</span>
-                            </div>
+                            {product.rating != 0 &&
+                                <div className="star">
+                                    {Array(product.rating)
+                                        .fill()
+                                        .map((_, i) => (
+                                            <img
+                                                key={i}
+                                                src="/assets/images/star.png"
+                                                alt="star"
+                                            />
+                                        ))}
+                                        {Array(5-product.rating)
+                                        .fill()
+                                        .map((_, i) => (
+                                            <img
+                                                key={i}
+                                                src="/assets/images/star2.png"
+                                                alt="star"
+                                            />
+                                        ))}
+                                    <span>( {product.reviews} reviews )</span>
+                                </div>
+                            }
+
                         </div>
                     </div>
 

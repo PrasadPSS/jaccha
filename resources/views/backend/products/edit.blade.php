@@ -118,7 +118,7 @@ foreach ($gst as $gs) {
                                                     </div>
                                                 </fieldset>
                                             </div>
-                                            <div class="col-md-6 col-12">
+                                            <!-- <div class="col-md-6 col-12">
                                                 <fieldset class="form-group">
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
@@ -128,7 +128,7 @@ foreach ($gst as $gs) {
                                                         <!-- $products->sub_sub_category_id -->
                                                     </div>
                                                 </fieldset>
-                                            </div>
+                                            </div> -->
                                             <div class="col-md-6 col-12">
                                                 <fieldset class="form-group">
                                                     <div class="input-group">

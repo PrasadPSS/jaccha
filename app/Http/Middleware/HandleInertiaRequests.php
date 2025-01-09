@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\backend\Categories;
 use App\Models\frontend\Cart;
+use App\Models\frontend\Categories;
 use App\Models\frontend\Orders;
 use App\Models\frontend\Review;
 use App\Models\frontend\Wishlists;
@@ -41,7 +41,7 @@ class HandleInertiaRequests extends Middleware
                 'cart_count' => $request->user() ? Cart::where('user_id', $request->user()->id)->sum('qty') : "",
                 'wishlist_count'=> $request->user() ? Wishlists::where('user_id', $request->user()->id)->get()->count() : "",
                 'wishlist' => $request->user() ? Wishlists::where('user_id', $request->user()->id)->get() : "",
-                'categories' => Categories::all(),
+                'categories' => Categories::with('subcategories')->get(),
                 'orders' => $request->user() ? Orders::where('user_id', $request->user()->id)->with('orderproducts', 'orderproducts.products')->get() : "",
                 'reviews'=> $request->user() ? Review::where('user_id', $request->user()->id)->get() : "",
                 'querys'=>  $request->querys,

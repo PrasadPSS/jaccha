@@ -7,6 +7,7 @@ const Header = ({ auth }) => {
         auth.querys != null ? auth.querys : ""
     );
 
+
     return (
         <header>
             {/* First Navbar */}
@@ -29,7 +30,7 @@ const Header = ({ auth }) => {
                         aria-label="Toggle navigation"
                     >
                         <span className="">
-                            <i class="far fa-ellipsis-v"></i>
+                            <i className="far fa-ellipsis-v"></i>
                         </span>
                     </button>
                     <button
@@ -42,7 +43,7 @@ const Header = ({ auth }) => {
                         aria-label="Toggle navigation"
                     >
                         <span className="">
-                            <i class="fal fa-bars"></i>
+                            <i className="fal fa-bars"></i>
                         </span>
                     </button>
                     <div className="search">
@@ -178,25 +179,56 @@ const Header = ({ auth }) => {
                                     New Arrivals<span># Fresh</span>
                                 </Link>
                             </li>
-                            {auth.categories.map((category) => {
-                                return (
-                                    <li
-                                        key={category.category_name}
-                                        className="nav-item"
-                                    >
-                                        <Link
-                                            className="nav-link"
-                                            aria-current="page"
-                                            href={
-                                                "/products/" +
-                                                category.category_slug
+                            <li className="nav-item dropdown position-static">
+                                <a
+                                    className="nav-link dropdown-toggle"
+                                    href="#"
+                                    id="productsDropdown"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    Our Products
+                                </a>
+
+                                <div
+                                    className="dropdown-menu mega-menu"
+                                    aria-labelledby="productsDropdown"
+                                >
+                                    <div className="container">
+                                        <div className="row">
+      
+                                            {auth.categories.map((category) => {
+                                                return (
+                                                    <div className="col-md-2">
+                                                        <a href={
+                                                                    "/products/" +
+                                                                    category.category_slug
+                                                                } className="dropdown-header">{category.category_name}</a>
+                                                        <ul className="list-unstyled">
+                                                            {category.subcategories.map((sub)=>
+                                                            <li>
+                                                                <a className="dropdown-item" href={
+                                                                    "/products/item/" +
+                                                                    sub.sub_category_slug
+                                                                }>{sub.subcategory_name}</a>
+                                                            </li>) }
+                                                            
+                                                           
+                                                        </ul>
+                                                    </div>)
+                                            })
                                             }
-                                        >
-                                            {category.category_name}
-                                        </Link>
-                                    </li>
-                                );
-                            })}
+                                            <div className="col-md-4">
+                                                <img className="menu-image"
+                                                    src="/assets/images/menu-image.jpg"
+                                                    alt=""
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
                             {/* <li className="nav-item">
                 <a className="nav-link" href="about-us.html">
                   Vitamins & Supplements

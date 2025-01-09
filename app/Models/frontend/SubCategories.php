@@ -26,7 +26,7 @@ class SubCategories extends Model
 
     // use SoftDeletes;
     // protected $dates = ['deleted_at'];
-    public function sluggable()
+    public function sluggable(): array 
     {
         return [
             'sub_category_slug' => [

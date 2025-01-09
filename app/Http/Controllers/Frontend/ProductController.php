@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\backend\FeaturedProducts;
 use App\Models\backend\HomePageSections;
 use App\Models\backend\ProductImages;
 use App\Models\backend\Products;
@@ -39,12 +40,28 @@ class ProductController extends Controller
     {
         if($category_slug == 'new-arrival')
         {
-            $data['products'] = Products::where('new_arrival', 1)->get();
+            $data['products'] = Products::where('new_arrival', 1)->withAvg('reviews', 'rating')->get();
+        }
+        if($category_slug == 'featured-products')
+        {
+            $featuredProducts = FeaturedProducts::select('product_id')->first();
+            $data['products'] = Products::whereIn('product_id', explode(',',$featuredProducts['product_id']))->withAvg('reviews', 'rating')->get();
+
         }
         else
         {
-            $data['products'] = Products::where('category_slug', $category_slug)->get();
+            $data['products'] = Products::where('category_slug', $category_slug)->withAvg('reviews', 'rating')->get();
         }
+        $data['homepagesections'] = HomePageSections::where('visibility', 1)->orderBy('home_page_section_priority')->with('home_page_section_type', 'section_childs')->get();
+        return Inertia::render('Frontend/Category/Category', $data);
+    }
+
+    public function subcategory($subcategory_slug)
+    {
+       
+        
+        $data['products'] = Products::where('sub_category_slug', $subcategory_slug)->withAvg('reviews', 'rating')->get();
+        
         $data['homepagesections'] = HomePageSections::where('visibility', 1)->orderBy('home_page_section_priority')->with('home_page_section_type', 'section_childs')->get();
         return Inertia::render('Frontend/Category/Category', $data);
     }

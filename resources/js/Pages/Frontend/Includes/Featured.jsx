@@ -102,7 +102,7 @@ export default function Featured({
                         </Link>
                     ))}
                     <div className="col-sm-12 m-auto text-center mt-5">
-                        <Link as="button" href="/products" className="button">
+                        <Link as="button" href={'/products/' + 'featured-products' } className="button">
                             See All
                         </Link>
                     </div>

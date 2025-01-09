@@ -183,6 +183,8 @@ Route::get('/products', [ProductController::class, 'index'])
 ->name('product.index');
 Route::get('/products/{category_name}', [ProductController::class, 'category'])
 ->name('product.category');
+Route::get('/products/item/{sub_category_name}', [ProductController::class, 'subcategory'])
+->name('product.category');
 Route::get('/product/buy/{product_id}/{quantity}', [ProductController::class, 'buy'])
 ->middleware(['auth', 'verified'])->name('product.buy');
 Route::post('/product/addtocart', [ProductController::class, 'addtocart'])
