@@ -415,13 +415,9 @@ class OrderController extends Controller
         return Inertia::render('Frontend/Orders/ViewOrderDetails', $data);
     }
 
-    public function thankYou()
+    public function thankYou($order_id)
     {
-
-        $latestOrderId = Orders::where('user_id', auth()->user()->id)
-            ->orderBy('created_at', 'desc') // Sort by the latest creation time.
-            ->value('order_id');
-        $data['orders'] = \App\Models\frontend\Orders::where('user_id', auth()->user()->id)->where('order_id', $latestOrderId)->with('orderproducts', 'orderproducts.products')->first();
+        $data['orders'] = \App\Models\frontend\Orders::where('user_id', auth()->user()->id)->where('order_id', $order_id)->with('orderproducts', 'orderproducts.products')->first();
         $order_delivery = OrderDeliveryManagement::first();
         return Inertia::render('Frontend/Orders/ThankYou', $data);
     }

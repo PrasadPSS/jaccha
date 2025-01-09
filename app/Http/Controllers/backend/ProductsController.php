@@ -359,8 +359,8 @@ class ProductsController extends Controller
                         $variant_products->category_id = $categories->category_id;
                         $variant_products->sub_category_slug = $sub_categories->sub_category_slug;
                         $variant_products->sub_category_id = $sub_categories->subcategory_id;
-                        $variant_products->sub_sub_category_slug = $sub_sub_categories->sub_sub_category_slug;
-                        $variant_products->sub_sub_category_id = $sub_sub_categories->sub_subcategory_id;
+                        // $variant_products->sub_sub_category_slug = $sub_sub_categories->sub_sub_category_slug;
+                        // $variant_products->sub_sub_category_id = $sub_sub_categories->sub_subcategory_id;
                         $variant_products->product_id = $products->product_id;
                         $variant_products->brand_id = $products->brand_id;
                         $variant_products->save();

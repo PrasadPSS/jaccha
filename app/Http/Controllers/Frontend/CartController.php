@@ -148,9 +148,9 @@ class CartController extends Controller
     public function phonepepaymentsuccess(){
         Cart::where('user_id', auth()->user()->id)->delete();
         $response = $_GET['responsePayment'];
-
         $amount = $response['data']['amount'];
         $txnid = $response['data']['merchantTransactionId'];
+        $order_id= 0;
         // $productinfo = $_POST["productinfo"];
         // $user_session = auth()->user();
         $id = session('missing_payment_id');
@@ -224,6 +224,8 @@ class CartController extends Controller
 
                     if ($order->save())
                     {
+                        $order_id = $order->order_id;
+
                         $final_total = 0;
                         $shipping_charges = [];
                         $shipping_amount = 0;
@@ -237,7 +239,7 @@ class CartController extends Controller
                             if($missing_payment_product->product_variant_id)
                             {
                                 $product = ProductVariants::where('product_variant_id',$missing_payment_product->product_variant_id)->first();
-                                info('product'.$product);                            }
+                         }
                             else
                             {
                                 $product = Products::Where('product_id', $missing_payment_product->product_id)->with(['color', 'size'])->first();
@@ -398,8 +400,8 @@ class CartController extends Controller
                     // $this->SendInvoice($invoicemodel,$payment_info->email,$payment_info->payment_date,$payment_info->payment_mode);
                     // $this->Sendneworder($invoicemodel,$payment_info->payment_mode,$payment_info->customer_name);
                 
-
-                    return redirect()->route('orders.thankyou');
+                    
+                    return redirect()->route('orders.thankyou', ['order_id' => $order_id]);
                 }
 
             } else {
@@ -413,6 +415,6 @@ class CartController extends Controller
           }
         }
 
-        return redirect()->route('orders.thankyou');
+        return redirect()->route('orders.thankyou',['order_id' => $order_id]);
     }
 }
