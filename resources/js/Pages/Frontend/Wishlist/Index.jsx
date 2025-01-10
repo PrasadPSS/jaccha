@@ -7,7 +7,7 @@ import React from 'react';
 
 export default function Index({ wishlist }) {
 
-    let token = await getCsrfToken();
+    let token =  getCsrfToken();
     const auth = usePage().props.auth;
     const handleAddToCart = (id, quantity = 1) => {
         router.post('/wishlist/add-to-cart', { product_id: id, quantity: quantity }, {

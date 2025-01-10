@@ -15,7 +15,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
     const [sweetnessLevel, setSweetness] = useState('');
     const [ingredients, setIngredients] = useState('');
     const [exclusions, setExclusions] = useState('');
-    let token = await getCsrfToken();
+    let token = getCsrfToken();
     const handleAddAllToCart = () => {
         related_product_list.forEach((item) => {
             const { product } = item;

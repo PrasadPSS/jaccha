@@ -29,7 +29,7 @@ export default function Featured({
             discount: element.product_discounted_amount,
         });
     });
-    let token = await getCsrfToken();
+    let token = getCsrfToken();
     return (
         <section className="section pt-2">
             <div className="container">

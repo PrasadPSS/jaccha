@@ -32,7 +32,7 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
     // Increase item quantity
     const increaseQuantity = async (id) => {
 
-        let token = await getCsrfToken();
+        let token = getCsrfToken();
         await fetch('/api/cart/increase', {
             method: 'POST',
             headers: {

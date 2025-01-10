@@ -4,7 +4,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function ForgotPassword({ shipping_address }) {
-    let token = await getCsrfToken();
+    let token =  getCsrfToken();
     const auth = usePage().props.auth;
     const [email, setEmail] = useState("");
     const handleEmailChange =(e)=>{

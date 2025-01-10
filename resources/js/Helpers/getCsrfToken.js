@@ -1,5 +1,3 @@
-let csrfToken = null;
-
 export async function getCsrfToken() {
     if (!csrfToken) {
         // Fetch a new CSRF token if it's not already set

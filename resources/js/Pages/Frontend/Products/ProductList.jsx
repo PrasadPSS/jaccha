@@ -20,8 +20,8 @@ const ProductList = ({ filteredProducts, setCurrentPage, currentPage }) => {
 
         setCurrentPage(pageNumber);
     };
-    
-    let token = await getCsrfToken();
+
+    let token = getCsrfToken();
 
 
     return (

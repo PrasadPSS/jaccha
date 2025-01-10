@@ -8,7 +8,7 @@ import React, { useState } from "react";
 
 export default function OrderCheckout({ auth, data }) {
 
-    let token = await getCsrfToken();
+    let token =  getCsrfToken();
     const [formData, setFormData] = useState({
         shipping_full_name: auth.user.name,
         shipping_mobile_no: auth.user.mobile_no,
