@@ -587,6 +587,9 @@ Route::prefix('admin')->group(function () {
         Route::get('/homepagesections/view/{id}', [HomepagesectionsController::class, 'show'])->name('admin.homepagesections.view');
         Route::post('/homepagesections/setsectionorder', [HomepagesectionsController::class, 'setsectionorder'])->name('admin.homepagesections.setsectionorder');
         Route::resource('admin/homepagesections', 'HomepagesectionsController');
+        Route::get('/homepagesections/logo', [HomepagesectionsController::class, 'logo'])->name('admin.homepagesections.logo');
+        Route::get('/homepagesections/logo/edit', [HomepagesectionsController::class, 'logoEdit'])->name('admin.homepagesections.logo.edit');
+        Route::post('/homepagesections/logo/update', [HomepagesectionsController::class, 'logoUpdate'])->name('admin.homepagesections.logo.update');
 
         Route::get('/homepagesectiontypes', [HomepagesectiontypesController::class, 'index'])->name('admin.homepagesectiontypes');
         Route::get('/homepagesectiontypes/create', [HomepagesectiontypesController::class, 'create'])->name('admin.homepagesectiontypes.create');

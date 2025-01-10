@@ -8,7 +8,7 @@ export default function Footer() {
     const { data, setData, post, processing, errors } = useForm({
         email: ''
     })
-
+    const auth= usePage().props.auth;
     const quicklinks = usePage().props.auth.quick_links;
     function submit(e) {
         e.preventDefault()
@@ -21,7 +21,7 @@ export default function Footer() {
                 <div className="row">
                     <div className="col-sm-12 col-md-12 col-lg-4">
                         <div className="footer-about">
-                            <a className="navbar-brand" href="/"><img className="logo" src="/assets/images/logo.png" alt="Logo" /></a>
+                            <a className="navbar-brand" href="/"><img className="logo" src={"/assets/images/" + auth.logo_path} alt="Logo" /></a>
                             <h3>
                                 Handmade
                                 <br />

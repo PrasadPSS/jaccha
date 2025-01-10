@@ -16,7 +16,7 @@ const Header = ({ auth }) => {
                     <Link className="navbar-brand" href={route("home")}>
                         <img
                             className="logo"
-                            src="/assets/images/logo.png"
+                            src={"/assets/images/"+ auth.logo_path}
                             alt="Logo"
                         />
                     </Link>

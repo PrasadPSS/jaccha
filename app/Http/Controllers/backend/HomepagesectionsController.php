@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\Models\frontend\Logo;
 use Session;
 use Carbon\Carbon;
 
@@ -268,6 +269,33 @@ class HomepagesectionsController extends Controller
 
         return redirect('admin/homepagesections');
     }
+
+    public function logo()
+    {
+      $data['logo'] = Logo::first();
+      return view('backend/logo/index', $data);
+    }
+
+    public function logoEdit()
+    {
+      $data['logo'] = Logo::first();
+      return view('backend/logo/edit', $data);
+    }
+
+  public function logoUpdate(Request $request)
+  {
+    $image = $request->file('logo');
+
+    $destinationPath = public_path('/assets/images');
+    if (!file_exists($destinationPath)) {
+      mkdir($destinationPath, 0777);
+    }
+    $name = time() . rand(1, 100) . '.' . $image->getClientOriginalExtension();
+    $image->move($destinationPath, $name);
+    Logo::where('id', 1)->update(['logo_path'=> $name]);
+
+    return redirect()->route('admin.homepagesections.logo')->with('success', 'Logo updated successfully');
+  }
 
     public function getsubcategory(Request $request)
     {

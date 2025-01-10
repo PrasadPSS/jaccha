@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\backend\Cmspages;
 use App\Models\frontend\Cart;
 use App\Models\frontend\Categories;
+use App\Models\frontend\Logo;
 use App\Models\frontend\Orders;
 use App\Models\frontend\Review;
 use App\Models\frontend\Wishlists;
@@ -47,7 +48,7 @@ class HandleInertiaRequests extends Middleware
                 'reviews'=> $request->user() ? Review::where('user_id', $request->user()->id)->get() : "",
                 'querys'=>  $request->querys,
                 'quick_links' => Cmspages::where('column_type', 'quick_links')->get(),
-                
+                'logo_path'=> Logo::first()->logo_path,
             ],
             'flash' => [
             'success' => $request->session()->get('success'),
