@@ -269,9 +269,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/view', [ProfileController::class, 'viewProfile'])->name('profile.view');
 });
 
-Route::get('/phonepepaymentsuccess', [CartController::class, 'phonepepaymentsuccess'])->name('phonepepaymentsuccess');
-Route::get('/phonepepaymentfailure', [CartController::class, 'phonepepaymentfailure'])->name('phonepepaymentfailure');
-Route::get('/phonepepaymentpending', [CartController::class, 'phonepepaymentpending'])->name('phonepepaymentpending');
+Route::get('/phonepepaymentsuccess', [App\Http\Controllers\Frontend\CartController::class, 'phonepepaymentsuccess'])->name('phonepepaymentsuccess');
+Route::get('/phonepepaymentfailure', [App\Http\Controllers\Frontend\CartController::class, 'phonepepaymentfailure'])->name('phonepepaymentfailure');
+Route::get('/phonepepaymentpending', [App\Http\Controllers\Frontend\CartController::class, 'phonepepaymentpending'])->name('phonepepaymentpending');
 
 Route::post('/cart/paymentstatus', [CartController::class, 'paymentstatus'])->name('cart.paymentstatus');
 

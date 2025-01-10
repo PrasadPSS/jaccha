@@ -58,10 +58,12 @@ export default function OrderCheckout({ auth, data }) {
     const totalGst = parseFloat(cart_amounts.total_gst).toFixed(2);
     const savings = parseFloat((cart_amounts.cart.cart_discounted_total - totalGst + cart_amounts.product_discount) - finalGrandTotal).toFixed(2);
     const handleAddressChange = (shipping_address_id) => {
+        console.log('cod_response_null');
         axios.get('/orders/calculaterate/' + shipping_address_id)
             .then(res => {
                 setShippingAmount(res.data.shipping_amount);
                 setCodResponse(res.data.cod_response);
+                console.log('cod_response', res);
             })
 
     }
@@ -233,7 +235,7 @@ export default function OrderCheckout({ auth, data }) {
                                                                 <img src="/assets/images/payment/maestro.png" />
                                                                 <img src="/assets/images/payment/mastercard.png" />
                                                                 <img src="/assets/images/payment/amex.png" />
-                                                                <button>+4</button>
+                                                                <button type="button">+4</button>
                                                             </div>
                                                         }
 
@@ -296,11 +298,21 @@ export default function OrderCheckout({ auth, data }) {
                                     <div className="payment-history mt-5">
                                         <div className="payment-display mb-2">
                                             <p>Subtotal . {auth.cart_count} Items</p>
-                                            <p>₹{finalGrandTotal - parseFloat(shippingAmount).toFixed(2)} </p>
+                                            <p>₹
+                                            {paymentMode == 'Cash On Delivery' ? finalGrandTotal - parseFloat(shippingAmount).toFixed(2) - Number(cod_charges) :  finalGrandTotal - parseFloat(shippingAmount).toFixed(2)}
+                                            </p>
                                         </div>
                                         <div className="payment-display mb-3">
                                             <p>Shipping</p>
                                             <p>₹{parseFloat(shippingAmount).toFixed(2)}</p>
+                                        </div>
+                                        <div className="payment-display mb-3">
+                                            <p>COD Charges</p>
+                                            <p>₹
+                                            {paymentMode == 'Cash On Delivery' ? 
+                                            Number(cod_charges).toFixed(2) : 0
+                                            }
+                                            </p>
                                         </div>
                                         <div className="payment-display">
                                             <p><b>Total</b></p>

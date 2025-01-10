@@ -398,13 +398,13 @@ class OrderController extends Controller
         $shipping_charges = ShippingChargesManagement::first();
         $shipping_amount = 0;
         $cod_response = '';
-        info($shipping_charges->purchase_min_limit);
-        info(get_cart_amounts()->cart->cart_discounted_total);
+  
         if ($shipping_charges->purchase_min_limit >= get_cart_amounts()->cart->cart_discounted_total) {
             $shipping_address = ShippingAddresses::where('user_id', auth()->user()->id)->where('shipping_address_id', $shipping_id)->first();
             $shipping_amount = json_decode(check_pincode($shipping_address->shipping_pincode))->data->available_courier_companies[0]->rate;
-            $cod_response = json_decode(check_pincode($shipping_address->shipping_pincode))->data->available_courier_companies[0]->cod;
         }
+        $shipping_address = ShippingAddresses::where('user_id', auth()->user()->id)->where('shipping_address_id', $shipping_id)->first();
+        $cod_response = json_decode(check_pincode($shipping_address->shipping_pincode))->data->available_courier_companies[0]->cod;
 
         return response()->json(['shipping_amount' => $shipping_amount, 'cod_response' => $cod_response], 200);
     }
