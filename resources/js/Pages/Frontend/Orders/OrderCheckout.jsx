@@ -39,7 +39,7 @@ export default function OrderCheckout({ auth, data }) {
         cod_response,
         cod_charges
     } = data;
-
+    console.log('rmk',cod_rmk);
     const [shippingAmount, setShippingAmount] = useState(shipping_amount);
     const [codResponse, setCodResponse] = useState(cod_response == 'Y' ? 1 : 0);
 
@@ -227,7 +227,7 @@ export default function OrderCheckout({ auth, data }) {
                                                         defaultChecked={mode.default_selected === 1} />
                                                     <div className="d-flex payment-btn-img">
                                                         <label className="form-check-label" htmlFor="flexRadioDefault1">
-                                                            {mode.payment_mode_name == 'Cash On Delivery' && codResponse == 0 ? "Cod not available" : mode.payment_mode_name}
+                                                            {mode.payment_mode_name == 'Cash On Delivery' && codResponse == 0 ? cod_rmk : mode.payment_mode_name}
                                                         </label>
                                                         {mode.payment_mode_name != 'Cash On Delivery' &&
                                                             <div>

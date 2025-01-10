@@ -178,11 +178,17 @@ class OrderController extends Controller
         // dd($cod_management);
         if ($cod_management) {
             if (!($cod_management->cod_purchase_min_limit <= $cart_total_with_discount && $cod_management->cod_purchase_max_limit >= $cart_total_with_discount)) {
+                $cod_rmk = 'Cash on Delivery facility is available on min. net order amount of ₹ ' . $cod_management->cod_purchase_min_limit . ' and max. ₹ ' . $cod_management->cod_purchase_max_limit . ' ';
+                $cod_response = 'N';
                 $cod_message = 'Cash on Delivery facility is available on min. net order amount of ₹ ' . $cod_management->cod_purchase_min_limit . ' and max. ₹ ' . $cod_management->cod_purchase_max_limit . ' ';
             } else if (!empty($fake_orders) && $fake_orders[0]['status'] != 'active') {
+                $cod_response = 'N';
                 $cod_message = 'Cash on Delivery facility is restricted for now';
+                $cod_rmk = 'Cash on Delivery facility is restricted for now';
             } else if (!empty($daily_cod_limit) && ($daily_cod_limit[0]['count'] <= $orders_data)) {
+                $cod_response = 'N';
                 $cod_message = 'Cash on Delivery Limit Reached!';
+                $cod_rmk = 'Cash on Delivery Limit Reached!';
             }
         }
 
@@ -226,7 +232,7 @@ class OrderController extends Controller
 
         } else {
             $cod_status = true;
-            $cod_rmk = 'COD not available';
+            
         }
         $order_delivery = OrderDeliveryManagement::first();
 
