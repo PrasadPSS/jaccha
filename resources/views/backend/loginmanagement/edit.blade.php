@@ -43,19 +43,20 @@
                     ]) !!}
                       <div class="form-body">
                         <div class="row">
-                          <div class="col-md-3 col-12">
+                           <div class="col-md-3 col-12">
                             <div class="form-group">
                               {{ Form::hidden('login_management_id', $login_management->login_management_id) }}
-                              {{ Form::label('login_management_facebook', 'Facebook Login') }}
-                              {{ Form::select('login_management_facebook', ['1'=>'Activate','0'=>'Deactivate'], null, ['class'=>'select2 form-control']) }}
+                              <!-- {{ Form::label('login_management_facebook', 'Facebook Login') }}
+                              {{ Form::select('login_management_facebook', ['1'=>'Activate','0'=>'Deactivate'], null, ['class'=>'select2 form-control']) }} -->
                             </div>
                           </div>
+                          <!--
                           <div class="col-md-3 col-12">
                             <div class="form-group">
                               {{ Form::label('login_management_google', 'Google Login') }}
                               {{ Form::select('login_management_google', ['1'=>'Activate','0'=>'Deactivate'], null, ['class'=>'select2 form-control']) }}
                             </div>
-                          </div>
+                          </div> -->
                           <div class="col-md-3 col-12">
                             <div class="form-group">
                               {{ Form::label('login_management_login', 'User Login') }}

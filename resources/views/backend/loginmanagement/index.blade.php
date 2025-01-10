@@ -39,8 +39,8 @@
                                 <thead>
                                     <tr>
                                       <th>#</th>
-                                      <th>Facebook</th>
-                                      <th>Google</th>
+                                      <!-- <th>Facebook</th>
+                                      <th>Google</th> -->
                                       <th>Login</th>
                                       <th>Signup</th>
                                       <th>Action</th>
@@ -52,8 +52,8 @@
                                     @foreach($login_managements as $login_management)
                                     <tr>
                                       <td>{{ $srno }}</td>
-                                      <td>{{ ($login_management->login_management_facebook=='1')?'Active':'Deactive' }}</td>
-                                      <td>{{ ($login_management->login_management_google=='1')?'Active':'Deactive' }}</td>
+                                      <!-- <td>{{ ($login_management->login_management_facebook=='1')?'Active':'Deactive' }}</td>
+                                      <td>{{ ($login_management->login_management_google=='1')?'Active':'Deactive' }}</td> -->
                                       <td>{{ ($login_management->login_management_login=='1')?'Active':'Deactive' }}</td>
                                       <td>{{ ($login_management->login_management_signup=='1')?'Active':'Deactive' }}</td>
                                       <td>

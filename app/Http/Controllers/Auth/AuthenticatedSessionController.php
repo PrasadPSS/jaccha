@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\backend\LoginManagement;
 use App\Models\frontend\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
@@ -31,6 +32,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        $loginEnabled = LoginManagement::first()->login_management_login;
+        if(!$loginEnabled)
+        {
+            return redirect()->back()->with('error', 'Login is currently disabled please try again later');
+        }
         $request->authenticate();
         $user = User::where('email', $request->email)->first()->account_status;
         if($user == 0)

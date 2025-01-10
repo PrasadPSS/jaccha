@@ -32,6 +32,11 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
+        $registerEnabled = LoginManagement::first()->login_management_signup;
+        if(!$registerEnabled)
+        {
+            return redirect()->back()->with('error', 'Registration is currently disabled please try again later');
+        }
         $request->validate([
             'firstName' => 'required|string|max:255',
             'email' => 'required|email|string|lowercase|email|max:255|unique:' . User::class,
