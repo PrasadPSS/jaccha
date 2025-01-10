@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\backend\CODManagement;
 use App\Models\backend\Company;
+use App\Models\backend\Faqs;
 use App\Models\backend\Gst;
 use App\Models\backend\MissingPaymentProducts;
 use App\Models\backend\MissingPayments;
@@ -28,6 +29,7 @@ class FaqController extends Controller
 {
    public function index()
    {
-        return Inertia::render('Frontend/Faq/Index');
+        $data['faqs'] = Faqs::with('questions')->get();
+        return Inertia::render('Frontend/Faq/Index', $data);
    }
 }
