@@ -437,7 +437,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                 <div className="col-sm-4">
                                     <div className="form-inputs mb-3">
                                         <input
-                                            type="text"
+                                            type="number"
                                             className="form-control"
                                             placeholder="Pincode"
                                             id="shipping_pincode"
@@ -635,7 +635,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                 <div className="col-sm-4">
                                     <div className="form-inputs mb-3">
                                         <input
-                                            type="text"
+                                            type="number"
                                             className="form-control"
                                             placeholder="Pincode"
                                             id="shipping_pincode"
