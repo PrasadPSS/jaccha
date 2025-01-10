@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import React from "react";
 import InputError from "@/Components/InputError";
 import { useForm } from "@inertiajs/react";
@@ -9,6 +9,7 @@ export default function Footer() {
         email: ''
     })
 
+    const quicklinks = usePage().props.auth.quick_links;
     function submit(e) {
         e.preventDefault()
         post(route('newsletter.subscribe'), { preserveScroll: 'errors' })
@@ -36,11 +37,6 @@ export default function Footer() {
                                     <a href={route("home")}>Home </a>
                                 </li>
                                 <li>
-                                    <Link href="/view-page/about-us">
-                                        About Us
-                                    </Link>
-                                </li>
-                                <li>
                                     <a href="/products">Products</a>
                                 </li>
                                 <li>
@@ -48,16 +44,12 @@ export default function Footer() {
                                         Contact Us
                                     </Link>
                                 </li>
-                                <li>
-                                    <Link href="/view-page/privacy-policy">
-                                        Privacy Policy
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="/view-page/terms-and-conditions">
-                                        Terms & Condition
-                                    </Link>
-                                </li>
+                                {quicklinks.map((link) =>
+                                    <li>
+                                        <Link as="a" href={"/view-page/" + link.cms_slug}>
+                                            {link.cms_pages_title}
+                                        </Link>
+                                    </li>)}
                             </ul>
 
                         </div>

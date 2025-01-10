@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\backend\Cmspages;
 use App\Models\frontend\Cart;
 use App\Models\frontend\Categories;
 use App\Models\frontend\Orders;
@@ -45,6 +46,8 @@ class HandleInertiaRequests extends Middleware
                 'orders' => $request->user() ? Orders::where('user_id', $request->user()->id)->with('orderproducts', 'orderproducts.products')->get() : "",
                 'reviews'=> $request->user() ? Review::where('user_id', $request->user()->id)->get() : "",
                 'querys'=>  $request->querys,
+                'quick_links' => Cmspages::where('column_type', 'quick_links')->get(),
+                
             ],
             'flash' => [
             'success' => $request->session()->get('success'),
