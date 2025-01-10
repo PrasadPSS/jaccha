@@ -1,8 +1,10 @@
+import { getCsrfToken } from '@/Helpers/getCsrfToken';
 import HomeLayout from '@/Layouts/HomeLayout';
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function ForgotPassword({ shipping_address }) {
+    let token = await getCsrfToken();
     const auth = usePage().props.auth;
     const [email, setEmail] = useState("");
     const handleEmailChange =(e)=>{
@@ -31,7 +33,7 @@ export default function ForgotPassword({ shipping_address }) {
                                     </div>
 
                                     <div className="mb-5 pt-1">
-                                        <Link as='button' method="post" href={route('profile.sendresetlink')} data={{email: email, _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')}} className="login-btn">Send Reset Password</Link>
+                                        <Link as='button' method="post" href={route('profile.sendresetlink')} data={{email: email, _token: token}} className="login-btn">Send Reset Password</Link>
                                     </div>
 
                                 </form>

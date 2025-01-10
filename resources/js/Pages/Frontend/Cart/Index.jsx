@@ -9,6 +9,7 @@ import { asset } from '@/Helpers/asset';
 import HomeLayout from '@/Layouts/HomeLayout';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
+import { getCsrfToken } from '@/Helpers/getCsrfToken';
 
 export default function ProductSearch({ auth, cart, cart_amount }) {
 
@@ -31,12 +32,12 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
     // Increase item quantity
     const increaseQuantity = async (id) => {
 
-
+        let token = await getCsrfToken();
         await fetch('/api/cart/increase', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'X-CSRF-TOKEN': token,
             },
             body: JSON.stringify({ item_id: id }),
         }).then(response => response.json())

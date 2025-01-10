@@ -7,6 +7,7 @@ import ReviewsListing from './ReviewsListing';
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import ReviewForm from './ReviewForm';
+import { getCsrfToken } from '@/Helpers/getCsrfToken';
 
 
 const ProductDetail = ({ auth, product, product_reviews, product_images, average_rating, related_product_list }) => {
@@ -14,6 +15,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
     const [sweetnessLevel, setSweetness] = useState('');
     const [ingredients, setIngredients] = useState('');
     const [exclusions, setExclusions] = useState('');
+    let token = await getCsrfToken();
     const handleAddAllToCart = () => {
         related_product_list.forEach((item) => {
             const { product } = item;
@@ -22,7 +24,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                 product_type: "simple", // Assuming all are simple products; adjust as needed
                 product_variant_id: null, // Adjust if variants exist
                 quantity: 1, // Default quantity; update as required
-                _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                _token: token,
             };
 
             // Use Laravel's Inertia Link to make a POST request
@@ -330,7 +332,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                 type="button"
                                                 className="btn btn-primary black"
                                                 href="/product/addtocart" as='button' method="post"
-                                                data={{ product_id: product.product_id, product_type: selectedVariant !== '' ? "configurable" : "simple", product_variant_id: product_variant_id, quantity: productQty, _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), sweetnesslevel: sweetnessLevel, ingrediantaddons: ingredients, exclusions: exclusions }}
+                                                data={{ product_id: product.product_id, product_type: selectedVariant !== '' ? "configurable" : "simple", product_variant_id: product_variant_id, quantity: productQty, _token: token, sweetnesslevel: sweetnessLevel, ingrediantaddons: ingredients, exclusions: exclusions }}
                                                 data-price={totalPrice}
                                                 data-quantity={productQty}
                                             >
@@ -650,7 +652,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                     <Link
 
                                         href="/product/addtocart" as='button' method="post"
-                                        data={{ product_id: product.product_id, product_type: selectedVariant !== '' ? "configurable" : "simple", product_variant_id: product_variant_id, quantity: productQty, _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), sweetnesslevel: sweetnessLevel, ingrediantaddons: ingredients, exclusions: exclusions }}
+                                        data={{ product_id: product.product_id, product_type: selectedVariant !== '' ? "configurable" : "simple", product_variant_id: product_variant_id, quantity: productQty, _token: token, sweetnesslevel: sweetnessLevel, ingrediantaddons: ingredients, exclusions: exclusions }}
 
                                         className="btn black"
 

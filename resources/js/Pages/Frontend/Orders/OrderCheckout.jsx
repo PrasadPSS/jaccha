@@ -1,4 +1,5 @@
 import { asset } from "@/Helpers/asset";
+import { getCsrfToken } from "@/Helpers/getCsrfToken";
 import HomeLayout from "@/Layouts/HomeLayout";
 import { Head, Link, router, useForm } from "@inertiajs/react";
 import axios from "axios";
@@ -7,6 +8,7 @@ import React, { useState } from "react";
 
 export default function OrderCheckout({ auth, data }) {
 
+    let token = await getCsrfToken();
     const [formData, setFormData] = useState({
         shipping_full_name: auth.user.name,
         shipping_mobile_no: auth.user.mobile_no,
@@ -39,6 +41,7 @@ export default function OrderCheckout({ auth, data }) {
         cod_response,
         cod_charges
     } = data;
+    
     console.log('rmk',cod_rmk);
     const [shippingAmount, setShippingAmount] = useState(shipping_amount);
     const [codResponse, setCodResponse] = useState(cod_response == 'Y' ? 1 : 0);
@@ -320,7 +323,7 @@ export default function OrderCheckout({ auth, data }) {
                                         </div>
                                     </div>
                                     <form action="/order/place" method="POST">
-                                        <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute('content')} />
+                                        <input type="hidden" name="_token" value={token} />
 
                                         {/* Hidden Fields */}
                                         <input type="hidden" name="amount" value={finalGrandTotal} />

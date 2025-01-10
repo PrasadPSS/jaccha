@@ -1,3 +1,4 @@
+import { getCsrfToken } from '@/Helpers/getCsrfToken';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import HomeLayout from '@/Layouts/HomeLayout';
 import UserMenu from '@/Layouts/UserMenu';
@@ -6,6 +7,7 @@ import React from 'react';
 
 export default function Index({ wishlist }) {
 
+    let token = await getCsrfToken();
     const auth = usePage().props.auth;
     const handleAddToCart = (id, quantity = 1) => {
         router.post('/wishlist/add-to-cart', { product_id: id, quantity: quantity }, {
@@ -79,7 +81,7 @@ export default function Index({ wishlist }) {
 
                                 <div className="feature-box">
                                     <div className="basket-box">
-                                        <Link href="/product/addtocart" as='a' method="post" id="addtoBasketButton" data={{ product_id: item.products.product_id, product_type: "simple", product_variant_id: null, quantity: 1, _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), sweetnesslevel: 'low', ingrediantaddons: 'NA', exclusions: 'NA' }}>
+                                        <Link href="/product/addtocart" as='a' method="post" id="addtoBasketButton" data={{ product_id: item.products.product_id, product_type: "simple", product_variant_id: null, quantity: 1, _token: token, sweetnesslevel: 'low', ingrediantaddons: 'NA', exclusions: 'NA' }}>
                                             <i className="fal fa-shopping-basket"></i>
                                         </Link>
 

@@ -1,4 +1,5 @@
 import { asset } from "@/Helpers/asset";
+import { getCsrfToken } from "@/Helpers/getCsrfToken";
 import { Link } from "@inertiajs/react";
 import React from "react";
 
@@ -28,6 +29,7 @@ export default function Featured({
             discount: element.product_discounted_amount,
         });
     });
+    let token = await getCsrfToken();
     return (
         <section className="section pt-2">
             <div className="container">
@@ -49,11 +51,7 @@ export default function Featured({
                                             product_type: "simple",
                                             product_variant_id: null,
                                             quantity: 1,
-                                            _token: document
-                                                .querySelector(
-                                                    'meta[name="csrf-token"]'
-                                                )
-                                                .getAttribute("content"),
+                                            _token: token,
                                             sweetnesslevel: null,
                                             ingrediantaddons: null,
                                             exclusions: null,

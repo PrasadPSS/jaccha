@@ -1,3 +1,4 @@
+import { getCsrfToken } from "@/Helpers/getCsrfToken";
 import { Link } from "@inertiajs/react";
 import React, { useState } from "react";
 
@@ -19,6 +20,8 @@ const ProductList = ({ filteredProducts, setCurrentPage, currentPage }) => {
 
         setCurrentPage(pageNumber);
     };
+    
+    let token = await getCsrfToken();
 
 
     return (
@@ -29,7 +32,7 @@ const ProductList = ({ filteredProducts, setCurrentPage, currentPage }) => {
                     <div className="feature-box">
 
 
-                        <Link as="a" method="post" href='/product/addtocart' data={{ product_id: product.id, product_type: "simple", product_variant_id: null, quantity: 1, _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), sweetnesslevel: null, ingrediantaddons: null, exclusions: null }}>
+                        <Link as="a" method="post" href='/product/addtocart' data={{ product_id: product.id, product_type: "simple", product_variant_id: null, quantity: 1, _token: token, sweetnesslevel: null, ingrediantaddons: null, exclusions: null }}>
                             <div className="basket-box">
                                 <i className="fal fa-shopping-basket"></i>
                             </div>

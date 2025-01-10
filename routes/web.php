@@ -176,7 +176,9 @@ Route::post('/shippingaddress/delete/{shipping_address_id}', [AddressesControlle
 ->middleware(['auth', 'verified'])->name('address.delete');
 
 Route::post('/newsletter/subscribe', [NewsLetterController::class, 'store'])->name('newsletter.subscribe');
-
+Route::get('/refresh-csrf', function () {
+    return response()->json(['csrf_token' => csrf_token()]);
+});
 
 //products
 Route::get('/products', [ProductController::class, 'index'])

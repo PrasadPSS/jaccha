@@ -1,8 +1,10 @@
+import { getCsrfToken } from '@/Helpers/getCsrfToken';
 import HomeLayout from '@/Layouts/HomeLayout';
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function ResetPassword({ shipping_address }) {
+    let token1 = await getCsrfToken();
     const auth = usePage().props.auth;
 
     const queryParameters = new URLSearchParams(window.location.search);
@@ -27,7 +29,7 @@ export default function ResetPassword({ shipping_address }) {
                                
                                 <p>Please set a new password for your account.</p>
                                 <form action={route('profile.updatepassword')} method="post">
-                                    <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute('content')} />
+                                    <input type="hidden" name="_token" value={token1} />
                                     <input type="hidden" name='token' id='token' value={token}/>
                                     <input type="hidden" name="email" id="email" value={email} />
                                     <div className="mb-3 mt-4">
