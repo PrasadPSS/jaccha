@@ -8,6 +8,7 @@ import axios from 'axios';
 import { asset } from '@/Helpers/asset';
 import HomeLayout from '@/Layouts/HomeLayout';
 import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 export default function ProductSearch({ auth, cart, cart_amount }) {
 
@@ -17,13 +18,15 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
             cart_items.push({ id: element.product_id, weight: element.products.product_weight, swt: element.sweetness_level, addons: element.ingredient_addons, excl: element.ingredient_exclusions, name: element.product_variant != null ? element.product_variant.product_title : element.products.product_title, description: element.products.product_sub_title, price: element.product_variant != null ? element.product_variant.product_price : element.products.product_price, quantity: element.qty, image: element.products.product_thumb });
         });
     }
-
+    const [cartAmount, setCartAmount] = useState(cart_amount);
     const [cartItems, setCartItems] = useState(cart_items);
 
     // Calculate total price
-    const calculateTotal = () => {
-        return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-    };
+    useEffect (() => {
+        let total= cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+        console.log(total);
+        setCartAmount(total);
+    }, [cartItems]);
 
     // Increase item quantity
     const increaseQuantity = async (id) => {
@@ -39,6 +42,7 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
         }).then(response => response.json())
             .then(data => {
                 setCartItems(cartItems.map(item => item.id === id ? { ...item, quantity: Number(item.quantity) + 1 } : item));
+                calculateTotal();
             })
             .catch(error => console.error(error));
     };
@@ -53,6 +57,7 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
             setCartItems(cartItems.map(item =>
                 item.id === id ? { ...item, quantity: response.data.updated_quantity } : item
             ));
+            calculateTotal();
         } catch (error) {
             console.error("Error decreasing quantity:", error);
         }
@@ -212,7 +217,7 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
                                 <div className="payment-history mt-5">
                                     <div className="payment-display mb-2">
                                         <p>Subtotal . {auth.cart_count} Items</p>
-                                        <p>₹{cart_amount}</p>
+                                        <p>₹{cartAmount}</p>
                                     </div>
                                     <div className="payment-display mb-3">
                                         <p>Shipping</p>
@@ -220,7 +225,7 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
                                     </div>
                                     <div className="payment-display">
                                         <p><b>Total</b></p>
-                                        <p><b>₹{cart_amount}</b></p>
+                                        <p><b>₹{cartAmount}</b></p>
                                     </div>
                                 </div>
                                 <div className="pay-now-button">

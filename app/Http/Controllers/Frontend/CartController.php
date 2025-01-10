@@ -34,8 +34,7 @@ class CartController extends Controller
             return redirect('profile/view')->with('error', 'Please Select Shipping Address as default');
         }
         $data['cart'] = Cart::where('user_id', auth()->user()->id)->with('products', 'product_variant')->get();
-        $data['cart_amount'] = get_cart_amounts()->cart->cart_discounted_total;
-
+        $data['cart_amount'] = get_cart_amounts()->cart->cart_mrp_total;
 
         return Inertia::render('Frontend/Cart/Index', $data);
     }
