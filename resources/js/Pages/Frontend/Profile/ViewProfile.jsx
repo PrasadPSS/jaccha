@@ -449,17 +449,6 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                 </div>
                                 <div className="col-sm-4">
                                     <div className="form-inputs mb-3">
-                                        <select className="form-control" id="shipping_district"
-                                            name="shipping_district"
-                                            value={formData2.shipping_district}
-                                            onChange={handleChange2}>
-
-                                            {editDistricts.map((district) => <option value={district.name}>{district.name}</option>)}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="col-sm-4">
-                                    <div className="form-inputs mb-3">
                                         <select className="form-control" id="shipping_state"
                                             name="shipping_state"
                                             value={formData2.shipping_state}
@@ -469,6 +458,18 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                         </select>
                                     </div>
                                 </div>
+                                <div className="col-sm-4">
+                                    <div className="form-inputs mb-3">
+                                        <select className="form-control" id="shipping_district"
+                                            name="shipping_district"
+                                            value={formData2.shipping_district}
+                                            onChange={handleChange2}>
+
+                                            {editDistricts.map((district) => <option value={district.name}>{district.name}</option>)}
+                                        </select>
+                                    </div>
+                                </div>
+                                
                                 <div className="col-sm-4">
                                     <div className="form-inputs mb-3">
                                         <input
@@ -645,18 +646,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                         <InputError message={validationErrors.shipping_pincode} className="mt-2" />
                                     </div>
                                 </div>
-                                <div className="col-sm-4">
-                                    <div className="form-inputs mb-3">
-                                        <select className="form-control" id="shipping_district"
-                                            name="shipping_district"
-                                            value={formData.shipping_district}
-                                            onChange={handleInputChange}>
-                                            <option value="" selected disabled>Select District</option>
-                                            {liDistrict.map((district) => <option value={district.name}>{district.name}</option>)}
-                                        </select>
-                                        <InputError message={validationErrors.shipping_district} className="mt-2" />
-                                    </div>
-                                </div>
+
                                 <div className="col-sm-4">
                                     <div className="form-inputs mb-3">
                                         <select className="form-control" id="shipping_state"
@@ -672,6 +662,19 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                         <InputError message={validationErrors.shipping_state} className="mt-2" />
                                     </div>
                                 </div>
+                                <div className="col-sm-4">
+                                    <div className="form-inputs mb-3">
+                                        <select className="form-control" id="shipping_district"
+                                            name="shipping_district"
+                                            value={formData.shipping_district}
+                                            onChange={handleInputChange}>
+                                            <option value="" selected disabled>Select District</option>
+                                            {liDistrict.map((district) => <option value={district.name}>{district.name}</option>)}
+                                        </select>
+                                        <InputError message={validationErrors.shipping_district} className="mt-2" />
+                                    </div>
+                                </div>
+                                
                                 <div className="col-sm-4">
                                     <div className="form-inputs mb-3">
                                         <input
