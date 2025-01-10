@@ -28,6 +28,11 @@ class CartController extends Controller
 {
    public function index()
    {
+        $address = ShippingAddresses::where('user_id', auth()->user()->id)->where('default_address_flag', 1)->exists();
+        if(!$address)
+        {
+            return redirect('profile/view')->with('error', 'Please Select Shipping Address as default');
+        }
         $data['cart'] = Cart::where('user_id', auth()->user()->id)->with('products', 'product_variant')->get();
         $data['cart_amount'] = get_cart_amounts()->cart->cart_discounted_total;
 
