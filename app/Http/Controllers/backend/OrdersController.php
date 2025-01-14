@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Models\backend\Categories;
 use App\Models\backend\Company;
 use App\Models\backend\MissingPayments;
+use App\Services\phpMailerService;
 use PHPMailer\PHPMailer\PHPMailer;
 use App\Models\backend\SubSubCategories;
 use App\Models\frontend\Orders;
@@ -258,6 +259,8 @@ class OrdersController extends Controller
         $order_creation_response = json_decode($order_creation_response, true);
         // dd($order_creation_response);
         if ($order_creation_response['status'] == true) {
+          $phpMailer = new phpMailerService();
+          $phpMailer->sendMail($orders->email, 'Order Created Successfully', 'Your order has been created successfully' . ' click here to view your order ' . route('order.details') . '?order_id=' . $orders->order_id, 'Order Creation');
           $orderDate = date('Y-m-d');
           $orderDate = date('Y-m-d', strtotime($orderDate));
           $orders->package_order_status = 1;
@@ -412,7 +415,7 @@ class OrdersController extends Controller
     } else if ($orders->order_return_flag == 1) {
       return back()->with('error', 'Order already Returned');
     }
-    $reasons = OrderCancellationReasons::where('for_Jaccha', 1)->get()->pluck('order_cancellation_reason_desc', 'order_cancellation_reason_id');
+    $reasons = OrderCancellationReasons::where('for_jaccha', 1)->get()->pluck('order_cancellation_reason_desc', 'order_cancellation_reason_id');
     return view('backend.orders.cancel_order', compact('orders', 'reasons'));
     // return redirect()->to('/myaccount/profile');
   }
@@ -468,7 +471,7 @@ class OrdersController extends Controller
       if (isset($orders->mobile_no) && $orders->mobile_no != "" && strlen($orders->mobile_no) == 10) {
         $mobile_no = $orders->mobile_no;
 
-        $message = "Dear " . $orders->customer_name . ",\nWe regret to inform you that due to some unforeseen issues, your Order Number " . $orders->orders_counter_id . " has been cancelled by Jaccha.\nIn case, if you have already made payment for the same Order, your refund will be credited shortly to your original payment method.We apologize for the inconvenience caused.\nJaccha Team,\nG.R. Parwani Trading Co.";
+        $message = "Dear " . $orders->customer_name . ",\nWe regret to inform you that due to some unforeseen issues, your Order Number " . $orders->orders_counter_id . " has been cancelled by Jaccha.\nIn case, if you have already made payment for the same Order, your refund will be credited shortly to your original payment method.We apologize for the inconvenience caused.\nJaccha Team.";
         $message_url = urlencode($message);
 
         $sms_api = send_sms($mobile_no, $message);
@@ -488,6 +491,7 @@ class OrdersController extends Controller
 
   public function send_cancel_order_email($orders)
   {
+
     $email = ($orders->email != "") ? $orders->email : auth()->user()->email;
     info($email);
     $customer_name = ($orders->customer_name != "") ? $orders->customer_name : auth()->user()->name;
@@ -572,17 +576,17 @@ class OrdersController extends Controller
         </style>
         </head>
         <body>
-        <div style='margin:auto;'><a href='http://Jaccha.com/'><img src='http://parasightdemo.com/Jaccha/frontend-assets/images/logoparwani.png' width='120'></a></div>
+        <div style='margin:auto;'><a href='https://www.jaccha.com'></a></div>
         <p>Dear " . $customer_name . ",</p>
-        <p>We regret to inform you that your order on www.Jaccha.com has been canceled due to the following reason:</p>
+        <p>We regret to inform you that your order on https://www.jaccha.com has been canceled due to the following reason:</p>
         <p>" . $cancel_reason . "</p>
         <p>We apologise for the inconvenience caused to you due to this cancellation. Any amount you have paid for the above mentioned order will be refunded to your source account within 3 to 5 working days.</p>
         <p>Your understanding and support in this regard is highly appreciated. For any further queries in this regard, please feel free to contact our customer care team.</p>
         <p>Thank you for shopping with Jaccha!</p>
-        <p>You are always welcome at www.Jaccha.com</p>
+        <p>You are always welcome at https://www.jaccha.com</p>
         <br>
         <p>Regards,</p>
-        <p>Manali Parwani</p>
+        <p>Pooja Gupta</p>
         <p>Jaccha</p>
         <br>
 
@@ -594,6 +598,9 @@ class OrdersController extends Controller
       $mail->IsHTML(true);
       // $pdf->output();
       $mail->Send();
+      $phpMailer = new phpMailerService();
+      $phpMailer->sendMail($orders->email, 'Your Order has been Cancelled', $message, $message);
+
       //echo "Message Sent OK</p>\n";
     } catch (phpmailerException $e) {
       echo $e->errorMessage(); //Pretty error messages from PHPMailer

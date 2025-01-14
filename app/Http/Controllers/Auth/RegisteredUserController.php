@@ -7,6 +7,7 @@ use App\Models\backend\LoginManagement;
 use App\Models\frontend\Customer;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use App\Services\phpMailerService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -58,8 +59,10 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'mobile_no'=> $request->phoneNo,
         ]);
-    
-        
+
+        $phpMailer = new phpMailerService();
+        $phpMailer->sendMail($request->email, 'Registration Success', 'Your account has been created successfully', 'Your account has been created successfully');
+
         event(new Registered($user));
 
         Auth::login($user);

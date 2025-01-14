@@ -46,7 +46,7 @@ export default function ResetPassword({ shipping_address }) {
 
                                 <h4 className="mt-4 py-2">Already have an account?</h4>
 
-                                <a href="login.html" className="create-acc-btn">Login</a>
+                                <a href={route('login')} className="create-acc-btn">Login</a>
                             </div>
                         </div>
                     </div>
