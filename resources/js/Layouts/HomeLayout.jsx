@@ -20,6 +20,7 @@ import { usePage } from "@inertiajs/react";
 
 const HomeLayout = ({ children, auth }) => {
   let flash = usePage().props.flash;
+  let flashcode = usePage().props.flash.flashcode;
 
   useEffect(()=>{
     if (flash.success ) {
@@ -30,7 +31,7 @@ const HomeLayout = ({ children, auth }) => {
       toast.warning(flash.error);
 
     }
-  },[flash.success, flash.error])
+  },[flashcode]);
     
 
   useEffect(() => {

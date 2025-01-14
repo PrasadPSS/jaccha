@@ -53,6 +53,7 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
             'success' => $request->session()->get('success'),
             'error' => $request->session()->get('error'),
+            'flashcode'=> $request->session()->get('success') != null || $request->session()->get('error') != null ? rand() : 1,
         ],  
 
         ];
