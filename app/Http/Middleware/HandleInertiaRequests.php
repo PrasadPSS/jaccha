@@ -49,6 +49,7 @@ class HandleInertiaRequests extends Middleware
                 'querys'=>  $request->querys,
                 'quick_links' => Cmspages::where('column_type', 'quick_links')->get(),
                 'logo_path'=> Logo::first()->logo_path,
+                'csrf_token' => csrf_token(),
             ],
             'flash' => [
             'success' => $request->session()->get('success'),

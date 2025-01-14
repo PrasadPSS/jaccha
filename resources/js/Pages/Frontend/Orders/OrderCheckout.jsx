@@ -1,14 +1,14 @@
 import { asset } from "@/Helpers/asset";
 import { getCsrfToken } from "@/Helpers/getCsrfToken";
 import HomeLayout from "@/Layouts/HomeLayout";
-import { Head, Link, router, useForm } from "@inertiajs/react";
+import { Head, Link, router, useForm, usePage } from "@inertiajs/react";
 import axios from "axios";
 import React, { useState } from "react";
 
 
 export default function OrderCheckout({ auth, data }) {
 
-    let token =  getCsrfToken();
+    let token =  usePage().props.auth.csrf_token;
     const [formData, setFormData] = useState({
         shipping_full_name: auth.user.name,
         shipping_mobile_no: auth.user.mobile_no,

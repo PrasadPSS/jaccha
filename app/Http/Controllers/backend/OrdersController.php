@@ -178,7 +178,7 @@ class OrdersController extends Controller
 
       if (isset($order->mobile_no) && strlen($order->mobile_no) == 10) {
         $mobile_no = $order->mobile_no;
-        $message = "Dear {$order->customer_name}, Thank you for Shopping at Jaccha.com! Your Order Number {$order->orders_counter_id} has been confirmed and is being processed for shipping.\nJaccha Team,\nG.R. Parwani Trading Co.";
+        $message = "Dear {$order->customer_name}, Thank you for Shopping at Jaccha.com! Your Order Number {$order->orders_counter_id} has been confirmed and is being processed for shipping.\nJaccha Team.";
         $sms_api = send_sms($mobile_no, $message);
         $sms_api_response = json_decode($sms_api, true);
         $order->order_confirmation_sms = isset($sms_api_response['ErrorCode']) && $sms_api_response['ErrorCode'] == 0 ? 1 : 0;
@@ -187,10 +187,21 @@ class OrdersController extends Controller
     }
 
     if (($order->shipped_stage == 0 || $order->shipped_stage == null) && $request->shipped_stage) {
+
       // Shipped stage logic
+      $awb = generate_awb($order->shipping_pincode, json_decode($order->package_order_dump)->shipment_id);
+      $shipment = place_shipment($order->shipping_pincode);
+      if($awb->response->data->awb_code != null)
+      {
+        $order->wbn = $awb->response->data->awb_code;
+      }
+      $order->package_item_dump = json_encode($awb);
+      $order->package_waybill = json_encode($shipment);
+      $order->update();
+
       if (isset($order->mobile_no) && strlen($order->mobile_no) == 10) {
         $mobile_no = $order->mobile_no;
-        $message = "Dear {$order->customer_name}, Your Order Number {$order->orders_counter_id} from Jaccha.com has shipped via Delhivery. Your Order's Tracking Number is {$order->wbn}.\nJaccha Team,\nG.R. Parwani Trading Co.";
+        $message = "Dear {$order->customer_name}, Your Order Number {$order->orders_counter_id} from Jaccha.com has shipped via Shiprocket. Your Order's Tracking Number is {$order->wbn}.\nJaccha Team.";
         $sms_api = send_sms($mobile_no, $message);
         $sms_api_response = json_decode($sms_api, true);
         $order->order_shipped_sms = isset($sms_api_response['ErrorCode']) && $sms_api_response['ErrorCode'] == 0 ? 1 : 0;

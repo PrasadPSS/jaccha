@@ -195,52 +195,54 @@ if (!function_exists('check_pincode')) {
   // $ss(string) : Status of shipment Delivered,RTO,DTO(Mandatory)
   function check_pincode($pincode)
   {
-      // Shiprocket credentials from .env
-      $email = env('SHIPROCKET_EMAIL');
-      $password = env('SHIPROCKET_PASSWORD');
-  
-      // Shiprocket API endpoints
-      $authUrl = 'https://apiv2.shiprocket.in/v1/external/auth/login';
-      $checkServiceabilityUrl = 'https://apiv2.shiprocket.in/v1/external/courier/serviceability/';
-      $pickupUrl = 'https://apiv2.shiprocket.in/v1/external/settings/company/pickup';
-  
-      // Step 1: Authenticate and get access token
-      $authPayload = [
-          'email' => $email,
-          'password' => $password,
-      ];
-  
-      $authResponse = makeCurlRequest($authUrl, $authPayload);
+    // Shiprocket credentials from .env
+    $email = env('SHIPROCKET_EMAIL');
+    $password = env('SHIPROCKET_PASSWORD');
 
-      if (!isset($authResponse['token'])) {
-          throw new Exception('Authentication failed: ' . json_encode($authResponse));
-      }
-  
-      $accessToken = $authResponse['token'];
-      
+    // Shiprocket API endpoints
+    $authUrl = 'https://apiv2.shiprocket.in/v1/external/auth/login';
+    $checkServiceabilityUrl = 'https://apiv2.shiprocket.in/v1/external/courier/serviceability/';
+    $pickupUrl = 'https://apiv2.shiprocket.in/v1/external/settings/company/pickup';
+
+    // Step 1: Authenticate and get access token
+    $authPayload = [
+      'email' => $email,
+      'password' => $password,
+    ];
+
+    $authResponse = makeCurlRequest($authUrl, $authPayload);
+
+    if (!isset($authResponse['token'])) {
+      throw new Exception('Authentication failed: ' . json_encode($authResponse));
+    }
+
+    $accessToken = $authResponse['token'];
 
 
-      // Step 2: Prepare order data
-      
-      $payload = ["delivery_postcode" => (int)$pincode,
-        "weight" => 0.5,
-        "cod" => 0];
 
-      $pickup_pincode = json_decode(makeCurlGetRequest($pickupUrl, $payload, $accessToken))->data->shipping_address[0]->pin_code;
-      
-      $servicePayload = [
-        "pickup_postcode" => (int)$pickup_pincode,
-        "delivery_postcode" => (int)$pincode,
-        "weight" => 0.5,
-        "cod" => 0
-      ];
+    // Step 2: Prepare order data
 
-      $pincodeServiceResponse = makeCurlGetRequest($checkServiceabilityUrl, $servicePayload, $accessToken);
+    $payload = [
+      "delivery_postcode" => (int) $pincode,
+      "weight" => 0.5,
+      "cod" => 0
+    ];
 
-      return $pincodeServiceResponse;
+    $pickup_pincode = json_decode(makeCurlGetRequest($pickupUrl, $payload, $accessToken))->data->shipping_address[0]->pin_code;
+
+    $servicePayload = [
+      "pickup_postcode" => (int) $pickup_pincode,
+      "delivery_postcode" => (int) $pincode,
+      "weight" => 0.5,
+      "cod" => 0
+    ];
+
+    $pincodeServiceResponse = makeCurlGetRequest($checkServiceabilityUrl, $servicePayload, $accessToken);
+
+    return $pincodeServiceResponse;
   }
 
-  function makeCurlGetRequest($url,$payload,$accessToken)
+  function makeCurlGetRequest($url, $payload, $accessToken)
   {
     $curl = curl_init();
 
@@ -276,113 +278,113 @@ if (!function_exists('order_creation')) {
   // $ss(string) : Status of shipment Delivered,RTO,DTO(Mandatory)
   function order_creation($current_order)
   {
-      // Shiprocket credentials from .env
-      $email = env('SHIPROCKET_EMAIL');
-      $password = env('SHIPROCKET_PASSWORD');
-  
-      // Shiprocket API endpoints
-      $authUrl = 'https://apiv2.shiprocket.in/v1/external/auth/login';
-      $createOrderUrl = 'https://apiv2.shiprocket.in/v1/external/orders/create/adhoc';
-  
-      // Step 1: Authenticate and get access token
-      $authPayload = [
-          'email' => $email,
-          'password' => $password,
-      ];
-  
-      $authResponse = makeCurlRequest($authUrl, $authPayload);
+    // Shiprocket credentials from .env
+    $email = env('SHIPROCKET_EMAIL');
+    $password = env('SHIPROCKET_PASSWORD');
 
-      if (!isset($authResponse['token'])) {
-          throw new Exception('Authentication failed: ' . json_encode($authResponse));
-      }
-  
-      $accessToken = $authResponse['token'];
-  
-      // Step 2: Prepare order data
-      $billingAddress = "{$current_order->shipping_address_line1}, {$current_order->shipping_address_line2}, {$current_order->shipping_landmark}";
-      $shippingAddress = $current_order->shipping_is_billing ? $billingAddress : "{$current_order->shipping_address_line1}, {$current_order->shipping_address_line2}";
-      $items = [];
-  
-      foreach ($current_order->orderproducts as $item) {
-          $items[] = [
-              "name" => $item->product_title,
-              "sku" => $item->products->product_sku,
-              "units" => $item->qty,
-              "selling_price" => $item->product_discounted_price,
-              "discount" => 0,
-              "tax" => 0,
-              "hsn" => (int)$item->products->hsncode->hsncode_name,
-          ];
-      }
-  
-      $orderPayload = [
-          "order_id" => $current_order->order_id,
-          "order_date" => $current_order->created_at->format('Y-m-d H:i'),
-          "pickup_location" => "work",
-          "channel_id" => "",
-          "comment" => "Order from {$current_order->source}",
-          "billing_customer_name" => $current_order->customer_name,
-          "billing_last_name" => "",
-          "billing_address" => $billingAddress,
-          "billing_address_2" => "",
-          "billing_city" => $current_order->shipping_city,
-          "billing_pincode" => $current_order->shipping_pincode,
-          "billing_state" => $current_order->shipping_state,
-          "billing_country" => 'India',
-          "billing_email" => $current_order->shipping_email,
-          "billing_phone" => $current_order->shipping_mobile_no,
-          "shipping_is_billing" => true,
-          "order_items" => $items,
-          "payment_method" => $current_order->payment_mode === 'cod' ? "COD" : "Prepaid",
-          "shipping_charges" => $current_order->shipping_charges,
-          "giftwrap_charges" => 0,
-          "transaction_charges" => 0,
-          "total_discount" => 0,
-          "sub_total" => $current_order->total,
-          "length" => 10,
-          "breadth" => 15,
-          "height" => 20,
-          "weight" => 2.5,
-      ];
-  
-      // Step 3: Create the order
-      $orderResponse = makeCurlRequest($createOrderUrl, $orderPayload, $accessToken);
+    // Shiprocket API endpoints
+    $authUrl = 'https://apiv2.shiprocket.in/v1/external/auth/login';
+    $createOrderUrl = 'https://apiv2.shiprocket.in/v1/external/orders/create/adhoc';
 
-      return json_encode($orderResponse);
+    // Step 1: Authenticate and get access token
+    $authPayload = [
+      'email' => $email,
+      'password' => $password,
+    ];
+
+    $authResponse = makeCurlRequest($authUrl, $authPayload);
+
+    if (!isset($authResponse['token'])) {
+      throw new Exception('Authentication failed: ' . json_encode($authResponse));
+    }
+
+    $accessToken = $authResponse['token'];
+
+    // Step 2: Prepare order data
+    $billingAddress = "{$current_order->shipping_address_line1}, {$current_order->shipping_address_line2}, {$current_order->shipping_landmark}";
+    $shippingAddress = $current_order->shipping_is_billing ? $billingAddress : "{$current_order->shipping_address_line1}, {$current_order->shipping_address_line2}";
+    $items = [];
+
+    foreach ($current_order->orderproducts as $item) {
+      $items[] = [
+        "name" => $item->product_title,
+        "sku" => $item->products->product_sku,
+        "units" => $item->qty,
+        "selling_price" => $item->product_discounted_price,
+        "discount" => 0,
+        "tax" => 0,
+        "hsn" => (int) $item->products->hsncode->hsncode_name,
+      ];
+    }
+
+    $orderPayload = [
+      "order_id" => $current_order->order_id,
+      "order_date" => $current_order->created_at->format('Y-m-d H:i'),
+      "pickup_location" => "work",
+      "channel_id" => "",
+      "comment" => "Order from {$current_order->source}",
+      "billing_customer_name" => $current_order->customer_name,
+      "billing_last_name" => "",
+      "billing_address" => $billingAddress,
+      "billing_address_2" => "",
+      "billing_city" => $current_order->shipping_city,
+      "billing_pincode" => $current_order->shipping_pincode,
+      "billing_state" => $current_order->shipping_state,
+      "billing_country" => 'India',
+      "billing_email" => $current_order->shipping_email,
+      "billing_phone" => $current_order->shipping_mobile_no,
+      "shipping_is_billing" => true,
+      "order_items" => $items,
+      "payment_method" => $current_order->payment_mode === 'cod' ? "COD" : "Prepaid",
+      "shipping_charges" => $current_order->shipping_charges,
+      "giftwrap_charges" => 0,
+      "transaction_charges" => 0,
+      "total_discount" => 0,
+      "sub_total" => $current_order->total,
+      "length" => 10,
+      "breadth" => 15,
+      "height" => 20,
+      "weight" => 2.5,
+    ];
+
+    // Step 3: Create the order
+    $orderResponse = makeCurlRequest($createOrderUrl, $orderPayload, $accessToken);
+
+    return json_encode($orderResponse);
   }
-  
+
   function makeCurlRequest($url, $payload, $accessToken = null)
   {
-      $curl = curl_init();
-  
-      $headers = [
-          'Content-Type: application/json',
-      ];
-  
-      if ($accessToken) {
-          $headers[] = 'Authorization: Bearer ' . $accessToken;
-      }
-  
-      curl_setopt_array($curl, [
-          CURLOPT_URL => $url,
-          CURLOPT_POST => true,
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_HTTPHEADER => $headers,
-          CURLOPT_POSTFIELDS => json_encode($payload),
-          CURLOPT_SSL_VERIFYPEER => false,
-      ]);
-  
-      $response = curl_exec($curl);
-      info($response);
-      if (curl_errno($curl)) {
-          throw new Exception('Curl error: ' . curl_error($curl));
-      }
-  
-      curl_close($curl);
-  
-      return json_decode($response, true);
+    $curl = curl_init();
+
+    $headers = [
+      'Content-Type: application/json',
+    ];
+
+    if ($accessToken) {
+      $headers[] = 'Authorization: Bearer ' . $accessToken;
+    }
+
+    curl_setopt_array($curl, [
+      CURLOPT_URL => $url,
+      CURLOPT_POST => true,
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_HTTPHEADER => $headers,
+      CURLOPT_POSTFIELDS => json_encode($payload),
+      CURLOPT_SSL_VERIFYPEER => false,
+    ]);
+
+    $response = curl_exec($curl);
+    info($response);
+    if (curl_errno($curl)) {
+      throw new Exception('Curl error: ' . curl_error($curl));
+    }
+
+    curl_close($curl);
+
+    return json_decode($response, true);
   }
-  
+
   // function order_creation($current_order)
   // {
   //   // Shiprocket credentials from .env
@@ -527,146 +529,234 @@ if (!function_exists('order_creation')) {
   //   return json_decode($response, true);
   // }
 }
+
+
 //cart total with all prices
 if (!function_exists('get_cart_amounts')) {
-    function get_cart_amounts()
-    {
-        $cart_total = new stdClass();
-        $cart_mrp_total = 0;
-        $cart_discounted_total = 0;
-        $total_gst = 0;
-        $coupon_discount = 0;
-        $total_discount = 0;
+  function get_cart_amounts()
+  {
+    $cart_total = new stdClass();
+    $cart_mrp_total = 0;
+    $cart_discounted_total = 0;
+    $total_gst = 0;
+    $coupon_discount = 0;
+    $total_discount = 0;
 
-        // Get GST rates
+    // Get GST rates
 
-        $gstMode = 'sgst';
-        $userState = ShippingAddresses::where('user_id', auth()->user()->id)->where('default_address_flag', 1)->first();
+    $gstMode = 'sgst';
+    $userState = ShippingAddresses::where('user_id', auth()->user()->id)->where('default_address_flag', 1)->first();
 
-        if (get_pickup_address()->state !== $userState->shipping_state) {
-            $gstMode = 'igst';
-        }
-
-        // GST rates
-        // IGST rate
-
-        if (isset(auth()->user()->id)) {
-            $user_id = auth()->user()->id;
-            if ($user_id) {
-                $cart = Cart::where('user_id', $user_id)->with(['products', 'product_variant'])->get();
-
-                foreach ($cart as $item) {
-                    $gst = Gst::where('gst_id', $item->products->gst_id)->first();
-                    $gstSgstRate = $gst->gst_sgst_percent; // SGST rate
-                    $gstCgstRate = $gst->gst_cgst_percent; // CGST rate
-                    $gstIgstRate = $gst->gst_igst_percent;
-                    $join_table = 'products';
-                    if ($item->product_type == "configurable") {
-                        $join_table = 'product_variant';
-                    }
-
-                    $product_price = $item->{$join_table}->product_discounted_price ?? $item->{$join_table}->product_price;
-
-                    // Calculate MRP and discounted total
-                    $cart_mrp_total += $item->{$join_table}->product_price * $item->qty;
-                    $cart_discounted_total += $product_price * $item->qty;
-
-                    // Calculate GST based on gstMode
-                    if ($gstMode === 'sgst') {
-                        $sgst = ($product_price * $item->qty * $gstSgstRate) / 100;
-                        $cgst = ($product_price * $item->qty * $gstCgstRate) / 100;
-                        $total_gst += $sgst + $cgst;
-                    } else if ($gstMode === 'igst') {
-                        $igst = ($product_price * $item->qty * $gstIgstRate) / 100;
-                        $total_gst += $igst;
-                    }
-                }
-
-                $cart_total->cart_mrp_total = $cart_mrp_total;
-                $cart_total->cart_discounted_total = $cart_discounted_total + $total_gst; // Add GST to discounted total
-            }
-
-            if ($cart_total) {
-                // Total discount
-                $total_discount = $cart_total->cart_mrp_total - $cart_total->cart_discounted_total;
-
-                // Coupon discount
-                $cart_coupon = CartCoupons::where('user_id', $user_id)->with('coupon')->first();
-                if (isset($cart_coupon->coupon)) {
-                    $paymentDate = date('Y-m-d');
-                    $contractDateBegin = date('Y-m-d', strtotime($cart_coupon->coupon->start_date));
-                    $contractDateEnd = date('Y-m-d', strtotime($cart_coupon->coupon->end_date));
-
-                    if (($paymentDate >= $contractDateBegin) && ($paymentDate <= $contractDateEnd)) {
-                        if ($cart_coupon->coupon->coupon_type == 'flat') {
-                            $coupon_discount = $cart_coupon->coupon->value;
-                        } else {
-                            $coupon_value = $cart_coupon->coupon->value;
-                            $coupon_discount = ($cart_total->cart_discounted_total * $coupon_value) / 100;
-                        }
-                    }
-                }
-            }
-        } else {
-            if (session('cart') != null) {
-                $cart = new Collection();
-                foreach (session('cart') as $item) {
-                    $product_id[] = $item['product_id'];
-                    $cart_details = new Cart();
-                    $cart_details->fill($item);
-                    $cart_details->qty = $item['quantity'];
-                    $cart->push($cart_details);
-                }
-
-                foreach ($cart as $item) {
-                    $gst = Gst::where('gst_id', $item->products->gst_id)->first();
-                    $gstSgstRate = $gst->gst_sgst_percent; // SGST rate
-                    $gstCgstRate = $gst->gst_cgst_percent; // CGST rate
-                    $gstIgstRate = $gst->gst_igst_percent;
-                    $join_table = 'products';
-                    if ($item->product_type == "configurable") {
-                        $join_table = 'product_variant';
-                    }
-
-                    $product_price = $item->{$join_table}->product_discounted_price ?? $item->{$join_table}->product_price;
-
-                    // Calculate MRP and discounted total
-                    $cart_mrp_total += $item->{$join_table}->product_price * $item->qty;
-                    $cart_discounted_total += $product_price * $item->qty;
-
-                    // Calculate GST based on gstMode
-                    if ($gstMode === 'sgst') {
-                        $sgst = ($product_price * $item->qty * $gstSgstRate) / 100;
-                        $cgst = ($product_price * $item->qty * $gstCgstRate) / 100;
-                        $total_gst += $sgst + $cgst;
-                    } else if ($gstMode === 'igst') {
-                        $igst = ($product_price * $item->qty * $gstIgstRate) / 100;
-                        $total_gst += $igst;
-                    }
-                }
-
-                $cart_total->cart_mrp_total = $cart_mrp_total;
-                $cart_total->cart_discounted_total = $cart_discounted_total + $total_gst; // Add GST to discounted total
-            }
-
-            if ($cart_total) {
-                // Total discount
-                $total_discount = $cart_total->cart_mrp_total - $cart_total->cart_discounted_total;
-            }
-        }
-
-        $product_discounted_price = $cart_total->cart_mrp_total - ($cart_total->cart_discounted_total - $total_gst);
-
-        return (object) [
-            'cart' => $cart_total,
-            'product_discount' => $product_discounted_price,
-            'total_discount' => $total_discount,
-            'coupon_discount' => $coupon_discount,
-            'total_gst' => $total_gst, // Return total GST as well
-        ];
+    if (get_pickup_address()->state !== $userState->shipping_state) {
+      $gstMode = 'igst';
     }
-  
 
+    // GST rates
+    // IGST rate
+
+    if (isset(auth()->user()->id)) {
+      $user_id = auth()->user()->id;
+      if ($user_id) {
+        $cart = Cart::where('user_id', $user_id)->with(['products', 'product_variant'])->get();
+
+        foreach ($cart as $item) {
+          $gst = Gst::where('gst_id', $item->products->gst_id)->first();
+          $gstSgstRate = $gst->gst_sgst_percent; // SGST rate
+          $gstCgstRate = $gst->gst_cgst_percent; // CGST rate
+          $gstIgstRate = $gst->gst_igst_percent;
+          $join_table = 'products';
+          if ($item->product_type == "configurable") {
+            $join_table = 'product_variant';
+          }
+
+          $product_price = $item->{$join_table}->product_discounted_price ?? $item->{$join_table}->product_price;
+
+          // Calculate MRP and discounted total
+          $cart_mrp_total += $item->{$join_table}->product_price * $item->qty;
+          $cart_discounted_total += $product_price * $item->qty;
+
+          // Calculate GST based on gstMode
+          if ($gstMode === 'sgst') {
+            $sgst = ($product_price * $item->qty * $gstSgstRate) / 100;
+            $cgst = ($product_price * $item->qty * $gstCgstRate) / 100;
+            $total_gst += $sgst + $cgst;
+          } else if ($gstMode === 'igst') {
+            $igst = ($product_price * $item->qty * $gstIgstRate) / 100;
+            $total_gst += $igst;
+          }
+        }
+
+        $cart_total->cart_mrp_total = $cart_mrp_total;
+        $cart_total->cart_discounted_total = $cart_discounted_total + $total_gst; // Add GST to discounted total
+      }
+
+      if ($cart_total) {
+        // Total discount
+        $total_discount = $cart_total->cart_mrp_total - $cart_total->cart_discounted_total;
+
+        // Coupon discount
+        $cart_coupon = CartCoupons::where('user_id', $user_id)->with('coupon')->first();
+        if (isset($cart_coupon->coupon)) {
+          $paymentDate = date('Y-m-d');
+          $contractDateBegin = date('Y-m-d', strtotime($cart_coupon->coupon->start_date));
+          $contractDateEnd = date('Y-m-d', strtotime($cart_coupon->coupon->end_date));
+
+          if (($paymentDate >= $contractDateBegin) && ($paymentDate <= $contractDateEnd)) {
+            if ($cart_coupon->coupon->coupon_type == 'flat') {
+              $coupon_discount = $cart_coupon->coupon->value;
+            } else {
+              $coupon_value = $cart_coupon->coupon->value;
+              $coupon_discount = ($cart_total->cart_discounted_total * $coupon_value) / 100;
+            }
+          }
+        }
+      }
+    } else {
+      if (session('cart') != null) {
+        $cart = new Collection();
+        foreach (session('cart') as $item) {
+          $product_id[] = $item['product_id'];
+          $cart_details = new Cart();
+          $cart_details->fill($item);
+          $cart_details->qty = $item['quantity'];
+          $cart->push($cart_details);
+        }
+
+        foreach ($cart as $item) {
+          $gst = Gst::where('gst_id', $item->products->gst_id)->first();
+          $gstSgstRate = $gst->gst_sgst_percent; // SGST rate
+          $gstCgstRate = $gst->gst_cgst_percent; // CGST rate
+          $gstIgstRate = $gst->gst_igst_percent;
+          $join_table = 'products';
+          if ($item->product_type == "configurable") {
+            $join_table = 'product_variant';
+          }
+
+          $product_price = $item->{$join_table}->product_discounted_price ?? $item->{$join_table}->product_price;
+
+          // Calculate MRP and discounted total
+          $cart_mrp_total += $item->{$join_table}->product_price * $item->qty;
+          $cart_discounted_total += $product_price * $item->qty;
+
+          // Calculate GST based on gstMode
+          if ($gstMode === 'sgst') {
+            $sgst = ($product_price * $item->qty * $gstSgstRate) / 100;
+            $cgst = ($product_price * $item->qty * $gstCgstRate) / 100;
+            $total_gst += $sgst + $cgst;
+          } else if ($gstMode === 'igst') {
+            $igst = ($product_price * $item->qty * $gstIgstRate) / 100;
+            $total_gst += $igst;
+          }
+        }
+
+        $cart_total->cart_mrp_total = $cart_mrp_total;
+        $cart_total->cart_discounted_total = $cart_discounted_total + $total_gst; // Add GST to discounted total
+      }
+
+      if ($cart_total) {
+        // Total discount
+        $total_discount = $cart_total->cart_mrp_total - $cart_total->cart_discounted_total;
+      }
+    }
+
+    $product_discounted_price = $cart_total->cart_mrp_total - ($cart_total->cart_discounted_total - $total_gst);
+
+    return (object) [
+      'cart' => $cart_total,
+      'product_discount' => $product_discounted_price,
+      'total_discount' => $total_discount,
+      'coupon_discount' => $coupon_discount,
+      'total_gst' => $total_gst, // Return total GST as well
+    ];
+  }
+
+
+}
+
+if (!function_exists('generate_awb')) {
+  function generate_awb($pincode, $shipment_id)
+  {
+    $authUrl = 'https://apiv2.shiprocket.in/v1/external/auth/login';
+    $email = env('SHIPROCKET_EMAIL');
+    $password = env('SHIPROCKET_PASSWORD');
+    $authPayload = [
+      'email' => $email,
+      'password' => $password,
+    ];
+    $authResponse = makeCurlRequest($authUrl, $authPayload);
+    $accessToken = $authResponse['token'];
+    $courier_id = json_decode(check_pincode($pincode))->data->recommended_courier_company_id;
+
+    $curl = curl_init();
+
+    $awbParams = [
+      "shipment_id" => $shipment_id,
+      "courier_id" => $courier_id,
+    ];
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://apiv2.shiprocket.in/v1/external/courier/assign/awb',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_POSTFIELDS => $awbParams,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'POST',
+      CURLOPT_HTTPHEADER => array(
+        'Content-Type: application/json',
+        'Authorization: Bearer ' . $accessToken
+      ),
+    ));
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+    return json_decode($response);
+
+  }
+}
+
+if (!function_exists('place_shippment')) {
+  function place_shipment($shipment_id)
+  {
+    $authUrl = 'https://apiv2.shiprocket.in/v1/external/auth/login';
+    $email = env('SHIPROCKET_EMAIL');
+    $password = env('SHIPROCKET_PASSWORD');
+    $authPayload = [
+      'email' => $email,
+      'password' => $password,
+    ];
+    $authResponse = makeCurlRequest($authUrl, $authPayload);
+    $accessToken = $authResponse['token'];
+    $curl = curl_init();
+    $awbParams = [
+      "shipment_id" => $shipment_id,
+    ];
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://apiv2.shiprocket.in/v1/external/courier/generate/pickup',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_POSTFIELDS => $awbParams,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'POST',
+      CURLOPT_HTTPHEADER => array(
+          'Content-Type: application/json',
+          'Authorization: Bearer ' . $accessToken
+        ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    
+    return json_decode($response);
+  }
 }
 
 if (!function_exists('get_pickup_address')) {
@@ -677,30 +767,30 @@ if (!function_exists('get_pickup_address')) {
     $email = env('SHIPROCKET_EMAIL');
     $password = env('SHIPROCKET_PASSWORD');
     $pickupUrl = 'https://apiv2.shiprocket.in/v1/external/settings/company/pickup';
-  
-      // Step 1: Authenticate and get access token
-      $authPayload = [
-          'email' => $email,
-          'password' => $password,
-      ];
-  
-      $authResponse = makeCurlRequest($authUrl, $authPayload);
 
-      if (!isset($authResponse['token'])) {
-          throw new Exception('Authentication failed: ' . json_encode($authResponse));
-      }
-  
-      $accessToken = $authResponse['token'];
-      
+    // Step 1: Authenticate and get access token
+    $authPayload = [
+      'email' => $email,
+      'password' => $password,
+    ];
+
+    $authResponse = makeCurlRequest($authUrl, $authPayload);
+
+    if (!isset($authResponse['token'])) {
+      throw new Exception('Authentication failed: ' . json_encode($authResponse));
+    }
+
+    $accessToken = $authResponse['token'];
 
 
-      // Step 2: Prepare order data
-      
-      $payload = [];
 
-      $pickup_address = json_decode(makeCurlGetRequest($pickupUrl, $payload, $accessToken))->data->shipping_address[0];
+    // Step 2: Prepare order data
 
-      return $pickup_address;
+    $payload = [];
+
+    $pickup_address = json_decode(makeCurlGetRequest($pickupUrl, $payload, $accessToken))->data->shipping_address[0];
+
+    return $pickup_address;
   }
 
 
