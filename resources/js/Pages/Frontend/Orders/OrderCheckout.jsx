@@ -193,8 +193,8 @@ export default function OrderCheckout({ auth, data }) {
                                                     <input onClick={() => {
                                                         setShippingAddressId(address.shipping_address_id);
                                                         handleAddressChange(address.shipping_address_id);
-                                                    }} checked={address.shipping_address_id == shippingAddressId} className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-                                                    <label className="form-check-label" htmlFor="flexRadioDefault1">
+                                                    }} checked={address.shipping_address_id == shippingAddressId} className="form-check-input" type="radio" name="flexRadioDefault" id={"flexRadioDefault" + 2+address.shipping_address_id} />
+                                                    <label className="form-check-label" htmlFor={"flexRadioDefault" + 2+address.shipping_address_id}>
                                                         {`${address.shipping_address_line1}, ${address.shipping_address_line2}, ${address.shipping_city}, ${address.shipping_state}, ${address.shipping_pincode}`}
                                                     </label>
                                                 </div>
@@ -229,7 +229,7 @@ export default function OrderCheckout({ auth, data }) {
                                                         onClick={() => setPaymentMode(mode.payment_mode_name)}
                                                         defaultChecked={mode.default_selected === 1} />
                                                     <div className="d-flex payment-btn-img">
-                                                        <label className="form-check-label" htmlFor="flexRadioDefault1">
+                                                        <label className="form-check-label" htmlFor={"flexRadioDefault" + index}>
                                                             {mode.payment_mode_name == 'Cash On Delivery' && codResponse == 0 ? cod_rmk : mode.payment_mode_name}
                                                         </label>
                                                         {mode.payment_mode_name != 'Cash On Delivery' &&
