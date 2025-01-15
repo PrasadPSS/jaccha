@@ -171,7 +171,7 @@ class OrderController extends Controller
         // dd($orders_data);
 
         $cod_status = true;
-        $cod_rmk = '';
+        $cod_rmk = 'Cod Not Available';
         $cod_message = '';
         $cod_management = CODManagement::first();
         $cod_charges = $cod_management->cod_collection_charge;
