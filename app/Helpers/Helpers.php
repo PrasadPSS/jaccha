@@ -676,6 +676,7 @@ if (!function_exists('get_cart_amounts')) {
 if (!function_exists('generate_awb')) {
   function generate_awb($pincode, $shipment_id)
   {
+
     $authUrl = 'https://apiv2.shiprocket.in/v1/external/auth/login';
     $email = env('SHIPROCKET_EMAIL');
     $password = env('SHIPROCKET_PASSWORD');
@@ -697,25 +698,26 @@ if (!function_exists('generate_awb')) {
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
-      CURLOPT_URL => 'https://apiv2.shiprocket.in/v1/external/courier/assign/awb',
+      CURLOPT_URL => 'https://apiv2.shiprocket.in/v1/external/courier/assign/awb?shipment_id='.$shipment_id. '&courier_id='. $courier_id,
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => '',
       CURLOPT_MAXREDIRS => 10,
       CURLOPT_TIMEOUT => 0,
-      CURLOPT_POSTFIELDS => $awbParams,
+      CURLOPT_SSL_VERIFYPEER => false,
       CURLOPT_FOLLOWLOCATION => true,
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => 'POST',
       CURLOPT_HTTPHEADER => array(
-        'Content-Type: application/json',
-        'Authorization: Bearer ' . $accessToken
+        'Authorization: Bearer ' . $accessToken,
+        'Content-Type: application/json'
       ),
     ));
 
     $response = curl_exec($curl);
-    curl_close($curl);
-    return json_decode($response);
 
+    curl_close($curl);
+
+    return json_decode($response);
   }
 }
 
@@ -736,25 +738,27 @@ if (!function_exists('place_shippment')) {
       "shipment_id" => $shipment_id,
     ];
     curl_setopt_array($curl, array(
-      CURLOPT_URL => 'https://apiv2.shiprocket.in/v1/external/courier/generate/pickup',
+      CURLOPT_URL => 'https://apiv2.shiprocket.in/v1/external/courier/generate/pickup?shipment_id=' . $shipment_id,
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => '',
       CURLOPT_MAXREDIRS => 10,
       CURLOPT_TIMEOUT => 0,
       CURLOPT_POSTFIELDS => $awbParams,
       CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_SSL_VERIFYPEER => false,
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => 'POST',
       CURLOPT_HTTPHEADER => array(
-          'Content-Type: application/json',
-          'Authorization: Bearer ' . $accessToken
-        ),
+        'Content-Type: application/json',
+        'Authorization: Bearer ' . $accessToken
+      ),
     ));
 
     $response = curl_exec($curl);
 
+
     curl_close($curl);
-    
+
     return json_decode($response);
   }
 }

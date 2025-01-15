@@ -115,14 +115,14 @@ foreach ($gst as $gs) {
                                         </div> -->
 
                                         <div class="col-md-6 col-12">
-                                            <fieldset class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        {{ Form::label('hsncode_id', 'HSN Code ', ['class' => '']) }}
+                                        <fieldset class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            {{ Form::label('hsncode_id', 'HSN Code ', ['class' => '']) }}
+                                                        </div>
+                                                        {{ Form::select('hsncode_id', $hsncodes, null, ['class' => 'select2 form-control hsncode_id', 'placeholder' => 'Please Select HSN Code']) }}
                                                     </div>
-                                                    {{ Form::select('hsncode_id', $hsncodes, null, ['class' => 'select2 form-control hsncode_id', 'placeholder' => 'Please Select HSN Code']) }}
-                                                </div>
-                                            </fieldset>
+                                                </fieldset>
                                         </div>
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">

@@ -191,12 +191,14 @@ class OrdersController extends Controller
 
       // Shipped stage logic
       $awb = generate_awb($order->shipping_pincode, json_decode($order->package_order_dump)->shipment_id);
-      $shipment = place_shipment($order->shipping_pincode);
+      
+      $shipment = place_shipment($awb->response->data->shipment_id);
       if($awb->response->data->awb_code != null)
       {
         $order->wbn = $awb->response->data->awb_code;
       }
       $order->package_item_dump = json_encode($awb);
+
       $order->package_waybill = json_encode($shipment);
       $order->update();
 
