@@ -576,14 +576,14 @@ class OrdersController extends Controller
         </style>
         </head>
         <body>
-        <div style='margin:auto;'><a href='https://www.jaccha.com'></a></div>
+        <div style='margin:auto;'><a href='https://jaccha.com'></a></div>
         <p>Dear " . $customer_name . ",</p>
-        <p>We regret to inform you that your order on https://www.jaccha.com has been canceled due to the following reason:</p>
+        <p>We regret to inform you that your order on https://jaccha.com has been canceled due to the following reason:</p>
         <p>" . $cancel_reason . "</p>
         <p>We apologise for the inconvenience caused to you due to this cancellation. Any amount you have paid for the above mentioned order will be refunded to your source account within 3 to 5 working days.</p>
         <p>Your understanding and support in this regard is highly appreciated. For any further queries in this regard, please feel free to contact our customer care team.</p>
         <p>Thank you for shopping with Jaccha!</p>
-        <p>You are always welcome at https://www.jaccha.com</p>
+        <p>You are always welcome at https://jaccha.com</p>
         <br>
         <p>Regards,</p>
         <p>Pooja Gupta</p>
