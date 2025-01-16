@@ -1,7 +1,7 @@
 
 
 
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { useState } from 'react';
 import axios from 'axios';
@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import { getCsrfToken } from '@/Helpers/getCsrfToken';
 
 export default function ProductSearch({ auth, cart, cart_amount }) {
-
+    let token =  usePage().props.auth.csrf_token;
     let cart_items = [];
     if (cart) {
         cart.forEach(element => {
@@ -25,14 +25,14 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
     // Calculate total price
     useEffect (() => {
         let total= cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-        console.log(total);
+       
         setCartAmount(total);
     }, [cartItems]);
 
     // Increase item quantity
     const increaseQuantity = async (id) => {
 
-        let token = getCsrfToken();
+        
         await fetch('/api/cart/increase', {
             method: 'POST',
             headers: {
@@ -43,7 +43,7 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
         }).then(response => response.json())
             .then(data => {
                 setCartItems(cartItems.map(item => item.id === id ? { ...item, quantity: Number(item.quantity) + 1 } : item));
-                calculateTotal();
+                
             })
             .catch(error => console.error(error));
     };
@@ -58,7 +58,7 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
             setCartItems(cartItems.map(item =>
                 item.id === id ? { ...item, quantity: response.data.updated_quantity } : item
             ));
-            calculateTotal();
+           
         } catch (error) {
             console.error("Error decreasing quantity:", error);
         }
@@ -220,10 +220,10 @@ export default function ProductSearch({ auth, cart, cart_amount }) {
                                         <p>Subtotal . {auth.cart_count} Items</p>
                                         <p>₹{cartAmount}</p>
                                     </div>
-                                    <div className="payment-display mb-3">
+                                    {/* <div className="payment-display mb-3">
                                         <p>Shipping</p>
                                         <p>₹0.00</p>
-                                    </div>
+                                    </div> */}
                                     <div className="payment-display">
                                         <p><b>Total</b></p>
                                         <p><b>₹{cartAmount}</b></p>

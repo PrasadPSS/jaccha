@@ -208,15 +208,15 @@ const Header = ({ auth }) => {
       
                                             {auth.categories.map((category) => {
                                                 return (
-                                                    <div className="col-md-2">
-                                                        <h6 class="dropdown-header"><a class="dropdown-header" href={
+                                                    <div className="col-md-2" key={category.category_slug}>
+                                                        <h6 className="dropdown-header"><a className="dropdown-header" href={
                                                                     "/products/" +
                                                                     category.category_slug
                                                                 }>{category.category_name}</a></h6>
                                                       
                                                         <ul className="list-unstyled">
                                                             {category.subcategories.map((sub)=>
-                                                            <li>
+                                                            <li key={sub.sub_category_slug}>
                                                                 <a className="dropdown-item" href={
                                                                     "/products/item/" +
                                                                     sub.sub_category_slug

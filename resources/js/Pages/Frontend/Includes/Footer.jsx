@@ -45,7 +45,7 @@ export default function Footer() {
                                     </Link>
                                 </li>
                                 {quicklinks.map((link) =>
-                                    <li>
+                                    <li key={link.cms_slug}>
                                         <Link as="a" href={"/view-page/" + link.cms_slug}>
                                             {link.cms_pages_title}
                                         </Link>
