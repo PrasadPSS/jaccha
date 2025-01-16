@@ -143,11 +143,10 @@ class AddressesController extends Controller
   public function updateaddress(Request $request)
   {
     // dd('test');
-    if(!auth()->user())
-    {
+    if (!auth()->user()) {
       return back()->withErrors([
         'message' => 'Please login before Adding Address !'
-      ])->with('error','Please login before Adding Address !');
+      ])->with('error', 'Please login before Adding Address !');
 
     }
     $this->validate(request(), [
@@ -169,41 +168,37 @@ class AddressesController extends Controller
     $page = $request->page;
     $user_id = auth()->user()->id;
 
-    $update_shipping_address = ShippingAddresses::where('user_id',$user_id)->where('shipping_address_id',$shipping_address_id)->first();
+    $update_shipping_address = ShippingAddresses::where('user_id', $user_id)->where('shipping_address_id', $shipping_address_id)->first();
     $update_shipping_address->fill($request->all());
     $update_shipping_address->user_id = $user_id;
-    $defaultExists = ShippingAddresses::where('user_id',$user_id)->where('default_address_flag' , 1)->exists();
-    if (isset($request->default_address_flag) && $request->default_address_flag==1)
-    {
-      ShippingAddresses::where('user_id',$user_id)->update(['default_address_flag'=>0]);
+    $defaultExists = ShippingAddresses::where('user_id', $user_id)->where('default_address_flag', 1)->exists();
+    $currentAddress = ShippingAddresses::where('user_id', $user_id)->where('default_address_flag', 1)->first();
+    if($defaultExists && $request->default_address_flag == 1 && $update_shipping_address->shipping_address_id != $currentAddress->shipping_address_id){
+    
+      ShippingAddresses::where('user_id', $user_id)->update(['default_address_flag' => 0]);
+     
+      $update_shipping_address->default_address_flag = 1;
+      
+    
     }
+    else if($request->default_address_flag == 0 && $update_shipping_address->shipping_address_id != $currentAddress->shipping_address_id)
+    {
+      $update_shipping_address->default_address_flag = 0;
+    }
+   
     else
     {
-      $shipping_addresses = ShippingAddresses::where('user_id',$user_id)->where('shipping_address_id','!=',$shipping_address_id)->first();
-      if (!$shipping_addresses)
-      {
-        $update_shipping_address->default_address_flag = 1;
-      }
-      if(!$defaultExists)
-      {
-        $update_shipping_address->default_address_flag = 1;
-      }
+      $update_shipping_address->default_address_flag = 1;
     }
 
-    if ($update_shipping_address->save())
-    {
-      if($page == "checkout")
-      {
-        return redirect()->back()->with('success','Address Updated Successfully !');
+    if ($update_shipping_address->save()) {
+      if ($page == "checkout") {
+        return redirect()->back()->with('success', 'Address Updated Successfully !');
+      } else {
+        return redirect()->back()->with('success', 'Address Updated Successfully !');
       }
-      else
-      {
-        return redirect()->back()->with('success','Address Updated Successfully !');
-      }
-    }
-    else
-    {
-      return back()->with('error','Something went Wrong !');
+    } else {
+      return back()->with('error', 'Something went Wrong !');
     }
 
   }
