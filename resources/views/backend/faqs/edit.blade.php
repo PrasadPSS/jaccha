@@ -50,6 +50,12 @@ $faq_types = ['default'=>'Default','price'=>'Price','color'=>'Color','size'=>'Si
                               {{ Form::text('faq_name', null, ['class' => 'form-control', 'placeholder' => 'Enter Filter Name', 'required' => true]) }}
                             </div>
                           </div>
+                          <div class="col-md-12 col-12">
+                            <div class="form-group">
+                              {{ Form::label('sub_title', 'Sub Title *') }}
+                              {{ Form::text('sub_title', null, ['class' => 'form-control', 'placeholder' => 'Enter Sub Title', 'required' => true]) }}
+                            </div>
+                          </div>
                           <div class="col-md-6 col-12 ">
                             <div class="form-group">
                               {{ Form::label('sort_order', 'Sort Order *') }}

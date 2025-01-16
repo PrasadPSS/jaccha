@@ -46,12 +46,13 @@ class FaqsController extends Controller
     {
         $this->validate($request, [
           'faq_name' => ['required',],
+          'sub_title' => ['required',],
         ]);
         // echo "string";exit;
         // dd($request->all());
         $faq = new Faqs();
         $faq->fill($request->all());
-
+        $faq->sub_title = $request->sub_title;
         if ($faq->save())
         {
           return redirect()->route('admin.faqs')->with('success', 'New FAQs Added!');
@@ -88,13 +89,14 @@ class FaqsController extends Controller
         $faq_id = $request->input('faq_id');
         $this->validate( $request, [
           'faq_name' => ['required',],
+          'sub_title' => ['required',],
         ]);
         // echo "string".$faq_id;exit;
         // dd($request->all());
         // $faq = new Faqs();
         $faq = Faqs::findOrFail($faq_id);
         $faq->fill($request->all());
-
+        $faq->sub_title = $request->sub_title;
         if ($faq->update())
         {
           return redirect()->route('admin.faqs')->with('success', 'New FAQs Updated!');

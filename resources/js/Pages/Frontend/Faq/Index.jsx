@@ -38,8 +38,7 @@ export default function UpdateProfileInformation({ faqs }) {
                   >
                     <span>{faq.faq_name}</span> <br />
                     <p>
-                      Looking for help with your order or have a
-                      question regarding {faq.faq_name}?
+                      {faq.sub_title}
                     </p>
                   </button>
                 </h2>
