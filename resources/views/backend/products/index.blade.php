@@ -67,16 +67,16 @@
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu"></span>
                                           <div class="dropdown-menu dropdown-menu-right">
                            
-                                          <a href="{{ url('admin/products/edit/'.$product->product_id) }}" class="btn btn-primary">Edit</a>
+                                          <a href="{{ url('admin/products/edit/'.$product->product_id) }}" class="dropdown-item" >Edit</a>
                                         @if($product->product_type == 'configurable')
-                                          <a href="{{ url('admin/productvariants/index/'.$product->product_id) }}" class="btn btn-primary"><i class="bx bx-eye"></i>Variants</a>
+                                          <a href="{{ url('admin/productvariants/index/'.$product->product_id) }}" class="dropdown-item"><i class="bx bx-eye"></i>Variants</a>
                                         @endif
                                         {!! Form::open([
                                             'method'=>'GET',
                                             'url' => ['admin/products/delete', $product->product_id],
                                             'style' => 'display:inline'
                                         ]) !!}
-                                            {!! Form::button('Delete', ['type' => 'submit', 'class' => 'btn btn-danger','onclick'=>"return confirm('Are you sure you want to Delete this Entry ?')"]) !!}
+                                            {!! Form::button('Delete', ['type' => 'submit', 'class' => 'dropdown-item','onclick'=>"return confirm('Are you sure you want to Delete this Entry ?')"]) !!}
                                         {!! Form::close() !!}
                                           </div>
                                         </div>
