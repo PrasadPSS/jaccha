@@ -190,17 +190,7 @@ class OrdersController extends Controller
     if (($order->shipped_stage == 0 || $order->shipped_stage == null) && $request->shipped_stage) {
 
       // Shipped stage logic
-      $awb = generate_awb($order->shipping_pincode, json_decode($order->package_order_dump)->shipment_id);
-      
-      $shipment = place_shipment($awb->response->data->shipment_id);
-      if($awb->response->data->awb_code != null)
-      {
-        $order->wbn = $awb->response->data->awb_code;
-      }
-      $order->package_item_dump = json_encode($awb);
-
-      $order->package_waybill = json_encode($shipment);
-      $order->update();
+     
 
       if (isset($order->mobile_no) && strlen($order->mobile_no) == 10) {
         $mobile_no = $order->mobile_no;
@@ -248,7 +238,7 @@ class OrdersController extends Controller
   //not using this one now
   public function create_package_order($id)
   {
-    $orders = Orders::where('order_id', $id)->with('orderproducts', 'orderproducts.products.hsncode')->first();
+    $orders = Orders::where('order_id', $id)->with('orderproducts', 'orderproducts.products.hsncode', 'orderproducts.products')->first();
     if ($orders) {
       if ($orders->cancel_order_flag == 1) {
         return back()->with('error', 'Order already cancelled, unable to create package!');
@@ -331,6 +321,14 @@ class OrdersController extends Controller
   {
     $package_slip_responses = [];
     $orders = Orders::where('order_id', $id)->with('orderproducts')->first();
+    if($orders->package_waybill == NULL)
+    {
+      $package_slip_response = packing_slip(json_decode($orders->package_order_dump)->shipment_id);
+      $shipment = place_shipment(json_decode($orders->package_order_dump)->shipment_id);
+      $orders->package_waybill = json_encode($shipment);
+      $orders->update();
+    }
+    
     if ($orders) {
       if ($orders->cancel_order_flag == 1) {
         return back()->with('error', 'Order already cancelled, unable to create slips!');
@@ -344,11 +342,11 @@ class OrdersController extends Controller
         // $bulk_waybills = create_bulk_waybill($product_qty);
         // foreach ($orders->orderproducts as $orderproduct)
         // {
-        $package_slip_response = packing_slip($orders->package_waybill);
-        $package_slip_responses = json_decode($package_slip_response, true);
+        $package_slip_response = packing_slip(json_decode($orders->package_order_dump)->shipment_id);
+        $package_slip_responses = $package_slip_response;
         // dd($package_slip_responses);//exit;
         // }
-        return view('backend.orders.viewpackageslips', compact('orders', 'package_slip_responses'));
+        return back()->with('success', 'Pickup scheduled Successfully!'); 
       } else {
         return back()->with('error', 'Package Order Not created!');
       }
@@ -358,10 +356,42 @@ class OrdersController extends Controller
 
   }
 
+  public function print_manifest_pdf($id)
+  {
+
+    $orders = Orders::where('order_id', $id)->with('orderproducts')->first();
+    
+    $url = print_manifest(json_decode($orders->package_order_dump)->order_id)->manifest_url;
+
+    return redirect()->away($url);
+  }
+
+  public function print_label_pdf($id)
+  {
+
+    $orders = Orders::where('order_id', $id)->with('orderproducts')->first();
+    
+    $url = generate_labels(json_decode($orders->package_order_dump)->shipment_id)->label_url;
+
+    return redirect()->away($url);
+  }
+
   public function generate_product_labels($id)
   {
+    
     // $package_slip_responses = [];
     $orders = Orders::where('order_id', $id)->with('orderproducts')->first();
+    if($orders->package_item_dump == NULL)
+    {
+    $awb = generate_awb($orders->shipping_pincode, json_decode($orders->package_order_dump)->shipment_id);
+      if($awb->response->data->awb_code != null)
+      {
+        $orders->wbn = $awb->response->data->awb_code;
+      }
+      $orders->package_item_dump = json_encode($awb);
+      
+      $orders->update();
+    }
     if ($orders) {
       if ($orders->preparing_order_stage == 1) {
         // $product_qty = isset($orders->orderproducts)?$orders->orderproducts->sum('qty'):0;
@@ -372,7 +402,7 @@ class OrdersController extends Controller
         //   $package_slip_responses[$orderproduct->orders_product_details_id] = json_decode($package_slip_response,true);
         //   // dd($package_slip_responses);exit;
         // }
-        return view('backend.orders.viewproductlabels', compact('orders'));
+        return back()->with('success', 'Awb no generated Successfully!');
       } else {
         return back()->with('error', 'Package Not ready!');
       }

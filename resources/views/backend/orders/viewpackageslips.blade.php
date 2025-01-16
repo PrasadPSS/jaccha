@@ -99,7 +99,7 @@
                                 <div class="row">
                                     <div class="card">
                                         <div class="card-header">
-                                        <a href="javascript:void(0);" class="btn btn-outline-secondary float-right ml-1" onclick="PrintElem('.printinvoice_{{ $orders->order_id }}');"><span class="align-middle ml-25">Print</span></a>
+                                        
                                         </div>
                                         <div class="card-content print-card">
                                         <div class="card-body card-dashboard">

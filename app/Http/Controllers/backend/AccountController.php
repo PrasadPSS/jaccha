@@ -41,7 +41,7 @@ class AccountController extends Controller
             {
                 Auth::guard('admin')->logout();
                 return back()->withErrors([
-                    'message' => 'Your account has been deactivated, Please contact Dadreeios customer care team to reactivate your account.'
+                    'message' => 'Your account has been deactivated, Please contact Jaccha customer care team to reactivate your account.'
                 ]);
             }
         }

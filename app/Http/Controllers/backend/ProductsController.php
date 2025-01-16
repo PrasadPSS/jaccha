@@ -202,6 +202,9 @@ class ProductsController extends Controller
 
         $products = new Products();
         $products->fill($request->all());
+        $products->length = $request->length;
+        $products->width = $request->width;
+        $products->height = $request->height;
         $products->category_slug = $categories->category_slug;
         $products->sub_category_slug = $sub_categories->sub_category_slug;
         $products->gst_id = $request->gst_id;
@@ -578,6 +581,9 @@ class ProductsController extends Controller
         $products->recommended = isset($request->recommended) ? 1 : 0;
         $products->new_arrival = isset($request->new_arrival) ? 1 : 0;
         $products->popularity = isset($request->popularity) ? 1 : 0;
+        $products->length = $request->length;
+        $products->width = $request->width;
+        $products->height = $request->height;
         if ($request->product_type == 'configurable') {
             // $products->color_id = implode(',',$request->color_id);
             $products->color_id = (isset($request->color_id) && is_array($request->color_id)) ? implode(',', $request->color_id) : '';

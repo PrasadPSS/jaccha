@@ -68,11 +68,18 @@
                                             @if($order->package_order_status==0)
                                               <a href="{{url('admin/orders/createpackageorder/'.$order->order_id)}}" class="dropdown-item" >Create Package Order</a>
                                             @endif
-                                            @if($order->package_order_status==1)
-                                              <a href="{{url('admin/orders/generatepacakgeslips/'.$order->order_id)}}" class="dropdown-item" >Generate Package Slips</a>
+                                            @if($order->preparing_order_stage==1 && $order->wbn == NULL)
+                                              <a href="{{url('admin/orders/generateproductlabels/'.$order->order_id)}}" class="dropdown-item" >Generate Awb No</a>
                                             @endif
-                                            @if($order->preparing_order_stage==1)
-                                              <a href="{{url('admin/orders/generateproductlabels/'.$order->order_id)}}" class="dropdown-item" >Generate Product Labels</a>
+                                            @if($order->package_order_status==1 && $order->package_waybill == NULL)
+                                              <a href="{{url('admin/orders/generatepacakgeslips/'.$order->order_id)}}" class="dropdown-item" >Generate Pickup</a>
+                                            @endif
+                                            
+                                            @if($order->preparing_order_stage==1 && $order->package_waybill != NULL)
+                                              <a href="{{url('admin/orders/printmanifest/'.$order->order_id)}}" class="dropdown-item" >Print Manifest</a>
+                                            @endif
+                                            @if($order->preparing_order_stage==1 && $order->package_waybill != NULL)
+                                              <a href="{{url('admin/orders/printlabel/'.$order->order_id)}}" class="dropdown-item" >Print Label</a>
                                             @endif
                                             <!-- && $order->shipped_stage==0  -->
                                             @if($order->cancel_order_flag==0  && $order->delivered_stage==0 && $order->order_return_flag==0)

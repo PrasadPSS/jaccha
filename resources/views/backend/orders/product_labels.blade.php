@@ -2,7 +2,7 @@
 <div class="col-md-12 mt-4 printinvoice_{{ $orderproducts->product_id }} thermel-print">
   <table class="" style="width:100%;border:3px solid #7d7c7c !important;padding:10px 10px 10px 10px !important;border-collapse:collapse;">
     <tr>
-      <td colspan="2" style="border:none;padding:10px 10px 10px 10px;"><strong>DADREEIOS</strong></td>
+      <td colspan="2" style="border:none;padding:10px 10px 10px 10px;"><strong>Jaccha</strong></td>
     </tr>
     <tr>
       <td style="border:none; padding:10px 10px 10px 10px;" colspan="2"; >
@@ -55,7 +55,7 @@
     <tr>
       <td colspan="2" style="border:none;padding:0px 10px 10px 10px; font-size: 12px;">
         Customer Care No.: +91 7498042995<br>
-        <u>customercare@dadreeios.com</u>
+        <u>customercare@jaccha.com</u>
       </td>
     </tr>
     

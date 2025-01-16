@@ -181,13 +181,28 @@ foreach ($gst as $gs) {
                                                 </div>
                                             </div>
                                            
-                                            
-                                            
-
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     {{ Form::label('product_weight', 'Product Weight(gms) *') }}
                                                     {{ Form::number('product_weight', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Weight']) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    {{ Form::label('length', 'Product Length(cm) *') }}
+                                                    {{ Form::number('length', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Length']) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    {{ Form::label('width', 'Product Breadth(cm) *') }}
+                                                    {{ Form::number('width', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Breadth']) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    {{ Form::label('height', 'Product Height(cm) *') }}
+                                                    {{ Form::number('height', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Height']) }}
                                                 </div>
                                             </div>
                                             <div class="col-lg-12 col-md-12 mt-1 repeater-default" id="variantsdiv"

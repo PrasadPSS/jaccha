@@ -187,6 +187,60 @@ if (!function_exists('verify_pincode')) {
   }
 }
 
+if(!function_exists('generate_labels'))
+{
+  function generate_labels($shipment_id)
+  {
+    $email = env('SHIPROCKET_EMAIL');
+    $password = env('SHIPROCKET_PASSWORD');
+
+    // Shiprocket API endpoints
+    $authUrl = 'https://apiv2.shiprocket.in/v1/external/auth/login';
+    $createOrderUrl = 'https://apiv2.shiprocket.in/v1/external/orders/create/adhoc';
+
+    // Step 1: Authenticate and get access token
+    $authPayload = [
+      'email' => $email,
+      'password' => $password,
+    ];
+
+    $authResponse = makeCurlRequest($authUrl, $authPayload);
+
+    if (!isset($authResponse['token'])) {
+      throw new Exception('Authentication failed: ' . json_encode($authResponse));
+    }
+
+    $accessToken = $authResponse['token'];
+    $curl = curl_init();
+
+    $params= 
+    [
+      'shipment_id' => [$shipment_id],
+    ];
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://apiv2.shiprocket.in/v1/external/courier/generate/label',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_SSL_VERIFYPEER => false,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'POST',
+      CURLOPT_POSTFIELDS => json_encode($params),
+      CURLOPT_HTTPHEADER => array(
+        'Content-Type: application/json',
+        'Authorization: Bearer ' . $accessToken
+      ),
+    ));
+    
+    $response = curl_exec($curl);
+    
+    curl_close($curl);
+    return json_decode($response);
+  }
+}
+
 if (!function_exists('check_pincode')) {
   // $md(string) : modeBilling mode of shipment(E: Express/ S: Surface)(mandatory)
   // $cgm(int32) : Weight of shipment in grams(Mandatory)
@@ -304,6 +358,10 @@ if (!function_exists('order_creation')) {
     $billingAddress = "{$current_order->shipping_address_line1}, {$current_order->shipping_address_line2}, {$current_order->shipping_landmark}";
     $shippingAddress = $current_order->shipping_is_billing ? $billingAddress : "{$current_order->shipping_address_line1}, {$current_order->shipping_address_line2}";
     $items = [];
+    $maxLength = 0;
+    $width = 0;
+    $maxheight = 0;
+    $weight = 0;
 
     foreach ($current_order->orderproducts as $item) {
       $items[] = [
@@ -312,15 +370,26 @@ if (!function_exists('order_creation')) {
         "units" => $item->qty,
         "selling_price" => $item->product_discounted_price,
         "discount" => 0,
-        "tax" => 0,
+        "tax" => $item->gst_igst_amount != 0  ? $item->gst_igst_amount  : $item->gst_cgst_amount + $item->sgst_amount ,
         "hsn" => (int) $item->products->hsncode->hsncode_name,
       ];
+      if($item->products->length > $maxLength) 
+      {
+          $maxLength = $item->products->length;
+      }
+      $width = $width + $item->products->width;
+      if($maxheight < $item->products->height)
+      {
+        $maxheight = $item->products->height;
+      }
+      $weight = $weight + ($item->products->product_weight/1000);
     }
+   
 
     $orderPayload = [
       "order_id" => $current_order->order_id,
       "order_date" => $current_order->created_at->format('Y-m-d H:i'),
-      "pickup_location" => "work",
+      "pickup_location" => "work-1",
       "channel_id" => "",
       "comment" => "Order from {$current_order->source}",
       "billing_customer_name" => $current_order->customer_name,
@@ -336,15 +405,16 @@ if (!function_exists('order_creation')) {
       "shipping_is_billing" => true,
       "order_items" => $items,
       "payment_method" => $current_order->payment_mode === 'cod' ? "COD" : "Prepaid",
-      "shipping_charges" => $current_order->shipping_charges,
+      "shipping_charges" => $current_order->shipping_amount,
       "giftwrap_charges" => 0,
       "transaction_charges" => 0,
       "total_discount" => 0,
       "sub_total" => $current_order->total,
-      "length" => 10,
-      "breadth" => 15,
-      "height" => 20,
-      "weight" => 2.5,
+      
+      "length" => $maxLength,
+      "breadth" => $width,
+      "height" => $maxheight,
+      "weight" => $weight,
     ];
 
     // Step 3: Create the order
@@ -698,7 +768,7 @@ if (!function_exists('generate_awb')) {
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
-      CURLOPT_URL => 'https://apiv2.shiprocket.in/v1/external/courier/assign/awb?shipment_id='.$shipment_id. '&courier_id='. $courier_id,
+      CURLOPT_URL => 'https://apiv2.shiprocket.in/v1/external/courier/assign/awb?shipment_id=' . $shipment_id . '&courier_id=' . $courier_id,
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => '',
       CURLOPT_MAXREDIRS => 10,
@@ -1016,28 +1086,85 @@ if (!function_exists('track_order')) {
 }
 
 if (!function_exists('packing_slip')) {
-  function packing_slip($waybill)
+  function packing_slip($shipment_id)
   {
+    $authUrl = 'https://apiv2.shiprocket.in/v1/external/auth/login';
+    $email = env('SHIPROCKET_EMAIL');
+    $password = env('SHIPROCKET_PASSWORD');
+    $authPayload = [
+      'email' => $email,
+      'password' => $password,
+    ];
+    $authResponse = makeCurlRequest($authUrl, $authPayload);
+    $accessToken = $authResponse['token'];
     // $waybill = "8863210000022";
-    $accesstoken = 'c7bd1bd7f2ed46a36775d63e8c9ee43617ffee49';//'ec1ee821dc6ca3355a018d48828d3e2ccb892de7';//c7bd1bd7f2ed46a36775d63e8c9ee43617ffee49
-    $cl = 'GR0068088SURFACE-B2C';
-    //   $url = "https://staging-express.delhivery.com/api/p/packing_slip?token=".$accesstoken."&wbns=".$waybill;//staging
-    $url = "https://track.delhivery.com/api/p/packing_slip?token=" . $accesstoken . "&wbns=" . $waybill;//live
     $curl = curl_init();
 
-    $headr = array();
-    $headr[] = 'Access: 0';
-    $headr[] = 'Content-type: application/json';
-    $headr[] = 'Authorization: Token ' . $accesstoken;
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://apiv2.shiprocket.in/v1/external/manifests/generate?shipment_id=' . $shipment_id,
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_SSL_VERIFYPEER => false,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'POST',
+      CURLOPT_HTTPHEADER => array(
+        'Content-Type: application/json',
+        'Authorization: Bearer ' . $accessToken
+      ),
+    ));
 
-    curl_setopt($curl, CURLOPT_HTTPHEADER, $headr);
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-    $data = curl_exec($curl);
+    $response = curl_exec($curl);
+
     curl_close($curl);
     //   dd($data);
-    return $data;
+    return json_decode($response);
+  }
+}
+
+if (!function_exists('print_manifest')) {
+  function print_manifest($shiprocket_order_id)
+  {
+    $authUrl = 'https://apiv2.shiprocket.in/v1/external/auth/login';
+    $email = env('SHIPROCKET_EMAIL');
+    $password = env('SHIPROCKET_PASSWORD');
+    $authPayload = [
+      'email' => $email,
+      'password' => $password,
+    ];
+    $authResponse = makeCurlRequest($authUrl, $authPayload);
+    $accessToken = $authResponse['token'];
+
+    // $waybill = "8863210000022";
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://apiv2.shiprocket.in/v1/external/manifests/print',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_SSL_VERIFYPEER => false,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'POST',
+      CURLOPT_POSTFIELDS => '{
+	"order_ids": ['.$shiprocket_order_id .']
+}',
+      CURLOPT_HTTPHEADER => array(
+        'Content-Type: application/json',
+        'Authorization: Bearer ' . $accessToken
+      ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+
+    //   dd($data);
+    return json_decode($response);
   }
 }
 

@@ -328,6 +328,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/adminusers/updatestatus', [AdminusersController::class, 'updatestatus'])->name('admin.adminusers.updatestatus');
         Route::resource('admin/adminusers', 'AdminusersController');
 
+
         Route::get('/roles', [RolesController::class, 'index'])->name('admin.roles');
         Route::get('/roles/create', [RolesController::class, 'create'])->name('admin.roles.create');
         Route::post('/roles/store', [RolesController::class, 'store'])->name('admin.roles.store');
@@ -685,6 +686,8 @@ Route::prefix('admin')->group(function () {
         Route::post('/orders/updateprogress', [OrdersController::class, 'updateprogress'])->name('admin.orders.updateprogress');
         Route::get('/orders/createpackageorder/{id}', [OrdersController::class, 'create_package_order'])->name('admin.createpackageorder');
         Route::get('/orders/generatepacakgeslips/{id}', [OrdersController::class, 'generate_pacakge_slips'])->name('admin.generatepacakgeslips');
+        Route::get('/orders/printmanifest/{id}', [OrdersController::class, 'print_manifest_pdf'])->name('admin.printmanifest');
+        Route::get('/orders/printlabel/{id}', [OrdersController::class, 'print_label_pdf'])->name('admin.printlabel');
         Route::get('/orders/generateproductlabels/{id}', [OrdersController::class, 'generate_product_labels'])->name('admin.generateproductlabels');
         Route::post('/orders/updatereturnstatus', [OrdersController::class, 'updatereturnstatus'])->name('admin.orders.updatereturnstatus'); //added on 30-06-2022
         Route::get('/orders/cancelorder/{id}', [OrdersController::class, 'cancelorder'])->name('admin.cancelorder'); //01-07-2022
