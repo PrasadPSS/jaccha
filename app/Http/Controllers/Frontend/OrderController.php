@@ -163,10 +163,14 @@ class OrderController extends Controller
 
         $shipping_charge_management = ShippingChargesManagement::first();
         // dd($shipping_charge_management);
-
-        if ($cart_total_with_discount >= $shipping_charge_management->purchase_min_limit) {
-            $shipping_amount = 0;
+        if($shipping_charge_management->status == 1)
+        {
+            if ($cart_total_with_discount >= $shipping_charge_management->purchase_min_limit) 
+            {
+                $shipping_amount = 0;
+            }
         }
+        
         // dd($daily_cod_limit[0]['count']);
         // dd($orders_data);
 
@@ -404,8 +408,13 @@ class OrderController extends Controller
         $shipping_charges = ShippingChargesManagement::first();
         $shipping_amount = 0;
         $cod_response = '';
-  
+        
         if ($shipping_charges->purchase_min_limit >= get_cart_amounts()->cart->cart_discounted_total) {
+            $shipping_address = ShippingAddresses::where('user_id', auth()->user()->id)->where('shipping_address_id', $shipping_id)->first();
+            $shipping_amount = json_decode(check_pincode($shipping_address->shipping_pincode))->data->available_courier_companies[0]->rate;
+        }
+        if($shipping_charges->status == 0)
+        {
             $shipping_address = ShippingAddresses::where('user_id', auth()->user()->id)->where('shipping_address_id', $shipping_id)->first();
             $shipping_amount = json_decode(check_pincode($shipping_address->shipping_pincode))->data->available_courier_companies[0]->rate;
         }
@@ -532,9 +541,11 @@ class OrderController extends Controller
         $cart_total_with_discount = $cart_amounts->cart->cart_discounted_total - $cart_amounts->coupon_discount;
 
         $shipping_charge_management = ShippingChargesManagement::first();
+        if($shipping_charge_management->status == 1){
         if ($cart_total_with_discount >= $shipping_charge_management->purchase_min_limit) {
             $shipping_amount = 0;
         }
+    }
         // $discount_value = $final_total * $discount_setting->discount_percent/100;
         $final_discounted_value = $final_total - $discount_value;
         // $gst_value = $final_discounted_value * $gst->gst_percent/100;
@@ -622,16 +633,18 @@ class OrderController extends Controller
                 }
             }
         }
+        $order_id = 0;
         if ($post_data['paymentmode'] == 'Cash On Delivery') {
-            $this->convert($missing_payment_id);
+            $order_id = $this->convert($missing_payment_id);
             Cart::where('user_id', auth()->user()->id)->delete();
         }
-        return redirect()->route('orders.thankyou');
+        return redirect()->route('orders.thankyou', ['order_id' => $order_id]);
     }
 
     public function convert($id)
     {
         $sumdiscount = 0;
+        $order_id= 0;
         $payment_tracking_code = substr(md5(microtime()), rand(0, 20), 20);
         $missingpaymments = MissingPayments::where('payment_id', $id)->first();
         if ($missingpaymments) {
@@ -698,6 +711,7 @@ class OrderController extends Controller
                         $order->cod_collection_charge = CODManagement::first()->cod_collection_charge;
 
                         if ($order->save()) {
+                            $order_id = $order->order_id;
                             $final_total = 0;
                             $shipping_charges = [];
                             $shipping_amount = 0;
@@ -856,7 +870,7 @@ class OrderController extends Controller
                         // $this->Sendneworder($invoicemodel,$payment_info->payment_mode,$payment_info->customer_name);
 
 
-                        return redirect()->route('admin.missingpayments')->with('success', 'MissedPayments Converted to Success!!!');
+                        return $order_id;
                     }
 
                 } else {

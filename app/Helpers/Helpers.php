@@ -370,9 +370,10 @@ if (!function_exists('order_creation')) {
         "units" => $item->qty,
         "selling_price" => $item->product_discounted_price,
         "discount" => 0,
-        "tax" => $item->gst_igst_amount != 0  ? $item->gst_igst_amount  : $item->gst_cgst_amount + $item->sgst_amount ,
+        "tax" => $item->gst_cgst_rate + $item->gst_sgst_rate ,
         "hsn" => (int) $item->products->hsncode->hsncode_name,
       ];
+      
       if($item->products->length > $maxLength) 
       {
           $maxLength = $item->products->length;
@@ -384,7 +385,16 @@ if (!function_exists('order_creation')) {
       }
       $weight = $weight + ($item->products->product_weight/1000);
     }
-   
+
+    $items[] = [
+      "name" => 'COD Charges',
+      "sku" => 'NA',
+      "units" => 1,
+      "selling_price" => isset($current_order->cod_collection_charge) ? $current_order->cod_collection_charge : 0,
+      "discount" => 0,
+      "tax" => 0 ,
+      "hsn" => 0,
+    ];
 
     $orderPayload = [
       "order_id" => $current_order->order_id,
@@ -409,7 +419,7 @@ if (!function_exists('order_creation')) {
       "giftwrap_charges" => 0,
       "transaction_charges" => 0,
       "total_discount" => 0,
-      "sub_total" => $current_order->total,
+      "sub_total" => ($current_order->total_mrp -  $current_order->total_mrp_dicount) + (isset($current_order->cod_collection_charge) ? $current_order->cod_collection_charge : 0) ,
       
       "length" => $maxLength,
       "breadth" => $width,

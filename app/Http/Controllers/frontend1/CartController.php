@@ -111,9 +111,11 @@ class CartController extends Controller
             $get_cart_total = get_cart_amounts();
             // dd($get_cart_total);
             $cart_total_with_discount = $get_cart_total->cart->cart_discounted_total - $get_cart_total->coupon_discount;
+            if($shipping_charge_management->status == 1){
             if ($cart_total_with_discount >= $shipping_charge_management->purchase_min_limit) {
                 $shipping_amount = 0;
             }
+        }
             // dd($shipping_amount);
             if (isset($cart) && count($cart) == 0) {
                 return view('frontend.cart.empty_cart');
@@ -381,9 +383,11 @@ class CartController extends Controller
 
         $shipping_charge_management = ShippingChargesManagement::first();
         // dd($shipping_charge_management);
+        if($shipping_charge_management->status == 1){
         if ($cart_total_with_discount >= $shipping_charge_management->purchase_min_limit) {
             $shipping_amount = 0;
         }
+    }
         // dd($daily_cod_limit[0]['count']);
         // dd($orders_data);
 
@@ -572,9 +576,11 @@ class CartController extends Controller
         $cart_total_with_discount = $cart_amounts->cart->cart_discounted_total - $cart_amounts->coupon_discount;
 
         $shipping_charge_management = ShippingChargesManagement::first();
+        if($shipping_charge_management->status == 1){
         if ($cart_total_with_discount >= $shipping_charge_management->purchase_min_limit) {
             $shipping_amount = 0;
         }
+    }
         // $discount_value = $final_total * $discount_setting->discount_percent/100;
         $final_discounted_value = $final_total - $discount_value;
         // $gst_value = $final_discounted_value * $gst->gst_percent/100;
@@ -1091,9 +1097,17 @@ class CartController extends Controller
                         // $discount_value = $final_total * $discount_setting->discount_percent/100;
                         $final_discounted_value = $final_total - $discount_value;
                         //if shipping is free
+                        if($shipping_charge_management->status == 1){
                         if ($final_discounted_value < $shipping_charge_management->purchase_min_limit) {
+                           
                             $final_discounted_value = $final_discounted_value + $shipping_amount;
+                            
                         }
+                    }
+                    else
+                    {
+                        $final_discounted_value = $final_discounted_value + $shipping_amount; 
+                    }
                         // $gst_value = $final_discounted_value * $gst->gst_percent/100;
                         // $grand_total = $final_discounted_value + $gst_value;
                         $grand_total = $final_discounted_value + $cod_collection_charge_amount;
@@ -1592,7 +1606,14 @@ class CartController extends Controller
                         // $discount_value = $final_total * $discount_setting->discount_percent/100;
                         $final_discounted_value = $final_total - $discount_value;
                         //if shipping is free
+                        if($shipping_charge_management->status == 1){
                         if ($final_discounted_value < $shipping_charge_management->purchase_min_limit) {
+
+                            $final_discounted_value = $final_discounted_value + $shipping_amount;
+                        }
+                        }
+                        else
+                        {
                             $final_discounted_value = $final_discounted_value + $shipping_amount;
                         }
                         // $gst_value = $final_discounted_value * $gst->gst_percent/100;
@@ -2832,9 +2853,11 @@ class CartController extends Controller
         $get_cart_total = get_cart_amounts();
         // dd($shipping_charge_management);
         $cart_total_with_discount = $get_cart_total->cart->cart_discounted_total - $get_cart_total->coupon_discount;
+        if($shipping_charge_management->status == 1){
         if ($cart_total_with_discount >= $shipping_charge_management->purchase_min_limit) {
             $shipping_amount = 0;
         }
+    }
         $shipping_charge_management = array();
 
         // dd($shipping_amount);

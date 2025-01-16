@@ -112,9 +112,24 @@ export default function ThankYou({ auth, orders }) {
                                                 <p>₹{Number(orders.total_mrp - orders.total_mrp_dicount).toFixed(2)}</p>
                                             </div>
                                             <div className="payment-display mb-3">
+                                                <p>Gst Charges</p>
+                                                <p>₹{Math.sign(Number(orders.total_mrp_dicount)) *Number(orders.total_mrp_dicount)}</p>
+                                            </div>
+                                            {
+                                                orders.cod_collection_charge !== null ? 
+                                                (<div className="payment-display mb-3">
+                                                <p>COD Charges</p>
+                                                <p>₹{orders.cod_collection_charge}</p>
+                                                </div> )
+                                                :  
+                                                ""
+                                            }
+                                            
+                                            <div className="payment-display mb-3">
                                                 <p>Shipping</p>
                                                 <p>₹{orders.shipping_amount}</p>
                                             </div>
+                                            
                                             <div className="payment-display">
                                                 <p><b>Total</b></p>
                                                 <p><b>₹{orders.total}</b></p>
