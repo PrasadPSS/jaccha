@@ -25,7 +25,9 @@ export default function UpdateProfileInformation({ faqs }) {
         </div>
         <div className="contact_details p-4 need-help">
           <div className="accordion" id="accordionExample">
-            {faqs.map((faq) =>
+            {faqs.filter(faq => faq.visibility === 1) // Filter FAQs based on visibility
+              .sort((a, b) => a.sort_order - b.sort_order) // Sort FAQs by sort_order
+              .map(faq => 
               <div className="accordion-item">
                 <h2 className="accordion-header">
                   <button
