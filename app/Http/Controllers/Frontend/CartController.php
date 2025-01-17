@@ -331,7 +331,9 @@ class CartController extends Controller
                             $grand_total = $final_discounted_value;
 
                             $current_order = Orders::Where("order_id", $order->order_id)->first();
-                            $current_order->total = $grand_total;
+                            $current_order->total = $grand_total - $missing_payments->coupon_discount;
+                            $current_order->coupon_code = $missing_payments->coupon_code;
+                            $current_order->coupon_discount = $missing_payments->coupon_discount;
                             $current_order->shipping_amount = $shipping_charge;
                             $current_order->shipping_dump = $missing_payments->shipping_dump;
                             // $current_order->gst_percent = $gst->gst_percent;

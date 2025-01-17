@@ -862,6 +862,7 @@ class CartController extends Controller
                     $order->customer_name = $firstname;
                     $order->mobile_no = $mobile_no;
                     $order->payment_mode = $payment_code;
+                    
                     // if(!empty($shipping))
                     // {
                     //   $order->shipping_method_code = $shipping->shipping_method_code;
@@ -1119,7 +1120,9 @@ class CartController extends Controller
                         } else {
                             $current_order->shipping_method_code = 'free';
                         }
-                        $current_order->total = $grand_total;
+                        $current_order->total = $grand_total - $missing_payments->coupon_discount;
+                        $current_order->coupon_code = $missing_payments->coupon_code;
+                        $current_order->coupon_discount = $missing_payments->coupon_discount;
                         // $current_order->total = $final_total;
                         $current_order->shipping_amount = $shipping_amount;
                         $current_order->shipping_dump = json_encode($shipping_charges);

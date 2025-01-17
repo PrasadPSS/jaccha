@@ -98,7 +98,7 @@ use App\Http\Controllers\frontend\CouponsController;
 use App\Http\Controllers\frontend\ContactusController;
 use App\Http\Controllers\frontend\HotofferController;
 use App\Http\Controllers\frontend\DownloadappController;
-
+use App\Http\Controllers\Frontend\CouponController1;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -201,6 +201,8 @@ Route::post('/rating/review', [App\Http\Controllers\Frontend\ReviewController::c
 ->name('product.review');
 Route::post('/rating/review/edit', [App\Http\Controllers\Frontend\ReviewController::class, 'update'])->middleware(['auth', 'verified'])
 ->name('product.review.edit');
+
+Route::post('/apply-coupon', [CouponController1::class, 'applyCoupon']);
 
 //wishlist
 Route::get('/wishlist/view', [WishlistController::class, 'index'])

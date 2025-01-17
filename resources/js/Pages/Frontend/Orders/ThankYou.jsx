@@ -107,13 +107,15 @@ export default function ThankYou({ auth, orders }) {
                   <button className="discount-button" type="button">Apply</button>
                 </div>  */}
                                         <div className="payment-history mt-5">
-                                            <div className="payment-display mb-2">
-                                                <p>Subtotal . {orders.orderproducts.length} Items</p>
-                                                <p>₹{Number(orders.total_mrp - orders.total_mrp_dicount).toFixed(2)}</p>
-                                            </div>
+                                            
                                             <div className="payment-display mb-3">
                                                 <p>Gst Charges</p>
                                                 <p>₹{Math.sign(Number(orders.total_mrp_dicount)) *Number(orders.total_mrp_dicount)}</p>
+                                            </div>
+
+                                            <div className="payment-display mb-2">
+                                                <p>Subtotal . {orders.orderproducts.length} Items</p>
+                                                <p>₹{Number(orders.total_mrp - orders.total_mrp_dicount).toFixed(2)}</p>
                                             </div>
                                             {
                                                 orders.cod_collection_charge !== null ? 
@@ -123,6 +125,13 @@ export default function ThankYou({ auth, orders }) {
                                                 </div> )
                                                 :  
                                                 ""
+                                            }
+                                            {
+                                                orders.coupon_discount != null && 
+                                                (<div className="payment-display mb-3">
+                                                    <p>Coupon Discount</p>
+                                                    <p>- ₹{orders.coupon_discount}</p>
+                                                    </div> )
                                             }
                                             
                                             <div className="payment-display mb-3">

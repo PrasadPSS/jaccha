@@ -635,14 +635,15 @@ class OrderController extends Controller
         }
         $order_id = 0;
         if ($post_data['paymentmode'] == 'Cash On Delivery') {
-            $order_id = $this->convert($missing_payment_id);
+            $order_id = $this->convert($missing_payment_id, $request->all());
             Cart::where('user_id', auth()->user()->id)->delete();
         }
         return redirect()->route('orders.thankyou', ['order_id' => $order_id]);
     }
 
-    public function convert($id)
+    public function convert($id, $data=[])
     {
+
         $sumdiscount = 0;
         $order_id= 0;
         $payment_tracking_code = substr(md5(microtime()), rand(0, 20), 20);
@@ -709,6 +710,8 @@ class OrderController extends Controller
                         $order->customer_name = $payment_info->customer_name;
                         $order->payment_mode = $payment_info->payment_mode;
                         $order->cod_collection_charge = CODManagement::first()->cod_collection_charge;
+                        $order->coupon_code = $data['couponcode'] ?? NUll;
+                        $order->coupon_discount = $data['coupondiscount'] ?? NULL;
 
                         if ($order->save()) {
                             $order_id = $order->order_id;
@@ -816,7 +819,7 @@ class OrderController extends Controller
                             $final_discounted_value = $final_discounted_value + $shipping_charge + CODManagement::first()->cod_collection_charge;
                             // $gst_value = $final_discounted_value * $gst->gst_percent/100;
                             // $grand_total = $final_discounted_value + $gst_value;
-                            $grand_total = $final_discounted_value;
+                            $grand_total = $final_discounted_value - $data['coupondiscount'];
 
                             $current_order = Orders::Where("order_id", $order->order_id)->first();
                             $current_order->total = $grand_total;
@@ -958,6 +961,8 @@ class OrderController extends Controller
         $payment_info->shipping_amount = $shipping_amount;
         $payment_info->shipping_dump = json_encode($shipping_charges);
         $payment_info->payment_mode = $payment_code;
+        $payment_info->coupon_discount= $post_data['coupondiscount']; 
+        $payment_info->coupon_code = $post_data['couponcode'];
         // $payment_info->shipping_address_id = $post_data['shipping_id'];
         if (isset($cart_coupon->coupon)) {
             $payment_info->cart_coupon_id = $cart_coupon->cart_coupon_id;

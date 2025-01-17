@@ -65,8 +65,8 @@ export default function ViewOrder({ auth, orders }) {
                             <div className="order_boxes">
                                 <div className="order_heading">
                                     <p>Ordered Id : <b>#{order.orders_counter_id}</b></p>
-                                    { }
-                                    <p>Ordered Placed Date : <b>{new Date(order.created_at).getDate() + '-' + new Date(order.created_at).getMonth() + '-' + new Date(order.created_at).getFullYear()}</b></p>
+                             
+                                    <p>Ordered Placed Date : <b>{new Date(order.created_at).getDate() + '-' + new Date(order.created_at).getMonth()+1 + '-' + new Date(order.created_at).getFullYear()}</b></p>
                                     <p>
                                         <span className={order.delivered_stage ? "sts_delivered" : 'sts_confirmed'}
                                         >Order Status :  {

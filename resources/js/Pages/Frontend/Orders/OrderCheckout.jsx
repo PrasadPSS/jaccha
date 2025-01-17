@@ -4,6 +4,8 @@ import HomeLayout from "@/Layouts/HomeLayout";
 import { Head, Link, router, useForm, usePage } from "@inertiajs/react";
 import axios from "axios";
 import React, { useState } from "react";
+import DiscountCode from "./DiscountCode";
+import { useEffect } from "react";
 
 
 export default function OrderCheckout({ auth, data }) {
@@ -41,7 +43,7 @@ export default function OrderCheckout({ auth, data }) {
         cod_response,
         cod_charges
     } = data;
-    
+    const [codCharges, setCodCharges] = useState(cod_charges);
     console.log('rmk',cod_rmk);
     const [shippingAmount, setShippingAmount] = useState(shipping_amount);
     const [codResponse, setCodResponse] = useState(cod_response == 'Y' ? 1 : 0);
@@ -50,6 +52,8 @@ export default function OrderCheckout({ auth, data }) {
 
     const [paymentMode, setPaymentMode] = useState('');
     let finalGrandTotal;
+
+
     // Calculate grand total
     if (paymentMode == 'Cash On Delivery') {
         finalGrandTotal = parseFloat(cart_amounts.cart.cart_discounted_total + shippingAmount + Number(cod_charges)).toFixed(2);
@@ -78,6 +82,13 @@ export default function OrderCheckout({ auth, data }) {
         });
     };
 
+    useEffect(()=>{
+        if(paymentMode == 'Cash On Delivery')
+        {
+            setFinalGrandTotal1(prev => (Number(prev) + Number(codCharges)).toFixed(2));
+        }
+    }, [paymentMode])
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -92,6 +103,10 @@ export default function OrderCheckout({ auth, data }) {
             },
         });
     };
+
+    const [finalGrandTotal1, setFinalGrandTotal1] = useState(finalGrandTotal);
+    const[couponCode, setCouponCode] = useState('');
+    const[couponDiscount, setCouponDiscount] = useState(0);
 
     return (
         <HomeLayout auth={auth}>
@@ -293,23 +308,23 @@ export default function OrderCheckout({ auth, data }) {
                                         <div className="checkout-product_price">
                                             <p>₹750.00</p>
                                         </div>
+
                                     </div> */}
-                                    {/* <div className="discount-code">
-                                        <input type="text" className="form-control" placeholder="Discount Code" />
-                                        <button className="discount-button" type="button">Apply</button>
-                                    </div> */}
+                                    
+                                    <DiscountCode setCouponCode1={setCouponCode} setCouponDiscount={setCouponDiscount} paymentMode={paymentMode} gstCharges={totalGst} shippingAmount={shippingAmount} codCharges={Number(cod_charges).toFixed(2)} finalGrandTotal={finalGrandTotal1} setFinalGrandTotal={setFinalGrandTotal1}/>
                                     <div className="payment-history mt-5">
+                                        
+                                        <div className="payment-display mb-2">
+                                            <p>Gst Charges</p>
+                                            
+                                            <p>₹{totalGst}</p>
+                                        </div>
                                         <div className="payment-display mb-2">
                                             <p>Subtotal . {auth.cart_count} Items</p>
                                             
                                             <p>₹
                                             {paymentMode == 'Cash On Delivery' ? finalGrandTotal - parseFloat(shippingAmount).toFixed(2) - Number(cod_charges) :  finalGrandTotal - parseFloat(shippingAmount).toFixed(2)}
                                             </p>
-                                        </div>
-                                        <div className="payment-display mb-2">
-                                            <p>Gst Charges</p>
-                                            
-                                            <p>₹{totalGst}</p>
                                         </div>
                                         <div className="payment-display mb-3">
                                             <p>Shipping</p>
@@ -319,25 +334,34 @@ export default function OrderCheckout({ auth, data }) {
                                             <p>COD Charges</p>
                                             <p>₹
                                             {paymentMode == 'Cash On Delivery' ? 
-                                            Number(cod_charges).toFixed(2) : 0
+                                            Number(codCharges).toFixed(2) : 0
                                             }
                                             </p>
                                         </div>
+                                        {couponDiscount != 0 && 
+                                        (<div className="payment-display mb-3">
+                                        <p>Coupon Discount</p>
+                                        <p>- ₹{couponDiscount}</p>
+                                       
+                                        </div>)
+                                        }
                                         <div className="payment-display">
                                             <p><b>Total</b></p>
-                                            <p><b>₹{finalGrandTotal}</b></p>
+                                            <p><b>₹{finalGrandTotal1}</b></p>
                                         </div>
                                     </div>
                                     <form action="/order/place" method="POST">
                                         <input type="hidden" name="_token" value={token} />
 
                                         {/* Hidden Fields */}
-                                        <input type="hidden" name="amount" value={finalGrandTotal} />
+                                        <input type="hidden" name="amount" value={finalGrandTotal1} />
                                         <input type="hidden" name="shipping_amount" value={shippingAmount} />
                                         <input type="hidden" name="txnid" value={increment_id || ""} />
                                         <input type="hidden" name="shipping_charges" value={JSON.stringify(shipping_charges || {})} />
                                         <input type="hidden" name="shipping_id" value={shippingAddressId} />
                                         <input type="hidden" name="paymentmode" value={paymentMode} />
+                                        <input type="hidden" name="couponcode" value={couponCode} />
+                                        <input type="hidden" name="coupondiscount" value={couponDiscount} />
                                         <div className="pay-now-button">
                                             <button type="submit" >Pay now & Confirm Order</button>
                                         </div>
