@@ -397,7 +397,7 @@ if (!function_exists('order_creation')) {
     ];
 
     $orderPayload = [
-      "order_id" => $current_order->order_id,
+      "order_id" => $current_order->orders_counter_id,
       "order_date" => $current_order->created_at->format('Y-m-d H:i'),
       "pickup_location" => "work-1",
       "channel_id" => "",

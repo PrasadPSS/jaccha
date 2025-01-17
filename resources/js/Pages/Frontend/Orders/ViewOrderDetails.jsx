@@ -6,7 +6,7 @@ import { Head, Link, router } from '@inertiajs/react';
 import React from 'react';
 
 export default function ViewOrderDetails({ auth, orders }) {
-console.log('sadsa',orders);
+
 
     return (
         <UserMenu auth={auth} activeTab={'orders'}>
@@ -43,13 +43,19 @@ console.log('sadsa',orders);
                         </p>
                         <Link as='button' className="black button" href={'/orders/viewinvoice/' + orders.order_id}>View Invoice</Link>
                       </div>
-                      <div class="track-order-box d-flex order_heading">
-                        {orders.delivered_stage == 1 && 
-                        <p>Delivered Date: {orders.delivered_date}</p>}
-                        
-                        {/* <button class="black button">Track Order</button> */}
-                      </div>
-                      <div class="order_content">
+                      {orders.delivered_stage == 1  || orders.wbn != null &&
+                        <div className="track-order-box d-flex order_heading">
+
+                          <p> {orders.delivered_stage == 1 ? "Delivered Date:" + orders.delivered_date : ""}</p>
+                              {orders.delivered_stage == 0 && orders.wbn != null &&
+
+                          <button data-bs-toggle="modal"
+                          data-bs-target="#exampleModal" className="black button" onClick={()=> window.open('https://shiprocket.co/tracking/' + orders.wbn,'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=800')} target='_blank'>Track Order</button>}
+                         
+                        </div>
+                      }
+                      
+                      <div className="order_content">
                         {orders.orderproducts.map((products, index)=>
                         (
                             <div class="checkout-product mt-3" key={index}>
@@ -69,7 +75,7 @@ console.log('sadsa',orders);
                           <div class="view-order-price"><p>₹{products.product_price}.00</p></div>
                         </div>
                         ))}
-                        
+                        <br></br>
                       
                         <div class="view-order-payment">
                           <div class="contact_details">

@@ -48,6 +48,7 @@ class OrdersController extends Controller
 
   public function viewInvoice($id)
   {
+
     $orders = Orders::where('order_id', $id)->with(['orderproducts'])->first();
     $shipping_address = ShippingAddresses::where('user_id', $orders->user_id)->where('default_address_flag', 1)->first();
     if (!$shipping_address) {
@@ -384,6 +385,11 @@ class OrdersController extends Controller
     if($orders->package_item_dump == NULL)
     {
     $awb = generate_awb($orders->shipping_pincode, json_decode($orders->package_order_dump)->shipment_id);
+      if(!isset($awb->response->data->awb_code))
+      {
+        info(json_encode($awb));
+        return back()->with('error', 'Some Error Has Occured Please try again later!');
+      }
       if($awb->response->data->awb_code != null)
       {
         $orders->wbn = $awb->response->data->awb_code;

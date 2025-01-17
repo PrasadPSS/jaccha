@@ -62,18 +62,21 @@
                                           <span class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu"></span>
                                           <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="{{url('admin/orders/details/'.$order->order_id)}}" class="dropdown-item" >View Details</a>
-                                            <a href="{{url('admin/orders/viewinvoice/'.$order->order_id)}}" class="dropdown-item" >View Invoice</a>
-                                            <a href="{{url('admin/orders/invoice/'.$order->order_id)}}" class="dropdown-item" >Download Invoice</a>
                                             @if($order->package_order_status==0)
                                               <a href="{{url('admin/orders/createpackageorder/'.$order->order_id)}}" class="dropdown-item" >Create Package Order</a>
                                             @endif
                                             @if($order->preparing_order_stage==1 && $order->wbn == NULL)
                                               <a href="{{url('admin/orders/generateproductlabels/'.$order->order_id)}}" class="dropdown-item" >Generate Awb No</a>
                                             @endif
-                                            @if($order->package_order_status==1 && $order->package_waybill == NULL)
+                                            @if($order->package_order_status==1 && $order->package_waybill == NULL && $order->wbn != NULL)
                                               <a href="{{url('admin/orders/generatepacakgeslips/'.$order->order_id)}}" class="dropdown-item" >Generate Pickup</a>
                                             @endif
+                                            <a href="{{url('admin/orders/details/'.$order->order_id)}}" class="dropdown-item" >View Details</a>
+                                            <a href="{{url('admin/orders/viewinvoice/'.$order->order_id)}}" class="dropdown-item" >View Invoice</a>
+                                            <a href="{{url('admin/orders/invoice/'.$order->order_id)}}" class="dropdown-item" >Download Invoice</a>
+                                            
+                                            
+                                            
                                             
                                             @if($order->preparing_order_stage==1 && $order->package_waybill != NULL)
                                               <a href="{{url('admin/orders/printmanifest/'.$order->order_id)}}" class="dropdown-item" >Print Manifest</a>
