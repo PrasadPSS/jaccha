@@ -217,7 +217,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                         {shipping_addresses.map((shipping) =>
                             <div className="col-sm-6">
                                 <div className="contact_details p-4">
-                                    <p>{shipping.shipping_address_line1 + ', ' + shipping.shipping_address_line2 + ', ' + shipping.shipping_landmark + ', ' + shipping.shipping_city + ', ' + shipping.shipping_pincode}</p>
+                                    <p>{shipping.shipping_address_line1 + ', ' + shipping.shipping_address_line2 + ', ' + shipping.shipping_landmark + ', ' + shipping.shipping_city + ', ' + shipping.shipping_pincode + ', ' + shipping.shipping_state + ', ' + shipping.shipping_district + ', ' + shipping.shipping_mobile_no + ', '+ shipping.shipping_city}</p>
                                     <p>{shipping.shipping_address_type}</p>
                                     
                                     {shipping.default_address_flag == 1 &&
