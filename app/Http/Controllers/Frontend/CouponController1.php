@@ -43,7 +43,7 @@ class CouponController1 extends Controller
 
         // Check cart minimum value
         $cartTotal = get_cart_amounts()->cart->cart_mrp_total; // Assuming helper function is defined
-        info('cartTotal'.$cartTotal);
+
         if ($cartTotal < $coupon->coupon_purchase_limit) {
             return response()->json(['success' => false, 'message' => 'Minimum cart value not met.']);
         }
@@ -61,7 +61,7 @@ class CouponController1 extends Controller
 
         // Update final total
         $updatedTotal = $cartTotal - $discountAmount;
-        info('updated total' . $updatedTotal);
+
         // Decrement usage limit
         
 
