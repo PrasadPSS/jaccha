@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\backend\Cmspages;
+use App\Models\backend\Company;
 use App\Models\frontend\Cart;
 use App\Models\frontend\Categories;
 use App\Models\frontend\Logo;
@@ -47,14 +48,16 @@ class HandleInertiaRequests extends Middleware
                 'orders' => $request->user() ? Orders::where('user_id', $request->user()->id)->with('orderproducts', 'orderproducts.products')->get() : "",
                 'reviews'=> $request->user() ? Review::where('user_id', $request->user()->id)->get() : "",
                 'querys'=>  $request->querys,
-                'quick_links' => Cmspages::where('column_type', 'quick_links')->get(),
+                'quick_links' => Cmspages::where('column_type', 'quick_links')->where('cms_pages_footer', 1)->get(),
                 'logo_path'=> Logo::first()->logo_path,
                 'csrf_token' => csrf_token(),
+                'company' => Company::first(),
             ],
             'flash' => [
             'success' => $request->session()->get('success'),
             'error' => $request->session()->get('error'),
             'flashcode'=> $request->session()->get('success') != null || $request->session()->get('error') != null ? rand() : 1,
+            
         ],  
 
         ];

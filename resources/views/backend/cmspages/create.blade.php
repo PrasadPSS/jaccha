@@ -68,21 +68,7 @@ $column_types = ['quick_links'=>'Quick Links','conntect_us'=>'Connect With Us On
                               {{ Form::text('cms_pages_link', null, ['class' => 'form-control', 'placeholder' => 'Enter External Links',]) }}
                             </div>
                           </div>
-                          <div class="col-md-3 col-4">
-                            {{ Form::label('cms_pages_top', 'Display at Top') }}
-                            <fieldset class="">
-                              <div class="radio radio-success">
-                                {{ Form::radio('cms_pages_top','1',true,['id'=>'radioshowtop']) }}
-                                {{ Form::label('radioshowtop', 'Yes') }}
-                              </div>
-                            <!-- </fieldset>
-                            <fieldset> -->
-                              <div class="radio radio-danger">
-                                {{ Form::radio('cms_pages_top','0',false,['id'=>'radiohidetop']) }}
-                                {{ Form::label('radiohidetop', 'No') }}
-                              </div>
-                            </fieldset>
-                          </div>
+                          
                           <div class="col-md-3 col-4">
                             {{ Form::label('cms_pages_footer', 'Display at Footer') }}
                             <fieldset class="">
@@ -98,36 +84,8 @@ $column_types = ['quick_links'=>'Quick Links','conntect_us'=>'Connect With Us On
                               </div>
                             </fieldset>
                           </div>
-                          <div class="col-md-3 col-4">
-                            {{ Form::label('show_hide', 'Show / Hide') }}
-                            <fieldset class="">
-                              <div class="radio radio-success">
-                                {{ Form::radio('show_hide','1',true,['id'=>'radioshow']) }}
-                                {{ Form::label('radioshow', 'Yes') }}
-                              </div>
-                            <!-- </fieldset>
-                            <fieldset> -->
-                              <div class="radio radio-danger">
-                                {{ Form::radio('show_hide','0',false,['id'=>'radiohide']) }}
-                                {{ Form::label('radiohide', 'No') }}
-                              </div>
-                            </fieldset>
-                          </div>
-                          <div class="col-md-3 col-4">
-                            {{ Form::label('contactus_form_flag', 'Contact Form') }}
-                            <fieldset class="">
-                              <div class="radio radio-success">
-                                {{ Form::radio('contactus_form_flag','1',true,['id'=>'contactus_form_flagshow']) }}
-                                {{ Form::label('contactus_form_flagshow', 'Yes') }}
-                              </div>
-                            <!-- </fieldset>
-                            <fieldset> -->
-                              <div class="radio radio-danger">
-                                {{ Form::radio('contactus_form_flag','0',false,['id'=>'contactus_form_flaghide']) }}
-                                {{ Form::label('contactus_form_flaghide', 'No') }}
-                              </div>
-                            </fieldset>
-                          </div>
+                          
+                          
                           <div class="col-12 d-flex justify-content-start mt-2">
                             <button type="submit" class="btn btn-primary mr-1 mb-1">Submit</button>
                             <button type="reset" class="btn btn-light-secondary mr-1 mb-1">Reset</button>

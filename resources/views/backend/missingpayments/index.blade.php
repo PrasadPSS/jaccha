@@ -37,6 +37,7 @@
                                 <thead>
                                     <tr>
                                       <th>#</th>
+                                      <th>Action</th>
                                         <th>Customer Name</th>
                                         <th>Customer Email</th>
                                         <th>Transaction ID</th>
@@ -52,6 +53,16 @@
                                     @foreach($missingpayments as $missingpayment)
                                     <tr>
                                       <td>{{ $srno }}</td>
+                                      <td>
+
+                                      <div class="dropdown">
+                                          <span class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu"></span>
+                                          <div class="dropdown-menu dropdown-menu-right">
+                                              <a href="{{url('admin/missingpayments/convert/'.$missingpayment->payment_id)}}" class="dropdown-item" onclick="return confirm('Are you sure you want to Convert This Entry to Success ?')">Convert</a>
+                                          </div>
+                                        </div>
+                                      </td>
                                         <td>{{ $missingpayment->customer_name }}</td>
                                         <td>{{ $missingpayment->email }}</td>
                                         <td>{{ $missingpayment->transaction_id }}</td>

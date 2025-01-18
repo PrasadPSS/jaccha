@@ -122,6 +122,24 @@
                                       {{ Form::text('gstno', null, ['class' => 'form-control', 'placeholder' => 'Enter GST No.', 'required' => true]) }}
                                   </div>
                               </div>
+                              <div class="col-md-6 col-12">
+                                  <div class="form-group">
+                                      {{ Form::label('facebook', 'Facebook Url *') }}
+                                      {{ Form::text('facebook', null, ['class' => 'form-control', 'placeholder' => 'Enter Facebook Url', 'required' => true]) }}
+                                  </div>
+                              </div>
+                              <div class="col-md-6 col-12">
+                                  <div class="form-group">
+                                      {{ Form::label('instagram', 'Instagram Url *') }}
+                                      {{ Form::text('instagram', null, ['class' => 'form-control', 'placeholder' => 'Enter Instagram Url', 'required' => true]) }}
+                                  </div>
+                              </div>
+                              <div class="col-md-6 col-12">
+                                  <div class="form-group">
+                                      {{ Form::label('copyright', 'Copyright Text *') }}
+                                      {{ Form::text('copyright', null, ['class' => 'form-control', 'placeholder' => 'Enter Copyright text', 'required' => true]) }}
+                                  </div>
+                              </div>
                               <!--<div class="col-lg-12 col-md-12">-->
                               <!--    {{ Form::label('address', 'Address *') }}-->
                               <!--    <fieldset class="form-group">-->

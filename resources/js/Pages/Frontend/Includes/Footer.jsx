@@ -9,6 +9,7 @@ export default function Footer() {
         email: ''
     })
     const auth= usePage().props.auth;
+    const company = usePage().props.auth.company;
     const quicklinks = usePage().props.auth.quick_links;
     function submit(e) {
         e.preventDefault()
@@ -61,18 +62,18 @@ export default function Footer() {
                             <p>
                                 Email:{" "}
                                 <a href="mailto:care@jaccha.com">
-                                    care@jaccha.com
+                                    {company.email}
                                 </a>
                             </p>
                             <p>
                                 Phone:{" "}
-                                <a href="tel:+91 9876543210">+91 9876543210</a>
+                                <a href="tel:+91 9876543210">{company.mobile_no}</a>
                             </p>
                             <p>
                                 Address:
                                 <a href="mailto:care@jaccha.com">
                                     {" "}
-                                    Mumbai, Maharashtra, India
+                                    {company.address_line1}, {company.state}, {company.country}
                                 </a>
                             </p>
                         </div>
@@ -97,14 +98,14 @@ export default function Footer() {
                 </div>
                 <div className="footer-bottom">
                     <div className="copy-text">
-                        <p>© 2024 Jaccha. All Rights Reserved.</p>
+                        <p>{company.copyright}</p>
                     </div>
                     <div className="social-text">
                         <p>
-                            <a href="">Facebook</a>
+                            <a href={company.facebook}>Facebook</a>
                         </p>
                         <p>
-                            <a href="">Instagram</a>
+                            <a href={company.instagram}>Instagram</a>
                         </p>
                     </div>
                 </div>

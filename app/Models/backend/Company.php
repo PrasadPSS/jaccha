@@ -16,7 +16,7 @@ class Company extends Model
     protected $fillable=[
       'name','email','mobile_no','pincode','state','country',
       'timings','gstno','bankdetail','address_line1',
-      'address_line2','landmark','city','district',
+      'address_line2','landmark','city','district','facebook', 'instagram', 'copyright'
     ];
 
 

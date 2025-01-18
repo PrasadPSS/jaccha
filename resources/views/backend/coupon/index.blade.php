@@ -39,6 +39,7 @@
                                 <thead>
                                     <tr>
                                       <th>#</th>
+                                      <th>Action</th>
                                       <th>Coupon</th>
                                       <th>Code</th>
                                       <th>End Date</th>
@@ -54,6 +55,60 @@
                                     @foreach($coupons as $coupon)
                                     <tr>
                                       <td>{{ $srno }}</td>
+                                      <td>
+
+
+                                      <div class="dropdown">
+                                          <span class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu"></span>
+                                          <div class="dropdown-menu dropdown-menu-right">
+                                          <a href="{{ url('admin/coupon/edit/'.$coupon->coupon_id) }}" class="dropdown-item">Edit</a>
+                                        <!-- @can('Delete') -->
+                                        <!-- @endcan -->
+                                        {!! Form::open([
+                                            'method'=>'GET',
+                                            'url' => ['admin/coupon/delete', $coupon->coupon_id],
+                                            'style' => 'display:inline'
+                                        ]) !!}
+                                            {!! Form::button('Delete', ['type' => 'submit', 'class' => 'dropdown-item','onclick'=>"return confirm('Are you sure you want to Delete this Entry ?')"]) !!}
+                                        {!! Form::close() !!}
+                                          </div>
+                                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      </td>
                                       <td>{{ $coupon->coupon_title }}</td>
                                       <td>{{ $coupon->coupon_code }}</td>
                                       <td>{{ $coupon->end_date }}</td>
