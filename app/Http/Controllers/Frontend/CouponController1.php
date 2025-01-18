@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\backend\Coupons;
+use App\Models\frontend\CartCoupons;
+use App\Models\frontend\OrderCoupons;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -18,7 +21,9 @@ class CouponController1 extends Controller
         }
 
         // Find coupon
-        $coupon = \DB::table('coupons')->where('coupon_code', $couponCode)->first();
+        $coupon = \DB::table('coupons')->where('coupon_code', $couponCode)->where('status', 1)->first();
+        $onceperuser = Coupons::where('coupon_code', $couponCode)->where('status', 1)->where('coupon_once_per_user', 1)->exists();
+
 
         if (!$coupon) {
             return response()->json(['success' => false, 'message' => 'Invalid coupon code.']);
@@ -31,7 +36,8 @@ class CouponController1 extends Controller
         }
 
         // Check cart usage limit
-        if ($coupon->coupon_usage_limit <= 0) {
+        $usageCount = OrderCoupons::where('user_id', auth()->user()->id)->where('coupon_code', $couponCode)->count();
+        if ($usageCount >= $coupon->coupon_usage_limit || ($onceperuser && $usageCount >= 1)) {
             return response()->json(['success' => false, 'message' => 'Coupon usage limit has been reached.']);
         }
 
@@ -57,7 +63,7 @@ class CouponController1 extends Controller
         $updatedTotal = $cartTotal - $discountAmount;
         info('updated total' . $updatedTotal);
         // Decrement usage limit
-        \DB::table('coupons')->where('coupon_code', $couponCode)->decrement('coupon_usage_limit');
+        
 
         return response()->json([
             'success' => true,

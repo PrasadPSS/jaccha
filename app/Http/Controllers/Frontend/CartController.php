@@ -17,6 +17,7 @@ use App\Models\backend\ProductVariants;
 use App\Models\backend\ShippingChargesManagement;
 use App\Models\frontend\Cart;
 use App\Models\frontend\CartCoupons;
+use App\Models\frontend\OrderCoupons;
 use App\Models\frontend\ShippingAddresses;
 use App\Models\Product;
 use Carbon\Carbon;
@@ -332,8 +333,14 @@ class CartController extends Controller
 
                             $current_order = Orders::Where("order_id", $order->order_id)->first();
                             $current_order->total = $grand_total - $missing_payments->coupon_discount;
-                            $current_order->coupon_code = $missing_payments->coupon_code;
-                            $current_order->coupon_discount = $missing_payments->coupon_discount;
+                            if(isset($missing_payments->coupon_discount))
+                            {
+                                info('discount cart coupon');
+                                $current_order->coupon_code = $missing_payments->coupon_code;
+                                $current_order->coupon_discount = $missing_payments->coupon_discount;
+                                OrderCoupons::create(['user_id'=> $missing_payments->user_id,
+                                'coupon_code' => $missing_payments->coupon_code]);
+                            }
                             $current_order->shipping_amount = $shipping_charge;
                             $current_order->shipping_dump = $missing_payments->shipping_dump;
                             // $current_order->gst_percent = $gst->gst_percent;

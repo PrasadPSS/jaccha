@@ -418,8 +418,8 @@ if (!function_exists('order_creation')) {
       "shipping_charges" => $current_order->shipping_amount,
       "giftwrap_charges" => 0,
       "transaction_charges" => 0,
-      "total_discount" => 0,
-      "sub_total" => ($current_order->total_mrp -  $current_order->total_mrp_dicount) + (isset($current_order->cod_collection_charge) ? $current_order->cod_collection_charge : 0) ,
+      "total_discount" => $current_order->coupon_discount ?? 0,
+      "sub_total" => (($current_order->total_mrp -  $current_order->total_mrp_dicount) + (isset($current_order->cod_collection_charge) ? $current_order->cod_collection_charge : 0)) ,
       
       "length" => $maxLength,
       "breadth" => $width,

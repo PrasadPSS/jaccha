@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\backend\Orders;
+use App\Models\frontend\OrderCoupons;
 use App\Models\OrderItem;
 use App\Models\PaymentDetail;
 use Inertia\Inertia;
@@ -710,8 +711,11 @@ class OrderController extends Controller
                         $order->customer_name = $payment_info->customer_name;
                         $order->payment_mode = $payment_info->payment_mode;
                         $order->cod_collection_charge = CODManagement::first()->cod_collection_charge;
+                        if($data['coupondiscount'] != 0)
+                        {
                         $order->coupon_code = $data['couponcode'] ?? NUll;
                         $order->coupon_discount = $data['coupondiscount'] ?? NULL;
+                        }
 
                         if ($order->save()) {
                             $order_id = $order->order_id;
@@ -868,6 +872,14 @@ class OrderController extends Controller
                         if (isset($cart_coupon)) {
                             $cart_coupon->delete();
                         }
+                        if($data['coupondiscount'] != 0)
+                        {
+
+                            OrderCoupons::create(['user_id'=> auth()->user()->id,
+                                'coupon_code' => $data['couponcode']]);
+
+                        }
+                        
                         // Cart::where('user_id', $missing_payments->user_id)->delete();
                         // $this->SendInvoice($invoicemodel,$payment_info->email,$payment_info->payment_date,$payment_info->payment_mode);
                         // $this->Sendneworder($invoicemodel,$payment_info->payment_mode,$payment_info->customer_name);
@@ -961,8 +973,11 @@ class OrderController extends Controller
         $payment_info->shipping_amount = $shipping_amount;
         $payment_info->shipping_dump = json_encode($shipping_charges);
         $payment_info->payment_mode = $payment_code;
+        if($post_data['coupondiscount'] != 0)
+        {
         $payment_info->coupon_discount= $post_data['coupondiscount']; 
         $payment_info->coupon_code = $post_data['couponcode'];
+        }
         // $payment_info->shipping_address_id = $post_data['shipping_id'];
         if (isset($cart_coupon->coupon)) {
             $payment_info->cart_coupon_id = $cart_coupon->cart_coupon_id;
