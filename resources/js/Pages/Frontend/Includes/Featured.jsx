@@ -35,7 +35,7 @@ export default function Featured({
             <div className="container">
                 <div className="row">
                     <div className="col-sm-12 text-center" data-aos="fade-up">
-                        <h2 className="mini-heading">Our Featured Products</h2>
+                        <h2 className="mini-heading">{title}</h2>
                     </div>
                 </div>
                 <div className="row mt-5" data-aos="fade-up">

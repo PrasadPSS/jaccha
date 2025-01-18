@@ -31,7 +31,7 @@ export default function Testimonials({
                 <div className="row mb-5">
                     <div className="col-sm-12 text-center" data-aos="fade-up">
                         <h2 className="mini-heading">
-                            Hear from Our Nourished Moms
+                            {title}
                         </h2>
                     </div>
                 </div>

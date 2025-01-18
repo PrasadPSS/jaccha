@@ -38,14 +38,12 @@ export default function About({
                         >
                             <h2>
                                 {
-                                    sectionChildren[2]
-                                        .home_page_section_child_title
+                                    title
                                 }
                             </h2>
                             <p>
                                 {
-                                    sectionChildren[3]
-                                        .home_page_section_child_title
+                                    subTitle
                                 }
                             </p>
                             <Link as="button" 

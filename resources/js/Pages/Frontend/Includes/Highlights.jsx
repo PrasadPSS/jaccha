@@ -15,8 +15,7 @@ export default function Highlights({
                     <div className="col-sm-12 text-center">
                         <h2 className="mini-heading">
                             {
-                                sectionChildren[0]
-                                    .home_page_section_child_sub_title
+                                title
                             }
                         </h2>
                     </div>

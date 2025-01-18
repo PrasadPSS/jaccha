@@ -38,8 +38,7 @@ export default function Benefits({
                             <h2
                                 className="mb-4"
                                 dangerouslySetInnerHTML={{
-                                    __html: sectionChildren[0]
-                                        .home_page_section_child_title,
+                                    __html: title,
                                 }}
                             ></h2>
                             <ul>

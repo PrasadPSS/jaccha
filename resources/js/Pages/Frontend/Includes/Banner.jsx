@@ -21,8 +21,7 @@ export default function Banner({
                                 data-aos-delay="4000"
                             >
                                 {
-                                    sectionChildren[0]
-                                        .home_page_section_child_title
+                                    title
                                 }
                             </p>
                             <h1
@@ -31,8 +30,7 @@ export default function Banner({
                                 data-aos-delay="800"
                             >
                                 {
-                                    sectionChildren[1]
-                                        .home_page_section_child_sub_title
+                                    subTitle
                                 }
                             </h1>
                         </div>
