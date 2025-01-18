@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\Models\backend\Products;
 use App\Models\frontend\Logo;
 use Session;
 use Carbon\Carbon;
@@ -187,7 +188,10 @@ class HomepagesectionsController extends Controller
     public function edit($id)
     {
         $homepagesections = HomePageSections::findOrFail($id);
-
+        $products= Products::get();
+        $products = collect($products)->mapWithKeys(function ($item, $key) {
+          return [$item['product_id'] => $item['product_title']];
+        });
         $home_page_section_type_list = HomePageSectionTypes::get();
         $home_page_section_type_list = collect($home_page_section_type_list)->mapWithKeys(function ($item, $key) {
           return [$item['home_page_section_type_id'] => $item['home_page_section_type_name']];
@@ -199,7 +203,7 @@ class HomepagesectionsController extends Controller
             'home_page_section_types.*', \DB::raw("home_page_section_fields.*")
         ]);
         // dd($sizechart_childs);
-        return view('backend.homepagesections.edit', compact('homepagesections','home_page_section_type_list','home_page_section_types'));
+        return view('backend.homepagesections.edit', compact('products','homepagesections','home_page_section_type_list','home_page_section_types'));
     }
 
     /**
@@ -217,6 +221,7 @@ class HomepagesectionsController extends Controller
         'home_page_section_type_id' => ['required'],
         'home_page_section_priority' => ['required'],
         'home_page_section_no_prod' => ['required_unless:home_page_section_type_id,1'],
+        'home_page_section_product' => ['required']
       ]);
       $id = $request->input('home_page_section_id');
       $homepagesections = HomePageSections::findOrFail($id);

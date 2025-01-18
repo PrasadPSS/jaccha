@@ -8,6 +8,7 @@ export default function Highlights({
     paddingTop,
     paddingBottom,
 }) {
+    
     return (
         <section className="section highlights">
             <div className="container">

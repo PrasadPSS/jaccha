@@ -53,6 +53,7 @@ $size_types = ['upper'=>'Uppers','lower'=>'Lowers','shoes'=>'Shoes'];
                               {{ Form::text('home_page_section_name', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Name', 'required' => true]) }}
                             </div>
                           </div>
+                          
                           <div class="col-md-12 col-12">
                             <fieldset class="form-group">
                               <div class="input-group">
@@ -69,6 +70,18 @@ $size_types = ['upper'=>'Uppers','lower'=>'Lowers','shoes'=>'Shoes'];
                               {{ Form::number('home_page_section_no_prod', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section No of Items to be Display', 'min'=>'1']) }}
                             </div>
                           </div>
+                          @if($homepagesections->home_page_section_code == 'HeroSection')
+                          <div class="col-md-12 col-12">
+                            <fieldset class="form-group">
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  {{ Form::label('home_page_section_product', 'Product ',['class'=>'']) }}
+                                </div>
+                                {{ Form::select('home_page_section_product', $products, null,['class'=>'select2 form-control ', 'placeholder' => 'Please Select Product','id'=>'home_page_section_products']) }}
+                              </div>
+                            </fieldset>
+                          </div>
+                          @endif
                           <div class="col-md-12 col-12">
                             <div class="form-group">
                               {{ Form::label('home_page_section_title', 'Home Page Section Title') }}

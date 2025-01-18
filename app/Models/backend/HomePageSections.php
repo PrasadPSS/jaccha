@@ -27,7 +27,7 @@ class HomePageSections extends Model
         'home_page_section_code','home_page_section_title', 'home_page_section_sub_title',
         'home_page_section_priority','home_page_section_no_prod','home_page_section_footer_title',
         'home_page_section_footer_sub_title','home_page_section_url', 'home_page_section_start_date',
-        'home_page_section_end_date','padding_top','padding_bottom',
+        'home_page_section_end_date','padding_top','padding_bottom','home_page_section_product',
 
 
       ];
@@ -47,5 +47,9 @@ class HomePageSections extends Model
     public function home_page_section_type()
     {
       return $this->hasOne(HomePageSectionTypes::class,'home_page_section_type_id','home_page_section_type_id');
+    }
+    public function product()
+    {
+      return $this->hasOne(Products::class,'product_id', 'home_page_section_product');
     }
 }

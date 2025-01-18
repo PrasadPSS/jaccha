@@ -17,6 +17,7 @@ const componentMap = {
 };
 
 export default function ProductPage({ auth, laravelVersion, phpVersion, homepagesections, data }) {
+  console.log('sadasd', homepagesections);
   return (
     <HomeLayout auth={auth}>
       {homepagesections.map((section) => {
@@ -32,6 +33,7 @@ export default function ProductPage({ auth, laravelVersion, phpVersion, homepage
               sectionChildren={section.section_childs}
               paddingTop={section.padding_top}
               paddingBottom={section.padding_bottom}
+              product={section.product}
             
               data={data}
             />

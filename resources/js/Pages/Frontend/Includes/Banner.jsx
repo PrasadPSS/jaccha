@@ -8,7 +8,9 @@ export default function Banner({
     sectionChildren,
     paddingTop,
     paddingBottom,
+    product,
 }) {
+    console.log('product', product.product_thumb);
     return (
         <section className="section banner">
             <div className="container pb-lg-5">
@@ -114,9 +116,8 @@ export default function Banner({
                                 <div className="buynow-image">
                                     <img
                                         src={asset(
-                                            "backend-assets/uploads/home_page_section_child_images/" +
-                                                sectionChildren[7]
-                                                    .home_page_section_child_images
+                                            "backend-assets/uploads/product_thumbs//" +
+                                                product.product_thumb
                                         )}
                                         alt="about image"
                                     />
@@ -124,22 +125,19 @@ export default function Banner({
                                 <div className="buynow-content">
                                     <h3 className="mb-2">
                                         {
-                                            sectionChildren[7]
-                                                .home_page_section_child_title
+                                            product.product_title
                                         }
                                     </h3>
                                     <h3 className="mb-2">
                                         ₹
                                         {
-                                            sectionChildren[7]
-                                                .home_page_section_child_sub_title
+                                           product.product_price
                                         }
                                         .00
                                     </h3>
                                     <Link
                                         href={
-                                            sectionChildren[7]
-                                                .home_page_section_child_url
+                                            '/product/view/'+ product.product_id
                                         }
                                         className="button"
                                     >
