@@ -8,6 +8,7 @@ export default function About({
     sectionChildren,
     paddingTop,
     paddingBottom,
+    section
 }) {
     return (
         <section className="section pt-0 pb-0 px-3">
@@ -21,11 +22,10 @@ export default function About({
                         >
                             <img
                                 className="about-image-1"
-                                src={asset(
-                                    "backend-assets/uploads/home_page_section_child_images/" +
-                                    sectionChildren[0]
-                                        .home_page_section_child_images
-                                )}
+                               src={asset(
+                                                                   "backend-assets/uploads/home_page_section_images/" +
+                                                                   section.home_page_section_images1
+                                                               )}
                                 alt="about image"
                             />
                         </div>
@@ -47,8 +47,8 @@ export default function About({
                                 }
                             </p>
                             <Link as="button" 
-                            href={sectionChildren[4].home_page_section_child_url} 
-                            className="button">{sectionChildren[4].home_page_section_child_title}
+                            href={sectionChildren[2].home_page_section_child_url} 
+                            className="button">{sectionChildren[2].home_page_section_child_title}
                             </Link>
                         </div>
                     </div>

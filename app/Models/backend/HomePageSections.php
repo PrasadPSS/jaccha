@@ -28,7 +28,9 @@ class HomePageSections extends Model
         'home_page_section_priority','home_page_section_no_prod','home_page_section_footer_title',
         'home_page_section_footer_sub_title','home_page_section_url', 'home_page_section_start_date',
         'home_page_section_end_date','padding_top','padding_bottom','home_page_section_product',
-
+        'home_page_section_images2', 'home_page_section_images1', 'home_page_section_text1', 'home_page_section_text2',
+        'home_page_section_text3' , 'home_page_section_text4', 'home_page_section_text5','home_page_section_text6',
+        'home_page_section_text7'
 
       ];
 

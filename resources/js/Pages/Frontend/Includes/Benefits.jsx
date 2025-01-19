@@ -8,6 +8,7 @@ export default function Benefits({
     sectionChildren,
     paddingTop,
     paddingBottom,
+    section
 }) {
     return (
         <div className="section pt-4 px-3">
@@ -22,10 +23,9 @@ export default function Benefits({
                         >
                             <img
                                 src={asset(
-                                    "backend-assets/uploads/home_page_section_child_images/" +
-                                        sectionChildren[1]
-                                            .home_page_section_child_images
-                                )}
+                                                                    "backend-assets/uploads/home_page_section_images/" +
+                                                                    section.home_page_section_images1
+                                                                )}
                             />
                         </div>
                     </div>
@@ -92,6 +92,8 @@ export default function Benefits({
                                             .home_page_section_child_title
                                     }
                                 </li>
+                                
+                                
                             </ul>
                             <Link as="button" 
                             href={sectionChildren[7].home_page_section_child_url} 

@@ -70,7 +70,7 @@ $size_types = ['upper'=>'Uppers','lower'=>'Lowers','shoes'=>'Shoes'];
                               {{ Form::number('home_page_section_no_prod', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section No of Items to be Display', 'min'=>'1']) }}
                             </div>
                           </div>
-                          @if($homepagesections->home_page_section_code == 'HeroSection')
+                          @if($homepagesections->home_page_section_code == 'HeroSection' )
                           <div class="col-md-12 col-12">
                             <fieldset class="form-group">
                               <div class="input-group">
@@ -81,7 +81,161 @@ $size_types = ['upper'=>'Uppers','lower'=>'Lowers','shoes'=>'Shoes'];
                               </div>
                             </fieldset>
                           </div>
+                          <div class="col-md-12 col-12">
+                              <div class="form-group">
+                                {{ Form::label('home_page_section_images1', 'Home Page Section Banner Image 1*') }}
+                                <div class="custom-file">
+                                  {{ Form::file('home_page_section_images1', ['class' => 'custom-file-input','id'=>'product_images']) }}
+                                  <label class="custom-file-label" for="home_page_section_images1">Choose file</label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-12 col-12">
+                              <div class="form-group">
+                                {{ Form::label('home_page_section_images2', 'Home Page Section Banner Image 2*') }}
+                                <div class="custom-file">
+                                  {{ Form::file('home_page_section_images2', ['class' => 'custom-file-input','id'=>'product_images']) }}
+                                  <label class="custom-file-label" for="home_page_section_images2">Choose file</label>
+                                </div>
+                              </div>
+                            </div>
+                            
+                          <div class="col-md-12 col-12">
+                            <div class="form-group">
+                              {{ Form::label('home_page_section_text1', 'Home Page Section Text') }}
+                              {{ Form::text('home_page_section_text1', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Text']) }}
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-12">
+                            <div class="form-group">
+                              {{ Form::label('home_page_section_text2', 'Home Page Section Text 2') }}
+                              {{ Form::text('home_page_section_text2', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Text 2']) }}
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-12">
+                            <div class="form-group">
+                              {{ Form::label('home_page_section_text3', 'Home Page Section Text 3') }}
+                              {{ Form::text('home_page_section_text3', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Text 3']) }}
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-12">
+                            <div class="form-group">
+                              {{ Form::label('home_page_section_text4', 'Home Page Section Text 4') }}
+                              {{ Form::text('home_page_section_text4', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Text 4']) }}
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-12">
+                            <div class="form-group">
+                              {{ Form::label('home_page_section_text5', 'Home Page Section Text 5') }}
+                              {{ Form::text('home_page_section_text5', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Text 5']) }}
+                            </div>
+                          </div>
+                          
+                         
+
+
+
                           @endif
+                          @if($homepagesections->home_page_section_code == 'Highlights' )
+                          <div class="col-md-12 col-12">
+                              <div class="form-group">
+                                {{ Form::label('home_page_section_images1', 'Home Page Section Banner Image 1*') }}
+                                <div class="custom-file">
+                                  {{ Form::file('home_page_section_images1', ['class' => 'custom-file-input','id'=>'product_images']) }}
+                                  <label class="custom-file-label" for="home_page_section_images1">Choose file</label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-12 col-12">
+                              <div class="form-group">
+                                {{ Form::label('home_page_section_images2', 'Home Page Section Banner Image 2*') }}
+                                <div class="custom-file">
+                                  {{ Form::file('home_page_section_images2', ['class' => 'custom-file-input','id'=>'product_images']) }}
+                                  <label class="custom-file-label" for="home_page_section_images2">Choose file</label>
+                                </div>
+                              </div>
+                            </div>
+                            
+                          <div class="col-md-12 col-12">
+                            <div class="form-group">
+                              {{ Form::label('home_page_section_text1', 'Home Page Section Text') }}
+                              {{ Form::text('home_page_section_text1', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Text']) }}
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-12">
+                            <div class="form-group">
+                              {{ Form::label('home_page_section_text2', 'Home Page Section Text 2') }}
+                              {{ Form::text('home_page_section_text2', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Text 2']) }}
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-12">
+                            <div class="form-group">
+                              {{ Form::label('home_page_section_text3', 'Home Page Section Text 3') }}
+                              {{ Form::text('home_page_section_text3', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Text 3']) }}
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-12">
+                            <div class="form-group">
+                              {{ Form::label('home_page_section_text4', 'Home Page Section Text 4') }}
+                              {{ Form::text('home_page_section_text4', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Text 4']) }}
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-12">
+                            <div class="form-group">
+                              {{ Form::label('home_page_section_text5', 'Home Page Section Text 5') }}
+                              {{ Form::text('home_page_section_text5', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Text 5']) }}
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-12">
+                            <div class="form-group">
+                              {{ Form::label('home_page_section_text6', 'Home Page Section Discount 1') }}
+                              {{ Form::text('home_page_section_text6', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Text 6']) }}
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-12">
+                            <div class="form-group">
+                              {{ Form::label('home_page_section_text7', 'Home Page Section Discount 2') }}
+                              {{ Form::text('home_page_section_text7', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Text 7']) }}
+                            </div>
+                          </div>
+                          @endif
+
+                          @if($homepagesections->home_page_section_code == 'Benefits' )
+                          <div class="col-md-12 col-12">
+                              <div class="form-group">
+                                {{ Form::label('home_page_section_images1', 'Image 1*') }}
+                                <div class="custom-file">
+                                  {{ Form::file('home_page_section_images1', ['class' => 'custom-file-input','id'=>'product_images']) }}
+                                  <label class="custom-file-label" for="home_page_section_images1">Choose file</label>
+                                </div>
+                              </div>
+                            </div>
+                          @endif
+                          @if($homepagesections->home_page_section_code == 'Testimonials' )
+                          <div class="col-md-12 col-12">
+                              <div class="form-group">
+                                {{ Form::label('home_page_section_images1', 'Image 1*') }}
+                                <div class="custom-file">
+                                  {{ Form::file('home_page_section_images1', ['class' => 'custom-file-input','id'=>'product_images']) }}
+                                  <label class="custom-file-label" for="home_page_section_images1">Choose file</label>
+                                </div>
+                              </div>
+                            </div>
+                          @endif
+                          @if($homepagesections->home_page_section_code == 'About' )
+                          <div class="col-md-12 col-12">
+                              <div class="form-group">
+                                {{ Form::label('home_page_section_images1', 'Image 1*') }}
+                                <div class="custom-file">
+                                  {{ Form::file('home_page_section_images1', ['class' => 'custom-file-input','id'=>'product_images']) }}
+                                  <label class="custom-file-label" for="home_page_section_images1">Choose file</label>
+                                </div>
+                              </div>
+                            </div>
+                            
+                          @endif
+                          
+
                           <div class="col-md-12 col-12">
                             <div class="form-group">
                               {{ Form::label('home_page_section_title', 'Home Page Section Title') }}

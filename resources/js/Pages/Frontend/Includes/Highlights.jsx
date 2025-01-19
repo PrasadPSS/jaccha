@@ -7,6 +7,7 @@ export default function Highlights({
     sectionChildren,
     paddingTop,
     paddingBottom,
+    section
 }) {
     
     return (
@@ -30,19 +31,18 @@ export default function Highlights({
                         >
                             <img
                                 src={asset(
-                                    "backend-assets/uploads/home_page_section_child_images/" +
-                                        sectionChildren[1]
-                                            .home_page_section_child_images
-                                )}
+                                                                    "backend-assets/uploads/home_page_section_images/" +
+                                                                    section.home_page_section_images1
+                                                                )}
                                 alt="hightlight image"
                             />
                             <div className="highlight-heading">
-                                <h2>{sectionChildren[1].home_page_section_child_title}</h2>
+                                <h2>{section.home_page_section_text1}</h2>
                             </div>
                             <div className="highlight_box-content">
-                                <h6>{sectionChildren[1].home_page_section_child_title}</h6>
-                                <span>{sectionChildren[1].home_page_section_child_sub_title}</span>
-                                <p className="mt-2">{sectionChildren[1].home_page_section_child_footer_title}</p>
+                                <h6>{section.home_page_section_text1}</h6>
+                                <span>{section.home_page_section_text6}</span>
+                                <p className="mt-2">{section.home_page_section_text2}</p>
                             </div>
                         </div>
                     </div>
@@ -54,19 +54,18 @@ export default function Highlights({
                         >
                             <img
                                 src={asset(
-                                    "backend-assets/uploads/home_page_section_child_images/" +
-                                        sectionChildren[2]
-                                            .home_page_section_child_images
-                                )}
+                                                                    "backend-assets/uploads/home_page_section_images/" +
+                                                                    section.home_page_section_images2
+                                                                )}
                                 alt="hightlight image"
                             />
                             <div className="highlight-heading">
-                                <h2>{sectionChildren[2].home_page_section_child_title}</h2>
+                                <h2>{section.home_page_section_text3}</h2>
                             </div>
                             <div className="highlight_box-content">
-                                <h6>{sectionChildren[2].home_page_section_child_title}</h6>
-                                <span>{sectionChildren[2].home_page_section_child_sub_title}</span>
-                                <p className="mt-2">{sectionChildren[2].home_page_section_child_footer_title}</p>
+                                <h6>{section.home_page_section_text3}</h6>
+                                <span>{section.home_page_section_text7}</span>
+                                <p className="mt-2">{section.home_page_section_text4}</p>
                             </div>
                         </div>
                     </div>
@@ -76,8 +75,7 @@ export default function Highlights({
                         <div className="highlight-text" data-aos="fade-up">
                             <p
                                 dangerouslySetInnerHTML={{
-                                    __html: sectionChildren[3]
-                                        .home_page_section_child_sub_title,
+                                    __html: section.home_page_section_text5,
                                 }}
                             ></p>
                         </div>

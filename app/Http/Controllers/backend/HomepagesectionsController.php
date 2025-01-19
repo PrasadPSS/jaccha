@@ -221,11 +221,57 @@ class HomepagesectionsController extends Controller
         'home_page_section_type_id' => ['required'],
         'home_page_section_priority' => ['required'],
         'home_page_section_no_prod' => ['required_unless:home_page_section_type_id,1'],
-        'home_page_section_product' => ['required']
       ]);
       $id = $request->input('home_page_section_id');
       $homepagesections = HomePageSections::findOrFail($id);
       $homepagesections->fill($request->all());
+
+      if ($request->hasFile('home_page_section_images1'))
+      {
+        $image = $request->file('home_page_section_images1');
+        $destinationPath = public_path('/backend-assets/uploads/home_page_section_images');
+        if (!file_exists($destinationPath))
+        {
+          mkdir($destinationPath,0777);
+        }
+        if (is_array($image))
+        {
+
+        }
+        else
+        {
+          $name = time().rand(1,100).'.'.$image->getClientOriginalExtension();
+          $image->move($destinationPath, $name);
+
+          $homepagesections->home_page_section_images1 = $name;
+  
+          // $home_page_section_child->save();
+        }
+      }
+
+      if ($request->hasFile('home_page_section_images2'))
+      {
+        $image = $request->file('home_page_section_images2');
+        $destinationPath = public_path('/backend-assets/uploads/home_page_section_images');
+        if (!file_exists($destinationPath))
+        {
+          mkdir($destinationPath,0777);
+        }
+        if (is_array($image))
+        {
+
+        }
+        else
+        {
+          $name = time().rand(1,100).'.'.$image->getClientOriginalExtension();
+          $image->move($destinationPath, $name);
+
+          $homepagesections->home_page_section_images2 = $name;
+  
+          // $home_page_section_child->save();
+        }
+      }
+      
 
       if($homepagesections->update())
       {

@@ -34,7 +34,7 @@ export default function ProductPage({ auth, laravelVersion, phpVersion, homepage
               paddingTop={section.padding_top}
               paddingBottom={section.padding_bottom}
               product={section.product}
-            
+              section={section}
               data={data}
             />
           );

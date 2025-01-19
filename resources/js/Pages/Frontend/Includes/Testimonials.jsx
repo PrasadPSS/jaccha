@@ -7,6 +7,7 @@ export default function Testimonials({
     sectionChildren,
     paddingTop,
     paddingBottom,
+    section
 }) {
     const testimonials = [];
     sectionChildren.forEach((element) => {
@@ -127,10 +128,9 @@ export default function Testimonials({
                             <img
                                 className="testimonial-img"
                                 src={asset(
-                                    "backend-assets/uploads/home_page_section_child_images/" +
-                                        sectionChildren[2]
-                                            .home_page_section_child_images
-                                )}
+                                                                    "backend-assets/uploads/home_page_section_images/" +
+                                                                    section.home_page_section_images1
+                                                                )}
                             />
                             <div className="dot-bg">
                                 <img

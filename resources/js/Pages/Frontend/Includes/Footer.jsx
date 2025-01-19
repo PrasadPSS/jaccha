@@ -98,7 +98,7 @@ export default function Footer() {
                 </div>
                 <div className="footer-bottom">
                     <div className="copy-text">
-                        <p>{company.copyright}</p>
+                        <p>@{company.copyright} Jaccha. All Rights Reserved.</p>
                     </div>
                     <div className="social-text">
                         <p>

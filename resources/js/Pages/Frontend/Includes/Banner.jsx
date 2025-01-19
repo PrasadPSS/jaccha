@@ -9,8 +9,9 @@ export default function Banner({
     paddingTop,
     paddingBottom,
     product,
+    section
 }) {
-    console.log('product', product.product_thumb);
+    console.log('section', section);
     return (
         <section className="section banner">
             <div className="container pb-lg-5">
@@ -60,9 +61,8 @@ export default function Banner({
                         <div className="about-us-image">
                             <img
                                 src={asset(
-                                    "backend-assets/uploads/home_page_section_child_images/" +
-                                        sectionChildren[3]
-                                            .home_page_section_child_images
+                                    "backend-assets/uploads/home_page_section_images/" +
+                                    section.home_page_section_images1
                                 )}
                                 alt="about image"
                                 data-aos="fade-right"
@@ -70,13 +70,13 @@ export default function Banner({
 
                             <h6 className="mt-3 mb-2" data-aos="fade-right">
                                 {
-                                    sectionChildren[4]
-                                        .home_page_section_child_title
+                                    section.home_page_section_text1
                                 }
                             </h6>
                             <p data-aos="fade-right">
-                                Certified Nutritionist &<br />
-                                Maternal Wellness Expert
+                                {
+                                    section.home_page_section_text2
+                                }
                             </p>
                             <div
                                 className="pink-box"
@@ -86,8 +86,7 @@ export default function Banner({
                                 <i className="fal fa-long-arrow-right"></i>
                                 <span>
                                     {
-                                        sectionChildren[8]
-                                            .home_page_section_child_title
+                                        section.home_page_section_text5
                                     }
                                 </span>
                             </div>
@@ -100,11 +99,10 @@ export default function Banner({
                                 data-aos="fade-right"
                                 data-aos-delay="1200"
                             >
-                                <h4 className="sub-heading mb-3">About Us</h4>
+                                <h4 className="sub-heading mb-3">{section.home_page_section_text3}</h4>
                                 <p
                                     dangerouslySetInnerHTML={{
-                                        __html: sectionChildren[5]
-                                            .home_page_section_child_sub_title,
+                                        __html: section.home_page_section_text4,
                                     }}
                                 ></p>
                             </div>
@@ -148,9 +146,8 @@ export default function Banner({
                             <div className="about-right">
                                 <img
                                     src={asset(
-                                        "backend-assets/uploads/home_page_section_child_images/" +
-                                            sectionChildren[6]
-                                                .home_page_section_child_images
+                                        "backend-assets/uploads/home_page_section_images/" +
+                                        section.home_page_section_images2
                                     )}
                                     alt="about image"
                                     data-aos="fade-right"
