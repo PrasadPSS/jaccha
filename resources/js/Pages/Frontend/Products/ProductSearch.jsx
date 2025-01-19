@@ -11,13 +11,13 @@ import FirstOrder from './FirstOrder';
 import Testimonials from '../Includes/Testimonials';
 
 
-export default function ProductSearch({ auth, products, homepagesections }) {
+export default function ProductSearch({ auth, products, homepagesections,sizes,prices }) {
 
     let productDetails = [];
     products.map((element)=>
         {
             productDetails.push( {id: element.product_id, name: element.product_title, added: auth.user != null ? auth.wishlist.some(wishlist=>wishlist.user_id == auth.user.id && wishlist.product_id == element.product_id) : false, category: element.category_slug, price: element.product_price, image: '/backend-assets/uploads/product_thumbs/' + element.product_thumb, description: 'Sample 1', reviews: element.reviews != null ? element.reviews.length: 0, 
-                rating: element.reviews_avg_rating != null ? Number(element.reviews_avg_rating) : 0,size: 'Small', updatedAt: new Date(element.updated_at).getTime(), discount: element.product_discounted_amount});
+                rating: element.reviews_avg_rating != null ? Number(element.reviews_avg_rating) : 0,size: element.product_weight, updatedAt: new Date(element.updated_at).getTime(), discount: element.product_discounted_amount});
         })
     
 
@@ -68,10 +68,10 @@ export default function ProductSearch({ auth, products, homepagesections }) {
 
             <Head title="Product Listing" />
             {/* <ProductBanner></ProductBanner> */}
-            <ProductListing products={productDetails}></ProductListing>
+            <ProductListing products={productDetails} sizes1={sizes} prices={prices}></ProductListing>
             <FirstOrder></FirstOrder>
             <div className='pt-4 mb-4'></div>
-            <Testimonials sectionChildren={homepagesections[5].section_childs}></Testimonials>
+            <Testimonials sectionChildren={homepagesections[5].section_childs} section={homepagesections[5]}></Testimonials>
         </HomeLayout>
     );
 }

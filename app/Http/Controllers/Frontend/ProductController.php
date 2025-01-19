@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\backend\FeaturedProducts;
 use App\Models\backend\HomePageSections;
+use App\Models\backend\Prices;
 use App\Models\backend\ProductImages;
 use App\Models\backend\Products;
 
 use App\Models\backend\ProductVariants;
 use App\Models\backend\RelatedProducts;
+use App\Models\backend\Sizes;
 use App\Models\CartItem;
 
 use App\Models\frontend\Cart;
@@ -25,6 +27,8 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $data['products'] =  Products::withAvg('reviews', 'rating');
+        $data['sizes'] = Sizes::all();
+        $data['prices'] = Prices::all();
         if($request->querys != null || $request->querys != '')
         {
             $data['products']->where('product_title', 'like', '%' . $request->querys . '%')

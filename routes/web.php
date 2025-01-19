@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\PricesController;
 use App\Http\Controllers\Frontend\GoogleLoginController;
 use App\Http\Controllers\Frontend\HomeController;
 
@@ -400,6 +401,14 @@ Route::prefix('admin')->group(function () {
         Route::get('/sellers/delete/{id}', [SellersController::class, 'destroy'])->name('admin.sellers.delete');
         Route::get('/sellers/view/{id}', [SellersController::class, 'show'])->name('admin.sellers.view');
         Route::resource('admin/sellers', 'SellersController');
+
+        Route::get('/prices/view', [PricesController::class, 'index'])->name('admin.prices');
+        Route::get('/prices/create', [PricesController::class, 'create'])->name('admin.prices.create');
+        Route::post('/prices/store', [PricesController::class, 'store'])->name('admin.prices.store');
+        Route::get('/prices/edit/{id}', [PricesController::class, 'edit'])->name('admin.prices.edit');
+        Route::post('/prices/update', [PricesController::class, 'update'])->name('admin.prices.update');
+        Route::get('/prices/delete/{id}', [PricesController::class, 'destroy'])->name('admin.prices.delete');
+        Route::get('/prices/view/{id}', [PricesController::class, 'show'])->name('admin.prices.view');
 
         Route::get('/manufacturers', [ManufacturersController::class, 'index'])->name('admin.manufacturers');
         Route::get('/manufacturers/create', [ManufacturersController::class, 'create'])->name('admin.manufacturers.create');

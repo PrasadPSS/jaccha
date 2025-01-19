@@ -4,9 +4,20 @@ import ProductList from './ProductList';
 import { useEffect } from 'react';
 
 
-export default function ProductListing({ products }) {
+export default function ProductListing({ products, sizes1, prices }) {
 
     let auth = usePage().props.auth;
+    let sizes= [];
+    let prices1 =[];
+    sizes1.map((size)=> 
+        {
+            sizes.push(size.size_name);
+        });
+        prices.map((price)=> 
+            {
+                prices1.push({ label: price.price_name, min: price.min, max: price.max });
+            });
+    console.log('pricess', prices);
     // State for filters
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedSizes, setSelectedSizes] = useState([]);
@@ -14,7 +25,7 @@ export default function ProductListing({ products }) {
     const [selectedSort, setSelectedSort] = useState("low-to-high");
 
     const [currentPage, setCurrentPage] = useState(1);
-
+    console.log('productss', products);
 
 
     // Handle filter changes
@@ -182,11 +193,7 @@ export default function ProductListing({ products }) {
                                     >
                                         <div className="accordion-body">
                                             <ul>
-                                                {[
-                                                    { label: "₹ 0 to ₹ 500", min: 0, max: 500 },
-                                                    { label: "₹ 500 to ₹ 1000", min: 500, max: 1000 },
-                                                    { label: "Above ₹ 1000", min: 1000, max: Infinity },
-                                                ].map((range) => (
+                                                {prices1.map((range) => (
                                                     <li key={range.label}>
                                                         <div className="form-check">
                                                             <input
@@ -230,15 +237,15 @@ export default function ProductListing({ products }) {
                                     >
                                         <div className="accordion-body">
                                             <ul>
-                                                {["Small", "Medium", "Large"].map((size) => (
-                                                    <li key={size}>
+                                                {sizes.map((size) => (
+                                                    <li key={size.size_name}>
                                                         <div className="form-check">
                                                             <input
                                                                 className="form-check-input"
                                                                 type="checkbox"
-                                                                value={size}
+                                                                value={size.size_name}
                                                                 onChange={() =>
-                                                                    handleSizeChange(size)
+                                                                    handleSizeChange(size.size_name)
                                                                 }
                                                             />
                                                             <label className="form-check-label">

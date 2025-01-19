@@ -69,7 +69,7 @@ export default function ProductSearch({ auth, products, homepagesections }) {
             <ProductListing products={productDetails}></ProductListing>
             <FirstOrder></FirstOrder>
             <div className='pt-4 mb-4'></div>
-            <Testimonials sectionChildren={homepagesections[5].section_childs}></Testimonials>
+            <Testimonials sectionChildren={homepagesections[5].section_childs} section={homepagesections[5]}></Testimonials>
         </HomeLayout>
     );
 }
