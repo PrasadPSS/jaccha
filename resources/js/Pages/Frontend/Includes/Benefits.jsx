@@ -48,6 +48,26 @@ export default function Benefits({
                                         alt="tickmark"
                                     />
                                     {
+                                        sectionChildren[0]
+                                            .home_page_section_child_title
+                                    }
+                                </li>
+                                <li>
+                                    <img
+                                        src="./assets/images/tickmark.png"
+                                        alt="tickmark"
+                                    />
+                                    {
+                                        sectionChildren[1]
+                                            .home_page_section_child_title
+                                    }
+                                </li>
+                                <li>
+                                    <img
+                                        src="./assets/images/tickmark.png"
+                                        alt="tickmark"
+                                    />
+                                    {
                                         sectionChildren[2]
                                             .home_page_section_child_title
                                     }
@@ -72,33 +92,13 @@ export default function Benefits({
                                             .home_page_section_child_title
                                     }
                                 </li>
-                                <li>
-                                    <img
-                                        src="./assets/images/tickmark.png"
-                                        alt="tickmark"
-                                    />
-                                    {
-                                        sectionChildren[5]
-                                            .home_page_section_child_title
-                                    }
-                                </li>
-                                <li>
-                                    <img
-                                        src="./assets/images/tickmark.png"
-                                        alt="tickmark"
-                                    />
-                                    {
-                                        sectionChildren[6]
-                                            .home_page_section_child_title
-                                    }
-                                </li>
                                 
                                 
                             </ul>
                             <Link as="button" 
-                            href={sectionChildren[7].home_page_section_child_url} 
+                            href={sectionChildren[5].home_page_section_child_url} 
                             className="button mt-4">
-                            {sectionChildren[7].home_page_section_child_title}
+                            {sectionChildren[5].home_page_section_child_title}
                             </Link>
                         </div>
                     </div>
