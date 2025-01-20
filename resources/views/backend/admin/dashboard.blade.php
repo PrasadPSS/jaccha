@@ -333,7 +333,7 @@
                                     <div class="card">
                                         <div class="row">
                                             <!-- Order Summary Starts -->
-                                            <div class="col-md-8 col-12 order-summary border-right pr-md-0">
+                                            <!-- <div class="col-md-8 col-12 order-summary border-right pr-md-0">
                                                 <div class="card mb-0">
                                                     <div
                                                         class="card-header d-flex justify-content-between align-items-center">
@@ -347,11 +347,12 @@
                                                     </div>
                                                     <div class="card-content">
                                                         <div class="card-body p-0">
-                                                            <div id="order-summary-chart"></div>
+                                                        <canvas id="salesChart" width="400" height="200"></canvas>
+                                                         
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!-- Sales History Starts -->
                                             <div class="col-md-4 col-12 pl-md-0">
                                                 <div class="card mb-0">
@@ -404,18 +405,7 @@
                                             <div
                                                 class="card-header d-flex justify-content-between align-items-center pb-50">
                                                 <h4 class="card-title">Latest Update</h4>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
-                                                        type="button" id="dropdownMenuButtonSec" data-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false">
-                                                        2019
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonSec">
-                                                        <a class="dropdown-item" href="#">2019</a>
-                                                        <a class="dropdown-item" href="#">2018</a>
-                                                        <a class="dropdown-item" href="#">2017</a>
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                             <div class="card-content">
                                                 <div class="card-body p-0 pb-1">
@@ -1368,6 +1358,7 @@
 
 
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="{{ asset('backend-assets/vendors/js/tables/datatable/pdfmake.min.js') }}"></script>
     <script src="{{ asset('backend-assets/vendors/js/tables/datatable/vfs_fonts.js') }}"></script>
     <script src="{{ asset('backend-assets/vendors/js/tables/datatable/datatables.min.js') }}"></script>
@@ -1381,6 +1372,7 @@
 
     <script>
         $(document).ready(function() {
+           
             $('#tbl-datatable').DataTable().destroy();
             // $.extend(true, $.fn.dataTable.defaults, {
             //     "pageLength": 20,
