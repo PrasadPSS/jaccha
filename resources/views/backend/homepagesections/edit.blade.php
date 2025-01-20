@@ -90,6 +90,7 @@ $size_types = ['upper'=>'Uppers','lower'=>'Lowers','shoes'=>'Shoes'];
                                 </div>
                               </div>
                             </div>
+                            <img width="200" height="150" class="ml-2" src="{{asset('backend-assets/uploads/home_page_section_images/' . $homepagesections->home_page_section_images1)}}"/>
                             <div class="col-md-12 col-12">
                               <div class="form-group">
                                 {{ Form::label('home_page_section_images2', 'Home Page Section Banner Image 2*') }}
@@ -99,7 +100,7 @@ $size_types = ['upper'=>'Uppers','lower'=>'Lowers','shoes'=>'Shoes'];
                                 </div>
                               </div>
                             </div>
-                            
+                            <img width="200" height="150" class="ml-2" src="{{asset('backend-assets/uploads/home_page_section_images/' . $homepagesections->home_page_section_images2)}}"/>
                           <div class="col-md-12 col-12">
                             <div class="form-group">
                               {{ Form::label('home_page_section_text1', 'Home Page Section Text') }}
@@ -146,6 +147,7 @@ $size_types = ['upper'=>'Uppers','lower'=>'Lowers','shoes'=>'Shoes'];
                                 </div>
                               </div>
                             </div>
+                            <img width="200" height="150" class="ml-2" src="{{asset('backend-assets/uploads/home_page_section_images/' . $homepagesections->home_page_section_images1)}}"/>
                             <div class="col-md-12 col-12">
                               <div class="form-group">
                                 {{ Form::label('home_page_section_images2', 'Home Page Section Banner Image 2*') }}
@@ -155,7 +157,7 @@ $size_types = ['upper'=>'Uppers','lower'=>'Lowers','shoes'=>'Shoes'];
                                 </div>
                               </div>
                             </div>
-                            
+                            <img width="200" height="150" class="ml-2" src="{{asset('backend-assets/uploads/home_page_section_images/' . $homepagesections->home_page_section_images2)}}"/>
                           <div class="col-md-12 col-12">
                             <div class="form-group">
                               {{ Form::label('home_page_section_text1', 'Home Page Section Text') }}
@@ -210,6 +212,7 @@ $size_types = ['upper'=>'Uppers','lower'=>'Lowers','shoes'=>'Shoes'];
                                 </div>
                               </div>
                             </div>
+                            <img width="200" height="150" class="ml-2" src="{{asset('backend-assets/uploads/home_page_section_images/' . $homepagesections->home_page_section_images1)}}"/>
                           @endif
                           @if($homepagesections->home_page_section_code == 'Testimonials' )
                           <div class="col-md-12 col-12">
@@ -221,6 +224,7 @@ $size_types = ['upper'=>'Uppers','lower'=>'Lowers','shoes'=>'Shoes'];
                                 </div>
                               </div>
                             </div>
+                            <img width="200" height="150" class="ml-2" src="{{asset('backend-assets/uploads/home_page_section_images/' . $homepagesections->home_page_section_images1)}}"/>
                           @endif
                           @if($homepagesections->home_page_section_code == 'About' )
                           <div class="col-md-12 col-12">
@@ -232,7 +236,7 @@ $size_types = ['upper'=>'Uppers','lower'=>'Lowers','shoes'=>'Shoes'];
                                 </div>
                               </div>
                             </div>
-                            
+                            <img width="200" height="150" class="ml-2" src="{{asset('backend-assets/uploads/home_page_section_images/' . $homepagesections->home_page_section_images1)}}"/>
                           @endif
                           
 
