@@ -1,5 +1,5 @@
-import { getCsrfToken } from "@/Helpers/getCsrfToken";
-import { Link } from "@inertiajs/react";
+
+import { Link, usePage } from "@inertiajs/react";
 import React, { useState } from "react";
 
 const ProductList = ({ filteredProducts, setCurrentPage, currentPage }) => {
@@ -21,7 +21,7 @@ const ProductList = ({ filteredProducts, setCurrentPage, currentPage }) => {
         setCurrentPage(pageNumber);
     };
 
-    let token = getCsrfToken();
+    let token = usePage().props.auth.csrf_token;;
 
 
     return (

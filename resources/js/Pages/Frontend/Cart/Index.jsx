@@ -9,7 +9,7 @@ import { asset } from '@/Helpers/asset';
 import HomeLayout from '@/Layouts/HomeLayout';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
-import { getCsrfToken } from '@/Helpers/getCsrfToken';
+
 
 export default function ProductSearch({ auth, cart, cart_amount }) {
     let token =  usePage().props.auth.csrf_token;

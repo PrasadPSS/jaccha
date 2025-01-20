@@ -1358,7 +1358,6 @@
 
 
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="{{ asset('backend-assets/vendors/js/tables/datatable/pdfmake.min.js') }}"></script>
     <script src="{{ asset('backend-assets/vendors/js/tables/datatable/vfs_fonts.js') }}"></script>
     <script src="{{ asset('backend-assets/vendors/js/tables/datatable/datatables.min.js') }}"></script>

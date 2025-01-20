@@ -1,4 +1,4 @@
-import { getCsrfToken } from '@/Helpers/getCsrfToken';
+
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import HomeLayout from '@/Layouts/HomeLayout';
 import UserMenu from '@/Layouts/UserMenu';
@@ -7,7 +7,7 @@ import React from 'react';
 
 export default function Index({ wishlist }) {
 
-    let token =  getCsrfToken();
+    let token =  usePage().props.auth.csrf_token;;
     const auth = usePage().props.auth;
     const handleAddToCart = (id, quantity = 1) => {
         router.post('/wishlist/add-to-cart', { product_id: id, quantity: quantity }, {

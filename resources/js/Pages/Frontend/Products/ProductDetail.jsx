@@ -7,7 +7,7 @@ import ReviewsListing from './ReviewsListing';
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import ReviewForm from './ReviewForm';
-import { getCsrfToken } from '@/Helpers/getCsrfToken';
+
 
 
 const ProductDetail = ({ auth, product, product_reviews, product_images, average_rating, related_product_list }) => {
@@ -15,7 +15,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
     const [sweetnessLevel, setSweetness] = useState('');
     const [ingredients, setIngredients] = useState('');
     const [exclusions, setExclusions] = useState('');
-    let token = getCsrfToken();
+    let token = usePage().props.auth.csrf_token;;
     const handleAddAllToCart = () => {
         related_product_list.forEach((item) => {
             const { product } = item;

@@ -1,10 +1,10 @@
-import { getCsrfToken } from '@/Helpers/getCsrfToken';
+
 import HomeLayout from '@/Layouts/HomeLayout';
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function ForgotPassword({ shipping_address }) {
-    let token =  getCsrfToken();
+    let token =  usePage().props.auth.csrf_token;;
     const auth = usePage().props.auth;
     const [email, setEmail] = useState("");
     const handleEmailChange =(e)=>{

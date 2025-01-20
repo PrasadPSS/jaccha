@@ -1,6 +1,6 @@
 import { asset } from "@/Helpers/asset";
-import { getCsrfToken } from "@/Helpers/getCsrfToken";
-import { Link } from "@inertiajs/react";
+
+import { Link, usePage } from "@inertiajs/react";
 import React from "react";
 
 export default function Featured({
@@ -29,7 +29,7 @@ export default function Featured({
             discount: element.product_discounted_amount,
         });
     });
-    let token = getCsrfToken();
+    let token = usePage().props.auth.csrf_token;;
     return (
         <section className="section pt-2">
             <div className="container">
