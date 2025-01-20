@@ -132,10 +132,10 @@ export default function OrderCheckout({ auth, data }) {
                             <div className="col-sm-7">
                                 <div className="checkout-form pt-5 d-flex align-items-center">
                                     <h4 className="mb-0">Address Details</h4>
-                                    <button type="button" className="btn add-new-address-btn" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal">
+                                    <Link href="/profile/view" type="button" className="btn add-new-address-btn"
+                                        >
                                         <i className="fas fa-plus-circle"></i> Add New Address
-                                    </button>
+                                    </Link>
                                     {/* <div className="row">
                                         <div className="col-sm-12">
                                             <div className="form-inputs mb-3">
