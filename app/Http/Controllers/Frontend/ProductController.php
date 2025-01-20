@@ -47,8 +47,13 @@ class ProductController extends Controller
     {
         $data['sizes'] = Sizes::all();
         $data['prices'] = Prices::all();
-        $cartegoryid= Categories::where('category_slug', $category_slug)->first()->category_id;
-        $exists = Productlist::where('category_id', $cartegoryid)->exists();
+        $exists = false;
+        if($category_slug != 'featured-products')
+        {
+            $cartegoryid= Categories::where('category_slug', $category_slug)->first()->category_id;
+            $exists = Productlist::where('category_id', $cartegoryid)->exists();
+        }
+       
         if($exists)
         {
             $data['categorycontent'] = Productlist::where('category_id', $cartegoryid)->first();
