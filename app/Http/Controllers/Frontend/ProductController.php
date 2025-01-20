@@ -48,7 +48,7 @@ class ProductController extends Controller
         $data['sizes'] = Sizes::all();
         $data['prices'] = Prices::all();
         $exists = false;
-        if($category_slug != 'featured-products')
+        if($category_slug != 'featured-products' && $category_slug != 'new-arrival')
         {
             $cartegoryid= Categories::where('category_slug', $category_slug)->first()->category_id;
             $exists = Productlist::where('category_id', $cartegoryid)->exists();
@@ -66,9 +66,11 @@ class ProductController extends Controller
   
         if($category_slug == 'new-arrival')
         {
+            
             $data['products'] = Products::where('new_arrival', 1)->withAvg('reviews', 'rating')->get();
+            info(json_encode($data['products']));
         }
-        if($category_slug == 'featured-products')
+        else if($category_slug == 'featured-products')
         {
             $featuredProducts = FeaturedProducts::select('product_id')->first();
             $data['products'] = Products::whereIn('product_id', explode(',',$featuredProducts['product_id']))->withAvg('reviews', 'rating')->get();
