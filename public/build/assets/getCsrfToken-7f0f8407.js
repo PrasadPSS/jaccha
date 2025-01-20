@@ -1,1 +1,0 @@
-async function r(){if(!csrfToken){const e=await fetch("/refresh-csrf",{method:"GET",credentials:"same-origin"});if(e.ok){const o=await e.json();csrfToken=o.csrf_token}else throw new Error("Failed to fetch CSRF token")}return csrfToken}export{r as g};
