@@ -9,10 +9,11 @@ import ProductBanner from '../Products/ProductBanner';
 import ProductListing from '../Products/ProductListing';
 import FirstOrder from '../Products/FirstOrder';
 import Testimonials from '../Includes/Testimonials';
+import CategoriesContent from '../Includes/CategoriesContent';
 
 
 
-export default function ProductSearch({ auth, products, homepagesections, sizes,prices }) {
+export default function ProductSearch({ auth, products, homepagesections, sizes,prices, categorycontent }) {
 
     let productDetails = [];
     products.map((element)=>
@@ -22,7 +23,7 @@ export default function ProductSearch({ auth, products, homepagesections, sizes,
     const [search, setSearch] = useState("");
     const [minPrice, setMinPrice] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
-
+        
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
@@ -67,6 +68,9 @@ export default function ProductSearch({ auth, products, homepagesections, sizes,
             <Head title="Product Listing" />
             {/* <ProductBanner></ProductBanner> */}
             <ProductListing products={productDetails} sizes1={sizes} prices={prices}></ProductListing>
+            {categorycontent && <CategoriesContent categoriescontent={categorycontent}/>}
+            
+
             <FirstOrder></FirstOrder>
             <div className='pt-4 mb-4'></div>
             <Testimonials sectionChildren={homepagesections[5].section_childs} section={homepagesections[5]}></Testimonials>

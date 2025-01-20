@@ -7,6 +7,7 @@ use App\Models\backend\FeaturedProducts;
 use App\Models\backend\HomePageSections;
 use App\Models\backend\Prices;
 use App\Models\backend\ProductImages;
+use App\Models\backend\Productlist;
 use App\Models\backend\Products;
 
 use App\Models\backend\ProductVariants;
@@ -15,7 +16,9 @@ use App\Models\backend\Sizes;
 use App\Models\CartItem;
 
 use App\Models\frontend\Cart;
+use App\Models\frontend\Categories;
 use App\Models\frontend\Review;
+use App\Models\frontend\SubCategories;
 use App\Models\frontend\Wishlists;
 use Illuminate\Http\Request;
 
@@ -44,6 +47,18 @@ class ProductController extends Controller
     {
         $data['sizes'] = Sizes::all();
         $data['prices'] = Prices::all();
+        $cartegoryid= Categories::where('category_slug', $category_slug)->first()->category_id;
+        $exists = Productlist::where('category_id', $cartegoryid)->exists();
+        if($exists)
+        {
+            $data['categorycontent'] = Productlist::where('category_id', $cartegoryid)->first();
+        }
+        else
+        {
+            $data['categorycontent'] = Null;
+        }
+       
+  
         if($category_slug == 'new-arrival')
         {
             $data['products'] = Products::where('new_arrival', 1)->withAvg('reviews', 'rating')->get();
@@ -64,9 +79,20 @@ class ProductController extends Controller
 
     public function subcategory($subcategory_slug)
     {
-       
         $data['sizes'] = Sizes::all();
         $data['prices'] = Prices::all();
+        $subcategoryid= SubCategories::where('sub_category_slug', $subcategory_slug)->first()->subcategory_id;
+        $exists = Productlist::where('sub_category_id', $subcategoryid)->exists();
+        if($exists)
+        {
+            $data['categorycontent'] = Productlist::where('sub_category_id', $subcategoryid)->first();
+        }
+        else
+        {
+            $data['categorycontent'] = Null;
+        }
+        
+        
         $data['products'] = Products::where('sub_category_slug', $subcategory_slug)->withAvg('reviews', 'rating')->get();
         
         $data['homepagesections'] = HomePageSections::where('visibility', 1)->orderBy('home_page_section_priority')->with('home_page_section_type', 'section_childs')->get();
