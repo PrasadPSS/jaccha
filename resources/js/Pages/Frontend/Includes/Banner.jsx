@@ -46,9 +46,8 @@ export default function Banner({
                         >
                             <img
                                 src={asset(
-                                    "backend-assets/uploads/home_page_section_child_images/" +
-                                        sectionChildren[2]
-                                            .home_page_section_child_images
+                                    "assets/images/banner.png" 
+                                        
                                 )}
                             />
                         </div>
