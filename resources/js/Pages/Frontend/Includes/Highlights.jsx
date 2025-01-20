@@ -88,13 +88,13 @@ export default function Highlights({
                                 <img
                                     src={asset(
                                         "backend-assets/uploads/home_page_section_child_images/" +
-                                            sectionChildren[4]
+                                            sectionChildren[0]
                                                 .home_page_section_child_images
                                     )}
                                 />
                                 <p
                                     dangerouslySetInnerHTML={{
-                                        __html: sectionChildren[4]
+                                        __html: sectionChildren[0]
                                             .home_page_section_child_sub_title,
                                     }}
                                 ></p>
@@ -107,13 +107,13 @@ export default function Highlights({
                                 <img
                                     src={asset(
                                         "backend-assets/uploads/home_page_section_child_images/" +
-                                            sectionChildren[5]
+                                            sectionChildren[1]
                                                 .home_page_section_child_images
                                     )}
                                 />
                                 <p
                                     dangerouslySetInnerHTML={{
-                                        __html: sectionChildren[5]
+                                        __html: sectionChildren[1]
                                             .home_page_section_child_sub_title,
                                     }}
                                 ></p>
@@ -126,14 +126,14 @@ export default function Highlights({
                                 <img
                                     src={asset(
                                         "backend-assets/uploads/home_page_section_child_images/" +
-                                            sectionChildren[6]
+                                            sectionChildren[2]
                                                 .home_page_section_child_images
                                     )}
                                     alt="highlight icon"
                                 />
                                 <p
                                     dangerouslySetInnerHTML={{
-                                        __html: sectionChildren[6]
+                                        __html: sectionChildren[2]
                                             .home_page_section_child_sub_title,
                                     }}
                                 ></p>
@@ -146,14 +146,14 @@ export default function Highlights({
                                 <img
                                     src={asset(
                                         "backend-assets/uploads/home_page_section_child_images/" +
-                                            sectionChildren[7]
+                                            sectionChildren[3]
                                                 .home_page_section_child_images
                                     )}
                                     alt="highlight icon"
                                 />
                                 <p
                                     dangerouslySetInnerHTML={{
-                                        __html: sectionChildren[7]
+                                        __html: sectionChildren[3]
                                             .home_page_section_child_sub_title,
                                     }}
                                 ></p>
@@ -166,14 +166,14 @@ export default function Highlights({
                                 <img
                                     src={asset(
                                         "backend-assets/uploads/home_page_section_child_images/" +
-                                            sectionChildren[8]
+                                            sectionChildren[4]
                                                 .home_page_section_child_images
                                     )}
                                     alt="highlight icon"
                                 />
                                 <p
                                     dangerouslySetInnerHTML={{
-                                        __html: sectionChildren[8]
+                                        __html: sectionChildren[4]
                                             .home_page_section_child_sub_title,
                                     }}
                                 ></p>
@@ -186,14 +186,14 @@ export default function Highlights({
                                 <img
                                     src={asset(
                                         "backend-assets/uploads/home_page_section_child_images/" +
-                                            sectionChildren[9]
+                                            sectionChildren[5]
                                                 .home_page_section_child_images
                                     )}
                                     alt="highlight icon"
                                 />
                                 <p
                                     dangerouslySetInnerHTML={{
-                                        __html: sectionChildren[9]
+                                        __html: sectionChildren[5]
                                             .home_page_section_child_sub_title,
                                     }}
                                 ></p>
