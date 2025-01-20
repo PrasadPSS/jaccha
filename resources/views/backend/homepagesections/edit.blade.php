@@ -309,18 +309,7 @@ $size_types = ['upper'=>'Uppers','lower'=>'Lowers','shoes'=>'Shoes'];
                               {{ Form::number('home_page_section_priority', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Priority']) }}
                             </div>
                           </div>
-                          <div class="col-md-6 col-6">
-                            <div class="form-group">
-                              {{ Form::label('padding_top', 'Home Page Section Top Padding') }}
-                              {{ Form::text('padding_top', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Top Padding']) }}
-                            </div>
-                          </div>
-                          <div class="col-md-6 col-6">
-                            <div class="form-group">
-                              {{ Form::label('padding_bottom', 'Home Page Section Bottom Padding') }}
-                              {{ Form::text('padding_bottom', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Bottom Padding']) }}
-                            </div>
-                          </div>
+                          
 
 
                           <div class="col-12 d-flex justify-content-start">

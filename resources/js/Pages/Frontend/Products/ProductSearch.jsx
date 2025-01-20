@@ -12,7 +12,7 @@ import Testimonials from '../Includes/Testimonials';
 
 
 export default function ProductSearch({ auth, products, homepagesections,sizes,prices }) {
-
+    let testimonials = homepagesections.filter((element)=> element.home_page_section_name == 'Testimonials')[0];
     let productDetails = [];
     products.map((element)=>
         {
@@ -71,7 +71,7 @@ export default function ProductSearch({ auth, products, homepagesections,sizes,p
             <ProductListing products={productDetails} sizes1={sizes} prices={prices}></ProductListing>
             <FirstOrder></FirstOrder>
             <div className='pt-4 mb-4'></div>
-            <Testimonials sectionChildren={homepagesections[5].section_childs} section={homepagesections[5]}></Testimonials>
+            <Testimonials sectionChildren={testimonials.section_childs} section={homepagesections[5]}></Testimonials>
         </HomeLayout>
     );
 }
