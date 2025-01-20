@@ -220,8 +220,8 @@ foreach ($gst as $gs) {
                                                         <tr>
                                                             <th>SKU</th>
                                                             <th>Name</th>
-                                                            <th>Color</th>
-                                                            <th>Size</th>
+                                                            
+                                                            <th>Weight</th>
                                                             <th>Quantity</th>
                                                             <th>Price</th>
                                                             <th>Status</th>
@@ -249,12 +249,7 @@ foreach ($gst as $gs) {
                                                                             value="{{ $product_variant->product_title }}"
                                                                             required>
                                                                     </td>
-                                                                    <td>
-                                                                        <input type="hidden"
-                                                                            name="added_variants[{{ $product_variant->product_variant_id }}][color_id]"
-                                                                            value="{{ $product_variant->color_id }}">
-                                                                        {{ isset($product_variant->color) ? $product_variant->color->color_name : '-' }}
-                                                                    </td>
+                                                                    
                                                                     <td>
                                                                         <input type="hidden"
                                                                             name="added_variants[{{ $product_variant->product_variant_id }}][size_id]"
@@ -312,18 +307,9 @@ foreach ($gst as $gs) {
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <div class="col-md-12 col-12"  >
-                                                                {{ Form::label('variant_color_id', 'Colors ', ['class' => '']) }}
-                                                                <fieldset class="form-group">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                        </div>
-                                                                        {{ Form::select('variant_color_id', $color_list, '', ['class' => 'select2 form-control ', 'id' => 'variant_color_id', 'placeholder' => 'Select']) }}
-                                                                    </div>
-                                                                </fieldset>
-                                                            </div>
+                                                            
                                                             <div class="col-md-12 col-12" >
-                                                                {{ Form::label('variant_size_id', 'Sizes ', ['class' => '']) }}
+                                                                {{ Form::label('variant_size_id', 'Weights ', ['class' => '']) }}
                                                                 <fieldset class="form-group">
                                                                     <div class="input-group">
                                                                         <div class="input-group-prepend">
@@ -843,7 +829,7 @@ if (isset($product_images) && count($product_images) >= 6) {
             }
 
             $("#config_color_id").change(function() {
-                var color_id = $(this).val();
+                var color_id = 1;
                 var size_id = $("#config_size_id").val();
                 var product_type = $("#product_type").val();
                 var product_sku = $("#product_sku").val();
@@ -910,7 +896,7 @@ if (isset($product_images) && count($product_images) >= 6) {
             var variants_cnt = 0;
             $('#modal_add_variants').on('click', function() {
                 // $('#onshow').removeData();
-                var color_id = $("#variant_color_id").val();
+                var color_id = 1;
                 var size_id = $("#variant_size_id").val();
                 var product_type = $("#product_type").val();
                 var product_sku = $("#product_sku").val();

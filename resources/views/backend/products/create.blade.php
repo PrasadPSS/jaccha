@@ -65,6 +65,7 @@ foreach ($gst as $gs) {
                                         </div>
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
+                                                
                                                 {{ Form::label('product_title', 'Product Title ') }}
                                                 {{ Form::text('product_title', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Title', 'required' => true]) }}
                                             </div>
@@ -159,27 +160,9 @@ foreach ($gst as $gs) {
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6 col-12" id="sim_size_div" style="display:none;">
-                                            {{ Form::label('size_id', 'Sizes ', ['class' => '']) }}
-                                            <fieldset class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                    </div>
-                                                    {{ Form::select('size_id', $size_list, null, ['class' => 'select2 form-control ', 'id' => 'sim_size_id']) }}
-                                                </div>
-                                            </fieldset>
-                                        </div>
+                                        
 
-                                        <div class="col-md-6 col-12" id="config_size_div" style="display:none;">
-                                            {{ Form::label('size_id', 'Sizes ', ['class' => '']) }}
-                                            <fieldset class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                    </div>
-                                                    {{ Form::select('size_id[]', $size_list, null, ['class' => 'select2 form-control ', 'multiple' => 'multiple', 'id' => 'config_size_id']) }}
-                                                </div>
-                                            </fieldset>
-                                        </div>
+                                        
 
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
@@ -207,14 +190,15 @@ foreach ($gst as $gs) {
                                             </div>
                                         <div class="col-lg-12 col-md-12 mt-1 repeater-default" style="display:none;"
                                             id="variantsdiv">
+                                            
                                             <h3>Product Variants</h3>
                                             <table class="table table-responsive table-bordered">
                                                 <thead>
                                                     <tr>
                                                         <th>SKU</th>
                                                         <th>Name</th>
-                                                        <th>Color</th>
-                                                        <th>Size</th>
+                                                        
+                                                        <th>Weight</th>
                                                         <th>Quantity</th>
                                                         <th>Price</th>
                                                         <th>Status</th>
@@ -226,6 +210,46 @@ foreach ($gst as $gs) {
                                                 </tbody>
                                             </table>
                                         </div>
+                                        <div class="modal fade text-left" id="onshow" tabindex="-1"
+                                                role="dialog" aria-labelledby="myModalLabel21" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+                                                    role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="myModalLabel21">Add Variants</h4>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <i class="bx bx-x"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            
+                                                            <div class="col-md-12 col-12" >
+                                                                {{ Form::label('variant_size_id', 'Weights ', ['class' => '']) }}
+                                                                <fieldset class="form-group">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend">
+                                                                        </div>
+                                                                        {{ Form::select('variant_size_id', $size_list, '', ['class' => 'select2 form-control ', 'id' => 'variant_size_id', 'placeholder' => 'Select']) }}
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-light-secondary"
+                                                                data-dismiss="modal">
+                                                                <i class="bx bx-x d-block d-sm-none"></i>
+                                                                <span class="d-none d-sm-block">Cancel</span>
+                                                            </button>
+                                                            <button type="button" class="btn btn-primary ml-1"
+                                                                id="modal_add_variants">
+                                                                <i class="bx bx-check d-block d-sm-none"></i>
+                                                                <span class="d-none d-sm-block">Add</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
                                                 {{ Form::label('product_desc', 'Product Description ') }}
@@ -407,6 +431,68 @@ foreach ($gst as $gs) {
 </div>
 <script>
     $(document).ready(function () {
+        var variants_cnt = 0;
+        $('#modal_add_variants').on('click', function() {
+                // $('#onshow').removeData();
+                var color_id = 1;
+                var size_id = $("#variant_size_id").val();
+                var product_type = $("#product_type").val();
+                var product_sku = $("#product_sku").val();
+                var product_id = $("#product_id").val();
+                var product_discounted_price = $("#product_discounted_price").val();
+                var added_variants = $('input[name^="variants"]').serialize();
+                // var added_variants1 = $('input[name^="variants"]').toArray();
+                // $("input[name^='variants']").each(function() {
+                //   console.log('test'+$(this).product_sku+'-'+$(this).val());
+                // });
+                console.log(added_variants);
+                // for (key in added_variants1) {
+                //   // console.log(key);
+                // }
+                if (color_id != '' && size_id != '') {
+                    $.ajax({
+                        url: '{{ url('admin/products/addproductvariants') }}',
+                        type: 'post',
+                        data: {
+                            id: product_id,
+                            color_id: color_id,
+                            size_id: size_id,
+                            variants_cnt: variants_cnt,
+                            product_sku: product_sku,
+                            added_variants: added_variants,
+                            product_discounted_price: product_discounted_price,
+                            _token: "{{ csrf_token() }}",
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            console.log(data['flag']);
+                            // $('#variantsdiv').show();
+                            // $('#variantstable').html(data);
+                            // $('#sim_color_div').hide();
+                            // $('#sim_size_div').hide();
+                            if (data.flag == "new") {
+
+                                console.log(data);
+                                $('#variantstable').append(data['table']);
+                                variants_cnt++;
+                            } else {
+                                console.log(data);
+                                // $('#variant_toast').toast("show");
+                                // toastr.warning("Variant with same attribute options already exists.");
+                                $('#variant_toast').modal('show');
+
+                            }
+                        },
+                        error:function(data)
+                        {
+                            console.log(data);
+                        }
+                    });
+                } else {
+                    alert('Please Select Variants');
+                }
+                $('#onshow').modal('hide');
+            });
         // if ($(".category").val() != '')
         // {
         //   subcategories($(".category").val());

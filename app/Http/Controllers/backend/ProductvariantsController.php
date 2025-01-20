@@ -445,7 +445,7 @@ class ProductvariantsController extends Controller
         Session::flash('success', 'Product deleted!');
         Session::flash('status', 'success');
 
-        return redirect('admin/productvariants');
+        return redirect('admin/products');
     }
 
     public function getsubcategory(Request $request)

@@ -750,6 +750,7 @@ class ProductsController extends Controller
                     ProductVariants::destroy($update_result);
                 }
                 $added_variants = $request->added_variants;
+                info(json_encode($added_variants));
                 foreach ($added_variants as $added_variant) {
                     // dd($added_variant);
                     $variant_id = $added_variant['product_variant_id'];
@@ -775,14 +776,21 @@ class ProductsController extends Controller
 
             if (isset($request->variants)) {
                 $variants = $request->variants;
+                info($variants);
                 foreach ($variants as $variant) {
                     $variant_products = new ProductVariants();
+                    if(Sizes::where('size_id', $variant['size_id'])->exists())
+                    {
+                        $weight = Sizes::where('size_id', $variant['size_id'])->first()->size_code;
+                        $variant_products->product_weight = $weight;
+                    }
+                    
                     $variant_products->fill($variant);
                     $variant_products->category_slug = $categories->category_slug;
                     $variant_products->category_id = $categories->category_id;
                     $variant_products->sub_category_slug = $sub_categories->sub_category_slug;
                     $variant_products->sub_category_id = $sub_categories->subcategory_id;
-
+                    
                     $variant_products->product_id = $products->product_id;
                     $variant_products->brand_id = $products->brand_id;
                     $variant_products->save();
@@ -990,8 +998,8 @@ class ProductsController extends Controller
     public function addproductvariants(Request $request)
     {
         $data = $request->all();
-        $product_variants = ProductVariants::where('product_id', $data['id'])->where('color_id', $data['color_id'])->where('size_id', $data['size_id'])->first();
-        $color = Colors::where('color_id', $data['color_id'])->first();
+        $product_variants = ProductVariants::where('product_id', $data['id'])->where('size_id', $data['size_id'])->first();
+        
         $size = Sizes::where('size_id', $data['size_id'])->first();
         $added_variants = $data['added_variants'];
         $sku = $data['product_sku'];
@@ -1008,7 +1016,7 @@ class ProductsController extends Controller
         if (isset($variant_params['variants']) && count($variant_params['variants']) > 0) {
             foreach ($variant_params['variants'] as $added_variant) {
                 // echo "<pre>";print_r($added_variant);exit;
-                if ($added_variant['color_id'] == $data['color_id'] && $added_variant['size_id'] == $data['size_id']) {
+                if ($added_variant['size_id'] == $data['size_id']) {
                     $added_flag = 'new_exist';
                 }
             }
@@ -1017,15 +1025,12 @@ class ProductsController extends Controller
             $variant_flag = 'new';
             $variants .= '<tr data-repeater-item>';
             $variants .= '<td>';
-            $variants .= '<input type="text" name="variants[' . $variants_cnt . '][product_sku]" class="form-control" value="' . $sku . '-variant-' . $color->color_id . '-' . $size->size_id . '" required>';
+            $variants .= '<input type="text" name="variants[' . $variants_cnt . '][product_sku]" class="form-control" value="' . $sku  . '-' . $size->size_id . '" required>';
             $variants .= '</td>';
             $variants .= '<td>';
             $variants .= '<input type="text" name="variants[' . $variants_cnt . '][product_title]" class="form-control" value="" required>';
             $variants .= '</td>';
-            $variants .= '<td>';
-            $variants .= '<input type="hidden" name="variants[' . $variants_cnt . '][color_id]" value="' . $color->color_id . '" class="variants_added_colors">';
-            $variants .= $color->color_name;
-            $variants .= '</td>';
+           
             $variants .= '<td>';
             $variants .= '<input type="hidden" name="variants[' . $variants_cnt . '][size_id]" value="' . $size->size_id . '" class="variants_added_sizes">';
             $variants .= $size->size_name;

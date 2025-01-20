@@ -46,8 +46,8 @@
                                       <th>Brand</th>
                                       <th>Product Name</th>
                                       <th>SKU</th>
-                                      <th>Color</th>
-                                      <th>Size</th>
+                  
+                                      <th>Weight</th>
                                       <th>Price</th>
                                       <th>Quantity</th>
                                       <th>Action</th>
@@ -63,7 +63,7 @@
                                       <td>{{ isset($product->brands)?$product->brands->brand_name:'' }}</td>
                                       <td>{{ $product->product_title }}</td>
                                       <td>{{ $product->product_sku }}</td>
-                                      <td>{{ $product->color->color_name }}</td>
+                                      
                                       <td>{{ $product->size->size_name }}</td>
                                       <td>{{ $product->product_discounted_price }}</td>
                                       <td>{{ $product->product_qty }}</td>
