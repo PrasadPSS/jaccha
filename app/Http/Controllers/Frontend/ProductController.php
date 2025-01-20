@@ -42,6 +42,8 @@ class ProductController extends Controller
 
     public function category($category_slug)
     {
+        $data['sizes'] = Sizes::all();
+        $data['prices'] = Prices::all();
         if($category_slug == 'new-arrival')
         {
             $data['products'] = Products::where('new_arrival', 1)->withAvg('reviews', 'rating')->get();
@@ -63,7 +65,8 @@ class ProductController extends Controller
     public function subcategory($subcategory_slug)
     {
        
-        
+        $data['sizes'] = Sizes::all();
+        $data['prices'] = Prices::all();
         $data['products'] = Products::where('sub_category_slug', $subcategory_slug)->withAvg('reviews', 'rating')->get();
         
         $data['homepagesections'] = HomePageSections::where('visibility', 1)->orderBy('home_page_section_priority')->with('home_page_section_type', 'section_childs')->get();
