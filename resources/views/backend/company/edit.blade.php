@@ -37,10 +37,12 @@
                   <div class="card-body">
                     @include('backend.includes.errors')
                     {!! Form::model($company, [
-                        'method' => 'POST',
-                        'url' => ['admin/company/update'],
-                        'class' => 'form'
-                    ]) !!}
+    'method' => 'POST',
+    'url' => ['admin/company/update'],
+    'class' => 'form',
+    'enctype' => 'multipart/form-data'
+
+]) !!}
                       <div class="form-body">
                           <div class="row">
                               <div class="col-md-12 col-12">
@@ -140,6 +142,15 @@
                                       {{ Form::text('copyright', null, ['class' => 'form-control', 'placeholder' => 'Enter Copyright text', 'required' => true]) }}
                                   </div>
                               </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        {{ Form::label('logo', 'Website Logo *') }}
+                                        <div class="custom-file">
+                                            {{ Form::file('logo', ['class' => 'custom-file-input', 'id' => 'product_images']) }}
+                                            <label class="custom-file-label" for="product_images">Choose file</label>
+                                        </div>
+                                </div>
+                                </div>
                               <!--<div class="col-lg-12 col-md-12">-->
                               <!--    {{ Form::label('address', 'Address *') }}-->
                               <!--    <fieldset class="form-group">-->

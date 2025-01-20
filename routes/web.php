@@ -196,7 +196,6 @@ Route::get('/product/view/{product_id}', [ProductController::class, 'viewProduct
 ->name('product.view');
 Route::post('product/pincode/check', [ProductController::class, 'checkPincodeServiceability'])
 ->middleware(['auth', 'verified'])->name('product.pincode.check');
-
 //rating and reviews
 Route::post('/rating/review', [App\Http\Controllers\Frontend\ReviewController::class, 'store'])->middleware(['auth', 'verified'])
 ->name('product.review');

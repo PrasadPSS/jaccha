@@ -68,6 +68,8 @@ export default function Register({ auth }) {
                                 <div className="mb-3">
                                     <input type="password" className="form-control" id="password" placeholder="Password*" onChange={(e) => setData('password', e.target.value)} />
                                     <InputError message={errors.password} className="mt-2" />
+                                    
+                                     Note: 'The password must be at least 10 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character (e.g., @$!%*?&).',
                                 </div>
                                 <div className="mb-3">
                                     <input onChange={(e) => setData('password_confirmation', e.target.value)} type="password" className="form-control" id="passoword" placeholder="Confirm Password*" />

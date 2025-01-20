@@ -44,7 +44,8 @@ class RegisteredUserController extends Controller
             'email' => 'required|email|string|lowercase|email|max:255|unique:' . User::class,
             'password' => [
                 'required',
-                'confirmed'
+                'confirmed',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{10,}$/'
             ],
             'phoneNo' => 'required|numeric',
             'lastName' => 'required|string|max:255',
