@@ -120,7 +120,7 @@ foreach ($gst as $gs) {
                                                         <div class="input-group-prepend">
                                                             {{ Form::label('hsncode_id', 'HSN Code ', ['class' => '']) }}
                                                         </div>
-                                                        {{ Form::select('hsncode_id', $hsncodes, null, ['class' => 'select2 form-control hsncode_id', 'placeholder' => 'Please Select HSN Code']) }}
+                                                        {{ Form::select('hsncode_id', $hsncodes, null, ['class' => 'select2 form-control', 'placeholder' => 'Please Select HSN Code']) }}
                                                     </div>
                                                 </fieldset>
                                         </div>

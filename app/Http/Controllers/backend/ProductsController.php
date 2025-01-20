@@ -67,7 +67,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        
+
         $categories = Categories::where('visibility', 1)->get();
         $categories = collect($categories)->mapWithKeys(function ($item, $key) {
             return [$item['category_id'] => $item['category_name']];
