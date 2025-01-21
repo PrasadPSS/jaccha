@@ -44,6 +44,11 @@ class ProfileController extends Controller
     public function viewProfile(Request $request)
     {
         $data['shipping_addresses'] = ShippingAddresses::where('user_id', auth()->user()->id)->get();
+        if(session('url.intended') == null)
+        {
+            session(['url.intended' => $request->route()->getName()]);
+        }
+        
         return Inertia::render('Frontend/Profile/ViewProfile', [
             'shipping_addresses'=> $data['shipping_addresses'],
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
