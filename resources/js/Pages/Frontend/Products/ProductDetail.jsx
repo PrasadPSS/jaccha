@@ -310,10 +310,6 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                             )
                                         })}
 
-                                        <p className="get-offer">
-                                            <img src="/assets/images/product-details/SVG.png" /><br />Get
-                                            Offer
-                                        </p>
                                     </div>}
 
                                 <div className="black-button mt-5 d-flex">
