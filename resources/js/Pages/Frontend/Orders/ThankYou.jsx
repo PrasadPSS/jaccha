@@ -3,7 +3,7 @@ import HomeLayout from "@/Layouts/HomeLayout";
 import { Head } from "@inertiajs/react";
 import React from "react";
 
-export default function ThankYou({ auth, orders }) {
+export default function ThankYou({ auth, orders, estimatedtime }) {
     console.log('orders', orders);
     const today = new Date();
     const fiveDaysFromNow = new Date();
@@ -163,8 +163,8 @@ export default function ThankYou({ auth, orders }) {
                                 <div className="delivery-details">
                                     <h2 className="pb-4 pt-2 order-title">Delivery Details</h2>
                                     <p>
-                                        <strong>Estimated Delivery:</strong> Between {formatDate(today)} and{" "}
-                                        {formatDate(fiveDaysFromNow)}
+                                        <strong>Estimated Delivery: </strong> 
+                                         {estimatedtime}
                                     </p>
                                     <p id="shipStatus" className="pt-2 pb-4">🚚 Shipping Status: Processing</p>
                                     <h4>Your order is on its way to you! ✨ We’ll notify you as soon as it’s shipped.</h4>

@@ -469,6 +469,9 @@ class OrderController extends Controller
     {
         $data['orders'] = \App\Models\frontend\Orders::where('user_id', auth()->user()->id)->where('order_id', $order_id)->with('orderproducts', 'orderproducts.products')->first();
         $order_delivery = OrderDeliveryManagement::first();
+        $data['estimatedtime']= json_decode(check_pincode($data['orders']->shipping_pincode))->data->available_courier_companies[0]->etd;
+        
+
         return Inertia::render('Frontend/Orders/ThankYou', $data);
     }
 
@@ -481,6 +484,7 @@ class OrderController extends Controller
         if ($user_session) {
             $user_details = $user_session;
             $shipping_address = ShippingAddresses::where('user_id', $user_id)->where('shipping_address_id', $post_data['shipping_id'])->first();
+            
             $mobile_no = $shipping_address->shipping_mobile_no;
             $address = $shipping_address->shipping_address_line1;
             $district = $shipping_address->shipping_district;
