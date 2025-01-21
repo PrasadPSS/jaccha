@@ -150,7 +150,9 @@
                                             <label class="custom-file-label" for="product_images">Choose file</label>
                                         </div>
                                 </div>
+                                
                                 </div>
+                                <img class="ml-auto mb-2 mr-1" src="{{asset('assets/images/'. $logo->logo_path)}}" alt="">
                               <!--<div class="col-lg-12 col-md-12">-->
                               <!--    {{ Form::label('address', 'Address *') }}-->
                               <!--    <fieldset class="form-group">-->

@@ -36,7 +36,8 @@ class CompanyController extends Controller
     public function edit($id)
     {
         $company = Company::findOrFail($id);
-        return view('backend.company.edit', compact('company'));
+        $logo = Logo::first();
+        return view('backend.company.edit', compact('company', 'logo'));
     }
 
     public function update(Request $request)
