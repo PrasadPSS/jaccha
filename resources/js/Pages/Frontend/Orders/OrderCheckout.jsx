@@ -88,6 +88,10 @@ export default function OrderCheckout({ auth, data }) {
         {
             setFinalGrandTotal1(prev => (Number(prev) + Number(codCharges)).toFixed(2));
         }
+        if(paymentMode == 'Online Payment')
+            {
+                setFinalGrandTotal1(prev => (Number(prev) - Number(cod_charges)).toFixed(2));
+            }
     }, [paymentMode])
 
 
