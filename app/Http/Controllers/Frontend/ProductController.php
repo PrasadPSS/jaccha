@@ -276,7 +276,13 @@ class ProductController extends Controller
         $data['product_reviews'] = Review::where('product_id', $product_id)->get()->toArray();
         $data['product_images'] = ProductImages::where('product_id', $product_id)->limit(3)->get()->toArray();
         $data['average_rating'] = Review::where('product_id', $product_id)->avg('rating'); 
-        $data['related_product_list'] = RelatedProducts::where('product_id', $product_id)->with('product')->get();
+        $data['related_product_list'] = RelatedProducts::where('product_id', $product_id)->with('product', 'product.reviews')->get();
+        $data['related_avg'] = [];
+
+        foreach ($data['related_product_list'] as $key => $value) 
+        {
+            $data['related_avg'][]= ['avg'=> $value->product->reviews->avg('rating')];
+        }
        
         return Inertia::render('Frontend/Products/ProductDetail', $data);
     }

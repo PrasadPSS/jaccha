@@ -158,4 +158,9 @@ class Products extends Model
     {
         return $this->hasMany(Review::class, 'product_id', 'product_id');
     }
+
+    public function avgRatings()
+    {
+        return $this->hasMany(Review::class, 'product_id', 'product_id');
+    }
 }

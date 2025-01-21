@@ -10,7 +10,7 @@ import ReviewForm from './ReviewForm';
 
 
 
-const ProductDetail = ({ auth, product, product_reviews, product_images, average_rating, related_product_list }) => {
+const ProductDetail = ({ auth, product, product_reviews, product_images, average_rating, related_product_list, related_avg }) => {
 
     const [sweetnessLevel, setSweetness] = useState('');
     const [ingredients, setIngredients] = useState('');
@@ -54,6 +54,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
 
 
     function canReview(productId) {
+        
         if (auth.orders != '') {
             const hasPurchased = auth.orders.some((order) =>
                 order.orderproducts.some((product) => product.product_id === productId)
@@ -509,7 +510,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                     </div>
                 </div>
             </section>
-            {product_reviews.length > 0 && <section className="section reviews">
+            <section className="section reviews">
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-12">
@@ -529,7 +530,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                         <ReviewsListing product_reviews={product_reviews} />
                     </div>
                 </div>
-            </section>}
+            </section>
 
             {related_product_list.length > 0 &&
                 <section className="section product_listing">
@@ -555,19 +556,24 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                 )}
                                             </span>
                                         </p>
-                                        <a
+                                        <Link as='a'
                                             className="product-details-listing"
                                             id="addAllToBasketButton"
                                             onClick={() => handleAddAllToCart()}
                                         >
                                             Add all to basket
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
                             <div className="col-sm-9">
                                 <div className="row" data-aos="fade-up">
-                                    {related_product_list.map((item) => {
+                                    {related_product_list.map((item, index) => {
+                                       
+                                        const avg_rating = related_avg[index].avg;
+                                        const fullStars1 = Math.floor(avg_rating); // Number of full stars
+                                        const hasHalfStar1 = avg_rating % 1 >= 0.1;
+                                        const incompleteStars1 = 5 - fullStars1; // Check if the
                                         const { product } = item;
                                         return (
                                             <div className="col-sm-4" key={product.product_id}>
@@ -583,33 +589,48 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                                     <div className="features-content">
                                                         <p>{product.product_sub_title}</p>
                                                         <h5>{product.product_title}</h5>
-                                                        <h6>
-                                                            ₹{product.product_discounted_price}{" "}
-                                                            <del>₹{product.product_price}</del>
-                                                        </h6>
-                                                        <div className="star">
-                                                            <img
-                                                                src="/assets/images/star.png"
-                                                                alt="star"
-                                                            />
-                                                            <img
-                                                                src="/assets/images/star.png"
-                                                                alt="star"
-                                                            />
-                                                            <img
-                                                                src="/assets/images/star.png"
-                                                                alt="star"
-                                                            />
-                                                            <img
-                                                                src="/assets/images/star.png"
-                                                                alt="star"
-                                                            />
-                                                            <img
-                                                                src="/assets/images/star.png"
-                                                                alt="star"
-                                                            />
-                                                            <span>( 6 reviews )</span>
-                                                        </div>
+                                                        {product.product_discounted_price != product.product_price &&
+                                                            <h6>
+                                                                ₹{product.product_discounted_price}{" "}
+                                                                <del>₹{product.product_price}</del>
+                                                            </h6>
+                                                        }
+                                                        {product.product_discounted_price == product.product_price &&
+                                                            <h6>
+                                                                ₹{product.product_price}{" "}
+                                                            </h6>
+                                                        }
+                                                        {avg_rating &&
+                                                            <div className="star">
+                                                                {[...Array(fullStars1)].map((_, index) => (
+                                                                    <img
+                                                                        key={`full-${index}`}
+                                                                        src="/assets/images/product-details/star1.png"
+                                                                        alt="Full star"
+                                                                    />
+                                                                ))}
+
+                                                                {/* Render half star */}
+                                                                {hasHalfStar1 && (
+                                                                    <img
+                                                                        src="/assets/images/product-details/star2.png"
+                                                                        alt="Half star"
+                                                                    />
+                                                                )}
+
+                                                                {[...Array(incompleteStars1)].map((_, index) => (
+                                                                    <img
+                                                                        key={`full-${index}`}
+                                                                        src="/assets/images/product-details/star3.png"
+                                                                        alt="Full star"
+                                                                    />
+                                                                ))}
+
+                                                                {product_reviews.length > 0 &&
+                                                                    <span> ({product_reviews.length} Reviews)</span>}
+                                                            </div>
+                                                        }
+
                                                     </div>
                                                 </div>
                                             </div>
