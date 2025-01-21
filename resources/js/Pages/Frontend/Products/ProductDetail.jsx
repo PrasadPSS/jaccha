@@ -340,8 +340,12 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                         </div>
 
                                         <button onClick={() => {
-                                            setQty((prev) => prev != 0 ? prev - 1 : 0);
-                                            setPrice(product.product_discounted_price * (productQty - 1));
+                                            if(productQty -1 != 0)
+                                            {
+                                                setQty((prev) => prev != 0 ? prev - 1 : 0);
+                                                setPrice(product.product_discounted_price * (productQty - 1));
+                                            }
+                                           
                                         }} className="btn minus_button" id="minus-btn">
                                             |&nbsp;&nbsp; - &nbsp;&nbsp;|
                                         </button>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const DiscountCode = ({ finalGrandTotal, setFinalGrandTotal, shippingAmount, codCharges, gstCharges, paymentMode, setCouponCode1, setCouponDiscount, removeCoupon }) => {
+const DiscountCode = ({ finalGrandTotal, couponCode1, setFinalGrandTotal, shippingAmount, codCharges, gstCharges, paymentMode, setCouponCode1, setCouponDiscount, removeCoupon }) => {
     const [couponCode, setCouponCode] = useState('');
     const [message, setMessage] = useState('');
 
@@ -52,7 +52,8 @@ const DiscountCode = ({ finalGrandTotal, setFinalGrandTotal, shippingAmount, cod
             <button className="discount-button" type="button" onClick={handleApplyCoupon}>
                 Apply
             </button>
-            <button className="discount-button" onClick={removeCoupon}>Remove</button>
+            {couponCode1 != '' &&  <button className="discount-button" onClick={removeCoupon}>Remove</button>}
+           
             <br />
             <div>
           

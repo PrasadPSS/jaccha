@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\backend\CODManagement;
 use App\Models\backend\Company;
+use App\Models\backend\District;
 use App\Models\backend\Gst;
 use App\Models\backend\MissingPaymentProducts;
 use App\Models\backend\MissingPayments;
@@ -32,11 +33,12 @@ class CartController extends Controller
     public function index()
     {
         $address = ShippingAddresses::where('user_id', auth()->user()->id)->where('default_address_flag', 1)->exists();
-        if (!$address) {
-            return redirect('profile/view')->with('error', 'Please Select Shipping Address as default');
-        }
+       
         $data['cart'] = Cart::where('user_id', auth()->user()->id)->with('products', 'product_variant')->get();
         $data['cart_amount'] = get_cart_amounts()->cart->cart_mrp_total;
+        $data['isProfileCompleted'] = ShippingAddresses::where('user_id', auth()->user()->id)->where('default_address_flag', 1)->exists();
+        $data['districts'] = District::all();
+        session(['url.intended' => 'cart.index']);
 
         return Inertia::render('Frontend/Cart/Index', $data);
     }

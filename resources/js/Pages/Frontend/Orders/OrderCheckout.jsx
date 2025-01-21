@@ -7,25 +7,35 @@ import React, { useState } from "react";
 import DiscountCode from "./DiscountCode";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import InputError from "@/Components/InputError";
 
 
-export default function OrderCheckout({ auth, data }) {
+export default function OrderCheckout({ auth, data, districts }) {
 
     let token =  usePage().props.auth.csrf_token;
+    const diststates = districts.filter((value, index, self) =>
+        index === self.findIndex((t) => (
+            t.state_name === value.state_name
+        )));
     const [formData, setFormData] = useState({
-        shipping_full_name: auth.user.name,
-        shipping_mobile_no: auth.user.mobile_no,
+        shipping_full_name: "",
+        shipping_mobile_no: "",
         shipping_address_line1: "",
         shipping_address_line2: "",
-        shipping_landmark: "NA",
+        shipping_landmark: "",
         shipping_city: "",
         shipping_pincode: "",
-        shipping_district: "Thane",
+        shipping_district: "",
         shipping_state: "",
-        shipping_address_type: "Home",
-        shipping_email: auth.user.email,
+        shipping_address_type: "",
+        shipping_email: "",
         default_address_flag: false,
     });
+    const [validationErrors, setValidationErrors] = useState('');
+    const [selectedState, setSelectedState] = useState("");
+    const [states, setStates] = useState(diststates);
+    const [liDistrict, setLiDistrict] = useState([]);
+    
 
     // Destructure the required data
     const {
@@ -45,7 +55,7 @@ export default function OrderCheckout({ auth, data }) {
         cod_charges
     } = data;
     const [codCharges, setCodCharges] = useState(cod_charges);
-    console.log('rmk',cod_rmk);
+
     const [shippingAmount, setShippingAmount] = useState(shipping_amount);
     const [codResponse, setCodResponse] = useState(cod_response == 'Y' ? 1 : 0);
 
@@ -54,6 +64,7 @@ export default function OrderCheckout({ auth, data }) {
     const [paymentMode, setPaymentMode] = useState('');
     let finalGrandTotal;
 
+    
 
     // Calculate grand total
     if (paymentMode == 'Cash On Delivery') {
@@ -66,12 +77,12 @@ export default function OrderCheckout({ auth, data }) {
     const totalGst = parseFloat(cart_amounts.total_gst).toFixed(2);
     const savings = parseFloat((cart_amounts.cart.cart_discounted_total - totalGst + cart_amounts.product_discount) - finalGrandTotal).toFixed(2);
     const handleAddressChange = (shipping_address_id) => {
-        console.log('cod_response_null');
+      
         axios.get('/orders/calculaterate/' + shipping_address_id)
             .then(res => {
+                setFinalGrandTotal1((Number(finalGrandTotal1) - Number(shippingAmount) +  Number(res.data.shipping_amount)).toFixed(2));
                 setShippingAmount(res.data.shipping_amount);
                 setCodResponse(res.data.cod_response);
-                console.log('cod_response', res);
             })
 
     }
@@ -81,7 +92,16 @@ export default function OrderCheckout({ auth, data }) {
             ...formData,
             [name]: type === "checkbox" ? checked : value,
         });
+        if (name == 'shipping_state') {
+            setSelectedState(value);
+
+        }
+        if (name == 'shipping_district') {
+            setSelectedDistrict(value)
+
+        }
     };
+    useEffect(() => setLiDistrict(districts.filter((district) => district.state_name == selectedState)), [selectedState])
 
     useEffect(()=>{
         if(paymentMode == 'Cash On Delivery')
@@ -102,9 +122,11 @@ export default function OrderCheckout({ auth, data }) {
         router.post(route("address.store"), formData, {
             onSuccess: () => {
                 console.log("Address submitted successfully");
+                $('#exampleModal').modal('hide');
             },
             onError: (errors) => {
-                console.error("Validation Errors: ", errors);
+                setValidationErrors(errors);
+                return false;
             },
         });
     };
@@ -114,9 +136,12 @@ export default function OrderCheckout({ auth, data }) {
     const[couponDiscount, setCouponDiscount] = useState(0);
     const removeCoupon = ()=>
     {
+        setFinalGrandTotal1((finalGrandTotal1 + Number(couponDiscount)).toFixed(2));
+        
         setCouponCode('');
         setCouponDiscount(0);
         toast('Coupon removed successfully');
+        
     };
 
     return (
@@ -143,10 +168,14 @@ export default function OrderCheckout({ auth, data }) {
                             <div className="col-sm-7">
                                 <div className="checkout-form pt-5 d-flex align-items-center">
                                     <h4 className="mb-0">Address Details</h4>
-                                    <Link href="/profile/view" type="button" className="btn add-new-address-btn"
-                                        >
-                                        <i className="fas fa-plus-circle"></i> Add New Address
-                                    </Link>
+                                    <button
+                            type="button"
+                            className="btn add-new-address-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#exampleModal"
+                        >
+                            <i className="fas fa-plus-circle"></i> Add New Address
+                        </button>
                                     {/* <div className="row">
                                         <div className="col-sm-12">
                                             <div className="form-inputs mb-3">
@@ -322,7 +351,7 @@ export default function OrderCheckout({ auth, data }) {
 
                                     </div> */}
                                     
-                                    <DiscountCode removeCoupon={removeCoupon} setCouponCode1={setCouponCode} setCouponDiscount={setCouponDiscount} paymentMode={paymentMode} gstCharges={totalGst} shippingAmount={shippingAmount} codCharges={Number(cod_charges).toFixed(2)} finalGrandTotal={finalGrandTotal1} setFinalGrandTotal={setFinalGrandTotal1}/>
+                                    <DiscountCode couponCode1={couponCode} removeCoupon={removeCoupon} setCouponCode1={setCouponCode} setCouponDiscount={setCouponDiscount} paymentMode={paymentMode} gstCharges={totalGst} shippingAmount={shippingAmount} codCharges={Number(cod_charges).toFixed(2)} finalGrandTotal={finalGrandTotal1} setFinalGrandTotal={setFinalGrandTotal1}/>
                                     <div className="payment-history mt-5">
                                         
                                         <div className="payment-display mb-2">
@@ -384,7 +413,7 @@ export default function OrderCheckout({ auth, data }) {
                 </div>
             </section>
 
-            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            {/* <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog add-address-form">
                     <div className="modal-content bg-light py-2">
                         <div className="modal-header">
@@ -455,8 +484,211 @@ export default function OrderCheckout({ auth, data }) {
                         </form>
                     </div>
                 </div>
-            </div>
+            </div> */}
+            <div
+                className="modal fade address-modal"
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+            >
+                <form onSubmit={handleSubmit} className="modal-dialog add-address-form">
+                    <div className="modal-content bg-light py-2">
+                        <div className="modal-header">
+                            <h5 className="modal-title text-center m-auto" id="exampleModalLabel">
+                                Add Shipping Address
+                            </h5>
+                            <button
+                                type="button"
+                                className="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            >
+                                <i className="far fa-times"></i>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="row">
+                                <div className="col-sm-6">
+                                    <div className="form-inputs mb-3">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Full Name"
+                                            id="shipping_full_name"
+                                            name="shipping_full_name"
+                                            value={formData.shipping_full_name}
+                                            onChange={handleInputChange}
 
+                                        />
+                                        <InputError message={validationErrors.shipping_full_name} className="mt-2" />
+                                    </div>
+                                </div>
+                                <div className="col-sm-6">
+                                    <div className="form-inputs mb-3">
+                                        <input
+                                            type="number"
+                                            className="form-control"
+                                            placeholder="Contact Number"
+                                            id="shipping_mobile_no"
+                                            name="shipping_mobile_no"
+                                            value={formData.shipping_mobile_no}
+                                            onChange={handleInputChange}
+                                        />
+                                        <InputError message={validationErrors.shipping_mobile_no} className="mt-2" />
+                                    </div>
+                                </div>
+                                <div className="col-sm-6">
+                                    <div className="form-inputs mb-3">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Address Line 1"
+                                            id="shipping_address_line1"
+                                            name="shipping_address_line1"
+                                            value={formData.shipping_address_line1}
+                                            onChange={handleInputChange}
+                                        />
+                                        <InputError message={validationErrors.shipping_address_line1} className="mt-2" />
+                                    </div>
+                                </div>
+                                <div className="col-sm-6">
+                                    <div className="form-inputs mb-3">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Address Line 2"
+                                            id="shipping_address_line2"
+                                            name="shipping_address_line2"
+                                            value={formData.shipping_address_line2}
+                                            onChange={handleInputChange}
+                                        />
+                                        <InputError message={validationErrors.shipping_address_line2} className="mt-2" />
+                                    </div>
+                                </div>
+                                <div className="col-sm-4">
+                                    <div className="form-inputs mb-3">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Landmark"
+                                            id="shipping_landmark"
+                                            name="shipping_landmark"
+                                            value={formData.shipping_landmark}
+                                            onChange={handleInputChange}
+                                        />
+                                        <InputError message={validationErrors.shipping_landmark} className="mt-2" />
+                                    </div>
+                                </div>
+                                <div className="col-sm-4">
+                                    <div className="form-inputs mb-3">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="City"
+                                            id="shipping_city"
+                                            name="shipping_city"
+                                            value={formData.shipping_city}
+                                            onChange={handleInputChange}
+                                        />
+                                        <InputError message={validationErrors.shipping_city} className="mt-2" />
+                                    </div>
+                                </div>
+                                <div className="col-sm-4">
+                                    <div className="form-inputs mb-3">
+                                        <input
+                                            type="number"
+                                            className="form-control"
+                                            placeholder="Pincode"
+                                            id="shipping_pincode"
+                                            name="shipping_pincode"
+                                            value={formData.shipping_pincode}
+                                            onChange={handleInputChange}
+                                        />
+                                        <InputError message={validationErrors.shipping_pincode} className="mt-2" />
+                                    </div>
+                                </div>
+
+                                <div className="col-sm-4">
+                                    <div className="form-inputs mb-3">
+                                        <select className="form-control" id="shipping_state"
+                                            name="shipping_state"
+                                            value={selectedState}
+                                            onChange={handleInputChange}>
+                                            <option value="" selected disabled>Select State</option>
+                                            {states.map((state) => <option value={state.state_name}>{state.state_name}</option>)}
+
+
+
+                                        </select>
+                                        <InputError message={validationErrors.shipping_state} className="mt-2" />
+                                    </div>
+                                </div>
+                                <div className="col-sm-4">
+                                    <div className="form-inputs mb-3">
+                                        <select className="form-control" id="shipping_district"
+                                            name="shipping_district"
+                                            value={formData.shipping_district}
+                                            onChange={handleInputChange}>
+                                            <option value="" selected disabled>Select District</option>
+                                            {liDistrict.map((district) => <option value={district.name}>{district.name}</option>)}
+                                        </select>
+                                        <InputError message={validationErrors.shipping_district} className="mt-2" />
+                                    </div>
+                                </div>
+                                
+                                <div className="col-sm-4">
+                                    <div className="form-inputs mb-3">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="E-mail Address"
+                                            id="shipping_email"
+                                            name="shipping_email"
+                                            value={formData.shipping_email}
+                                            onChange={handleInputChange}
+                                        />
+                                        <InputError message={validationErrors.shipping_email} className="mt-2" />
+                                    </div>
+                                </div>
+                                <div className="col-sm-6">
+                                    <div className="form-inputs mb-3">
+                                        <select className="form-control" id="shipping_address_type"
+                                            name="shipping_address_type"
+                                            value={formData.shipping_address_type}
+                                            onChange={handleInputChange}>
+                                            <option value="">Select Address Type</option>
+                                            <option value="Home">Home</option>
+                                            <option value="Work">Work</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                        <InputError message={validationErrors.shipping_address_type} className="mt-2" />
+                                    </div>
+                                </div>
+                                <div className="col-sm-4">
+                                    <div className="form-inputs mb-3">
+                                        <label for="defaultAddress">
+                                            <input type="checkbox" id="default_address_flag"
+                                                name="default_address_flag" value={formData.default_address_flag}
+                                                onChange={handleInputChange} /> Set as Default Address
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="modal-footer m-auto border-0">
+                            <button type="submit" className="btn button black">Add Address</button>
+                            <button
+                                type="button"
+                                className="button cancel_btn black"
+                                data-bs-dismiss="modal"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
             {/* <section className="section product_listing">
                 <div className="container">
                     <div className="row align-items-center">

@@ -625,12 +625,15 @@ if (!function_exists('get_cart_amounts')) {
     // Get GST rates
 
     $gstMode = 'sgst';
-    $userState = ShippingAddresses::where('user_id', auth()->user()->id)->where('default_address_flag', 1)->first();
+    $exists = ShippingAddresses::where('user_id', auth()->user()->id)->where('default_address_flag', 1)->exists();
+    if ($exists) {
 
+    $userState = ShippingAddresses::where('user_id', auth()->user()->id)->where('default_address_flag', 1)->first();
+    
     if (get_pickup_address()->state !== $userState->shipping_state) {
       $gstMode = 'igst';
     }
-
+    }
     // GST rates
     // IGST rate
 

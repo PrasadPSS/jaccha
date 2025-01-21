@@ -58,7 +58,6 @@ class AddressesController extends Controller
   public function storeaddress(Request $request)
   {
 
-    // dd('test');
     if(!auth()->user())
     {
       return back()->withErrors([
@@ -124,6 +123,7 @@ class AddressesController extends Controller
          return redirect()->to('/cart/checkout')->with('success','New Address Added Successfully !');
        }
         $name = session('url.intended');
+        
         session(['url.intended' => null]);
         return redirect()->route($name)->with('success','New Address Added Successfully !');
     }

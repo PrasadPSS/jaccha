@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\backend\District;
 use App\Models\backend\Orders;
 use App\Models\frontend\InvoiceCounter;
 use App\Models\frontend\OrderCoupons;
@@ -241,7 +242,7 @@ class OrderController extends Controller
             
         }
         $order_delivery = OrderDeliveryManagement::first();
-
+        session(['url.intended' => 'checkout.payment']);
         return Inertia::render('Frontend/Orders/OrderCheckout', [
             'data' => compact(
                 'cart',
@@ -262,7 +263,8 @@ class OrderController extends Controller
                 'pin_response',
                 'order_delivery',
                 'cod_message'
-            )
+            ),
+            'districts'=> District::all(),
         ]);
 
         // dd(compact(
@@ -411,6 +413,11 @@ class OrderController extends Controller
         $shipping_amount = 0;
         $cod_response = '';
         
+        $cart_amounts = get_cart_amounts();
+
+
+        $cart_total_with_discount = $cart_amounts->cart->cart_discounted_total - $cart_amounts->coupon_discount;
+
         if ($shipping_charges->purchase_min_limit >= get_cart_amounts()->cart->cart_discounted_total) {
             $shipping_address = ShippingAddresses::where('user_id', auth()->user()->id)->where('shipping_address_id', $shipping_id)->first();
             $shipping_amount = json_decode(check_pincode($shipping_address->shipping_pincode))->data->available_courier_companies[0]->rate;
@@ -422,6 +429,32 @@ class OrderController extends Controller
         }
         $shipping_address = ShippingAddresses::where('user_id', auth()->user()->id)->where('shipping_address_id', $shipping_id)->first();
         $cod_response = json_decode(check_pincode($shipping_address->shipping_pincode))->data->available_courier_companies[0]->cod;
+        
+        $daily_cod_limit = Dailycodlimit::where(['status' => 'active'])->get()->toArray();
+        $orders_data = count(Orders::where(['user_id' => auth()->user()->id, 'payment_mode' => 'cod'])->whereRaw('Date(created_at) = CURDATE()')->get());
+
+        $cod_status = true;
+        $cod_rmk = 'Cod Not Available';
+        $cod_message = '';
+        $cod_management = CODManagement::first();
+        $cod_charges = $cod_management->cod_collection_charge;
+        // dd($cod_management);
+        if ($cod_management) {
+            if (!($cod_management->cod_purchase_min_limit <= $cart_total_with_discount && $cod_management->cod_purchase_max_limit >= $cart_total_with_discount)) {
+                $cod_rmk = 'Cash on Delivery facility is available on min. net order amount of ₹ ' . $cod_management->cod_purchase_min_limit . ' and max. ₹ ' . $cod_management->cod_purchase_max_limit . ' ';
+                $cod_response = 0;
+                $cod_message = 'Cash on Delivery facility is available on min. net order amount of ₹ ' . $cod_management->cod_purchase_min_limit . ' and max. ₹ ' . $cod_management->cod_purchase_max_limit . ' ';
+            } else if (!empty($fake_orders) && $fake_orders[0]['status'] != 'active') {
+                $cod_response = 0;
+                $cod_message = 'Cash on Delivery facility is restricted for now';
+                $cod_rmk = 'Cash on Delivery facility is restricted for now';
+            } else if (!empty($daily_cod_limit) && ($daily_cod_limit[0]['count'] <= $orders_data)) {
+                $cod_response = 0;
+                $cod_message = 'Cash on Delivery Limit Reached!';
+                $cod_rmk = 'Cash on Delivery Limit Reached!';
+            }
+        }
+        
 
         return response()->json(['shipping_amount' => $shipping_amount, 'cod_response' => $cod_response], 200);
     }
