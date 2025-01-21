@@ -268,9 +268,11 @@ class ProductController extends Controller
         }
     }
 
-    public function viewProductDetails($product_id)
+    public function viewProductDetails($product_slug)
     {
-        $data['product'] = Products::where('product_id', $product_id)->with('product_variants')->first();
+        
+        $data['product'] = Products::where('product_slug', $product_slug)->with('product_variants')->first();
+        $product_id = $data['product']->product_id;
         $data['product_reviews'] = Review::where('product_id', $product_id)->get()->toArray();
         $data['product_images'] = ProductImages::where('product_id', $product_id)->limit(3)->get()->toArray();
         $data['average_rating'] = Review::where('product_id', $product_id)->avg('rating'); 

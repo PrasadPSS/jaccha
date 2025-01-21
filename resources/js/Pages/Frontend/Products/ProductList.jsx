@@ -27,7 +27,7 @@ const ProductList = ({ filteredProducts, setCurrentPage, currentPage }) => {
     return (
         <div className="row">
             {currentProducts.map((product, index) => (
-                <a href={'/product/view/' + product.id} className={index > 2 ? "col-sm-4 mt-5" : "col-sm-4"} key={product.id}>
+                <a href={'/product/view/' + product.product_slug} className={index > 2 ? "col-sm-4 mt-5" : "col-sm-4"} key={product.id}>
 
                     <div className="feature-box">
 
