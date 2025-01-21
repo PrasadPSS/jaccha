@@ -20,7 +20,7 @@ export default function ProductSearch({ auth, products, homepagesections, sizes,
     let productDetails = [];
     products.map((element)=>
         {
-            productDetails.push( {id: element.product_id, name: element.product_title, category: element.category_slug, price: element.product_price, image: '/backend-assets/uploads/product_thumbs/' + element.product_thumb, description: 'Sample 1', reviews: element.reviews != null ? element.reviews.length: 0, rating:element.reviews_avg_rating != null ? Number(element.reviews_avg_rating) : 0,size: 'Small', updatedAt: new Date(element.updated_at).getTime()});
+            productDetails.push( {id: element.product_id, product_slug: element.product_slug, name: element.product_title, category: element.category_slug, price: element.product_price, image: '/backend-assets/uploads/product_thumbs/' + element.product_thumb, description: 'Sample 1', reviews: element.reviews != null ? element.reviews.length: 0, rating:element.reviews_avg_rating != null ? Number(element.reviews_avg_rating) : 0,size: 'Small', updatedAt: new Date(element.updated_at).getTime()});
         })
         console.log('here products', products);
     const [search, setSearch] = useState("");
