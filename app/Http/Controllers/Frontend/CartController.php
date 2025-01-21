@@ -17,6 +17,7 @@ use App\Models\backend\ProductVariants;
 use App\Models\backend\ShippingChargesManagement;
 use App\Models\frontend\Cart;
 use App\Models\frontend\CartCoupons;
+use App\Models\frontend\InvoiceCounter;
 use App\Models\frontend\OrderCoupons;
 use App\Models\frontend\ShippingAddresses;
 use App\Models\Product;
@@ -221,6 +222,15 @@ class CartController extends Controller
                         $order->email = $payment_info->email;
                         $order->customer_name = $payment_info->customer_name;
                         $order->payment_mode = $payment_info->payment_mode;
+
+                        if (!$order->invoice_counter_id) {
+                            $invoice_counter = InvoiceCounter::first();
+                            $invoice_counter_increment_id = $invoice_counter->invoice_counter + 1;
+                            $invoice_counter->invoice_counter = $invoice_counter_increment_id;
+                            $invoice_counter->save();
+                            $order->invoice_counter_id = "GRP" . $invoice_counter_increment_id;
+                            
+                          }
 
                         if ($order->save()) {
                             $order_id = $order->order_id;

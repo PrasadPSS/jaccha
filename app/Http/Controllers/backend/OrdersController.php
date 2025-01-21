@@ -49,7 +49,7 @@ class OrdersController extends Controller
   public function viewInvoice($id)
   {
 
-    $orders = Orders::where('order_id', $id)->with(['orderproducts'])->first();
+    $orders = Orders::where('order_id', $id)->with(['orderproducts', 'orderproducts.products.hsncode'])->first();
     $shipping_address = ShippingAddresses::where('user_id', $orders->user_id)->where('default_address_flag', 1)->first();
     if (!$shipping_address) {
       $shipping_address = ShippingAddresses::where('user_id', $orders->user_id)->first();

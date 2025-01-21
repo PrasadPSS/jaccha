@@ -89,9 +89,9 @@
       @foreach($orders->orderproducts as $item)
           <tr>
               <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="">{{ $item->product_sku.'('.$item->product_title.')' }}</td>
-              <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="">{{ $item->product_hsn }}</td>
+              <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="">{{ $item->products->hsncode->hsncode_name }}</td>
               <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="">{{ $item->product_price }}</td>
-              <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="">{{ $item->rev_sell_price }}</td>
+              <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="">{{ number_format($item->rev_sell_price,2) }}</td>
               <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="">{{ $item->qty }}</td>
               <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="">{{ $item->rev_discount }}</td>
               <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px;border:1px solid #000" colspan="">{{ $item->rev_taxable_amount }}</td>
@@ -109,31 +109,14 @@
               $x++;
           @endphp
       @endforeach
-      @if($orders->coupon_discount)
-          <tr>
-            <td style="font-family: 'Roboto', sans-serif !important;text-align:left;border:1px solid #000; padding:5px 4px;" colspan="0"><p style="font-family: 'Roboto', sans-serif !important;font-size: 14px;margin-bottom: 0rem; font-weight: bold;margin-top:0px !important">COUPON DISCOUNT</p></td>
-            <td style="font-family: 'Roboto', sans-serif !important;border:1px solid #000; padding:5px 4px;font-size: 12px;" colspan="">{{($orders->coupon_discount!='')?$orders->coupon_discount:0}}</td>
-            <td style="font-family: 'Roboto', sans-serif !important;border:1px solid #000; padding:5px 4px;font-size: 12px;" colspan="">{{($orders->coupon_discount!='')?$orders->coupon_discount:0}}</td>
-            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
-            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
-            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
-            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">{{($orders->coupon_discount!='')?$orders->coupon_discount:0}}</td>
-            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
-            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
-            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
-            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
-            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
-            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
-            <td style="font-family: 'Roboto', sans-serif !important;border:1px solid #000; padding:5px 4px;font-size: 12px;" colspan="">{{($orders->coupon_discount!='')?$orders->coupon_discount:0}}</td>
-          </tr>
-      @endif
+      
       @if($orders->payment_mode == 'cod')
       <tr>
         <td style="text-align:left;border:1px solid #000; font-family: 'Roboto', sans-serif !important;padding:5px 4px;" colspan="0"><p style="font-size: 14px;margin-bottom: 0rem; font-weight: bold;margin-top:0px !important">COD CHARGES</p></td>
         <td style="font-family: 'Roboto', sans-serif !important;border:1px solid #000; padding:5px 4px;font-size: 12px;" colspan="">COD</td>
         <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">{{ ($orders->cod_collection_charge)?$orders->cod_collection_charge:0.00 }}</td>
         <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">{{ 0.00 }}</td>
-        <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0</td>
+        <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
         <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
         <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">{{ ($orders->cod_collection_charge)?$orders->cod_collection_charge:0.00 }}</td>
         <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">{{ ($orders->cod_cgst_percent)?$orders->cod_cgst_percent:0.00 }}</td>
@@ -162,6 +145,24 @@
       <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
       <td style="font-family: 'Roboto', sans-serif !important;border:1px solid #000; padding:5px 4px;font-size: 12px;" colspan="">@if($orders->shipping_amount!=0 && $orders->shipping_method_code!='free'){{$orders->shipping_amount}} @else 0.00 @endif</td>
     </tr>
+    @if($orders->coupon_discount)
+          <tr>
+            <td style="font-family: 'Roboto', sans-serif !important;text-align:left;border:1px solid #000; padding:5px 4px;" colspan="0"><p style="font-family: 'Roboto', sans-serif !important;font-size: 14px;margin-bottom: 0rem; font-weight: bold;margin-top:0px !important">COUPON DISCOUNT ({{$orders->coupon_code}})</p></td>
+            <td style="font-family: 'Roboto', sans-serif !important;border:1px solid #000; padding:5px 4px;font-size: 12px;" colspan="">{{($orders->coupon_discount!='')?$orders->coupon_discount:0.00}}</td>
+            <td style="font-family: 'Roboto', sans-serif !important;border:1px solid #000; padding:5px 4px;font-size: 12px;" colspan="">{{($orders->coupon_discount!='')?$orders->coupon_discount:0.00}}</td>
+            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
+            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
+            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
+            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">{{($orders->coupon_discount!='')?$orders->coupon_discount:0.00}}</td>
+            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
+            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
+            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
+            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
+            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
+            <td style="font-family: 'Roboto', sans-serif !important;padding:5px 4px;font-size: 12px; ">0.00</td>
+            <td style="font-family: 'Roboto', sans-serif !important;border:1px solid #000; padding:5px 4px;font-size: 12px;" colspan="">{{($orders->coupon_discount!='')?number_format((float)$orders->coupon_discount, 2, '.', ''):0.00}}</td>
+          </tr>
+      @endif
 
 
 

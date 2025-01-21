@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\backend\Orders;
+use App\Models\frontend\InvoiceCounter;
 use App\Models\frontend\OrderCoupons;
 use App\Models\OrderItem;
 use App\Models\PaymentDetail;
@@ -716,6 +717,14 @@ class OrderController extends Controller
                         $order->coupon_code = $data['couponcode'] ?? NUll;
                         $order->coupon_discount = $data['coupondiscount'] ?? NULL;
                         }
+                        if (!$order->invoice_counter_id) {
+                            $invoice_counter = InvoiceCounter::first();
+                            $invoice_counter_increment_id = $invoice_counter->invoice_counter + 1;
+                            $invoice_counter->invoice_counter = $invoice_counter_increment_id;
+                            $invoice_counter->save();
+                            $order->invoice_counter_id = "GRP" . $invoice_counter_increment_id;
+              
+                          }
 
                         if ($order->save()) {
                             $order_id = $order->order_id;
