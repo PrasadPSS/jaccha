@@ -45,12 +45,12 @@ class RegisteredUserController extends Controller
             'password' => [
                 'required',
                 'confirmed',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{10,}$/'
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/'
             ],
             'phoneNo' => 'required|numeric',
             'lastName' => 'required|string|max:255',
         ], [
-            'password.regex' => 'The password must be at least 10 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character (e.g., @$!%*?&).',
+            'password.regex' => '',
         ]);
        
         $user = User::create([
