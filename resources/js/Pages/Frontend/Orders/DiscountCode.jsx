@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const DiscountCode = ({ finalGrandTotal, setFinalGrandTotal, shippingAmount, codCharges, gstCharges, paymentMode, setCouponCode1, setCouponDiscount }) => {
+const DiscountCode = ({ finalGrandTotal, setFinalGrandTotal, shippingAmount, codCharges, gstCharges, paymentMode, setCouponCode1, setCouponDiscount, removeCoupon }) => {
     const [couponCode, setCouponCode] = useState('');
     const [message, setMessage] = useState('');
 
@@ -19,11 +19,14 @@ const DiscountCode = ({ finalGrandTotal, setFinalGrandTotal, shippingAmount, cod
                     
                     finalGrandTotal= 0;
                     let codCharge = paymentMode == 'Cash On Delivery' ? codCharges : 0;
-                   
+                    console.log('coupon worked', discountAmount);
                     setFinalGrandTotal((Number(updatedTotal) + Number(shippingAmount) + Number(codCharge) + Number(gstCharges)).toFixed(2));
+                   
                     setMessage(`Coupon applied successfully! Discount: ${discountAmount}`);
                     setCouponCode1(couponCode);
+                   
                     setCouponDiscount(discountAmount);
+                    console.log('coupons worked', discountAmount);
                     toast(message);
                 } else {
                     setMessage(message);
@@ -49,6 +52,7 @@ const DiscountCode = ({ finalGrandTotal, setFinalGrandTotal, shippingAmount, cod
             <button className="discount-button" type="button" onClick={handleApplyCoupon}>
                 Apply
             </button>
+            <button className="discount-button" onClick={removeCoupon}>Remove</button>
             <br />
             <div>
           

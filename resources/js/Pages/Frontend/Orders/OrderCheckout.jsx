@@ -6,6 +6,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import DiscountCode from "./DiscountCode";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 
 export default function OrderCheckout({ auth, data }) {
@@ -107,6 +108,12 @@ export default function OrderCheckout({ auth, data }) {
     const [finalGrandTotal1, setFinalGrandTotal1] = useState(finalGrandTotal);
     const[couponCode, setCouponCode] = useState('');
     const[couponDiscount, setCouponDiscount] = useState(0);
+    const removeCoupon = ()=>
+    {
+        setCouponCode('');
+        setCouponDiscount(0);
+        toast('Coupon removed successfully');
+    };
 
     return (
         <HomeLayout auth={auth}>
@@ -311,7 +318,7 @@ export default function OrderCheckout({ auth, data }) {
 
                                     </div> */}
                                     
-                                    <DiscountCode setCouponCode1={setCouponCode} setCouponDiscount={setCouponDiscount} paymentMode={paymentMode} gstCharges={totalGst} shippingAmount={shippingAmount} codCharges={Number(cod_charges).toFixed(2)} finalGrandTotal={finalGrandTotal1} setFinalGrandTotal={setFinalGrandTotal1}/>
+                                    <DiscountCode removeCoupon={removeCoupon} setCouponCode1={setCouponCode} setCouponDiscount={setCouponDiscount} paymentMode={paymentMode} gstCharges={totalGst} shippingAmount={shippingAmount} codCharges={Number(cod_charges).toFixed(2)} finalGrandTotal={finalGrandTotal1} setFinalGrandTotal={setFinalGrandTotal1}/>
                                     <div className="payment-history mt-5">
                                         
                                         <div className="payment-display mb-2">
@@ -323,7 +330,7 @@ export default function OrderCheckout({ auth, data }) {
                                             <p>Subtotal . {auth.cart_count} Items</p>
                                             
                                             <p>₹
-                                            {paymentMode == 'Cash On Delivery' ? finalGrandTotal - parseFloat(shippingAmount).toFixed(2) - Number(cod_charges) :  finalGrandTotal - parseFloat(shippingAmount).toFixed(2)}
+                                            {paymentMode == 'Cash On Delivery' ? (finalGrandTotal - parseFloat(shippingAmount).toFixed(2) - Number(cod_charges)).toFixed(2) :  (finalGrandTotal - parseFloat(shippingAmount).toFixed(2)).toFixed(2)}
                                             </p>
                                         </div>
                                         <div className="payment-display mb-3">
@@ -334,14 +341,14 @@ export default function OrderCheckout({ auth, data }) {
                                             <p>COD Charges</p>
                                             <p>₹
                                             {paymentMode == 'Cash On Delivery' ? 
-                                            Number(codCharges).toFixed(2) : 0
+                                            Number(codCharges).toFixed(2) : Number(0).toFixed(2)
                                             }
                                             </p>
                                         </div>
                                         {couponDiscount != 0 && 
                                         (<div className="payment-display mb-3">
                                         <p>Coupon Discount</p>
-                                        <p>- ₹{couponDiscount}</p>
+                                        <p>- ₹{Number(couponDiscount).toFixed(2)}</p>
                                        
                                         </div>)
                                         }
