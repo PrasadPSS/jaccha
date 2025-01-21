@@ -26,7 +26,7 @@
             </td>
             <td  class="first__td" style="font-family: 'Roboto', sans-serif !important;vertical-align: baseline;padding:12px;border-top:1px solid #000">
               <p style="font-family: 'Roboto', sans-serif !important;font-size: 14px;margin-bottom: 0rem !important; font-weight: bold;letter-spacing:.3px;margin-top:0px !important">CARRIER NAME: DELIVERY</p>
-              <p style="font-family: 'Roboto', sans-serif !important;font-size: 14px;margin-bottom: 0rem !important; font-weight: bold;margin-top:6px;letter-spacing:.3px">MODE OF PAYMENT: @if($orders->payment_mode=='payumoney')ONLINE @elseif($orders->payment_mode=='cod')COD @else- @endif</p>
+              <p style="font-family: 'Roboto', sans-serif !important;font-size: 14px;margin-bottom: 0rem !important; font-weight: bold;margin-top:6px;letter-spacing:.3px">MODE OF PAYMENT: @if($orders->payment_mode=='Online')ONLINE @elseif($orders->payment_mode=='cod')COD @else- @endif</p>
               <p style="font-family: 'Roboto', sans-serif !important;font-size: 14px;margin-bottom: 0rem !important; font-weight: bold;margin-top:6px;letter-spacing:.3px">BILLING STATE: {{ strtoupper($orders->shipping_state)}} </p>
               <p style="font-family: 'Roboto', sans-serif !important;font-size: 14px;margin-bottom: 0rem !important; font-weight: bold;margin-top:6px;letter-spacing:.3px">PLACE OF SUPPLY: {{ strtoupper($company->state) }} </p>
             </td>
