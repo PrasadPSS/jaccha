@@ -134,7 +134,7 @@ export default function Banner({
                                     </h3>
                                     <Link
                                         href={
-                                            '/product/view/'+ product.product_id
+                                            '/product/view/'+ product.product_slug
                                         }
                                         className="button"
                                     >

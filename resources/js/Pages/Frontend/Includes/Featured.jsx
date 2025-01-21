@@ -21,6 +21,7 @@ export default function Featured({
         avg_rating = sum_rating / element.reviews.length;
         products.push({
             id: element.product_id,
+            product_slug: element.product_slug,
             image: asset('backend-assets/uploads/product_thumbs/' + element.product_thumb),
             name: element.product_title, price: element.product_price,
             category: element.category_slug,
@@ -40,7 +41,7 @@ export default function Featured({
                 </div>
                 <div className="row mt-5" data-aos="fade-up">
                     {products.map((product, index) => (
-                        <Link href={"/product/view/" + product.id} key={index} className="col-sm-3">
+                        <Link href={"/product/view/" + product.product_slug} key={index} className="col-sm-3">
                             <div className="feature-box">
                                 <div className="basket-box">
                                     <Link
