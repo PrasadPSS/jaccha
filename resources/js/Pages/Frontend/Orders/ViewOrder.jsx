@@ -2,11 +2,35 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import HomeLayout from '@/Layouts/HomeLayout';
 import convertToShortDateFormat from '@/Helpers/date';
 import UserMenu from '@/Layouts/UserMenu';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import React from 'react';
 
 export default function ViewOrder({ auth, orders }) {
 
+let token = usePage().props.auth.csrf_token;;
+const handleAddAllToCart = ( related_product_list) => {
+    console.log('related_list', related_product_list);
+        related_product_list.forEach((item) => {
+            const { product } = item;
+            const data = {
+                product_id: item.product_id,
+                product_type: "simple", // Assuming all are simple products; adjust as needed
+                product_variant_id: null, // Adjust if variants exist
+                quantity: 1, // Default quantity; update as required
+                _token: token,
+            };
+
+            // Use Laravel's Inertia Link to make a POST request
+            router.post("/product/addtocart", data, {
+                onSuccess: () => {
+                    console.log(`Added ${product.product_title} to cart`);
+                },
+                onError: (error) => {
+                    console.error(`Failed to add ${product.product_title}:`, error);
+                },
+            });
+        });
+    };
 
     return (
         <UserMenu auth={auth} activeTab={'orders'}>
@@ -121,7 +145,7 @@ export default function ViewOrder({ auth, orders }) {
                                             ><button>View Order</button>
                                             </Link>
 
-                                            <Link as='button' href={'/product/view/' + order.orderproducts[0].product_id} className="buy-again mt-2">Buy Again</Link>
+                                            <Link as='button' onClick={()=>handleAddAllToCart(order.orderproducts)} className="buy-again mt-2">Buy Again</Link>
                                         </div>
                                     </div>
                                 </div>
