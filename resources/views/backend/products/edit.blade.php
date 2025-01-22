@@ -774,7 +774,7 @@ if (isset($product_images) && count($product_images) >= 6) {
             var load_product_sku = $("#product_sku").val();
             var load_product_type = $("#product_type").val();
             var load_product_price = $("#product_price").val();
-            if (load_product_type != '' && load_product_sku != '' && load_product_price != '') {
+            if (load_product_type != '' && load_product_sku != '') {
                 // alert('tet');
                 productconfiguration(load_product_type, load_product_sku);
             }
@@ -807,7 +807,7 @@ if (isset($product_images) && count($product_images) >= 6) {
                     productconfiguration(product_type, product_sku);
                 }
             });
-
+            
             function productconfiguration(product_type, product_sku) {
                 // alert('in');
                 if (product_type == 'configurable') {

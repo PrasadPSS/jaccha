@@ -179,24 +179,50 @@ class ProductsController extends Controller
     public function store(Request $request)
 
     { 
-        $this->validate($request, [
-            'product_title' => ['required'],
-            'product_sku' => ['required'],
-            'product_type' => ['required'],
-            'product_price' => ['required'],
-            'category_id' => ['required'],
-            'gst_id'=> 'required',
-            'sub_category_id' => ['required'],
-            'length' => ['required'],
-            'width' => ['required'],
-            'height' => ['required'],
-            // 'filter_id' => ['required'],
-            'country_id' => ['required'],
-            'product_thumb' => ['required'],
-            'product_discount_type' => ['required'],
-            'product_weight' => ['required'],
-            'product_images' => 'max:6',
-        ], ['product_images.max' => 'You are only allowed to upload a maximum of 6 files',]);
+
+        if($request->product_type == 'configurable')
+        {
+            $this->validate($request, [
+                'product_title' => ['required'],
+                'product_sku' => ['required'],
+                'product_type' => ['required'],
+               
+                'category_id' => ['required'],
+                'gst_id'=> 'required',
+                'sub_category_id' => ['required'],
+                'length' => ['required'],
+                'width' => ['required'],
+                'height' => ['required'],
+                // 'filter_id' => ['required'],
+                'country_id' => ['required'],
+                'product_thumb' => ['required'],
+                
+                
+                'product_images' => 'max:6',
+            ], ['product_images.max' => 'You are only allowed to upload a maximum of 6 files',]);
+        }
+        else
+        {
+            $this->validate($request, [
+                'product_title' => ['required'],
+                'product_sku' => ['required'],
+                'product_type' => ['required'],
+                'product_price' => ['required'],
+                'category_id' => ['required'],
+                'gst_id'=> 'required',
+                'sub_category_id' => ['required'],
+                'length' => ['required'],
+                'width' => ['required'],
+                'height' => ['required'],
+                // 'filter_id' => ['required'],
+                'country_id' => ['required'],
+                'product_thumb' => ['required'],
+                'product_discount_type' => ['required'],
+                'product_weight' => ['required'],
+                'product_images' => 'max:6',
+            ], ['product_images.max' => 'You are only allowed to upload a maximum of 6 files',]);
+        }
+        
 
         $categories = Categories::where('category_id', $request->input('category_id'))->first();
         $sub_categories = SubCategories::where('category_id', $request->input('category_id'))->where('subcategory_id', $request->input('sub_category_id'))->first();
@@ -361,6 +387,9 @@ class ProductsController extends Controller
                     foreach ($variants as $variant) {
                         $variant_products = new ProductVariants();
                         $variant_products->fill($variant);
+                        $variant_products->product_price = $variant['product_discounted_price'];
+                        $variant_weight = Sizes::where('size_id', $variant['size_id'])->first()->size_code;
+                        $variant_products->product_weight = $variant_weight;
                         $variant_products->category_slug = $categories->category_slug;
                         $variant_products->category_id = $categories->category_id;
                         $variant_products->sub_category_slug = $sub_categories->sub_category_slug;
@@ -554,25 +583,50 @@ class ProductsController extends Controller
     public function update(Request $request)
     {
 
-        $this->validate($request, [
-            'product_sku' => ['required'],
-            'product_title' => ['required'],
-            'product_price' => ['required'],
-            'product_type' => ['required'],
-            'product_price' => ['required'],
-            'gst_id' => 'required',
-            'category_id' => ['required'],
-            'sub_category_id' => ['required'],
-            'length' => ['required'],
-            'width' => ['required'],
-            'height' => ['required'],
+        if($request->product_type == 'configurable')
+        {
+            $this->validate($request, [
+                'product_sku' => ['required'],
+                'product_title' => ['required'],
+                'product_type' => ['required'],
+                
+                'gst_id' => 'required',
+                'category_id' => ['required'],
+                'sub_category_id' => ['required'],
+                'length' => ['required'],
+                'width' => ['required'],
+                'height' => ['required'],
+    
+                'country_id' => ['required'],
 
-            'country_id' => ['required'],
-            'product_discount_type' => ['required'],
-            'product_weight' => ['required'],
-            'product_images' => 'max:6',
-            'ingredients' => 'required',
-        ], ['product_images.max' => 'You are only allowed to upload a maximum of 6 files',]);
+                
+                'product_images' => 'max:6',
+                'ingredients' => 'required',
+            ], ['product_images.max' => 'You are only allowed to upload a maximum of 6 files',]);
+        }
+        else
+        {
+            $this->validate($request, [
+                'product_sku' => ['required'],
+                'product_title' => ['required'],
+                'product_price' => ['required'],
+                'product_type' => ['required'],
+                
+                'gst_id' => 'required',
+                'category_id' => ['required'],
+                'sub_category_id' => ['required'],
+                'length' => ['required'],
+                'width' => ['required'],
+                'height' => ['required'],
+    
+                'country_id' => ['required'],
+                'product_discount_type' => ['required'],
+                'product_weight' => ['required'],
+                'product_images' => 'max:6',
+                'ingredients' => 'required',
+            ], ['product_images.max' => 'You are only allowed to upload a maximum of 6 files',]);
+        }
+        
         $id = $request->input('product_id');
         $products = Products::findOrFail($id);
         $products->fill($request->all());
@@ -895,8 +949,8 @@ class ProductsController extends Controller
     public function getproductvariants(Request $request)
     {
         $data = $request->all();
-        $colors = Colors::whereIn('color_id', $data['color_id'])->get();
-        // $sizes = Sizes::whereIn('size_id',$data['size_id'])->get();
+        info(json_encode($data));
+        $sizes = Sizes::whereIn('size_id',$data['size_id'])->get();
         // $subsubcategory_list = collect($subsubcategory)->mapWithKeys(function ($item, $key) {
         //     return [$item['sub_subcategory_id'] => $item['sub_subcategory_name']];
         //   });
@@ -913,19 +967,15 @@ class ProductsController extends Controller
                 $sizes = Sizes::whereIn('size_id', $data['size_id'])->get();
             }
 
-            foreach ($colors as $color) {
+           
                 if (isset($data['size_id']) && $data['size_id'] != '' && !empty($sizes)) {
                     foreach ($sizes as $size) {
                         $variants .= '<tr data-repeater-item>';
                         $variants .= '<td>';
-                        $variants .= '<input type="text" name="variants[' . $variants_cnt . '][product_sku]" class="form-control" value="' . $sku . '-variant-' . $color->color_id . '-' . $size->size_id . '" required>';
+                        $variants .= '<input type="text" name="variants[' . $variants_cnt . '][product_sku]" class="form-control" value="' . $sku . '-variant-' . $size->size_id . '" required>';
                         $variants .= '</td>';
                         $variants .= '<td>';
-                        $variants .= '<input type="text" name="variants[' . $variants_cnt . '][product_title]" class="form-control" value="" required>';
-                        $variants .= '</td>';
-                        $variants .= '<td>';
-                        $variants .= '<input type="hidden" name="variants[' . $variants_cnt . '][color_id]" value="' . $color->color_id . '">';
-                        $variants .= $color->color_name;
+                        $variants .= '<input type="text" name="variants[' . $variants_cnt . '][product_title]" class="form-control" value="' . $sku . '-' . $data['product_title'] . '-'.  $size->size_id . '" required>';
                         $variants .= '</td>';
                         $variants .= '<td>';
                         $variants .= '<input type="hidden" name="variants[' . $variants_cnt . '][size_id]" value="' . $size->size_id . '">';
@@ -953,14 +1003,10 @@ class ProductsController extends Controller
                 } else {
                     $variants .= '<tr data-repeater-item>';
                     $variants .= '<td>';
-                    $variants .= '<input type="text" name="variants[' . $variants_cnt . '][product_sku]" class="form-control" value="' . $sku . '-variant-' . $color->color_id . '" required>';
+                    $variants .= '<input type="text" name="variants[' . $variants_cnt . '][product_sku]" class="form-control" value="' . $sku . '-variant-' . '" required>';
                     $variants .= '</td>';
                     $variants .= '<td>';
                     $variants .= '<input type="text" name="variants[' . $variants_cnt . '][product_title]" class="form-control" value="" required>';
-                    $variants .= '</td>';
-                    $variants .= '<td>';
-                    $variants .= '<input type="hidden" name="variants[' . $variants_cnt . '][color_id]" value="' . $color->color_id . '">';
-                    $variants .= $color->color_name;
                     $variants .= '</td>';
                     $variants .= '<td>-';
                     $variants .= '<input type="hidden" name="variants[' . $variants_cnt . '][size_id]" value="">';
@@ -985,7 +1031,7 @@ class ProductsController extends Controller
 
                     $variants_cnt++;
                 }
-            }
+            
             // if (count($subsubcategory)==0)
             // {
             //   echo "<option value=''>No Record Found</option>";

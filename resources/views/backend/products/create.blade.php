@@ -67,7 +67,7 @@ foreach ($gst as $gs) {
                                             <div class="form-group">
                                                 
                                                 {{ Form::label('product_title', 'Product Title ') }}
-                                                {{ Form::text('product_title', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Title', 'required' => true]) }}
+                                                {{ Form::text('product_title', null, ['id'=> 'product_title', 'class' => 'form-control', 'placeholder' => 'Enter Product Title', 'required' => true]) }}
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-12 mb-1">
@@ -125,13 +125,13 @@ foreach ($gst as $gs) {
                                                     </div>
                                                 </fieldset>
                                         </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
+                                        <div class="col-md-6 col-12" id="product_price_div">
+                                            <div class="form-group" >
                                                 {{ Form::label('product_price', 'Product Price ') }}
-                                                {{ Form::text('product_price', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Price', 'required' => true, 'id' => 'product_price']) }}
+                                                {{ Form::text('product_price', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Price', 'id' => 'product_price']) }}
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-6 col-12" id="product_discount_div">
                                             <fieldset class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
@@ -141,13 +141,13 @@ foreach ($gst as $gs) {
                                                 </div>
                                             </fieldset>
                                         </div>
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-6 col-12" id="product_discount_amount_div">
                                             <div class="form-group">
                                                 {{ Form::label('product_discount', 'Product Discount ') }}
                                                 {{ Form::text('product_discount', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Discount', 'id' => 'product_discount']) }}
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-6 col-12" id="product_discounted_div">
                                             <div class="form-group">
                                                 {{ Form::label('product_discounted_price', 'Product Discounted Price ') }}
                                                 {{ Form::text('product_discounted_price', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Discounted Price', 'id' => 'product_discounted_price']) }}
@@ -159,12 +159,22 @@ foreach ($gst as $gs) {
                                                 {{ Form::text('product_qty', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Quantity']) }}
                                             </div>
                                         </div>
+                                        <div class="col-md-6 col-12" id="config_size_div" style="display:none;">
+                                                {{ Form::label('size_id', 'Variant Weights ', ['class' => '']) }}
+                                                <fieldset class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                        </div>
+                                                        {{ Form::select('size_id[]', $size_list, null, ['class' => 'select2 form-control ', 'multiple' => 'multiple', 'id' => 'config_size_id']) }}
+                                                    </div>
+                                                </fieldset>
+                                            </div>
 
                                         
 
                                         
 
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-md-6 col-12" id="product_weight_div">
                                             <div class="form-group">
                                                 {{ Form::label('product_weight', 'Product Weight(gms) *') }}
                                                 {{ Form::number('product_weight', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Weight']) }}
@@ -584,7 +594,7 @@ foreach ($gst as $gs) {
             var product_sku = $("#product_sku").val();
             var product_price = $("#product_price").val();
             // console.log(product_type);
-            if (product_type != '' && product_sku != '' && product_price != '') {
+            if (product_type != '') {
                 productconfiguration(product_type, product_sku);
             }
         });
@@ -593,7 +603,7 @@ foreach ($gst as $gs) {
             var product_type = $("#product_type").val();
             var product_price = $("#product_price").val();
             // console.log(product_type);
-            if (product_type != '' && product_sku != '' && product_price != '') {
+            if (product_type != '' && product_sku != '') {
                 productconfiguration(product_type, product_sku);
             }
         });
@@ -602,7 +612,7 @@ foreach ($gst as $gs) {
             var product_type = $("#product_type").val();
             var product_price = $(this).val();
             // console.log(product_type);
-            if (product_type != '' && product_sku != '' && product_price != '') {
+            if (product_type != '' && product_sku != '') {
                 productconfiguration(product_type, product_sku);
             }
         });
@@ -621,6 +631,12 @@ foreach ($gst as $gs) {
                 $('#config_product_qty').hide();
                 $('#sim_color_div').hide();
                 $('#sim_size_div').hide();
+                $('#product_price_div').hide();
+                $('#product_discount_div').hide();
+                $('#product_discounted_div').hide();
+                $('#product_discount_amount_div').hide();
+                $('#product_weight_div').hide();
+                
             } else {
                 $('#config_color_div').hide();
                 $('#config_size_div').hide();
@@ -629,22 +645,15 @@ foreach ($gst as $gs) {
                 $('#sim_color_div').show();
                 $('#sim_size_div').show();
                 $('#config_product_qty').show();
+                $('#product_price_div').show();
+                $('#product_discount_div').show();
+                $('#product_discounted_div').show();
+                $('product_discount_amount_div').show();
+                $('#product_weight_div').show();
             }
         }
 
-        $("#config_color_id").change(function () {
-            var color_id = $(this).val();
-            var size_id = $("#config_size_id").val();
-            var product_type = $("#product_type").val();
-            var product_sku = $("#product_sku").val();
-            var product_price = $("#product_price").val();
-            // console.log(color_id);
-            if (color_id != '' && product_type != '' && product_sku != '' && product_price != '' &&
-                product_discounted_price != '') {
-                getproductvariants(color_id, size_id, product_type, product_sku, product_price,
-                    product_discounted_price);
-            }
-        });
+       
         $("#config_size_id").change(function () {
             var size_id = $(this).val();
             var color_id = $("#config_color_id").val();
@@ -653,26 +662,28 @@ foreach ($gst as $gs) {
             var product_price = $("#product_price").val();
             var product_discounted_price = $("#product_discounted_price").val();
             // console.log(color_id);
-            if (color_id != '' && product_type != '' && product_sku != '' && product_price != '' &&
-                product_discounted_price != '') {
-                getproductvariants(color_id, size_id, product_type, product_sku, product_price,
+            let product_title = $("#product_title").val();
+            if ( product_type != '' && product_sku != '' && product_title != '') {
+                getproductvariants( size_id, product_type, product_sku, product_price,
                     product_discounted_price);
             }
         });
 
-        function getproductvariants(color_id, size_id, product_type, product_sku, product_price,
+        function getproductvariants( size_id, product_type, product_sku, product_price,
             product_discounted_price) {
+            let product_title = $("#product_title").val();
             if (product_type == 'configurable') {
                 $.ajax({
                     url: '{{ url('admin/products/getproductvariants') }}',
                     type: 'post',
                     data: {
-                        color_id: color_id,
+                        color_id: 1,
                         size_id: size_id,
+                        product_title:product_title,
                         product_type: product_type,
-                        product_discounted_price: product_discounted_price,
+                        product_discounted_price: 0,
                         product_sku: product_sku,
-                        product_price: product_price,
+                        product_price: 0,
                         _token: "{{ csrf_token() }}",
                     },
                     success: function (data) {
