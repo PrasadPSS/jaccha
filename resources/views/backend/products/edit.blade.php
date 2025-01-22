@@ -174,7 +174,8 @@ foreach ($gst as $gs) {
                                                 {{ Form::hidden('product_discount', $products->product_discount, ['id' => 'product_discount']) }}
                                                 {{ Form::hidden('product_discounted_price', $products->product_discounted_price, ['id' => 'product_discounted_price']) }}
                                             @endif
-                                            <div class="col-md-6 col-12" id="config_product_qty" style="display:none;">
+                                    
+                                            <div class="col-md-6 col-12"  >
                                                 <div class="form-group">
                                                     {{ Form::label('product_qty', 'Product Quantity ') }}
                                                     {{ Form::text('product_qty', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Quantity']) }}
