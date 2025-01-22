@@ -49,9 +49,12 @@ const DiscountCode = ({ finalGrandTotal, couponCode1, setFinalGrandTotal, shippi
                 value={couponCode}
                 onChange={(e) => setCouponCode(e.target.value)}
             />
+            {couponCode1 == '' &&
             <button className="discount-button" type="button" onClick={handleApplyCoupon}>
-                Apply
+            Apply
             </button>
+            }
+            
             {couponCode1 != '' &&  <button className="discount-button" onClick={removeCoupon}>Remove</button>}
            
             <br />

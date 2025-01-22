@@ -133,15 +133,11 @@ export default function Testimonials({
                                                                 )}
                             />
                             <div className="dot-bg">
-                                <img
-                                    src={asset(
-                                        "backend-assets/uploads/home_page_section_child_images/" +
-                                            sectionChildren[3]
-                                                .home_page_section_child_images
-                                    )}
-                                    alt="about image"
-                                />
-                            </div>
+                                                        <img
+                                                            src="/assets/images/dot.png"
+                                                            alt="about image"
+                                                        />
+                                                    </div>
                         </div>
                     </div>
                 </div>
