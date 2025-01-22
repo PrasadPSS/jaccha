@@ -17,7 +17,7 @@ export default function ProductListing({ products, sizes1, prices }) {
             {
                 prices1.push({ label: price.price_name, min: price.min, max: price.max });
             });
-    console.log('pricess', prices);
+   
     // State for filters
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedSizes, setSelectedSizes] = useState([]);
@@ -25,7 +25,7 @@ export default function ProductListing({ products, sizes1, prices }) {
     const [selectedSort, setSelectedSort] = useState("low-to-high");
 
     const [currentPage, setCurrentPage] = useState(1);
-    console.log('productss', products);
+
 
 
     // Handle filter changes
@@ -78,7 +78,7 @@ export default function ProductListing({ products, sizes1, prices }) {
     });
 
     useEffect(() => setCurrentPage(1), [selectedCategories, selectedSizes, selectedPriceRange]);
-    console.log(filteredProducts);
+
     filteredProducts.sort(function (a, b) {
         if ((a.price - a.discount) > (b.price - b.discount)) {
             return selectedSort == 'low-to-high' ? 1 : -1;

@@ -14,9 +14,10 @@ import Testimonials from '../Includes/Testimonials';
 export default function ProductSearch({ auth, products, homepagesections,sizes,prices }) {
     let testimonials = homepagesections.filter((element)=> element.home_page_section_name == 'Testimonials')[0];
     let productDetails = [];
+    console.log(products);
     products.map((element)=>
         {
-            productDetails.push( {id: element.product_id, product_slug: element.product_slug, name: element.product_title, added: auth.user != null ? auth.wishlist.some(wishlist=>wishlist.user_id == auth.user.id && wishlist.product_id == element.product_id) : false, category: element.category_slug, price: element.product_price, image: '/backend-assets/uploads/product_thumbs/' + element.product_thumb, description: 'Sample 1', reviews: element.reviews != null ? element.reviews.length: 0, 
+            productDetails.push( {id: element.product_id, product_slug: element.product_slug, name: element.product_title, added: auth.user != null ? auth.wishlist.some(wishlist=>wishlist.user_id == auth.user.id && wishlist.product_id == element.product_id) : false, category: element.category_slug, price: element.product_price != null ? element.product_price: element.variants[0].product_price , image: '/backend-assets/uploads/product_thumbs/' + element.product_thumb, description: 'Sample 1', reviews: element.reviews != null ? element.reviews.length: 0, 
                 rating: element.reviews_avg_rating != null ? Number(element.reviews_avg_rating) : 0,size: element.product_weight, updatedAt: new Date(element.updated_at).getTime(), discount: element.product_discounted_amount});
         })
     

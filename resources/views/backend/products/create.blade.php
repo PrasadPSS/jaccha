@@ -653,7 +653,6 @@ foreach ($gst as $gs) {
             }
         }
 
-       
         $("#config_size_id").change(function () {
             var size_id = $(this).val();
             var color_id = $("#config_color_id").val();

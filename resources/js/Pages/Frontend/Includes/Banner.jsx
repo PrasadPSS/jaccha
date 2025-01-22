@@ -9,9 +9,10 @@ export default function Banner({
     paddingTop,
     paddingBottom,
     product,
-    section
+    section,
+    data
 }) {
-    console.log('section', section);
+    console.log('section', product);
     return (
         <section className="section banner">
             <div className="container pb-lg-5">
@@ -128,7 +129,7 @@ export default function Banner({
                                     <h3 className="mb-2">
                                         ₹
                                         {
-                                           product.product_price
+                                           product.product_price != null ? product.product_price : product.variants[0].product_price
                                         }
                                         .00
                                     </h3>

@@ -6,7 +6,7 @@ const ProductList = ({ filteredProducts, setCurrentPage, currentPage }) => {
     // Pagination state
 
     const productsPerPage = 6; // Number of products per page
-    console.log('sadsadsa', filteredProducts);
+
     // Calculate indices for slicing the product list
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;

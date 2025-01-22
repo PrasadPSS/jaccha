@@ -37,7 +37,7 @@ class ProductController extends Controller
             $data['products']->where('product_title', 'like', '%' . $request->querys . '%')
             ->orWhere('category_slug', 'like', '%' . $request->querys . '%');
         }
-        $data['products'] = $data['products']->with('reviews')->get();
+        $data['products'] = $data['products']->with('variants','reviews')->get();
         $data['homepagesections'] = HomePageSections::where('visibility', 1)->orderBy('home_page_section_priority')->with('home_page_section_type', 'section_childs')->get();
 
         return Inertia::render('Frontend/Products/ProductSearch', $data);
@@ -68,18 +68,18 @@ class ProductController extends Controller
         if($category_slug == 'new-arrival')
         {
             
-            $data['products'] = Products::where('new_arrival', 1)->with('reviews')->withAvg('reviews', 'rating')->get();
+            $data['products'] = Products::where('new_arrival', 1)->with('variants','reviews')->withAvg('reviews', 'rating')->get();
 
         }
         else if($category_slug == 'featured-products')
         {
             $featuredProducts = FeaturedProducts::select('product_id')->first();
-            $data['products'] = Products::whereIn('product_id', explode(',',$featuredProducts['product_id']))->with('reviews')->withAvg('reviews', 'rating')->get();
+            $data['products'] = Products::whereIn('product_id', explode(',',$featuredProducts['product_id']))->with('variants','reviews')->withAvg('reviews', 'rating')->get();
 
         }
         else
         {
-            $data['products'] = Products::where('category_slug', $category_slug)->with('reviews')->withAvg('reviews', 'rating')->get();
+            $data['products'] = Products::where('category_slug', $category_slug)->with('variants','reviews')->withAvg('reviews', 'rating')->get();
         }
         $data['homepagesections'] = HomePageSections::where('visibility', 1)->orderBy('home_page_section_priority')->with('home_page_section_type', 'section_childs')->get();
         return Inertia::render('Frontend/Category/Category', $data);
@@ -101,7 +101,7 @@ class ProductController extends Controller
         }
         
         
-        $data['products'] = Products::where('sub_category_slug', $subcategory_slug)->with('reviews')->withAvg('reviews', 'rating')->get();
+        $data['products'] = Products::where('sub_category_slug', $subcategory_slug)->with('variants','reviews')->withAvg('reviews', 'rating')->get();
         
         $data['homepagesections'] = HomePageSections::where('visibility', 1)->orderBy('home_page_section_priority')->with('home_page_section_type', 'section_childs')->get();
         return Inertia::render('Frontend/Category/Category', $data);

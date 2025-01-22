@@ -26,8 +26,8 @@ class HomeController extends Controller
         $ids = explode(',', $featuredProductCodes);
 
         // Step 2: Retrieve the products
-        $data['products'] = Products::whereIn('product_id', $ids)->with('reviews')->get();
-        $homepagesections = HomePageSections::where('visibility', 1)->orderBy('home_page_section_priority')->with('home_page_section_type', 'section_childs', 'product')->get();
+        $data['products'] = Products::whereIn('product_id', $ids)->with('variants','reviews')->get();
+        $homepagesections = HomePageSections::where('visibility', 1)->orderBy('home_page_section_priority')->with('home_page_section_type', 'section_childs', 'product.variants', )->get();
         return Inertia::render('Frontend/Homepage/ProductPage', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),

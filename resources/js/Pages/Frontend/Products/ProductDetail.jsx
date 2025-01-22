@@ -124,7 +124,9 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
         });
     });
     const [productQty, setQty] = useState(1);
-    const [totalPrice, setPrice] = useState(product.product_discounted_price * productQty);
+    const [totalPrice, setPrice] = useState((product.product_discounted_price !=null ? product.product_discounted_price : product.product_variants[0].product_price)  * productQty);
+    const [productPrice, setProductPrice] = useState((product.product_discounted_price !=null ? product.product_discounted_price : product.product_variants[0].product_price));
+
 
     useEffect(() => {
         if (selectedVariant != '') {
@@ -133,6 +135,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
             );
             setPrice(selvar[0].product_price);
             setProductVariant(selvar[0].product_variant_id);
+            setProductPrice(selvar[0].product_price);
         }
 
     }, [selectedVariant])
@@ -204,9 +207,29 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
         `/backend-assets/uploads/product_thumbs/${product.product_thumb}`
     );
 
-    const handleImageClick = (image) => {
-        setSelectedImage(`/backend-assets/uploads/product_images/${image.image_name}`);
+    const handleImageClick = (image, variant="none") => {
+        if(variant != 'none')
+        {
+            setSelectedImage(`/backend-assets/uploads/product_variant_thumbs/${image}`);
+        }
+        else
+        {
+            setSelectedImage(`/backend-assets/uploads/product_images/${image.image_name}`);
+        }
+        
     };
+   useEffect(()=>
+    {
+        if(product.product_type == 'configurable')
+            {
+                setSelectedVariant(product.product_variants[0].product_title);
+                handleImageClick( product.product_variants[0].product_thumb,'variant')
+            }
+       
+    },[])
+       
+    
+    
 
 
 
@@ -254,9 +277,9 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                 </h2>
                                 <div className="content-price">
                                     {product.product_discounted_price == product.product_price &&
-                                        <h4>₹{product.product_discounted_price}.00</h4>}
+                                        <h4>₹{productPrice}.00</h4>}
                                     {product.product_discounted_price != product.product_price &&
-                                        <h4><span>₹{product.product_price}.00</span>₹{product.product_discounted_price}.00</h4>}
+                                        <h4><span>₹{product.product_price }.00</span>₹{product.product_discounted_price}.00</h4>}
                                     {product.product_price - product.product_discounted_price > 0 &&
                                         <p className="content-offer">- {product.product_price - product.product_discounted_price} Off</p>}
 
@@ -307,7 +330,13 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                         <p>Choose Weight: {selectedVariant}</p>
                                         {product_variants.map((variant) => {
                                             return (
-                                                <button key={variant.product_variant_id} onClick={() => setSelectedVariant(variant.product_title)} className={selectedVariant == variant.product_title ? "button gram-button active" : 'button gram-button'} >{variant.product_title}</button>
+                                                <button key={variant.product_variant_id} onClick={() => 
+                                                    {
+                                                        setSelectedVariant(variant.product_title);
+                                                        console.log('variant image', variant.product_thumb
+                                                        );
+                                                        handleImageClick(variant.product_thumb, 'variant');
+                                                    }} className={selectedVariant == variant.product_title ? "button gram-button active" : 'button gram-button'} >{variant.product_title}</button>
                                             )
                                         })}
 
@@ -318,7 +347,8 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                         ₹{totalPrice}.00
                                         <button className="btn plus_button plus" id="plus-btn" onClick={() => {
                                             setQty((prev) => prev + 1);
-                                            setPrice(product.product_discounted_price * (productQty + 1));
+                                            setPrice(productPrice * (productQty + 1));
+
                                         }
 
                                         }>
@@ -343,7 +373,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                             if(productQty -1 != 0)
                                             {
                                                 setQty((prev) => prev != 0 ? prev - 1 : 0);
-                                                setPrice(product.product_discounted_price * (productQty - 1));
+                                                setPrice(productPrice * (productQty - 1));
                                             }
                                            
                                         }} className="btn minus_button" id="minus-btn">
@@ -660,7 +690,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                             />
                             <p>
                                 {product.product_title} <br />
-                                <span> ₹{product.product_discounted_price}.00 </span>
+                                <span> ₹{productPrice}.00 </span>
                             </p>
                         </div>
                         <div className="sticky-product-button">

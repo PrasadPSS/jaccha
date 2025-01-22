@@ -140,6 +140,12 @@ class Products extends Model
     {
         return $this->hasOne(ProductVariants::class, 'product_variant_id', 'first_variant_id');
     }
+
+    public function variants()
+    {
+        return $this->hasMany(ProductVariants::class, 'product_id', 'product_id');
+    }
+
     public function variant_size()
     {
         return $this->hasMany(ProductVariants::class, 'product_id', 'product_id');
