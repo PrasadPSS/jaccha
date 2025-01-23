@@ -84,7 +84,8 @@ class HomeController extends Controller
         Contactus::create($userDetails);
         $mailService = new phpMailerService();
         $company = Company::first();
-        $mailService->sendMail($company->email,'Contact us', $data['comment'], $data['comment']);
+        $message = $data['name'] . ' Has Left a Message for you as Follows '. $data['comment'] . ' ' . $data['name']  . ' mobile no is' . $data['mobile_no'];
+        $mailService->sendMail($company->email,'Contact us', $message, $data['comment']);
 
         return redirect()->route('contactus')->with('success', 'Your message has been sent successfully.');
 
