@@ -255,12 +255,14 @@ $size_types = ['upper'=>'Uppers','lower'=>'Lowers','shoes'=>'Shoes'];
                               {{ Form::text('home_page_section_title', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Title']) }}
                             </div>
                           </div>
+                          @if($homepagesections->home_page_section_code != 'Benefits' )
                           <div class="col-md-12 col-12">
                             <div class="form-group">
                               {{ Form::label('home_page_section_sub_title', 'Home Page Section Sub Title') }}
                               {{ Form::text('home_page_section_sub_title', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Sub Title']) }}
                             </div>
                           </div>
+                          @endif
                           <div class="col-md-6 col-12" id="start_date_div">
                             {{ Form::label('home_page_section_start_date', 'Start Date ') }}
                             <fieldset class="form-group position-relative has-icon-left">
