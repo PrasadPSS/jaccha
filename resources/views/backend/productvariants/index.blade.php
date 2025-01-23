@@ -42,6 +42,7 @@
                                 <thead>
                                     <tr>
                                       <th>#</th>
+                                      <th>Action</th>
                                       <th>Image</th>
                                       <th>Brand</th>
                                       <th>Product Name</th>
@@ -59,6 +60,30 @@
                                     @foreach($products as $product)
                                     <tr>
                                       <td>{{ $srno }}</td>
+                                      <td>
+
+                                      <div class="dropdown">
+                                          <span class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu"></span>
+                                          <div class="dropdown-menu dropdown-menu-right">
+                                          <a href="{{ url('admin/productvariants/edit/'.$product->product_variant_id) }}" class="dropdown-item">Edit</a>
+                                          {!! Form::open([
+                                            'method'=>'GET',
+                                            'url' => ['admin/productvariants/delete', $product->product_variant_id],
+                                            'style' => 'display:inline'
+                                        ]) !!}
+                                            {!! Form::button('Delete', ['type' => 'submit', 'class' => 'dropdown-item','onclick'=>"return confirm('Are you sure you want to Delete this Entry ?')"]) !!}
+                                        {!! Form::close() !!}
+                                            
+                                            
+                                            
+                                            
+                                          </div>
+                                        </div>
+                                          
+
+
+                                      </td>
                                       <td><img class="card-img-top img-fluid mb-1" src="{{ asset('backend-assets/uploads/product_variant_thumbs/') }}/{{ $product->product_thumb }}" alt="Product Image"></td>
                                       <td>{{ isset($product->brands)?$product->brands->brand_name:'' }}</td>
                                       <td>{{ $product->product_title }}</td>
