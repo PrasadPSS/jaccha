@@ -10,7 +10,7 @@ use PHPMailer\PHPMailer\Exception;
 
 class phpMailerService
 {
-    public function sendMail($email, $subject, $body, $altbody)
+    public function sendMail($email, $subject, $body, $altbody, $hasAttachment=false)
     {
         $mail = new PHPMailer(true);
                     //Enable verbose debug output
@@ -32,6 +32,10 @@ class phpMailerService
         $mail->setFrom('support@jaccha.com', 'Jaccha');
         $mail->addAddress($email, 'Prasad');     //Add a recipient               //Name is optional
         $mail->addReplyTo('support@jaccha.com', 'Jaccha');
+        if($hasAttachment)
+        {
+            $mail->addAttachment($hasAttachment, 'jacchainvoice.pdf');
+        }
 
 
     //Optional name

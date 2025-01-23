@@ -4,7 +4,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function ResetPassword({ shipping_address }) {
-    let token1 =  getCsrfToken();
+    let token1 =  usePage().props.auth.csrf_token;
     const auth = usePage().props.auth;
 
     const queryParameters = new URLSearchParams(window.location.search);

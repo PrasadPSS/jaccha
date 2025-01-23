@@ -7,6 +7,7 @@ use App\Models\backend\Categories;
 use App\Models\backend\Company;
 use App\Models\backend\MissingPayments;
 use App\Services\phpMailerService;
+use Illuminate\Support\Facades\Storage;
 use PHPMailer\PHPMailer\PHPMailer;
 use App\Models\backend\SubSubCategories;
 use App\Models\frontend\Orders;
@@ -20,6 +21,7 @@ use App\Models\backend\PaymentInfo;
 use App\Models\frontend\OrderCancellationReasons;
 use App\Models\frontend\Newsletters;
 use App\Models\frontend\InvoiceCounter;
+
 require 'mailer/PHPMailerAutoload.php';
 
 
@@ -189,14 +191,19 @@ class OrdersController extends Controller
     }
 
     if (($order->shipped_stage == 0 || $order->shipped_stage == null) && $request->shipped_stage) {
-
       // Shipped stage logic
-     
+        $message = "Dear {$order->customer_name}, Your Order Number {$order->orders_counter_id} from Jaccha.com has shipped via Shiprocket. Your Order's Tracking Number is {$order->wbn}.\nJaccha Team.";
+        $phpMailer = new phpMailerService();
+        $phpMailer->sendMail($order->email, 'Order Shipped Successfully', $message, 'Order Shipped');
 
       if (isset($order->mobile_no) && strlen($order->mobile_no) == 10) {
+        
         $mobile_no = $order->mobile_no;
         $message = "Dear {$order->customer_name}, Your Order Number {$order->orders_counter_id} from Jaccha.com has shipped via Shiprocket. Your Order's Tracking Number is {$order->wbn}.\nJaccha Team.";
+        $phpMailer = new phpMailerService();
+        $phpMailer->sendMail($order->email, 'Order Shipped Successfully', $message, 'Order Shipped');
         $sms_api = send_sms($mobile_no, $message);
+        
         $sms_api_response = json_decode($sms_api, true);
         $order->order_shipped_sms = isset($sms_api_response['ErrorCode']) && $sms_api_response['ErrorCode'] == 0 ? 1 : 0;
         $order->update();
@@ -204,10 +211,15 @@ class OrdersController extends Controller
     }
 
     if (($order->delivered_stage == 0 || $order->delivered_stage == null) && $request->delivered_stage) {
+
+        $message = "Dear {$order->customer_name},\nYour Order Number {$order->orders_counter_id} has been delivered at your given shipping address. Keep Shopping at www.Jaccha.com. Share the Jaccha love with your family, relatives and friends.\nRegards,\nJaccha Team";
+        $phpMailer = new phpMailerService();
+        $phpMailer->sendMail($order->email, 'Order Delivered Successfully', $message, 'Order Delivered');
       // Delivered stage logic
       if (isset($order->mobile_no) && strlen($order->mobile_no) == 10) {
+        
         $mobile_no = $order->mobile_no;
-        $message = "Dear {$order->customer_name},\nYour Order Number {$order->orders_counter_id} has been delivered at your given shipping address. Keep Shopping at www.Jaccha.com. Share the Jaccha love with your family, relatives and friends.\nRegards,\nJaccha Team,\nG.R. Parwani Trading Co.";
+        
         $sms_api = send_sms($mobile_no, $message);
         $sms_api_response = json_decode($sms_api, true);
         $order->order_delivered_sms = isset($sms_api_response['ErrorCode']) && $sms_api_response['ErrorCode'] == 0 ? 1 : 0;
@@ -253,7 +265,24 @@ class OrdersController extends Controller
         // dd($order_creation_response);
         if ($order_creation_response['status'] == true) {
           $phpMailer = new phpMailerService();
-          $phpMailer->sendMail($orders->email, 'Order Created Successfully', 'Your order has been created successfully' . ' click here to view your order ' . route('order.details') . '?order_id=' . $orders->order_id, 'Order Creation');
+          $orders = Orders::where('order_id', $id)->with('orderproducts')->first();
+          $company = Company::first();
+
+    // Generate the PDF
+          $pdf = PDF::loadView('backend.orders.downloadinvoice', ['orders' => $orders, 'company' => $company]);
+
+    // Save the PDF to a temporary file
+          $pdfPath = storage_path('app/temp/jacchainvoice.pdf');
+          Storage::makeDirectory('temp'); // Ensure the temp directory exists
+          file_put_contents($pdfPath, $pdf->output());
+
+    // Prepare the email body
+          $body = 'Your order has been created successfully. Click here to view your order: ' . 
+            route('order.details') . '?order_id=' . $orders->order_id;
+
+    // Send the email with the PDF attached
+          
+          $phpMailer->sendMail($orders->email, 'Order Created Successfully', $body, 'Order Creation', $pdfPath);
           $orderDate = date('Y-m-d');
           $orderDate = date('Y-m-d', strtotime($orderDate));
           $orders->package_order_status = 1;
