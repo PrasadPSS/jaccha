@@ -133,8 +133,8 @@ $size_types = ['upper'=>'Uppers','lower'=>'Lowers','shoes'=>'Shoes'];
                           </div>
                           <div class="col-md-12 col-12">
                             <div class="form-group">
-                              {{ Form::label('home_page_section_text6', 'Home Page Section Text 6') }}
-                              {{ Form::text('home_page_section_text6', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Text 5']) }}
+                              {{ Form::label('home_page_section_text6', 'Home Page Section Url') }}
+                              {{ Form::text('home_page_section_text6', null, ['class' => 'form-control', 'placeholder' => 'Enter Home Page Section Url']) }}
                             </div>
                           </div>
                           

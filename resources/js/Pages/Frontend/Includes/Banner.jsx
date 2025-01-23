@@ -78,7 +78,7 @@ export default function Banner({
                                     section.home_page_section_text2
                                 }
                             </p>
-                            <div
+                            <a href={section.home_page_section_text6}
                                 className="pink-box"
                                 data-aos="fade-right"
                                 data-aos-delay="800"
@@ -89,7 +89,7 @@ export default function Banner({
                                         section.home_page_section_text5
                                     }
                                 </span>
-                            </div>
+                            </a>
                         </div>
                     </div>
                     <div className="col-sm-12 col-md-12 col-lg-7 ps-lg-0">
