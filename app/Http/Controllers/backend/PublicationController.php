@@ -48,6 +48,7 @@ class PublicationController extends Controller
         $this->validate($request, [
           'publications_title' => ['required',],
         ]);
+   
         // echo "string";exit;
         // dd($request->all());
         $publication = new Publication();

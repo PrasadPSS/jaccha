@@ -8,7 +8,7 @@ export default function Index({ publications }) {
     
     // Declare state variables for pagination
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 2; // Number of publications per page
+    const itemsPerPage = 10; // Number of publications per page
     
     // Calculate total pages
     const totalPages = Math.ceil(publications.length / itemsPerPage);
@@ -48,7 +48,7 @@ export default function Index({ publications }) {
                 <div className="container">
                     <div className="row align-items-center">
                         {currentPublications.map((publication) => (
-                            <a className="col-sm-4" href={'/view-page1/'+ publication.publication_slug} key={publication.id}>
+                            <a className="col-sm-4" href={'/publication/'+ publication.publication_slug} key={publication.id}>
                                 <div
                                     style={{
                                         padding: "16px",
@@ -66,11 +66,11 @@ export default function Index({ publications }) {
                                             marginBottom: "8px",
                                         }}
                                     >
-                                        Title: {publication.publications_title}
+                                        {publication.publications_title}
                                     </p>
-                                    <p>Content: <div className="text-truncate"
+                                    <p><div className="text-truncate"
                                         dangerouslySetInnerHTML={{
-                                            __html: publication.publications_content ,
+                                            __html: publication.publications_sub_title ,
                                         }}
                                     /></p>
                                 </div>

@@ -60,7 +60,7 @@
                                       <td>
                                         <!-- @can('Update') -->
                                         <!-- @endcan -->
-                                        <a target="_blank" href="{{ url('view-page1/'.$publication->publication_slug) }}" class="btn btn-primary"><i class="bx bx-show-alt"></i></a>
+                                        <a target="_blank" href="{{ url('publication/'.$publication->publication_slug) }}" class="btn btn-primary"><i class="bx bx-show-alt"></i></a>
                                         <a href="{{ url('admin/publications/edit/'.$publication->publications_id) }}" class="btn btn-primary"><i class="bx bx-pencil"></i></a>
                                         <!-- @can('Delete') -->
                                         <!-- @endcan -->

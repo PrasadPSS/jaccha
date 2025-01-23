@@ -50,6 +50,18 @@ $column_types = ['quick_links'=>'Quick Links','conntect_us'=>'Connect With Us On
                               {{ Form::text('publications_title', null, ['class' => 'form-control', 'placeholder' => 'Enter Publication Page Title', 'required' => true]) }}
                             </div>
                           </div>
+                          <div class="col-md-12 col-12">
+                            <div class="form-group">
+                              {{ Form::label('publications_sub_title', 'Publication Sub Title *') }}
+                              {{ Form::text('publications_sub_title', null, ['class' => 'form-control', 'placeholder' => 'Enter Publication Sub Title', 'required' => true]) }}
+                            </div>
+                          </div>
+                          <div class="col-md-6 col-12">
+                              <div class="form-group">
+                                {{ Form::label('publications_date', 'Publication Date *') }}
+                                {{ Form::text('publications_date', null, ['class' => 'form-control pickadate', 'placeholder' => 'Enter Publication Date', 'required' => true]) }}
+                              </div>
+                            </div>
                           <!-- <div class="col-md-12 col-12">
                             <fieldset class="form-group">
                               <div class="input-group">

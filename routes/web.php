@@ -921,7 +921,7 @@ Route::prefix('admin')->group(function () {
 
 
 route::get('/view-page/{cms_slug}',[HomeController::class, 'viewPages'])->name('viewPage');
-route::get('/view-page1/{cms_slug}',[HomeController::class, 'viewPublicationPages'])->name('viewPage');
-Route::get('/publications/view/', [HomeController::class, 'home'])->name('publications.view');
+route::get('/publication/{cms_slug}',[HomeController::class, 'viewPublicationPages'])->name('viewPage');
+Route::get('/ourpublications', [HomeController::class, 'home'])->name('publications.view');
 
 require __DIR__.'/auth.php';
