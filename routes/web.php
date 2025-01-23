@@ -542,7 +542,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/publications/edit/{id}', [PublicationController::class, 'edit'])->name('admin.publications.edit');
         Route::post('/publications/update', [PublicationController::class, 'update'])->name('admin.publications.update');
         Route::get('/publications/delete/{id}', [PublicationController::class, 'destroy'])->name('admin.publications.delete');
-        Route::get('/publications/view/', [HomeController::class, 'home'])->name('publications.view');
+      
 
 
 
@@ -922,5 +922,6 @@ Route::prefix('admin')->group(function () {
 
 route::get('/view-page/{cms_slug}',[HomeController::class, 'viewPages'])->name('viewPage');
 route::get('/view-page1/{cms_slug}',[HomeController::class, 'viewPublicationPages'])->name('viewPage');
+Route::get('/publications/view/', [HomeController::class, 'home'])->name('publications.view');
 
 require __DIR__.'/auth.php';
