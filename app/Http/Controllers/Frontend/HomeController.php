@@ -56,6 +56,13 @@ class HomeController extends Controller
             'publications' => $publicationpage,
         ]);
     }
+
+    public function home()
+    {
+      $data['publications'] = Publication::all();
+      
+      return Inertia::render('Frontend/Publications/Index', $data);
+    }
     
 
     public function contactus()

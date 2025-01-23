@@ -542,7 +542,9 @@ Route::prefix('admin')->group(function () {
         Route::get('/publications/edit/{id}', [PublicationController::class, 'edit'])->name('admin.publications.edit');
         Route::post('/publications/update', [PublicationController::class, 'update'])->name('admin.publications.update');
         Route::get('/publications/delete/{id}', [PublicationController::class, 'destroy'])->name('admin.publications.delete');
-        Route::get('/publications/view/{id}', [PublicationController::class, 'show'])->name('admin.publications.view');
+        Route::get('/publications/view/', [HomeController::class, 'home'])->name('publications.view');
+
+
 
         Route::get('/brands/index/{id}', [BrandsController::class, 'index'])->name('admin.brands');
         Route::get('/brands/create/{id}', [BrandsController::class, 'create'])->name('admin.brands.create');

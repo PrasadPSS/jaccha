@@ -6,6 +6,7 @@ use App\Models\backend\Publication;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use Inertia\Inertia;
 use Route;
 use Session;
 
@@ -28,6 +29,7 @@ class PublicationController extends Controller
 
         return view('backend.publications.index', compact('publications'));
     }
+
 
     public function create()
     {

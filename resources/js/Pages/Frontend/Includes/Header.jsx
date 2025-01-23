@@ -242,7 +242,7 @@ const Header = ({ auth }) => {
                                 <Link
                                     className="nav-link"
                                     aria-current="page"
-                                    href={"/view-page/our-publications"}
+                                    href={route('publications.view')}
                                 >
                                     Our Publications
                                 </Link>
