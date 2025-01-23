@@ -46,14 +46,16 @@ class CompanyController extends Controller
         $company = Company::findOrFail($company_id);
         $company->fill($request->all());
         $image = $request->file('logo');
-
-        $destinationPath = public_path('/assets/images');
-        if (!file_exists($destinationPath)) {
-        mkdir($destinationPath, 0777);
+        if($image)
+        {
+            $destinationPath = public_path('/assets/images');
+            if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0777);
+            }
+            $name = time() . rand(1, 100) . '.' . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $name);
+            Logo::where('id', 1)->update(['logo_path'=> $name]);
         }
-        $name = time() . rand(1, 100) . '.' . $image->getClientOriginalExtension();
-        $image->move($destinationPath, $name);
-        Logo::where('id', 1)->update(['logo_path'=> $name]);
         if ($company->update())
         {
             return redirect()->route('admin.company')->with('success', 'Company Updated!');

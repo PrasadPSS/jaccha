@@ -30,7 +30,7 @@ $home_page_featured_product_types = ['default'=>'Default','price'=>'Price','colo
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <a href="{{ route('admin.homepagefeaturedproducts') }}" class="btn btn-outline-secondary float-right"><i class="bx bx-arrow-back"></i><span class="align-middle ml-25">Back</span></a>
+                  <a href="{{ route('admin.homepagesections') }}" class="btn btn-outline-secondary float-right"><i class="bx bx-arrow-back"></i><span class="align-middle ml-25">Back</span></a>
                   <h4 class="card-title">Update Featured Product</h4>
                 </div>
                 <div class="card-content">
