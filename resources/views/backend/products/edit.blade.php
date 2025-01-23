@@ -452,7 +452,7 @@ foreach ($gst as $gs) {
 
                                             <div class="col-md-3 col-12">
                                                 <div class="custom-control custom-switch custom-control-inline mb-1">
-                                                    <span>Recommended</span>
+                                                    <span>Exclusive</span>
                                                     <input type="checkbox" class="custom-control-input" id="recommended"
                                                         name="recommended" value="1"
                                                         {{ $products->recommended == 1 ? 'checked' : '' }}>

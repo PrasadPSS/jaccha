@@ -23,7 +23,7 @@ export default function Highlights({
                     </div>
                 </div>
                 <div className="row mt-5">
-                    <div className="col-sm-12 col-md-7">
+                    <a href={'/products/new-arrival'} className="col-sm-12 col-md-7">
                         <div
                             className="highlight_box"
                             data-aos="zoom-in-up"
@@ -45,8 +45,8 @@ export default function Highlights({
                                 <p className="mt-2">{section.home_page_section_text2}</p>
                             </div>
                         </div>
-                    </div>
-                    <div className="col-sm-12 col-md-5">
+                    </a>
+                    <a  href="/products/exclusive" className="col-sm-12 col-md-5">
                         <div
                             className="highlight_box"
                             data-aos="zoom-in-up"
@@ -68,7 +68,7 @@ export default function Highlights({
                                 <p className="mt-2">{section.home_page_section_text4}</p>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div className="row">
                     <div className="col-sm-12">
