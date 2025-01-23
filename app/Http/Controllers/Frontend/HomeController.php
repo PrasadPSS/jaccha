@@ -9,6 +9,7 @@ use App\Models\backend\FeaturedProducts;
 use App\Models\backend\HomePageSections;
 use App\Models\backend\Orders;
 use App\Models\backend\Products;
+use App\Models\backend\Publication;
 use App\Models\frontend\Contactus;
 use App\Models\OrderItem;
 use App\Models\PaymentDetail;
@@ -46,6 +47,16 @@ class HomeController extends Controller
             'cms_pages' => $cmspage,
         ]);
     }
+
+    public function viewPublicationPages($publication_slug)
+    {
+        $publicationpage = Publication::where('publication_slug', $publication_slug)->first();
+
+        return Inertia::render('Frontend/Pages/View1', [
+            'publications' => $publicationpage,
+        ]);
+    }
+    
 
     public function contactus()
     {

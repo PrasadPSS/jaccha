@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\backend\PricesController;
+use App\Http\Controllers\backend\PublicationController;
 use App\Http\Controllers\Frontend\GoogleLoginController;
 use App\Http\Controllers\Frontend\HomeController;
 
@@ -533,6 +534,16 @@ Route::prefix('admin')->group(function () {
         Route::get('/cmspages/view/{id}', [CmspagesController::class, 'show'])->name('admin.cmspages.view');
         Route::resource('admin/cmspages', 'CmspagesController');
 
+        //publications
+
+        Route::get('/publications', [PublicationController::class, 'index'])->name('admin.publications');
+        Route::get('/publications/create', [PublicationController::class, 'create'])->name('admin.publications.create');
+        Route::post('/publications/store', [PublicationController::class, 'store'])->name('admin.publications.store');
+        Route::get('/publications/edit/{id}', [PublicationController::class, 'edit'])->name('admin.publications.edit');
+        Route::post('/publications/update', [PublicationController::class, 'update'])->name('admin.publications.update');
+        Route::get('/publications/delete/{id}', [PublicationController::class, 'destroy'])->name('admin.publications.delete');
+        Route::get('/publications/view/{id}', [PublicationController::class, 'show'])->name('admin.publications.view');
+
         Route::get('/brands/index/{id}', [BrandsController::class, 'index'])->name('admin.brands');
         Route::get('/brands/create/{id}', [BrandsController::class, 'create'])->name('admin.brands.create');
         Route::post('/brands/store', [BrandsController::class, 'store'])->name('admin.brands.store');
@@ -908,5 +919,6 @@ Route::prefix('admin')->group(function () {
 
 
 route::get('/view-page/{cms_slug}',[HomeController::class, 'viewPages'])->name('viewPage');
+route::get('/view-page1/{cms_slug}',[HomeController::class, 'viewPublicationPages'])->name('viewPage');
 
 require __DIR__.'/auth.php';
