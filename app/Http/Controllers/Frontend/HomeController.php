@@ -84,7 +84,73 @@ class HomeController extends Controller
         Contactus::create($userDetails);
         $mailService = new phpMailerService();
         $company = Company::first();
-        $message = $data['name'] . ' Has Left a Message for you as Follows '. $data['comment'] . ' ' . $data['name']  . ' mobile no is' . $data['mobile_no'];
+        $message = "
+    <html>
+        <head>
+            <style>
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 20px 0;
+                    font-size: 16px;
+                    font-family: Arial, sans-serif;
+                }
+                table, th, td {
+                    border: 1px solid #dddddd;
+                }
+                th, td {
+                    text-align: left;
+                    padding: 8px;
+                }
+                th {
+                    background-color: #f2f2f2;
+                    font-weight: bold;
+                }
+                tr:nth-child(even) {
+                    background-color: #f9f9f9;
+                }
+                .message-header {
+                    font-size: 18px;
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                }
+                .footer {
+                    margin-top: 20px;
+                    font-size: 14px;
+                    color: #555;
+                }
+            </style>
+        </head>
+        <body>
+            <div class='message-header'>Contact Us Message Details</div>
+            <table>
+                <tr>
+                    <th>Field</th>
+                    <th>Details</th>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td>{$data['name']}</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>{$data['email']}</td>
+                </tr>
+                <tr>
+                    <td>Mobile Number</td>
+                    <td>{$data['mobile_no']}</td>
+                </tr>
+                <tr>
+                    <td>Comment</td>
+                    <td>{$data['comment']}</td>
+                </tr>
+            </table>
+            <div class='footer'>
+                This message was sent via the contact form on your website.
+            </div>
+        </body>
+    </html>
+";
         $mailService->sendMail($company->email,'Contact us', $message, $data['comment']);
 
         return redirect()->route('contactus')->with('success', 'Your message has been sent successfully.');
