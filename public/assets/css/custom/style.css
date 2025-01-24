@@ -2641,9 +2641,7 @@ opacity: 100%;
   margin-left: auto;
 }
 
-.black:hover {
-  color: var(--black);
-}
+
 
 .button:hover {
   color: var(--light);
