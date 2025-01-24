@@ -31,9 +31,9 @@
                 </div>
                 <div class="card-content">
                     <div class="card-body card-dashboard">
-                      <div class="col-12 text-right">
+                      <!-- <div class="col-12 text-right">
                         <a href="{{ route('admin.paymentmode.create') }}" class="btn btn-primary"><i class="bx bx-plus"></i> Add </a>
-                      </div>
+                      </div> -->
                         <div class="table-responsive">
                             <table class="table zero-configuration" id="tbl-datatable">
                                 <thead>
