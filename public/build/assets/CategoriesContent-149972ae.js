@@ -1,1 +1,0 @@
-import{j as s}from"./app-26037b50.js";const t=({categoriescontent:e})=>s.jsx("div",{className:"container",children:s.jsxs("div",{className:"row",children:[s.jsx("div",{className:"col-sm-3"}),s.jsx("div",{className:"col-sm-9",children:s.jsx("div",{dangerouslySetInnerHTML:{__html:e.contents},className:"ml-4 pl-4",style:{marginLeft:"17px"}})})]})}),a=t;export{a as default};
