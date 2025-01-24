@@ -134,15 +134,8 @@ export default function OrderCheckout({ auth, data, districts }) {
     const [finalGrandTotal1, setFinalGrandTotal1] = useState(finalGrandTotal);
     const[couponCode, setCouponCode] = useState('');
     const[couponDiscount, setCouponDiscount] = useState(0);
-    const removeCoupon = ()=>
-    {
-        setFinalGrandTotal1((finalGrandTotal1 + Number(couponDiscount)).toFixed(2));
-        
-        setCouponCode('');
-        setCouponDiscount(0);
-        toast('Coupon removed successfully');
-        
-    };
+   
+   
 
     return (
         <HomeLayout auth={auth}>
@@ -351,7 +344,7 @@ export default function OrderCheckout({ auth, data, districts }) {
 
                                     </div> */}
                                     
-                                    <DiscountCode couponCode1={couponCode} removeCoupon={removeCoupon} setCouponCode1={setCouponCode} setCouponDiscount={setCouponDiscount} paymentMode={paymentMode} gstCharges={totalGst} shippingAmount={shippingAmount} codCharges={Number(cod_charges).toFixed(2)} finalGrandTotal={finalGrandTotal1} setFinalGrandTotal={setFinalGrandTotal1}/>
+                                    <DiscountCode couponCode1={couponCode} setCouponCode1={setCouponCode} setCouponDiscount={setCouponDiscount} paymentMode={paymentMode} gstCharges={totalGst} shippingAmount={shippingAmount} codCharges={Number(cod_charges).toFixed(2)} finalGrandTotal={finalGrandTotal1} setFinalGrandTotal={setFinalGrandTotal1}/>
                                     <div className="payment-history mt-5">
                                         
                                         <div className="payment-display mb-2">

@@ -55,7 +55,13 @@ const DiscountCode = ({ finalGrandTotal, couponCode1, setFinalGrandTotal, shippi
             </button>
             }
             
-            {couponCode1 != '' &&  <button className="discount-button" onClick={removeCoupon}>Remove</button>}
+            {couponCode1 != '' &&  <button className="discount-button" onClick={()=>{
+                toast('Coupon removed successfully')
+                setFinalGrandTotal1((Number(finalGrandTotal) + Number(couponDiscount)).toFixed(2));
+                setCouponCode1('');
+                setCouponDiscount(0);
+
+                }}>Remove</button>}
            
             <br />
             <div>
