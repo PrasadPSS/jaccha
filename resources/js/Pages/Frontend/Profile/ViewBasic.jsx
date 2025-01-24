@@ -26,10 +26,15 @@ export default function UpdateProfileInformation({ shipping_address }) {
                     <p>Phone: +91 {auth.user.mobile_no}</p>
                 </div>
                 <div class="contact_details">
-                    <p>
-                    {auth.user.name}<br />{shipping_address.shipping_district}<br />{shipping_address.shipping_city} {shipping_address.shipping_postcode}<br />{shipping_address.shipping_state},
-                        India
-                    </p>
+                    {shipping_address != null &&
+                     <p>
+                        
+                     {auth.user.name}<br />{shipping_address.shipping_district}<br />{shipping_address.shipping_city} {shipping_address.shipping_postcode}<br />{shipping_address.shipping_state},
+                         India
+                     </p>
+                    
+                    }
+                   
                 </div>
             </div>
         </div>
