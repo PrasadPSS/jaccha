@@ -47,8 +47,8 @@ export default function About({
                                 }
                             </p>
                             <Link as="button" 
-                            href={sectionChildren[2].home_page_section_child_url} 
-                            className="button">{sectionChildren[2].home_page_section_child_title}
+                            href={sectionChildren[0].home_page_section_child_url} 
+                            className="button">{sectionChildren[0].home_page_section_child_title}
                             </Link>
                         </div>
                     </div>

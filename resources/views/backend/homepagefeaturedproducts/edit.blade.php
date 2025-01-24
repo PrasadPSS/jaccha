@@ -76,21 +76,7 @@ $home_page_featured_product_types = ['default'=>'Default','price'=>'Price','colo
                                 {{ Form::text('sort_order', null, ['class' => 'form-control', 'placeholder' => 'Enter Sort Order', 'required' => true]) }}
                               </div>
                             </div>
-                            <div class="col-md-6 col-6">
-                              {{ Form::label('visibility', 'Show / Hide') }}
-                              <fieldset>
-                                <div class="radio radio-success">
-                                  {{ Form::radio('visibility','1',true,['id'=>'radioshow']) }}
-                                  {{ Form::label('radioshow', 'Yes') }}
-                                </div>
-                              </fieldset>
-                              <fieldset>
-                                <div class="radio radio-danger">
-                                  {{ Form::radio('visibility','0',false,['id'=>'radiohide']) }}
-                                  {{ Form::label('radiohide', 'No') }}
-                                </div>
-                              </fieldset>
-                            </div>
+                           
                           <div class="col-12 d-flex justify-content-start mt-2">
                             <!-- <button type="submit" class="btn btn-primary mr-1 mb-1">Update</button> -->
                             {{ Form::submit('Update', array('class' => 'btn btn-primary mr-1 mb-1')) }}
