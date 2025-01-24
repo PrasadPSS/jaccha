@@ -15,7 +15,7 @@
           </tr>
           <tr>
             <td colspan="2" class="first__td" style="font-family: 'Roboto', sans-serif !important;border-top:1px solid #000;padding:12px;border-right:1px solid #000; font-weight:500">
-                  <p class="" style="font-size: 14px;color:#000;margin-bottom:0px;margin-top:0px;">AWB / TRACKING NUMBER: {{$orders->package_waybill}}</p>
+                  <p class="" style="font-size: 14px;color:#000;margin-bottom:0px;margin-top:0px;">AWB / TRACKING NUMBER: {{$orders->wbn}}</p>
             </td>
           </tr>
           <tr>

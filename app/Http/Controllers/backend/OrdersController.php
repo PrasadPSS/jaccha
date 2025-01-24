@@ -523,7 +523,8 @@ class OrdersController extends Controller
 
             $orderproduct_cancel = order_cancellation($shiprocket_order_id);
             $orderproduct_cancel = json_decode($orderproduct_cancel);
-            if ($orderproduct_cancel != null && $orderproduct_cancel->status_code == 200) {
+
+            if ($orderproduct_cancel != null && ($orderproduct_cancel->status ==200 || $orderproduct_cancel->status_code == 200)) {
               $orders->package_cancel_return_status = 1;
               $orders->package_cancel_return_dump = json_encode($orderproduct_cancel);
             } else {
