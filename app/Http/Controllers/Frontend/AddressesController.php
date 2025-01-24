@@ -72,7 +72,7 @@ class AddressesController extends Controller
       'shipping_address_line2' => 'required',
       'shipping_landmark' => 'required',
       'shipping_city' => 'required',
-      'shipping_pincode' => 'required',
+      'shipping_pincode' => 'required|min:6',
       'shipping_district' => 'required',
       'shipping_state' => 'required',
       'shipping_address_type' => 'required',
