@@ -433,21 +433,7 @@ foreach ($gst as $gs) {
                                             
                                            
                                             
-                                            <div class="col-md-6 col-6">
-                                                {{ Form::label('visibility', 'Show / Hide') }}
-                                                <fieldset class="">
-                                                    <div class="radio radio-success">
-                                                        {{ Form::radio('visibility', '1', true, ['id' => 'radioshow']) }}
-                                                        {{ Form::label('radioshow', 'Yes') }}
-                                                    </div>
-                                                    <!-- </fieldset>
-                                              <fieldset> -->
-                                                    <div class="radio radio-danger">
-                                                        {{ Form::radio('visibility', '0', false, ['id' => 'radiohide']) }}
-                                                        {{ Form::label('radiohide', 'No') }}
-                                                    </div>
-                                                </fieldset>
-                                            </div>
+                                            
                                            
 
                                             <div class="col-md-3 col-12">
