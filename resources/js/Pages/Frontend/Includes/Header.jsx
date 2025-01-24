@@ -16,7 +16,7 @@ const Header = ({ auth }) => {
                     <Link className="navbar-brand" href={route("home")}>
                         <img
                             className="logo"
-                            src={"/assets/images/"+ auth.logo_path}
+                            src={"/assets/images/" + auth.logo_path}
                             alt="Logo"
                         />
                     </Link>
@@ -205,27 +205,30 @@ const Header = ({ auth }) => {
                                 >
                                     <div className="container">
                                         <div className="row">
-      
+
                                             {auth.categories.map((category) => {
-                                                return (
-                                                    <div className="col-md-2" key={category.category_slug}>
-                                                        <h6 className="dropdown-header"><a className="dropdown-header" href={
-                                                                    "/products/" +
-                                                                    category.category_slug
-                                                                }>{category.category_name}</a></h6>
-                                                      
-                                                        <ul className="list-unstyled">
-                                                            {category.subcategories.map((sub)=>
-                                                            <li key={sub.sub_category_slug}>
-                                                                <a className="dropdown-item" href={
-                                                                    "/products/item/" +
-                                                                    sub.sub_category_slug
-                                                                }>{sub.subcategory_name}</a>
-                                                            </li>) }
-                                                            
-                                                           
-                                                        </ul>
-                                                    </div>)
+                                                if (category.visibility == 1) {
+                                                    return (
+                                                        <div className="col-md-2" key={category.category_slug}>
+                                                            <h6 className="dropdown-header"><a className="dropdown-header" href={
+                                                                "/products/" +
+                                                                category.category_slug
+                                                            }>{category.category_name}</a></h6>
+
+                                                            <ul className="list-unstyled">
+                                                                {category.subcategories.map((sub) =>
+                                                                    <li key={sub.sub_category_slug}>
+                                                                        <a className="dropdown-item" href={
+                                                                            "/products/item/" +
+                                                                            sub.sub_category_slug
+                                                                        }>{sub.subcategory_name}</a>
+                                                                    </li>)}
+
+
+                                                            </ul>
+                                                        </div>)
+                                                }
+
                                             })
                                             }
                                             <div className="col-md-4">

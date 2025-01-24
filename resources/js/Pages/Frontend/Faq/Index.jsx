@@ -27,42 +27,47 @@ export default function UpdateProfileInformation({ faqs }) {
           <div className="accordion" id="accordionExample">
             {faqs.filter(faq => faq.visibility === 1) // Filter FAQs based on visibility
               .sort((a, b) => a.sort_order - b.sort_order) // Sort FAQs by sort_order
-              .map(faq => 
-              <div className="accordion-item">
-                <h2 className="accordion-header">
-                  <button
-                    className="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target={"#collapse" + faq.faq_id}
-                    aria-expanded="true"
-                    aria-controls={"collapse" + faq.faq_id}
+              .map(faq =>
+                <div className="accordion-item">
+                  <h2 className="accordion-header">
+                    <button
+                      className="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target={"#collapse" + faq.faq_id}
+                      aria-expanded="true"
+                      aria-controls={"collapse" + faq.faq_id}
+                    >
+                      <span>{faq.faq_name}</span> <br />
+                      <p>
+                        {faq.sub_title}
+                      </p>
+                    </button>
+                  </h2>
+                  <div
+                    id={"collapse" + faq.faq_id}
+                    className="accordion-collapse collapse"
+                    data-bs-parent="#accordionExample"
                   >
-                    <span>{faq.faq_name}</span> <br />
-                    <p>
-                      {faq.sub_title}
-                    </p>
-                  </button>
-                </h2>
-                <div
-                  id={"collapse" + faq.faq_id}
-                  className="accordion-collapse collapse"
-                  data-bs-parent="#accordionExample"
-                >
-                  <div className="accordion-body">
-                    {faq.questions.map((question)=>
-                    <div className="accoridan-in-box mb-4">
-                    <h4>{question.fa_question}</h4>
-                    <p dangerouslySetInnerHTML={{__html: question.fa_question_ans}}>
-            
-                    </p>
-                  </div>
-                    )}
-                    
+                    <div className="accordion-body">
+                      {faq.questions.map((question) => {
+                        if (question.visibility == 1) {
+                          return(
+                          <div className="accoridan-in-box mb-4">
+                            <h4>{question.fa_question}</h4>
+                            <p dangerouslySetInnerHTML={{ __html: question.fa_question_ans }}>
+
+                            </p>
+                          </div>)
+                        }
+
+                      }
+                      )}
+
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
           </div>
         </div>

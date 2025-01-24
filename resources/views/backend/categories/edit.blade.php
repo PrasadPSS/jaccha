@@ -54,7 +54,7 @@
                               {{ Form::text('category_description', null, ['class' => 'form-control', 'placeholder' => 'Enter Category Description', 'required' => true]) }}
                             </div>
                           </div>
-                          <div class="col-md-6 col-12">
+                          <!-- <div class="col-md-6 col-12">
                             <div class="form-group">
                               {{ Form::label('text_color', 'Text Color') }}
                               {{ Form::text('text_color', null, ['class' => 'form-control', 'placeholder' => 'Enter Text Color', ]) }}
@@ -65,7 +65,7 @@
                               {{ Form::label('drop_down_menu_text_color', 'Dropdown Menu Text Color') }}
                               {{ Form::text('drop_down_menu_text_color', null, ['class' => 'form-control', 'placeholder' => 'Enter Dropdown Menu Text Color',]) }}
                             </div>
-                          </div>
+                          </div> -->
                           
                           <div class="col-md-3 col-6">
                             {{ Form::label('has_subcategories', 'Has Subcategories ?') }}
