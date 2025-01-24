@@ -120,7 +120,8 @@ class AdminusersController extends Controller
       $adminuser = AdminUsers::findOrFail($id);
       if($adminuser->update($request->all()))
       {
-        $adminuser->assignRole($request->input('role'));
+        $role= Role::where('id', $request->input('role'))->first();
+        $adminuser->assignRole($role->id);
         // $cat = AdminUsers::Where('category_id',$adminuser->category_id)->first();
         // $cat->category_slug = str_slug($adminuser->category_name );
         // $cat->save();
