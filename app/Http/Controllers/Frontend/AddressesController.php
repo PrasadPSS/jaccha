@@ -68,7 +68,7 @@ class AddressesController extends Controller
     }
     $this->validate(request(), [
       'shipping_full_name' => 'required',
-      'shipping_mobile_no' => 'required',
+      'shipping_mobile_no' => 'required|min_digits:10|max_digits:10|numeric',
       'shipping_address_line1' => 'required',
       'shipping_address_line2' => 'required',
       'shipping_landmark' => 'required',
@@ -154,7 +154,7 @@ class AddressesController extends Controller
     }
     $this->validate(request(), [
       'shipping_full_name' => 'required',
-      'shipping_mobile_no' => 'required',
+      'shipping_mobile_no' => 'required|min_digits:10|max_digits:10|numeric',
       'shipping_address_line1' => 'required',
       'shipping_address_line2' => 'required',
       'shipping_landmark' => 'required',
