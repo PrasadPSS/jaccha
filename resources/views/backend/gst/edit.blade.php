@@ -65,19 +65,19 @@
                           <div class="col-md-6 col-12">
                             <div class="form-group">
                               {{ Form::label('gst_cgst_percent', 'CGST Percent *') }}
-                              {{ Form::text('gst_cgst_percent', null, ['class' => 'form-control', 'placeholder' => 'Enter CGST Percent', 'required' => true,'min'=>1]) }}
+                              {{ Form::number('gst_cgst_percent', null, ['class' => 'form-control', 'placeholder' => 'Enter CGST Percent', 'required' => true,'min'=>1]) }}
                             </div>
                           </div>
                           <div class="col-md-6 col-12">
                             <div class="form-group">
                               {{ Form::label('gst_sgst_percent', 'SGST Percent *') }}
-                              {{ Form::text('gst_sgst_percent', null, ['class' => 'form-control', 'placeholder' => 'Enter SGST Percent', 'required' => true,'min'=>1]) }}
+                              {{ Form::number('gst_sgst_percent', null, ['class' => 'form-control', 'placeholder' => 'Enter SGST Percent', 'required' => true,'min'=>1]) }}
                             </div>
                           </div>
                           <div class="col-md-6 col-12">
                             <div class="form-group">
                               {{ Form::label('gst_igst_percent', 'IGST Percent *') }}
-                              {{ Form::text('gst_igst_percent', null, ['class' => 'form-control', 'placeholder' => 'Enter IGST Percent', 'required' => true,'min'=>1]) }}
+                              {{ Form::number('gst_igst_percent', null, ['class' => 'form-control', 'placeholder' => 'Enter IGST Percent', 'required' => true,'min'=>1]) }}
                             </div>
                           </div>
                           <div class="col-12 d-flex justify-content-start">
