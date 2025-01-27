@@ -348,17 +348,18 @@ export default function OrderCheckout({ auth, data, districts }) {
                                     <div className="payment-history mt-5">
                                         
                                         <div className="payment-display mb-2">
+                                            <p>Subtotal . {auth.cart_count} Items</p>
+                                            
+                                            <p>₹
+                                            {paymentMode == 'Cash On Delivery' ? (finalGrandTotal - parseFloat(shippingAmount).toFixed(2) - Number(cod_charges) -Number(totalGst)).toFixed(2) :  (finalGrandTotal - parseFloat(shippingAmount).toFixed(2) -Number(totalGst)).toFixed(2)}
+                                            </p>
+                                        </div>
+                                        <div className="payment-display mb-2">
                                             <p>Gst Charges</p>
                                             
                                             <p>₹{totalGst}</p>
                                         </div>
-                                        <div className="payment-display mb-2">
-                                            <p>Subtotal . {auth.cart_count} Items</p>
-                                            
-                                            <p>₹
-                                            {paymentMode == 'Cash On Delivery' ? (finalGrandTotal - parseFloat(shippingAmount).toFixed(2) - Number(cod_charges)).toFixed(2) :  (finalGrandTotal - parseFloat(shippingAmount).toFixed(2)).toFixed(2)}
-                                            </p>
-                                        </div>
+                                        
                                         <div className="payment-display mb-3">
                                             <p>Shipping</p>
                                             <p>₹{parseFloat(shippingAmount).toFixed(2)}</p>
