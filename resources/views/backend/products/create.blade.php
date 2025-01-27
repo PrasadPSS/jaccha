@@ -100,7 +100,7 @@ foreach ($gst as $gs) {
                                                     <div class="input-group-prepend">
                                                         {{ Form::label('sub_category_id', 'Sub Category ', ['class' => '']) }}
                                                     </div>
-                                                    {{ Form::select('sub_category_id', $sub_categories, null, ['class' => 'select2 form-control subcategory', 'placeholder' => 'Please Select Sub Category']) }}
+                                                    {{ Form::select('sub_category_id',$sub_categories, null, ['class' => 'select2 form-control subcategory', 'placeholder' => 'Please Select Sub Category']) }}
                                                 </div>
                                             </fieldset>
                                         </div>
@@ -427,6 +427,11 @@ foreach ($gst as $gs) {
 </div>
 <script>
     $(document).ready(function () {
+        if("{{old('category_id')}}" != "")
+        {
+            subcategories(Number("{{old('category_id')}}"));
+        } 
+
         var variants_cnt = 0;
         $('#modal_add_variants').on('click', function() {
                 // $('#onshow').removeData();
