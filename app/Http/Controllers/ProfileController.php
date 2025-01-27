@@ -219,7 +219,7 @@ class ProfileController extends Controller
 
     public function updatePassword(Request $request)
     {
-
+        
         $userToken = User::where('email', $request->email)->first()->password_reset_token;
         if($request->token == $userToken)
         {

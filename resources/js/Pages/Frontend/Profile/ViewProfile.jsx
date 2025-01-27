@@ -98,6 +98,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                 })
                 setEditDistricts(districts.filter((district) => district.state_name == shipping_address.shipping_state))
                 setDefaultAdd(shipping_address.default_address_flag);
+                setValidationErrors('');
             })
             .catch(function (error) {
                 console.log(error);
@@ -145,9 +146,11 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
             {
                 onSuccess: () => {
                     console.log("Address updated successfully!");
+                    $('#editAddress').modal('hide');
                 },
                 onError: (errors) => {
                     console.error("Validation errors: ", errors);
+                    setValidationErrors(errors);
                 },
             }
         );
@@ -367,13 +370,15 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                         <input
                                             type="text"
                                             className="form-control"
-                                            placeholder="Full Name"
+                                            placeholder="Full Name *"
                                             id="shipping_full_name"
                                             name="shipping_full_name"
                                             value={formData2.shipping_full_name}
                                             onChange={handleChange2}
                                         />
+                                        <InputError message={validationErrors.shipping_full_name} className="mt-2" />
                                     </div>
+                                    
                                 </div>
                                 <div className="col-sm-6">
                                     <div className="form-inputs mb-3">
@@ -386,7 +391,9 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             value={formData2.shipping_mobile_no}
                                             onChange={handleChange2}
                                         />
+                                        <InputError message={validationErrors.shipping_mobile_no} className="mt-2" />
                                     </div>
+                                    
                                 </div>
                                 <div className="col-sm-6">
                                     <div className="form-inputs mb-3">
@@ -399,7 +406,9 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             value={formData2.shipping_address_line1}
                                             onChange={handleChange2}
                                         />
+                                        <InputError message={validationErrors.shipping_address_line1} className="mt-2" />
                                     </div>
+                                    
                                 </div>
                                 <div className="col-sm-6">
                                     <div className="form-inputs mb-3">
@@ -412,7 +421,9 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             value={formData2.shipping_address_line2}
                                             onChange={handleChange2}
                                         />
+                                        <InputError message={validationErrors.shipping_address_line2} className="mt-2" />
                                     </div>
+                                    
                                 </div>
                                 <div className="col-sm-4">
                                     <div className="form-inputs mb-3">
@@ -425,7 +436,9 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             value={formData2.shipping_landmark}
                                             onChange={handleChange2}
                                         />
+                                        <InputError message={validationErrors.shipping_landmark} className="mt-2" />
                                     </div>
+                                    
                                 </div>
                                 <div className="col-sm-4">
                                     <div className="form-inputs mb-3">
@@ -438,7 +451,9 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             value={formData2.shipping_city}
                                             onChange={handleChange2}
                                         />
+                                        <InputError message={validationErrors.shipping_city} className="mt-2" />
                                     </div>
+                                    
                                 </div>
                                 <div className="col-sm-4">
                                     <div className="form-inputs mb-3">
@@ -451,7 +466,9 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             value={formData2.shipping_pincode}
                                             onChange={handleChange2}
                                         />
+                                        <InputError message={validationErrors.shipping_pincode} className="mt-2" />
                                     </div>
+                                    
                                 </div>
                                 <div className="col-sm-4">
                                     <div className="form-inputs mb-3">
@@ -462,7 +479,9 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
 
                                             {states.map((state) => <option value={state.state_name}>{state.state_name}</option>)}
                                         </select>
+                                        <InputError message={validationErrors.shipping_state} className="mt-2" />
                                     </div>
+                                    
                                 </div>
                                 <div className="col-sm-4">
                                     <div className="form-inputs mb-3">
@@ -473,7 +492,9 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
 
                                             {editDistricts.map((district) => <option value={district.name}>{district.name}</option>)}
                                         </select>
+                                        <InputError message={validationErrors.shipping_district} className="mt-2" />
                                     </div>
+                                    
                                 </div>
                                 
                                 <div className="col-sm-4">
@@ -487,7 +508,9 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             value={formData2.shipping_email}
                                             onChange={handleChange2}
                                         />
+                                        <InputError message={validationErrors.shipping_email} className="mt-2" />
                                     </div>
+                                    
                                 </div>
                                 <div className="col-sm-6">
                                     <div className="form-inputs mb-3">
@@ -495,12 +518,14 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             name="shipping_address_type"
                                             value={formData2.shipping_address_type}
                                             onChange={handleChange2}>
-                                            <option value="">Select Address Type</option>
+                                            <option value="">Select Address Type *</option>
                                             <option value="Home">Home</option>
                                             <option value="Work">Work</option>
                                             <option value="Other">Other</option>
                                         </select>
+                                        <InputError message={validationErrors.shipping_address_type} className="mt-2" />
                                     </div>
+                                   
                                 </div>
                                 <div className="col-sm-4">
                                     <div className="form-inputs mb-3">
@@ -514,7 +539,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                             </div>
                         </div>
                         <div className="modal-footer m-auto border-0">
-                            <button data-bs-dismiss="modal" type="submit" className="btn button black">Update Address</button>
+                            <button type="submit" className="btn button black">Update Address</button>
                             <button
                                 type="button"
                                 className="button cancel_btn black"
@@ -558,7 +583,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                         <input
                                             type="text"
                                             className="form-control"
-                                            placeholder="Full Name"
+                                            placeholder="Full Name *"
                                             id="shipping_full_name"
                                             name="shipping_full_name"
                                             value={formData.shipping_full_name}
@@ -573,7 +598,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                         <input
                                             type="number"
                                             className="form-control"
-                                            placeholder="Contact Number"
+                                            placeholder="Contact Number *"
                                             id="shipping_mobile_no"
                                             name="shipping_mobile_no"
                                             value={formData.shipping_mobile_no}
@@ -587,7 +612,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                         <input
                                             type="text"
                                             className="form-control"
-                                            placeholder="Address Line 1"
+                                            placeholder="Address Line 1 *" 
                                             id="shipping_address_line1"
                                             name="shipping_address_line1"
                                             value={formData.shipping_address_line1}
@@ -601,7 +626,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                         <input
                                             type="text"
                                             className="form-control"
-                                            placeholder="Address Line 2"
+                                            placeholder="Address Line 2 *"
                                             id="shipping_address_line2"
                                             name="shipping_address_line2"
                                             value={formData.shipping_address_line2}
@@ -615,7 +640,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                         <input
                                             type="text"
                                             className="form-control"
-                                            placeholder="Landmark"
+                                            placeholder="Landmark *"
                                             id="shipping_landmark"
                                             name="shipping_landmark"
                                             value={formData.shipping_landmark}
@@ -629,7 +654,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                         <input
                                             type="text"
                                             className="form-control"
-                                            placeholder="City"
+                                            placeholder="City *"
                                             id="shipping_city"
                                             name="shipping_city"
                                             value={formData.shipping_city}
@@ -643,7 +668,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                         <input
                                             type="number"
                                             className="form-control"
-                                            placeholder="Pincode"
+                                            placeholder="Pincode *"
                                             id="shipping_pincode"
                                             name="shipping_pincode"
                                             value={formData.shipping_pincode}
@@ -659,7 +684,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             name="shipping_state"
                                             value={selectedState}
                                             onChange={handleInputChange}>
-                                            <option value="" selected disabled>Select State</option>
+                                            <option value="" selected disabled>Select State *</option>
                                             {states.map((state) => <option value={state.state_name}>{state.state_name}</option>)}
 
 
@@ -674,7 +699,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             name="shipping_district"
                                             value={formData.shipping_district}
                                             onChange={handleInputChange}>
-                                            <option value="" selected disabled>Select District</option>
+                                            <option value="" selected disabled>Select District *</option>
                                             {liDistrict.map((district) => <option value={district.name}>{district.name}</option>)}
                                         </select>
                                         <InputError message={validationErrors.shipping_district} className="mt-2" />
@@ -686,7 +711,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                         <input
                                             type="text"
                                             className="form-control"
-                                            placeholder="E-mail Address"
+                                            placeholder="E-mail Address *"
                                             id="shipping_email"
                                             name="shipping_email"
                                             value={formData.shipping_email}
@@ -701,7 +726,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                                             name="shipping_address_type"
                                             value={formData.shipping_address_type}
                                             onChange={handleInputChange}>
-                                            <option value="">Select Address Type</option>
+                                            <option value="">Select Address Type *</option>
                                             <option value="Home">Home</option>
                                             <option value="Work">Work</option>
                                             <option value="Other">Other</option>

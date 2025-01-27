@@ -34,6 +34,7 @@ use Session;
 use App\Models\frontend\Schemes;
 use App\Models\frontend\Wishlists;
 use App\Models\frontend\ShippingAddresses;
+use App\Rules\ValidPincode;
 
 class AddressesController extends Controller
 {
@@ -72,7 +73,7 @@ class AddressesController extends Controller
       'shipping_address_line2' => 'required',
       'shipping_landmark' => 'required',
       'shipping_city' => 'required',
-      'shipping_pincode' => 'required|min:6',
+      'shipping_pincode' => ['required', new ValidPincode()],
       'shipping_district' => 'required',
       'shipping_state' => 'required',
       'shipping_address_type' => 'required',
@@ -158,7 +159,7 @@ class AddressesController extends Controller
       'shipping_address_line2' => 'required',
       'shipping_landmark' => 'required',
       'shipping_city' => 'required',
-      'shipping_pincode' => 'required',
+      'shipping_pincode' => ['required', new ValidPincode()],
       'shipping_district' => 'required',
       'shipping_state' => 'required',
       'shipping_address_type' => 'required',
