@@ -77,7 +77,7 @@ class AddressesController extends Controller
       'shipping_district' => 'required',
       'shipping_state' => 'required',
       'shipping_address_type' => 'required',
-      'shipping_email' => 'required',
+      'shipping_email' => 'required|email:rfc,dns',
     ]);
 
     // dd($request->all());
@@ -163,7 +163,7 @@ class AddressesController extends Controller
       'shipping_district' => 'required',
       'shipping_state' => 'required',
       'shipping_address_type' => 'required',
-      'shipping_email' => 'required',
+      'shipping_email' => 'required|email:rfc,dns',
     ]);
 
     // dd($request->all());
