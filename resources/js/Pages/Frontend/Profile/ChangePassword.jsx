@@ -103,7 +103,7 @@ export default function ChangePassword({ shipping_address }) {
                       <div className="col-sm-6">
                         <div className="form-inputs mb-3">
                           <input
-                            type="text"
+                            type="password"
                             className="form-control"
                             placeholder="Existing Password"
                             id="exampleAddress"
@@ -116,7 +116,7 @@ export default function ChangePassword({ shipping_address }) {
                       <div className="col-sm-6">
                         <div className="form-inputs mb-3">
                           <input
-                            type="text"
+                            type="password"
                             className="form-control"
                             placeholder="New Password"
                             id="exampleAddress"
@@ -129,7 +129,7 @@ export default function ChangePassword({ shipping_address }) {
                       <div className="col-sm-6">
                         <div className="form-inputs mb-3">
                           <input
-                            type="text"
+                            type="password"
                             className="form-control"
                             placeholder="Confirm Password"
                             id="exampleAddress"

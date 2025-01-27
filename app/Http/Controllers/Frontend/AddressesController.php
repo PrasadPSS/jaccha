@@ -123,10 +123,8 @@ class AddressesController extends Controller
        {
          return redirect()->to('/cart/checkout')->with('success','New Address Added Successfully !');
        }
-        $name = session('url.intended');
         
-        session(['url.intended' => null]);
-        return redirect()->route($name)->with('success','New Address Added Successfully !');
+        return redirect()->back()->with('success','New Address Added Successfully !');
     }
     else
     {
