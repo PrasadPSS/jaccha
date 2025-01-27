@@ -222,12 +222,22 @@ class ProfileController extends Controller
         
         $userToken = User::where('email', $request->email)->first()->password_reset_token;
         if($request->token == $userToken)
-        {
+        {   
+            $exists = User::where('email', $request->email)->exists();
+            $user = User::where('email', $request->email)->first();
+            if($exists)
+            {
+                if (Hash::check($request->password, $user->password)) {
+                    return back()->with('error', 'The new password must be different from your current password.');
+                }
+            }
+            
          
             if($request->password != $request->confirm_password)
             {
                 return back()->with('error', 'Password and Confirm Password does not match');
             }
+
             User::where('email', $request->email)->update(['password'=>Hash::make($request->password)]);
             User::where('email', $request->email)->update(['password_reset_token'=>null]);
             return back()->with('success', 'Your Password Has Been Reset Successfully');
