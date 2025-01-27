@@ -53,7 +53,7 @@ class RegisteredUserController extends Controller
             'password.regex' => '',
             'password.confirmed' => 'Password Field does not match Confirm Password field'
         ]);
-       
+  
         $user = User::create([
             'name' => $request->firstName,
             'last_name' => $request->lastName,

@@ -197,7 +197,7 @@ export default function UpdateProfileInformation({ shipping_addresses, mustVerif
                         </button>
                     </div>
                     <div className="contact_details p-4">
-                        <p>Name: {auth.user.name}</p>
+                        <p>Name: {auth.user.name} {auth.user.last_name}</p>
                         <p>Mail: {auth.user.email}</p>
                         <p>Phone: +91 {auth.user.mobile_no}</p>
                     </div>
