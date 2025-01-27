@@ -15,9 +15,19 @@ class PasswordController extends Controller
      */
     public function update(Request $request): RedirectResponse
     {
+
         $validated = $request->validate([
             'current_password' => ['required', 'current_password'],
-            'password' => ['required', Password::defaults(), 'confirmed'],
+            'password' => [
+                'required',
+                Password::defaults(),
+                'confirmed',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($value === $request->input('current_password')) {
+                        $fail('The new password must be different from the current password.');
+                    }
+                },
+            ],
         ]);
 
         $request->user()->update([
