@@ -200,7 +200,11 @@ class ProfileController extends Controller
         
         $resetToken = str()->random(10);
         $userEmail = $request->email;
-        $url = 'Click on this click to reset your password for jaccha ' .route('profile.resetpassword') . '/?token=' . $resetToken . "&email=" .$userEmail;
+        $url = 'Click on this link to reset your password for Jaccha: ' . url('/') . route('profile.resetpassword', [], false) 
+    . '?' . http_build_query([
+        'token' => $resetToken,
+        'email' => $userEmail
+    ]);
         User::where('email', $userEmail)->update(['password_reset_token' => $resetToken]);
         $phpMailerService = new phpMailerService();
         $phpMailerService->sendMail($userEmail, 'Reset Password', $url, $url);
@@ -215,6 +219,7 @@ class ProfileController extends Controller
 
     public function updatePassword(Request $request)
     {
+
         $userToken = User::where('email', $request->email)->first()->password_reset_token;
         if($request->token == $userToken)
         {

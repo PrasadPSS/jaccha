@@ -61,8 +61,8 @@ export default function Register({ auth }) {
                                     <InputError message={errors.email} className="mt-2" />
                                 </div>
                                 <div className="mb-3">
-                                    <input onChange={(e) => setData('phoneNo', e.target.value)} type="number" className="form-control" id="emailId" placeholder="Phone No*"  />
-                                    <InputError message={errors.phoneNo} className="mt-2" />
+                                    <input onChange={(e) => setData('mobile_no', e.target.value)} type="number" className="form-control" id="emailId" placeholder="Mobile No*"  />
+                                    <InputError message={errors.mobile_no} className="mt-2" />
                                 </div>
 
                                 <div className="mb-3">

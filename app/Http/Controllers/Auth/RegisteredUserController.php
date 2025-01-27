@@ -40,17 +40,18 @@ class RegisteredUserController extends Controller
             return redirect()->back()->with('error', 'Registration is currently disabled please try again later');
         }
         $request->validate([
-            'firstName' => 'required|string|max:255',
+            'firstName' => 'required|alpha:ascii|max:255',
             'email' => 'required|email|string|lowercase|email|max:255|unique:' . User::class,
             'password' => [
                 'required',
                 'confirmed',
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/'
             ],
-            'phoneNo' => 'required|numeric',
-            'lastName' => 'required|string|max:255',
+            'mobile_no' => 'required|numeric|unique:' . User::class,
+            'lastName' => 'required|alpha:ascii|string|max:255',
         ], [
             'password.regex' => '',
+            'password.confirmed' => 'Password Field does not match Confirm Password field'
         ]);
        
         $user = User::create([
