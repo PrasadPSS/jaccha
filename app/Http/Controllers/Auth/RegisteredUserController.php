@@ -47,7 +47,7 @@ class RegisteredUserController extends Controller
                 'confirmed',
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/'
             ],
-            'mobile_no' => 'required|numeric|unique:' . User::class,
+            'mobile_no' => 'required|min_digits:10|max_digits:10|numeric|unique:' . User::class,
             'lastName' => 'required|alpha:ascii|string|max:255',
         ], [
             'password.regex' => '',
