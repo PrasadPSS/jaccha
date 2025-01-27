@@ -37,11 +37,15 @@ class AuthenticatedSessionController extends Controller
         {
             return redirect()->back()->with('error', 'Login is currently disabled please try again later');
         }
-        $user = User::where('email', $request->email)->first()->account_status;
-        if($user == 0)
-        {
-            return redirect()->back()->with('error', 'Your account is not active');
+        $exists = User::where('email', $request->email)->exists();
+        if($exists)
+        {$user = User::where('email', $request->email)->first()->account_status;
+            if($user == 0)
+            {
+                return redirect()->back()->with('error', 'Your account is not active');
+            }
         }
+        
         $request->authenticate();
         
         
