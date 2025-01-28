@@ -360,15 +360,7 @@ foreach ($gst as $gs) {
                                                 <!-- {{ Form::label('new_arrival', '', ['class' => 'custom-control-label ml-1']) }} -->
                                             </div>
                                         </div>
-                                        <div class="col-md-3 col-12">
-                                            <div class="custom-control custom-switch custom-control-inline mb-1">
-                                                <span>Popularity</span>
-                                                <input type="checkbox" class="custom-control-input" id="popularity"
-                                                    name="popularity" value="1">
-                                                <label class="custom-control-label ml-1" for="popularity">
-                                                </label>
-                                            </div>
-                                        </div>
+                                        
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
                                                 {{ Form::label('product_thumb', 'Product Thumbnail *') }}
