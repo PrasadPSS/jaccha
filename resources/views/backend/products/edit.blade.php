@@ -119,16 +119,7 @@ foreach ($gst as $gs) {
                                                 </fieldset>
                                             </div>
                                              
-                                            <div class="col-md-6 col-12">
-                                                <fieldset class="form-group">
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            {{ Form::label('material_id', 'Material ', ['class' => '']) }}
-                                                        </div>
-                                                        {{ Form::select('material_id', $materials, null, ['class' => 'select2 form-control material_id', 'placeholder' => 'Please Select Material']) }}
-                                                    </div>
-                                                </fieldset>
-                                            </div>
+                                            
                                             <div class="col-md-6 col-12">
                                                 <fieldset class="form-group">
                                                     <div class="input-group">
