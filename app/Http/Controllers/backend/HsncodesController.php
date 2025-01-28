@@ -57,10 +57,9 @@ class HsncodesController extends Controller
     {
         $this->validate($request, [
           'hsncode_name' => ['required',],
-          'material_id' => ['required',],
           'category_id' => ['required',],
           'subcategory_id' => ['required',],
-          'sub_subcategory_id' => ['required',],
+          
         ]);
         // echo "string";exit;
         // dd($request->all());
@@ -110,10 +109,8 @@ class HsncodesController extends Controller
         $hsncode_id = $request->input('hsncode_id');
         $this->validate( $request, [
           'hsncode_name' => ['required',],
-          'material_id' => ['required',],
           'category_id' => ['required',],
           'subcategory_id' => ['required',],
-          'sub_subcategory_id' => ['required',],
         ]);
         // echo "string".$hsncode_id;exit;
         // dd($request->all());

@@ -66,26 +66,8 @@
                               </div>
                             </fieldset>
                           </div>
-                          <div class="col-md-6 col-12">
-                            <fieldset class="form-group">
-                              <div class="input-group">
-                                <div class="input-group-prepend">
-                                  {{ Form::label('sub_subcategory_id', 'Child Category ',['class'=>'']) }}
-                                </div>
-                                {{ Form::select('sub_subcategory_id', $sub_sub_categories, null,['class'=>'select2 form-control subsubcategory', 'placeholder' => 'Please Select Child Category',]) }}
-                              </div>
-                            </fieldset>
-                          </div>
-                          <div class="col-md-6 col-12">
-                            <fieldset class="form-group">
-                              <div class="input-group">
-                                <div class="input-group-prepend">
-                                  {{ Form::label('material_id', 'Material ',['class'=>'']) }}
-                                </div>
-                                {{ Form::select('material_id', $materials, null,['class'=>'select2 form-control ', 'placeholder' => 'Please Select Material',]) }}
-                              </div>
-                            </fieldset>
-                          </div>
+                          
+                          
                           <!--<div class="col-lg-12 col-md-12">-->
                           <!--  <fieldset class="form-group">-->
                           <!--    {{ Form::label('hsncode_desc', 'Hsn Code Description *') }}-->
