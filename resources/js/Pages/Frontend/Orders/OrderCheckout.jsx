@@ -308,7 +308,7 @@ export default function OrderCheckout({ auth, data, districts }) {
                                                 <p>{item.qty}</p>
                                             </div>
                                             <div className="checkout-product_content">
-                                                <h5>{item.products.product_title}</h5>
+                                                <h5>{item.product_variant_id == null ? item.products.product_title : item.product_variant.product_title}</h5>
                                                 <p></p>
                                             </div>
                                             <div className="checkout-product_price">

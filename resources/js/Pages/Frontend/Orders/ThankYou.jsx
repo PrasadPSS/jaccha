@@ -18,6 +18,8 @@ export default function ThankYou({ auth, orders, estimatedtime }) {
         });
     };
 
+
+
     return (
         <HomeLayout auth={auth}>
             <Head title="Order Success"></Head>
@@ -58,11 +60,11 @@ export default function ThankYou({ auth, orders, estimatedtime }) {
                                                 <p>{product.qty}</p>
                                             </div>
                                             <div className="checkout-product_content">
-                                                <h5>{product.products.product_title}</h5>
+                                                <h5>{product.product_title}</h5>
 
                                             </div>
                                             <div className="checkout-product_price">
-                                                <p>₹{product.products.product_price}.00</p>
+                                                <p>₹{product.product_price}.00</p>
                                             </div>
                                         </div>)}
 
@@ -107,16 +109,16 @@ export default function ThankYou({ auth, orders, estimatedtime }) {
                   <button className="discount-button" type="button">Apply</button>
                 </div>  */}
                                         <div className="payment-history mt-5">
-                                            
-                                            <div className="payment-display mb-3">
-                                                <p>Gst Charges</p>
-                                                <p>₹{Math.sign(Number(orders.total_mrp_dicount)) *Number(orders.total_mrp_dicount)}</p>
-                                            </div>
-
                                             <div className="payment-display mb-2">
                                                 <p>Subtotal . {orders.orderproducts.length} Items</p>
-                                                <p>₹{Number(orders.total_mrp - orders.total_mrp_dicount).toFixed(2)}</p>
+                                                <p>₹{Number(orders.total_mrp).toFixed(2)}</p>
                                             </div>
+                                            <div className="payment-display mb-3">
+                                                <p>Gst Charges</p>
+                                                <p>₹{Math.sign(Number(orders.total_mrp_dicount)) *Number(orders.total_mrp_dicount)}.00</p>
+                                            </div>
+
+                                           
                                             {
                                                 orders.cod_collection_charge !== null ? 
                                                 (<div className="payment-display mb-3">
@@ -136,12 +138,12 @@ export default function ThankYou({ auth, orders, estimatedtime }) {
                                             
                                             <div className="payment-display mb-3">
                                                 <p>Shipping</p>
-                                                <p>₹{orders.shipping_amount}</p>
+                                                <p>₹{orders.shipping_amount}.00</p>
                                             </div>
                                             
                                             <div className="payment-display">
                                                 <p><b>Total</b></p>
-                                                <p><b>₹{orders.total}</b></p>
+                                                <p><b>₹{orders.total}.00</b></p>
                                             </div>
                                         </div>
 
