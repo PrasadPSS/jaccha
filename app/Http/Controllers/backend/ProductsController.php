@@ -582,7 +582,7 @@ class ProductsController extends Controller
      */
     public function update(Request $request)
     {
-
+       
         if($request->product_type == 'configurable')
         {
             $this->validate($request, [

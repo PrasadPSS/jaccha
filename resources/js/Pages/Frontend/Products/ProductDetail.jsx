@@ -202,9 +202,10 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
         });
     };
 
-
+    console.log('product images 23', );
     const [selectedImage, setSelectedImage] = useState(
-        `/backend-assets/uploads/product_thumbs/${product.product_thumb}`
+        product_images.length == 0 ? `/backend-assets/uploads/product_thumbs/${product.product_thumb}` : `/backend-assets/uploads/product_images/${product_images[0].image_name}`
+        
     );
 
     const handleImageClick = (image, variant="none") => {
