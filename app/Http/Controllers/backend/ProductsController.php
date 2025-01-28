@@ -671,13 +671,7 @@ class ProductsController extends Controller
             $product_thumb_name = time() . rand(1, 100) . '.' . $product_thumb_image->getClientOriginalExtension();
             $product_thumb_image->move($product_thumb_destinationPath, $product_thumb_name);
 
-            $img_width  = 540;
-            $img_height = 675;
-            $img_mode   = ImageInterface::THUMBNAIL_OUTBOUND;
-            $img_size   = new Box($img_width, $img_height);
-
-            $thumbnail = new Imagine();
-            $thumbnail->open("{$product_thumb_destinationPath}/{$product_thumb_name}")->resize(new Box($img_width, $img_height))->save("{$product_thumb_destinationPath}/{$product_thumb_name}");
+           
 
             $product_thumb_destinationPath2 = public_path('/backend-assets/uploads/product_thumbsxl');
             if (!file_exists($product_thumb_destinationPath2)) {
