@@ -584,20 +584,46 @@ foreach ($gst as $gs) {
             var product_type = $(this).val();
             var product_sku = $("#product_sku").val();
             var product_price = $("#product_price").val();
+            var product_title = $("#product_title").val();
             // console.log(product_type);
-            if (product_type != '') {
+            if (product_type != '' && product_sku != '' && product_title !='') {
                 productconfiguration(product_type, product_sku);
+            }
+            
+            if (product_type == '' || product_sku == '' || product_title == '') {
+                $('#config_size_div').hide();
             }
         });
         $("#product_sku").change(function () {
             var product_sku = $(this).val();
             var product_type = $("#product_type").val();
             var product_price = $("#product_price").val();
+            var product_title = $("#product_title").val();
             // console.log(product_type);
-            if (product_type != '' && product_sku != '') {
+            if (product_type != '' && product_sku != '' && product_title !='') {
                 productconfiguration(product_type, product_sku);
             }
+            if (product_type == '' || product_sku == '' || product_title == '') {
+                $('#config_size_div').hide();
+            }
         });
+
+        $("#product_title").change(function () {
+            var product_sku = $("#product_sku").val();
+            var product_type = $("#product_type").val();
+            var product_price = $("#product_price").val();
+            var product_title = $("#product_title").val();
+            // console.log(product_type);
+            if (product_type != '' && product_sku != '' && product_title !='') {
+                productconfiguration(product_type, product_sku);
+            }
+            if (product_type == '' || product_sku == '' || product_title == '') {
+                
+                $('#config_size_div').hide();
+            }
+            
+        });
+
         $("#product_price").change(function () {
             var product_sku = $("#product_sku").val();
             var product_type = $("#product_type").val();
