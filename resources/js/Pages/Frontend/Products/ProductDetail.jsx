@@ -256,7 +256,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
 
                                     {/* Side Images */}
                                     <div className="image-s-boxes" >
-                                        {product_images.length > 1 &&
+                                        {product_images.length >= 1 &&
                                             product_images.map((image, index) => (
                                                 <img
                                                     key={index}
