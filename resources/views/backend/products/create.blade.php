@@ -121,7 +121,7 @@
                                                     <div class="input-group-prepend">
                                                         {{ Form::label('hsncode_id', 'HSN Code ', ['class' => '']) }}
                                                     </div>
-                                                    {{ Form::select('hsncode_id', $hsncodes, null, ['class' => 'select2 form-control', 'placeholder' => 'Please Select HSN Code']) }}
+                                                    {{ Form::select('hsncode_id', [], null, ['class' => 'select2 form-control hsncode_id', 'placeholder' => 'Please Select HSN Code']) }}
                                                 </div>
                                             </fieldset>
                                         </div>
@@ -498,14 +498,10 @@
         $(".subcategory").change(function () {
             var subcategory_id = $(this).val();
             var category_id = $(".category").val();
-            console.log(subcategory_id);
+            hsncodes(category_id, subcategory_id);
             subsubcategories(category_id, subcategory_id);
         });
-        $(".subsubcategory").change(function () {
-
-            $('.hsncode_id').html('');
-            $('.material_id').trigger('change');
-        });
+       
         $(".material_id").change(function () {
             var material_id = $(this).val();
             var sub_subcategory_id = $(".subsubcategory").val();
@@ -530,7 +526,7 @@
                     //console.log(data);
                     $('.subcategory').html(data);
                     $('.subsubcategory').html('');
-                    $('.hsncode_id').html('');
+    
                 }
             });
         }
@@ -547,25 +543,25 @@
                 success: function (data) {
                     //console.log(data);
                     $('.subsubcategory').html(data);
-                    $('.hsncode_id').html('');
+                 
                     $('.material_id').trigger('change');
                 }
             });
         }
 
-        function hsncodes(category_id, subcategory_id, sub_subcategory_id, material_id) {
+        function hsncodes(category_id, subcategory_id) {
             $.ajax({
                 url: '{{ url('admin/products/gethsncodes') }}',
                 type: 'post',
                 data: {
                     category_id: category_id,
                     subcategory_id: subcategory_id,
-                    sub_subcategory_id: sub_subcategory_id,
-                    material_id: material_id,
+                    
                     _token: "{{ csrf_token() }}",
                 },
                 success: function (data) {
                     //console.log(data);
+                    console.log(data);
                     $('.hsncode_id').html(data);
                 }
             });

@@ -1136,7 +1136,7 @@ class ProductsController extends Controller
     public function gethsncodes(Request $request)
     {
         $data = $request->all();
-        $hsncodes = HsnCodes::where('category_id', $data['category_id'])->where('subcategory_id', $data['subcategory_id'])->where('sub_subcategory_id', $data['sub_subcategory_id'])->where('material_id', $data['material_id'])->get();
+        $hsncodes = HsnCodes::where('category_id', $data['category_id'])->where('subcategory_id', $data['subcategory_id'])->get();
         // $subsubcategory_list = collect($subsubcategory)->mapWithKeys(function ($item, $key) {
         //     return [$item['sub_subcategory_id'] => $item['sub_subcategory_name']];
         //   });
