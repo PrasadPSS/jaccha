@@ -101,7 +101,7 @@
                                                     <div class="input-group-prepend">
                                                         {{ Form::label('sub_category_id', 'Sub Category ', ['class' => '']) }}
                                                     </div>
-                                                    {{ Form::select('sub_category_id', $sub_categories, null, ['class' => 'select2 form-control subcategory', 'placeholder' => old('sub_category_id', 'Please Select Sub Category')]) }}
+                                                    {{ Form::select('sub_category_id', $sub_categories, old('sub_category_id'), ['class' => 'select2 form-control subcategory', 'placeholder' =>  'Please Select Sub Category']) }}
                                                 </div>
                                             </fieldset>
                                         </div>
@@ -542,8 +542,11 @@
                 },
                 success: function (data) {
                     //console.log(data);
+                    
                     $('.subcategory').html(data);
-                    $('.subsubcategory').html('');
+                    $('.subcategory').val("{{old('sub_category_id')}}").trigger('change');
+                    
+                    console.log('hsn_code id', "{{old('hsncode_id')}}");
     
                 }
             });
@@ -581,6 +584,7 @@
                     //console.log(data);
                     console.log(data);
                     $('.hsncode_id').html(data);
+                    $('.hsncode_id').val("{{old('hsncode_id')}}").trigger('change');
                 }
             });
         }
