@@ -12,7 +12,7 @@
           <div class="content-header-left col-12 mb-2 mt-1">
             <div class="row breadcrumbs-top">
               <div class="col-12">
-                <h5 class="content-header-title float-left pr-1 mb-0">Update Sizes</h5>
+                <h5 class="content-header-title float-left pr-1 mb-0">Update Weight</h5>
                 <div class="breadcrumb-wrapper col-12">
                   <ol class="breadcrumb p-0 mb-0">
                     <li class="breadcrumb-item"><a href="{{ route('admin.dashboard')}}"><i class="bx bx-home-alt"></i></a>
@@ -31,7 +31,7 @@
               <div class="card">
                 <div class="card-header">
                   <a href="{{ route('admin.sizes') }}" class="btn btn-outline-secondary float-right"><i class="bx bx-arrow-back"></i><span class="align-middle ml-25">Back</span></a>
-                  <h4 class="card-title">Update Sizes</h4>
+                  <h4 class="card-title">Update Weight</h4>
                 </div>
                 <div class="card-content">
                   <div class="card-body">
@@ -46,14 +46,14 @@
                           <div class="col-md-12 col-12">
                             <div class="form-label-group">
                               {{ Form::hidden('size_id', $size->size_id) }}
-                                {{ Form::text('size_name', null, ['class' => 'form-control', 'placeholder' => 'Enter Size Name', 'required' => true]) }}
-                                {{ Form::label('size_name', 'Size Name *') }}
+                                {{ Form::text('size_name', null, ['class' => 'form-control', 'placeholder' => 'Enter Weight Name', 'required' => true]) }}
+                                {{ Form::label('size_name', 'Weight Name *') }}
                               </div>
                             </div>
                             <div class="col-md-12 col-12">
                               <div class="form-label-group">
-                                {{ Form::text('size_code', null, ['class' => 'form-control', 'placeholder' => 'Enter Size Code', 'required' => true]) }}
-                                {{ Form::label('size_code', 'Size Code *') }}
+                                {{ Form::text('size_code', null, ['class' => 'form-control', 'placeholder' => 'Enter Weight Code', 'required' => true]) }}
+                                {{ Form::label('size_code', 'Weight Code *') }}
                               </div>
                             </div>
                           <div class="col-12 d-flex justify-content-start">
