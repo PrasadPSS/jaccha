@@ -3,12 +3,12 @@
 
 @section('content')
 @php
-$product_types = ['simple' => 'Simple', 'configurable' => 'Configurable'];
-$gsts = [];
-foreach ($gst as $gs) {
-    $gsts[$gs->gst_id] = $gs->gst_name; // Use the same key-value structure as $product_types
-}
-//dd($product_types1);
+    $product_types = ['simple' => 'Simple', 'configurable' => 'Configurable'];
+    $gsts = [];
+    foreach ($gst as $gs) {
+        $gsts[$gs->gst_id] = $gs->gst_name; // Use the same key-value structure as $product_types
+    }
+    //dd($product_types1);
 @endphp
 <div class="app-content content">
     <div class="content-overlay"></div>
@@ -65,9 +65,9 @@ foreach ($gst as $gs) {
                                         </div>
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
-                                                
+
                                                 {{ Form::label('product_title', 'Product Title ') }}
-                                                {{ Form::text('product_title', null, ['id'=> 'product_title', 'class' => 'form-control', 'placeholder' => 'Enter Product Title', 'required' => true]) }}
+                                                {{ Form::text('product_title', null, ['id' => 'product_title', 'class' => 'form-control', 'placeholder' => 'Enter Product Title', 'required' => true]) }}
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-12 mb-1">
@@ -100,7 +100,7 @@ foreach ($gst as $gs) {
                                                     <div class="input-group-prepend">
                                                         {{ Form::label('sub_category_id', 'Sub Category ', ['class' => '']) }}
                                                     </div>
-                                                    {{ Form::select('sub_category_id',$sub_categories, null, ['class' => 'select2 form-control subcategory', 'placeholder' => 'Please Select Sub Category']) }}
+                                                    {{ Form::select('sub_category_id', $sub_categories, null, ['class' => 'select2 form-control subcategory', 'placeholder' => 'Please Select Sub Category']) }}
                                                 </div>
                                             </fieldset>
                                         </div>
@@ -116,17 +116,17 @@ foreach ($gst as $gs) {
                                         </div> -->
 
                                         <div class="col-md-6 col-12">
-                                        <fieldset class="form-group">
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            {{ Form::label('hsncode_id', 'HSN Code ', ['class' => '']) }}
-                                                        </div>
-                                                        {{ Form::select('hsncode_id', $hsncodes, null, ['class' => 'select2 form-control', 'placeholder' => 'Please Select HSN Code']) }}
+                                            <fieldset class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        {{ Form::label('hsncode_id', 'HSN Code ', ['class' => '']) }}
                                                     </div>
-                                                </fieldset>
+                                                    {{ Form::select('hsncode_id', $hsncodes, null, ['class' => 'select2 form-control', 'placeholder' => 'Please Select HSN Code']) }}
+                                                </div>
+                                            </fieldset>
                                         </div>
                                         <div class="col-md-6 col-12" id="product_price_div">
-                                            <div class="form-group" >
+                                            <div class="form-group">
                                                 {{ Form::label('product_price', 'Product Price ') }}
                                                 {{ Form::text('product_price', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Price', 'id' => 'product_price']) }}
                                             </div>
@@ -160,19 +160,19 @@ foreach ($gst as $gs) {
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-12" id="config_size_div" style="display:none;">
-                                                {{ Form::label('size_id', 'Variant Weights ', ['class' => '']) }}
-                                                <fieldset class="form-group">
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                        </div>
-                                                        {{ Form::select('size_id[]', $size_list, null, ['class' => 'select2 form-control ', 'multiple' => 'multiple', 'id' => 'config_size_id']) }}
+                                            {{ Form::label('size_id', 'Variant Weights ', ['class' => '']) }}
+                                            <fieldset class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
                                                     </div>
-                                                </fieldset>
-                                            </div>
+                                                    {{ Form::select('size_id[]', $size_list, null, ['class' => 'select2 form-control ', 'multiple' => 'multiple', 'id' => 'config_size_id']) }}
+                                                </div>
+                                            </fieldset>
+                                        </div>
 
-                                        
 
-                                        
+
+
 
                                         <div class="col-md-6 col-12" id="product_weight_div">
                                             <div class="form-group">
@@ -181,33 +181,33 @@ foreach ($gst as $gs) {
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    {{ Form::label('length', 'Product Length(cm) *') }}
-                                                    {{ Form::number('length', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Length', 'step' => '0.01']) }}
-                                                </div>
+                                            <div class="form-group">
+                                                {{ Form::label('length', 'Product Length(cm) *') }}
+                                                {{ Form::number('length', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Length', 'step' => '0.01']) }}
                                             </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    {{ Form::label('width', 'Product Breadth(cm) *') }}
-                                                    {{ Form::number('width', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Breadth', 'step' => '0.01']) }}
-                                                </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                {{ Form::label('width', 'Product Breadth(cm) *') }}
+                                                {{ Form::number('width', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Breadth', 'step' => '0.01']) }}
                                             </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    {{ Form::label('height', 'Product Height(cm) *') }}
-                                                    {{ Form::number('height', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Height', 'step' => '0.01']) }}
-                                                </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                {{ Form::label('height', 'Product Height(cm) *') }}
+                                                {{ Form::number('height', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Height', 'step' => '0.01']) }}
                                             </div>
+                                        </div>
                                         <div class="col-lg-12 col-md-12 mt-1 repeater-default" style="display:none;"
                                             id="variantsdiv">
-                                            
+
                                             <h3>Product Variants</h3>
                                             <table class="table table-responsive table-bordered">
                                                 <thead>
                                                     <tr>
                                                         <th>SKU</th>
                                                         <th>Name</th>
-                                                        
+
                                                         <th>Weight</th>
                                                         <th>Quantity</th>
                                                         <th>Price</th>
@@ -220,46 +220,46 @@ foreach ($gst as $gs) {
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div class="modal fade text-left" id="onshow" tabindex="-1"
-                                                role="dialog" aria-labelledby="myModalLabel21" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-                                                    role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title" id="myModalLabel21">Add Variants</h4>
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Close">
-                                                                <i class="bx bx-x"></i>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            
-                                                            <div class="col-md-12 col-12" >
-                                                                {{ Form::label('variant_size_id', 'Weights ', ['class' => '']) }}
-                                                                <fieldset class="form-group">
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                        </div>
-                                                                        {{ Form::select('variant_size_id', $size_list, '', ['class' => 'select2 form-control ', 'id' => 'variant_size_id', 'placeholder' => 'Select']) }}
+                                        <div class="modal fade text-left" id="onshow" tabindex="-1" role="dialog"
+                                            aria-labelledby="myModalLabel21" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+                                                role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="myModalLabel21">Add Variants</h4>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <i class="bx bx-x"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+
+                                                        <div class="col-md-12 col-12">
+                                                            {{ Form::label('variant_size_id', 'Weights ', ['class' => '']) }}
+                                                            <fieldset class="form-group">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-prepend">
                                                                     </div>
-                                                                </fieldset>
-                                                            </div>
+                                                                    {{ Form::select('variant_size_id', $size_list, '', ['class' => 'select2 form-control ', 'id' => 'variant_size_id', 'placeholder' => 'Select']) }}
+                                                                </div>
+                                                            </fieldset>
                                                         </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-light-secondary"
-                                                                data-dismiss="modal">
-                                                                <i class="bx bx-x d-block d-sm-none"></i>
-                                                                <span class="d-none d-sm-block">Cancel</span>
-                                                            </button>
-                                                            <button type="button" class="btn btn-primary ml-1"
-                                                                id="modal_add_variants">
-                                                                <i class="bx bx-check d-block d-sm-none"></i>
-                                                                <span class="d-none d-sm-block">Add</span>
-                                                            </button>
-                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-light-secondary"
+                                                            data-dismiss="modal">
+                                                            <i class="bx bx-x d-block d-sm-none"></i>
+                                                            <span class="d-none d-sm-block">Cancel</span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-primary ml-1"
+                                                            id="modal_add_variants">
+                                                            <i class="bx bx-check d-block d-sm-none"></i>
+                                                            <span class="d-none d-sm-block">Add</span>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
                                                 {{ Form::label('product_desc', 'Product Description ') }}
@@ -328,7 +328,7 @@ foreach ($gst as $gs) {
                                             </fieldset>
                                         </div>
 
-                                       
+
                                         <!-- <div class="col-md-6 col-6">
                                                 {{ Form::label('filter_id', 'Filters ', ['class' => '']) }}
                                                 <fieldset class="form-group">
@@ -360,7 +360,7 @@ foreach ($gst as $gs) {
                                                 <!-- {{ Form::label('new_arrival', '', ['class' => 'custom-control-label ml-1']) }} -->
                                             </div>
                                         </div>
-                                        
+
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
                                                 {{ Form::label('product_thumb', 'Product Thumbnail *') }}
@@ -419,73 +419,71 @@ foreach ($gst as $gs) {
 </div>
 <script>
     $(document).ready(function () {
-        if("{{old('category_id')}}" != "")
-        {
+        if ("{{old('category_id')}}" != "") {
             subcategories(Number("{{old('category_id')}}"));
-        } 
+        }
 
         var variants_cnt = 0;
-        $('#modal_add_variants').on('click', function() {
-                // $('#onshow').removeData();
-                var color_id = 1;
-                var size_id = $("#variant_size_id").val();
-                var product_type = $("#product_type").val();
-                var product_sku = $("#product_sku").val();
-                var product_id = $("#product_id").val();
-                var product_discounted_price = $("#product_discounted_price").val();
-                var added_variants = $('input[name^="variants"]').serialize();
-                // var added_variants1 = $('input[name^="variants"]').toArray();
-                // $("input[name^='variants']").each(function() {
-                //   console.log('test'+$(this).product_sku+'-'+$(this).val());
-                // });
-                console.log(added_variants);
-                // for (key in added_variants1) {
-                //   // console.log(key);
-                // }
-                if (color_id != '' && size_id != '') {
-                    $.ajax({
-                        url: '{{ url('admin/products/addproductvariants') }}',
-                        type: 'post',
-                        data: {
-                            id: product_id,
-                            color_id: color_id,
-                            size_id: size_id,
-                            variants_cnt: variants_cnt,
-                            product_sku: product_sku,
-                            added_variants: added_variants,
-                            product_discounted_price: product_discounted_price,
-                            _token: "{{ csrf_token() }}",
-                        },
-                        dataType: 'json',
-                        success: function(data) {
-                            console.log(data['flag']);
-                            // $('#variantsdiv').show();
-                            // $('#variantstable').html(data);
-                            // $('#sim_color_div').hide();
-                            // $('#sim_size_div').hide();
-                            if (data.flag == "new") {
+        $('#modal_add_variants').on('click', function () {
+            // $('#onshow').removeData();
+            var color_id = 1;
+            var size_id = $("#variant_size_id").val();
+            var product_type = $("#product_type").val();
+            var product_sku = $("#product_sku").val();
+            var product_id = $("#product_id").val();
+            var product_discounted_price = $("#product_discounted_price").val();
+            var added_variants = $('input[name^="variants"]').serialize();
+            // var added_variants1 = $('input[name^="variants"]').toArray();
+            // $("input[name^='variants']").each(function() {
+            //   console.log('test'+$(this).product_sku+'-'+$(this).val());
+            // });
+            console.log(added_variants);
+            // for (key in added_variants1) {
+            //   // console.log(key);
+            // }
+            if (color_id != '' && size_id != '') {
+                $.ajax({
+                    url: '{{ url('admin/products/addproductvariants') }}',
+                    type: 'post',
+                    data: {
+                        id: product_id,
+                        color_id: color_id,
+                        size_id: size_id,
+                        variants_cnt: variants_cnt,
+                        product_sku: product_sku,
+                        added_variants: added_variants,
+                        product_discounted_price: product_discounted_price,
+                        _token: "{{ csrf_token() }}",
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data['flag']);
+                        // $('#variantsdiv').show();
+                        // $('#variantstable').html(data);
+                        // $('#sim_color_div').hide();
+                        // $('#sim_size_div').hide();
+                        if (data.flag == "new") {
 
-                                console.log(data);
-                                $('#variantstable').append(data['table']);
-                                variants_cnt++;
-                            } else {
-                                console.log(data);
-                                // $('#variant_toast').toast("show");
-                                // toastr.warning("Variant with same attribute options already exists.");
-                                $('#variant_toast').modal('show');
-
-                            }
-                        },
-                        error:function(data)
-                        {
                             console.log(data);
+                            $('#variantstable').append(data['table']);
+                            variants_cnt++;
+                        } else {
+                            console.log(data);
+                            // $('#variant_toast').toast("show");
+                            // toastr.warning("Variant with same attribute options already exists.");
+                            $('#variant_toast').modal('show');
+
                         }
-                    });
-                } else {
-                    alert('Please Select Variants');
-                }
-                $('#onshow').modal('hide');
-            });
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            } else {
+                alert('Please Select Variants');
+            }
+            $('#onshow').modal('hide');
+        });
         // if ($(".category").val() != '')
         // {
         //   subcategories($(".category").val());
@@ -578,10 +576,10 @@ foreach ($gst as $gs) {
             var product_price = $("#product_price").val();
             var product_title = $("#product_title").val();
             // console.log(product_type);
-            if (product_type != '' && product_sku != '' && product_title !='') {
+            if (product_type != '' && product_sku != '' && product_title != '') {
                 productconfiguration(product_type, product_sku);
             }
-            
+
             if (product_type == '' || product_sku == '' || product_title == '') {
                 $('#config_size_div').hide();
             }
@@ -592,7 +590,7 @@ foreach ($gst as $gs) {
             var product_price = $("#product_price").val();
             var product_title = $("#product_title").val();
             // console.log(product_type);
-            if (product_type != '' && product_sku != '' && product_title !='') {
+            if (product_type != '' && product_sku != '' && product_title != '') {
                 productconfiguration(product_type, product_sku);
             }
             if (product_type == '' || product_sku == '' || product_title == '') {
@@ -606,14 +604,14 @@ foreach ($gst as $gs) {
             var product_price = $("#product_price").val();
             var product_title = $("#product_title").val();
             // console.log(product_type);
-            if (product_type != '' && product_sku != '' && product_title !='') {
+            if (product_type != '' && product_sku != '' && product_title != '') {
                 productconfiguration(product_type, product_sku);
             }
             if (product_type == '' || product_sku == '' || product_title == '') {
-                
+
                 $('#config_size_div').hide();
             }
-            
+
         });
 
         $("#product_price").change(function () {
@@ -645,7 +643,7 @@ foreach ($gst as $gs) {
                 $('#product_discounted_div').hide();
                 $('#product_discount_amount_div').hide();
                 $('#product_weight_div').hide();
-                
+
             } else {
                 $('#config_color_div').hide();
                 $('#config_size_div').hide();
@@ -671,15 +669,28 @@ foreach ($gst as $gs) {
             var product_discounted_price = $("#product_discounted_price").val();
             // console.log(color_id);
             let product_title = $("#product_title").val();
-            if ( product_type != '' && product_sku != '' && product_title != '') {
-                getproductvariants( size_id, product_type, product_sku, product_price,
+            if (product_type != '' && product_sku != '' && product_title != '') {
+                getproductvariants(size_id, product_type, product_sku, product_price,
                     product_discounted_price);
             }
         });
 
-        function getproductvariants( size_id, product_type, product_sku, product_price,
-            product_discounted_price) {
+        function getproductvariants(size_id, product_type, product_sku, product_price, product_discounted_price) {
             let product_title = $("#product_title").val();
+
+            // Step 1: Store existing values in an object
+            let existingData = {};
+            $("#variantstable tr").each(function () {
+                let row = $(this);
+                let sku = row.find('input[name*="[product_sku]"]').val();
+                let qty = row.find('input[name*="[product_qty]"]').val();
+                let price = row.find('input[name*="[product_discounted_price]"]').val();
+
+                if (sku) {
+                    existingData[sku] = { qty: qty, price: price };
+                }
+            });
+
             if (product_type == 'configurable') {
                 $.ajax({
                     url: '{{ url('admin/products/getproductvariants') }}',
@@ -687,7 +698,7 @@ foreach ($gst as $gs) {
                     data: {
                         color_id: 1,
                         size_id: size_id,
-                        product_title:product_title,
+                        product_title: product_title,
                         product_type: product_type,
                         product_discounted_price: 0,
                         product_sku: product_sku,
@@ -695,9 +706,22 @@ foreach ($gst as $gs) {
                         _token: "{{ csrf_token() }}",
                     },
                     success: function (data) {
-                        //console.log(data);
                         $('#variantsdiv').show();
+
+                        // Step 2: Replace table content
                         $('#variantstable').html(data);
+
+                        // Step 3: Restore saved values after updating the table
+                        $("#variantstable tr").each(function () {
+                            let row = $(this);
+                            let sku = row.find('input[name*="[product_sku]"]').val();
+
+                            if (existingData[sku]) {
+                                row.find('input[name*="[product_qty]"]').val(existingData[sku].qty);
+                                row.find('input[name*="[product_discounted_price]"]').val(existingData[sku].price);
+                            }
+                        });
+
                         $('#sim_color_div').hide();
                         $('#sim_size_div').hide();
                         $('#config_product_qty').hide();
