@@ -51,6 +51,7 @@
                                             <div class="form-group">
                                                 {{ Form::label('product_sku', 'Product SKU ') }}
                                                 {{ Form::text('product_sku', null, ['class' => 'form-control', 'placeholder' => 'Enter Product SKU', 'required' => true, 'id' => 'product_sku']) }}
+                                                
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-12">
@@ -100,7 +101,7 @@
                                                     <div class="input-group-prepend">
                                                         {{ Form::label('sub_category_id', 'Sub Category ', ['class' => '']) }}
                                                     </div>
-                                                    {{ Form::select('sub_category_id', $sub_categories, null, ['class' => 'select2 form-control subcategory', 'placeholder' => 'Please Select Sub Category']) }}
+                                                    {{ Form::select('sub_category_id', $sub_categories, null, ['class' => 'select2 form-control subcategory', 'placeholder' => old('sub_category_id', 'Please Select Sub Category')]) }}
                                                 </div>
                                             </fieldset>
                                         </div>
@@ -421,6 +422,23 @@
     $(document).ready(function () {
         if ("{{old('category_id')}}" != "") {
             subcategories(Number("{{old('category_id')}}"));
+        }
+        var product_type = $("#product_type").val();
+        var product_title = $("#product_title").val();
+        var product_sku = $("#product_sku").val();
+        if (product_type != '' && product_sku != '' && product_title != '') {
+            console.log('worked');
+            productconfiguration(product_type, product_sku);
+          
+            var size_id = $("#config_size_id").val();
+            var color_id = $("#config_color_id").val();
+            var product_type = $("#product_type").val();
+            var product_sku = $("#product_sku").val();
+            var product_price = $("#product_price").val();
+            var product_discounted_price = $("#product_discounted_price").val();
+            console.log(size_id);
+            getproductvariants(size_id, product_type, product_sku, product_price,
+                    product_discounted_price);
         }
 
         var variants_cnt = 0;
