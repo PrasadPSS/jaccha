@@ -28,7 +28,10 @@ class PasswordController extends Controller
                     }
                 },
             ],
+        ], [
+            'password.confirmed' => 'The password confirmation field does not match.', // Custom message
         ]);
+        
 
         $request->user()->update([
             'password' => Hash::make($validated['password']),
