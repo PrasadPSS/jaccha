@@ -221,7 +221,7 @@ class ProductsController extends Controller
                 'country_id' => ['required'],
                 'product_thumb' => ['required'],
                 'product_discount_type' => ['required'],
-                'product_weight' => ['required'],
+                'product_weight' => ['required', 'min:0'],
                 'product_images' => 'max:6',
             ], ['product_images.max' => 'You are only allowed to upload a maximum of 6 files',]);
         }
@@ -626,7 +626,7 @@ class ProductsController extends Controller
     
                 'country_id' => ['required'],
                 'product_discount_type' => ['required'],
-                'product_weight' => ['required'],
+                'product_weight' => ['required', 'min:0'],
                 'product_images' => 'max:6',
                 'ingredients' => 'required',
             ], ['product_images.max' => 'You are only allowed to upload a maximum of 6 files',]);
