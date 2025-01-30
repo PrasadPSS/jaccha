@@ -58,7 +58,7 @@ foreach ($gst as $gs) {
                                         <div class="row">
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    {{ Form::label('product_sku', 'Product SKU ') }}
+                                                    {{ Form::label('product_sku', 'Product SKU *') }}
                                                     {{ Form::text('product_sku', null, ['class' => 'form-control', 'placeholder' => 'Enter Product SKU', 'required' => true, 'id' => 'product_sku']) }}
                                                 </div>
                                                
@@ -68,7 +68,7 @@ foreach ($gst as $gs) {
                                                 <fieldset class="form-group">
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
-                                                            {{ Form::label('product_type', 'Type ', ['class' => '']) }}
+                                                            {{ Form::label('product_type', 'Type *', ['class' => '']) }}
                                                         </div>
                                                         {{ Form::select('product_type', $product_types, $products->product_type, ['class' => 'select2 form-control ', 'placeholder' => 'Please Select Type', 'id' => 'product_type', 'disabled' => true]) }}
                                                         {{ Form::hidden('product_type', $products->product_type, ['id' => 'product_type']) }}
@@ -78,21 +78,21 @@ foreach ($gst as $gs) {
                                             <div class="col-md-12 col-12">
                                                 <div class="form-group">
                                                     {{ Form::hidden('product_id', $products->product_id, ['id' => 'product_id']) }}
-                                                    {{ Form::label('product_title', 'Product Title ') }}
+                                                    {{ Form::label('product_title', 'Product Title *') }}
                                                     {{ Form::text('product_title', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Title', 'required' => true]) }}
                                                 </div>
                                             </div>
                                             <div class="col-md-12 col-12 mb-1">
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    {{ Form::label('gst_id', 'Gst ', ['class' => '']) }}
+                                                    {{ Form::label('gst_id', 'Gst *', ['class' => '']) }}
                                                 </div>
                                                 {{ Form::select('gst_id', $gsts, null, ['class' => 'select2 form-control ', 'placeholder' => 'Please Select Type', 'id' => 'gst_id', 'value' => $selectedGst->gst_name ?? null]) }}
                                             </div>
                                             </div>
                                             <div class="col-md-12 col-12">
                                                 <div class="form-group">
-                                                    {{ Form::label('product_sub_title', 'Product Sub Title ') }}
+                                                    {{ Form::label('product_sub_title', 'Product Sub Title *') }}
                                                     {{ Form::text('product_sub_title', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Sub Title',]) }}
                                                 </div>
                                             </div>
@@ -100,7 +100,7 @@ foreach ($gst as $gs) {
                                                 <fieldset class="form-group">
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
-                                                            {{ Form::label('category_id', 'Category ', ['class' => '']) }}
+                                                            {{ Form::label('category_id', 'Category *', ['class' => '']) }}
                                                         </div>
                                                         {{ Form::select('category_id', $categories, null, ['class' => 'select2 form-control category', 'placeholder' => 'Please Select Category']) }}
                                                         <!-- $products->category_id -->
@@ -111,7 +111,7 @@ foreach ($gst as $gs) {
                                                 <fieldset class="form-group">
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
-                                                            {{ Form::label('sub_category_id', 'Sub Category ', ['class' => '']) }}
+                                                            {{ Form::label('sub_category_id', 'Sub Category *', ['class' => '']) }}
                                                         </div>
                                                         {{ Form::select('sub_category_id', $sub_categories, null, ['class' => 'select2 form-control subcategory', 'placeholder' => 'Please Select Sub Category']) }}
                                                         <!-- $products->sub_category_id -->
@@ -124,7 +124,7 @@ foreach ($gst as $gs) {
                                                 <fieldset class="form-group">
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
-                                                            {{ Form::label('hsncode_id', 'HSN Code ', ['class' => '']) }}
+                                                            {{ Form::label('hsncode_id', 'HSN Code *', ['class' => '']) }}
                                                         </div>
                                                         {{ Form::select('hsncode_id', $hsncodes, null, ['class' => 'select2 form-control hsncode_id', 'placeholder' => 'Please Select HSN Code']) }}
                                                     </div>
@@ -133,7 +133,7 @@ foreach ($gst as $gs) {
                                             @if ($products->product_type == 'simple')
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
-                                                        {{ Form::label('product_price', 'Product Price ') }}
+                                                        {{ Form::label('product_price', 'Product Price *') }}
                                                         {{ Form::text('product_price', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Price', 'required' => true, 'id' => 'product_price']) }}
                                                     </div>
                                                 </div>
@@ -167,7 +167,7 @@ foreach ($gst as $gs) {
                                             @endif
                                             <div class="col-md-6 col-12" id="config_product_qty" style="display:none;">
                                                 <div class="form-group">
-                                                    {{ Form::label('product_qty', 'Product Quantity ') }}
+                                                    {{ Form::label('product_qty', 'Product Quantity *') }}
                                                     {{ Form::text('product_qty', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Quantity']) }}
                                                 </div>
                                             </div>
@@ -354,7 +354,7 @@ foreach ($gst as $gs) {
 
                                             <div class="col-md-12 col-12">
                                                 <div class="form-group">
-                                                    {{ Form::label('product_desc', 'Product Description ') }}
+                                                    {{ Form::label('product_desc', 'Product Description *') }}
                                                     {{ Form::textarea('product_desc', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Description', 'id' => 'editor2']) }}
                                                 </div>
                                             </div>
