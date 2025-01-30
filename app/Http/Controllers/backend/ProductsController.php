@@ -186,7 +186,7 @@ class ProductsController extends Controller
                 'product_title' => ['required'],
                 'product_sku' => ['required', 'regex:/^[a-zA-Z0-9]+$/'],
                 'product_type' => ['required'],
-               
+                'hsncode_id' => ['required'],
                 'category_id' => ['required'],
                 'gst_id'=> 'required',
                 'sub_category_id' => ['required'],
@@ -208,6 +208,7 @@ class ProductsController extends Controller
                 'product_sku' => ['required', 'regex:/^[a-zA-Z0-9]+$/'],
                 'product_type' => ['required'],
                 'product_price' => ['required'],
+                'hsncode_id' => ['required'],
                 'category_id' => ['required'],
                 'gst_id'=> 'required',
                 'sub_category_id' => ['required'],
@@ -589,7 +590,7 @@ class ProductsController extends Controller
                 'product_sku' => ['required', 'regex:/^[a-zA-Z0-9]+$/'],
                 'product_title' => ['required'],
                 'product_type' => ['required'],
-                
+                'hsncode_id' => ['required'],
                 'gst_id' => 'required',
                 'category_id' => ['required'],
                 'sub_category_id' => ['required'],
@@ -611,7 +612,7 @@ class ProductsController extends Controller
                 'product_title' => ['required'],
                 'product_price' => ['required'],
                 'product_type' => ['required'],
-                
+                'hsncode_id' => ['required'],
                 'gst_id' => 'required',
                 'category_id' => ['required'],
                 'sub_category_id' => ['required'],
