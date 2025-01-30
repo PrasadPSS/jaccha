@@ -168,7 +168,7 @@ foreach ($gst as $gs) {
                                             <div class="col-md-6 col-12" id="config_product_qty" style="display:none;">
                                                 <div class="form-group">
                                                     {{ Form::label('product_qty', 'Product Quantity *') }}
-                                                    {{ Form::text('product_qty', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Quantity']) }}
+                                                    {{ Form::number('product_qty', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Quantity']) }}
                                                 </div>
                                             </div>
                                            
