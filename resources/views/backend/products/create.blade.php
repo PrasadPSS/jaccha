@@ -49,7 +49,7 @@
                                     <div class="row">
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
-                                                {{ Form::label('product_sku', 'Product SKU ') }}
+                                                {{ Form::label('product_sku', 'Product SKU *') }}
                                                 {{ Form::text('product_sku', null, ['class' => 'form-control', 'placeholder' => 'Enter Product SKU', 'required' => true, 'id' => 'product_sku']) }}
                                                 
                                             </div>
@@ -58,7 +58,7 @@
                                             <fieldset class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
-                                                        {{ Form::label('product_type', 'Type ', ['class' => '']) }}
+                                                        {{ Form::label('product_type', 'Type *', ['class' => '']) }}
                                                     </div>
                                                     {{ Form::select('product_type', $product_types, null, ['class' => 'select2 form-control ', 'placeholder' => 'Please Select Type', 'id' => 'product_type']) }}
                                                 </div>
@@ -67,21 +67,21 @@
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
 
-                                                {{ Form::label('product_title', 'Product Title ') }}
+                                                {{ Form::label('product_title', 'Product Title *') }}
                                                 {{ Form::text('product_title', null, ['id' => 'product_title', 'class' => 'form-control', 'placeholder' => 'Enter Product Title', 'required' => true]) }}
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-12 mb-1">
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    {{ Form::label('gst_id', 'Gst ', ['class' => '']) }}
+                                                    {{ Form::label('gst_id', 'Gst *', ['class' => '']) }}
                                                 </div>
                                                 {{ Form::select('gst_id', $gsts, null, ['class' => 'select2 form-control ', 'placeholder' => 'Please Select Type', 'id' => 'gst_id']) }}
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
-                                                {{ Form::label('product_sub_title', 'Product Sub Title ') }}
+                                                {{ Form::label('product_sub_title', 'Product Sub Title *') }}
                                                 {{ Form::text('product_sub_title', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Sub Title',]) }}
                                             </div>
                                         </div>
@@ -89,7 +89,7 @@
                                             <fieldset class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
-                                                        {{ Form::label('category_id', 'Category ', ['class' => '']) }}
+                                                        {{ Form::label('category_id', 'Category *', ['class' => '']) }}
                                                     </div>
                                                     {{ Form::select('category_id', $categories, null, ['class' => 'select2 form-control category', 'placeholder' => 'Please Select Category']) }}
                                                 </div>
@@ -99,7 +99,7 @@
                                             <fieldset class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
-                                                        {{ Form::label('sub_category_id', 'Sub Category ', ['class' => '']) }}
+                                                        {{ Form::label('sub_category_id', 'Sub Category *', ['class' => '']) }}
                                                     </div>
                                                     {{ Form::select('sub_category_id', $sub_categories, old('sub_category_id'), ['class' => 'select2 form-control subcategory', 'placeholder' =>  'Please Select Sub Category']) }}
                                                 </div>
@@ -120,7 +120,7 @@
                                             <fieldset class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
-                                                        {{ Form::label('hsncode_id', 'HSN Code ', ['class' => '']) }}
+                                                        {{ Form::label('hsncode_id', 'HSN Code *', ['class' => '']) }}
                                                     </div>
                                                     {{ Form::select('hsncode_id', [], null, ['class' => 'select2 form-control hsncode_id', 'placeholder' => 'Please Select HSN Code']) }}
                                                 </div>
@@ -128,7 +128,7 @@
                                         </div>
                                         <div class="col-md-6 col-12" id="product_price_div">
                                             <div class="form-group">
-                                                {{ Form::label('product_price', 'Product Price ') }}
+                                                {{ Form::label('product_price', 'Product Price *') }}
                                                 {{ Form::text('product_price', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Price', 'id' => 'product_price']) }}
                                             </div>
                                         </div>
@@ -156,12 +156,12 @@
                                         </div>
                                         <div class="col-md-6 col-12" id="config_product_qty">
                                             <div class="form-group">
-                                                {{ Form::label('product_qty', 'Product Quantity ') }}
+                                                {{ Form::label('product_qty', 'Product Quantity *') }}
                                                 {{ Form::text('product_qty', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Quantity']) }}
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-12" id="config_size_div" style="display:none;">
-                                            {{ Form::label('size_id', 'Variant Weights ', ['class' => '']) }}
+                                            {{ Form::label('size_id', 'Variant Weights *', ['class' => '']) }}
                                             <fieldset class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
@@ -263,7 +263,7 @@
                                         </div>
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
-                                                {{ Form::label('product_desc', 'Product Description ') }}
+                                                {{ Form::label('product_desc', 'Product Description *') }}
                                                 {{ Form::textarea('product_desc', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Description', 'id' => 'editor2']) }}
                                             </div>
                                         </div>
@@ -272,13 +272,13 @@
 
                                         <div class="col-lg-12 col-md-12 mt-1">
                                             <fieldset class="form-group">
-                                                {{ Form::label('product_specification', 'Specifications ') }}
+                                                {{ Form::label('product_specification', 'Specifications *') }}
                                                 {{ Form::textarea('product_specification', null, ['class' => 'form-control', 'placeholder' => 'Enter Address', 'id' => 'editor']) }}
                                             </fieldset>
                                         </div>
                                         <div class="col-lg-12 col-md-12 mt-1">
                                             <fieldset class="form-group">
-                                                {{ Form::label('ingredients', 'Ingredients ') }}
+                                                {{ Form::label('ingredients', 'Ingredients *') }}
                                                 {{ Form::textarea('ingredients', null, ['class' => 'form-control', 'placeholder' => 'Enter Address', 'id' => 'editor8']) }}
                                             </fieldset>
                                         </div>
