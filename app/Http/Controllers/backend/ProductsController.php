@@ -184,7 +184,7 @@ class ProductsController extends Controller
         {
             $this->validate($request, [
                 'product_title' => ['required'],
-                'product_sku' => ['required'],
+                'product_sku' => ['required', 'regex:/^[a-zA-Z0-9]+$/'],
                 'product_type' => ['required'],
                
                 'category_id' => ['required'],
@@ -205,7 +205,7 @@ class ProductsController extends Controller
         {
             $this->validate($request, [
                 'product_title' => ['required'],
-                'product_sku' => ['required'],
+                'product_sku' => ['required', 'regex:/^[a-zA-Z0-9]+$/'],
                 'product_type' => ['required'],
                 'product_price' => ['required'],
                 'category_id' => ['required'],
@@ -586,7 +586,7 @@ class ProductsController extends Controller
         if($request->product_type == 'configurable')
         {
             $this->validate($request, [
-                'product_sku' => ['required'],
+                'product_sku' => ['required', 'regex:/^[a-zA-Z0-9]+$/'],
                 'product_title' => ['required'],
                 'product_type' => ['required'],
                 
@@ -607,7 +607,7 @@ class ProductsController extends Controller
         else
         {
             $this->validate($request, [
-                'product_sku' => ['required'],
+                'product_sku' => ['required', 'regex:/^[a-zA-Z0-9]+$/'],
                 'product_title' => ['required'],
                 'product_price' => ['required'],
                 'product_type' => ['required'],
