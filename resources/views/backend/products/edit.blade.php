@@ -372,12 +372,7 @@ foreach ($gst as $gs) {
                                                     {{ Form::textarea('ingredients', null, ['class' => 'form-control', 'placeholder' => 'Enter Address', 'id' => 'editor1']) }}
                                                 </fieldset>
                                             </div>
-                                            <div class="col-lg-12 col-md-12 mt-1">
-                                                <fieldset class="form-group">
-                                                    {{ Form::label('product_disclaimer', 'Disclaimer *') }}
-                                                    {{ Form::textarea('product_disclaimer', null, ['class' => 'form-control', 'placeholder' => 'Enter Address', 'id' => 'editor8']) }}
-                                                </fieldset>
-                                            </div>
+                                            
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     {{ Form::label('meta_title', 'Product Meta Title ') }}

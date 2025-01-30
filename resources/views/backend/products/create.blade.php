@@ -282,12 +282,7 @@
                                                 {{ Form::textarea('ingredients', null, ['class' => 'form-control', 'placeholder' => 'Enter Address', 'id' => 'editor8']) }}
                                             </fieldset>
                                         </div>
-                                        <div class="col-lg-12 col-md-12 mt-1">
-                                            <fieldset class="form-group">
-                                                {{ Form::label('product_disclaimer', 'Disclaimer ') }}
-                                                {{ Form::textarea('product_disclaimer', isset($disclaimer) ? $disclaimer->disclaimer_description : '', ['class' => 'form-control', 'placeholder' => 'Enter Address', 'id' => 'editor1']) }}
-                                            </fieldset>
-                                        </div>
+                                        
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 {{ Form::label('meta_title', 'Product Meta Title ') }}
@@ -694,6 +689,10 @@
         });
 
         function getproductvariants(size_id, product_type, product_sku, product_price, product_discounted_price) {
+
+            window.oldVariants = @json(old('variants', []));
+            console.log("Old values loaded:", window.oldVariants);
+            
             let product_title = $("#product_title").val();
 
             // Step 1: Store existing values in an object
@@ -739,6 +738,20 @@
                                 row.find('input[name*="[product_discounted_price]"]').val(existingData[sku].price);
                             }
                         });
+                        if (window.oldVariants && window.oldVariants.length > 0) {
+                        $("#variantstable tr").each(function () {
+        let row = $(this);
+        let sku = row.find('input[name*="[product_sku]"]').val(); // Get SKU from the row
+
+        // Find the old variant data based on SKU
+        let oldVariant = oldVariants.find(variant => variant.product_sku === sku);
+
+        if (oldVariant) {
+            row.find('input[name*="[product_qty]"]').val(oldVariant.product_qty);
+            row.find('input[name*="[product_discounted_price]"]').val(oldVariant.product_discounted_price);
+        }
+    });
+}
 
                         $('#sim_color_div').hide();
                         $('#sim_size_div').hide();
