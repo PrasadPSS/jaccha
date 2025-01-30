@@ -150,7 +150,7 @@ foreach ($gst as $gs) {
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         {{ Form::label('product_discount', 'Product Discount ') }}
-                                                        {{ Form::text('product_discount', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Discount', 'id' => 'product_discount']) }}
+                                                        {{ Form::number('product_discount', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Discount', 'id' => 'product_discount']) }}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
