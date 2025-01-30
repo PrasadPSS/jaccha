@@ -194,6 +194,7 @@ class ProductsController extends Controller
                 'length' => ['required'],
                 'width' => ['required'],
                 'height' => ['required'],
+                'product_desc' => ['required'],
                 // 'filter_id' => ['required'],
                 'country_id' => ['required'],
                 'product_thumb' => ['required'],
@@ -217,6 +218,7 @@ class ProductsController extends Controller
                 'length' => ['required'],
                 'width' => ['required'],
                 'height' => ['required'],
+                'product_desc' => ['required'],
                 // 'filter_id' => ['required'],
                 'country_id' => ['required'],
                 'product_thumb' => ['required'],
@@ -602,7 +604,7 @@ class ProductsController extends Controller
                 'height' => ['required'],
     
                 'country_id' => ['required'],
-
+                'product_desc' => ['required'],
                 
                 'product_images' => 'max:6',
                 'ingredients' => 'required',
@@ -623,7 +625,7 @@ class ProductsController extends Controller
                 'length' => ['required'],
                 'width' => ['required'],
                 'height' => ['required'],
-    
+                'product_desc' => ['required'],
                 'country_id' => ['required'],
                 'product_discount_type' => ['required'],
                 'product_weight' => ['required', 'gt:0'],
