@@ -811,15 +811,16 @@ header .second-navbar ul li a span {
 }
 .products-details .image-b-box img {
   width: 435px;
-  height: 460px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 4px;
+  height: 525px;
+  border: 1px solid var(--primary);
 }
 .products-details .image-s-boxes img {
   width: 120px;
   border-radius: 4px;
   margin-bottom: 15px;
-  height: 143px;
+  /* height: 143px; */
   object-fit: cover;
 }
 .products-details .content-box h4 {
@@ -1082,8 +1083,6 @@ header .second-navbar ul li a span {
 }
 .usage-instructions .instruction-image img {
   width: 480px;
-  height: 400px;
-  object-fit: cover;
   border-radius: 3px;
 }
 .usage-instructions .product-details-heading {
