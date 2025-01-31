@@ -47,6 +47,7 @@ export default function Register({ auth }) {
                         <div className="login-form">
                             <h3>Create an account</h3>
                             <p>Please enter your details to create an account.</p>
+                            <InputError message={errors.password} className="mt-2" />
                             <form onSubmit={submit}>
                                 <div className="mb-3 mt-4">
                                     <input type="text" className="form-control" id="firstName" placeholder="First Name*" onChange={(e) => setData('firstName', e.target.value)} />
@@ -67,7 +68,7 @@ export default function Register({ auth }) {
 
                                 <div className="mb-3">
                                     <input type="password" className="form-control" id="password" placeholder="Password*" onChange={(e) => setData('password', e.target.value)} />
-                                    <InputError message={errors.password} className="mt-2" />
+                                    
                                     <div className="text-danger">
                                     Note: 'The password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character (e.g., @$!%*?&#).',
                                     </div>
