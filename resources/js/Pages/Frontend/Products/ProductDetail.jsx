@@ -318,11 +318,11 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                     <h6>
                                         {product.product_sub_title}
                                     </h6>
-                                    <div dangerouslySetInnerHTML={{ __html: product.product_specification }}>
+                                    <div dangerouslySetInnerHTML={{ __html: product.product_desc }}>
 
                                     </div>
                                     <ul className="icon-list mt-3">
-                                        <div dangerouslySetInnerHTML={{ __html: product.product_desc }}></div>
+                                        <div dangerouslySetInnerHTML={{ __html: product.product_specification }}></div>
                                     </ul>
                                 </div>
 
