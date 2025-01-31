@@ -70,6 +70,6 @@ class Kernel extends HttpKernel
         'checkadminlogin' => \App\Http\Middleware\CheckAdminLogin::class,
         'admin.auth' => \App\Http\Middleware\AdminAuthenticate::class,
         'admin.guest' => \App\Http\Middleware\AdminRedirectIfAuthenticated::class,
-        'isProfileCompleted' => \App\Http\Middleware\IsProfileCompleted::class,
+        'isProfileCompleted' => \App\Http\Middleware\isProfileCompleted::class,
     ];
 }

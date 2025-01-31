@@ -362,7 +362,7 @@ foreach ($gst as $gs) {
 
                                             <div class="col-lg-12 col-md-12 mt-1">
                                                 <fieldset class="form-group">
-                                                    {{ Form::label('product_specification', 'Specifications *') }}
+                                                    {{ Form::label('product_specification', 'Specifications ') }}
                                                     {{ Form::textarea('product_specification', null, ['class' => 'form-control', 'placeholder' => 'Enter Address', 'id' => 'editor']) }}
                                                 </fieldset>
                                             </div>
@@ -472,7 +472,7 @@ foreach ($gst as $gs) {
                                             <!-- </div> -->
                                             <div class="col-md-12 col-12">
                                                 <div class="form-group">
-                                                    {{ Form::label('product_images', 'Product Images *') }}
+                                                    {{ Form::label('product_images', 'Product Images ') }}
                                                     @php
 $image_status = false;
 $image_status_title = '';
