@@ -357,7 +357,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                         </button>
                                         <div className="number">
                                             <Link
-                                                type="button"
+                                                type="button" 
                                                 className="btn btn-primary black"
                                                 href="/product/addtocart" as='button' method="post"
                                                 data={{ product_id: product.product_id, product_type: selectedVariant !== '' ? "configurable" : "simple", product_variant_id: product_variant_id, quantity: productQty, _token: token, sweetnesslevel: sweetnessLevel, ingrediantaddons: ingredients, exclusions: exclusions }}
@@ -551,17 +551,18 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                         <div className="col-sm-12">
                             <div className="reviews-heading">
                                 <h3>{Number(average_rating).toFixed(1)}<span>Based on {product_reviews.length} reviews</span></h3>
-                                {canReview(product.product_id) && <button
+                                <button
                                     type="button"
                                     className="btn btn-primary"
                                     data-bs-toggle="modal"
                                     data-bs-target="#exampleModal"
                                 >
                                     Write a Review <i className="fal fa-angle-right ms-3"></i>
-                                </button>}
+                                </button>
 
                             </div>
                         </div>
+                        
                         <ReviewsListing product_reviews={product_reviews} />
                     </div>
                 </div>
@@ -946,7 +947,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                                 <div className="col-sm-6">
                                     <div className="review-popup-image">
                                         <img
-                                            src="/assets/images/product-details/why-choose.jpg"
+                                            src={'/backend-assets/uploads/product_thumbs/' + product.product_thumb}
                                             alt=""
                                         />
                                     </div>

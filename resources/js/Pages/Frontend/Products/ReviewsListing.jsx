@@ -81,6 +81,11 @@ const ReviewsListing = ({ product_reviews }) => {
         
       </div>
 ))}
+{currentReviews.length ==0 && 
+  <div className="text-center mt-2">No Reviews Yet</div>
+}
+
+
       {/* Pagination */}
       <div className="Page navigation review-pagination mt-5">
         <ul className="pagination">
