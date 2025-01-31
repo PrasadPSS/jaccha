@@ -369,7 +369,7 @@
                                         </div>
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
-                                                {{ Form::label('product_images', 'Product Images *') }}
+                                                {{ Form::label('product_images', 'Product Images ') }}
                                                 <div class="custom-file">
                                                     {{ Form::file('product_images[]', ['class' => 'custom-file-input', 'id' => 'product_images', 'multiple' => 'multiple']) }}
                                                     <label class="custom-file-label" for="product_images">Choose
