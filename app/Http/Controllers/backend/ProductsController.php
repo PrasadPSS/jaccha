@@ -190,6 +190,7 @@ class ProductsController extends Controller
                 'category_id' => ['required'],
                 'gst_id'=> 'required',
                 'product_discount' => [ 'nullable', 'gt:0'],
+                'product_qty' => ['gt:0'],
                 'sub_category_id' => ['required'],
                 'length' => ['required'],
                 'width' => ['required'],
@@ -217,6 +218,7 @@ class ProductsController extends Controller
                 'sub_category_id' => ['required'],
                 'length' => ['required'],
                 'width' => ['required'],
+                'product_qty' => ['gt:0'],
                 'height' => ['required'],
                 'product_desc' => ['required'],
                 // 'filter_id' => ['required'],
@@ -602,7 +604,7 @@ class ProductsController extends Controller
                 'length' => ['required'],
                 'width' => ['required'],
                 'height' => ['required'],
-    
+                'product_qty' => ['gt:0'],
                 'country_id' => ['required'],
                 'product_desc' => ['required'],
                 
@@ -623,6 +625,7 @@ class ProductsController extends Controller
                 'category_id' => ['required'],
                 'sub_category_id' => ['required'],
                 'length' => ['required'],
+                'product_qty' => ['gt:0'],
                 'width' => ['required'],
                 'height' => ['required'],
                 'product_desc' => ['required'],
