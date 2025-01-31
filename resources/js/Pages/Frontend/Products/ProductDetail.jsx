@@ -15,6 +15,7 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
     const [sweetnessLevel, setSweetness] = useState('');
     const [ingredients, setIngredients] = useState('');
     const [exclusions, setExclusions] = useState('');
+    const approvedReviews = product_reviews.filter(review => review.approval == 1);
     let token = usePage().props.auth.csrf_token;;
     const handleAddAllToCart = () => {
         related_product_list.forEach((item) => {
@@ -550,7 +551,14 @@ const ProductDetail = ({ auth, product, product_reviews, product_images, average
                     <div className="row">
                         <div className="col-sm-12">
                             <div className="reviews-heading">
+                                {approvedReviews.length > 0 && 
                                 <h3>{Number(average_rating).toFixed(1)}<span>Based on {product_reviews.length} reviews</span></h3>
+                                }
+
+                                {approvedReviews.length == 0 && 
+                                <h3>{0}<span>Based on {0} reviews</span></h3>
+                                }
+                                
                                 <button
                                     type="button"
                                     className="btn btn-primary"
