@@ -17,9 +17,11 @@ export default function View({ auth, cms_pages }) {
                         </div>
                     </div>
                 </div>
+                
             </div>
+            
 
-            <section className="section product_listing privacy-policy">
+            <section className="product_listing privacy-policy">
                 <div className="container">
                     <div className="row align-items-center">
                         <div className="col-sm-12" dangerouslySetInnerHTML={{ __html: cms_pages.cms_pages_content }}>
