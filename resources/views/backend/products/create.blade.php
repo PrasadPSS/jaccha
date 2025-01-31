@@ -278,7 +278,7 @@
                                         </div>
                                         <div class="col-lg-12 col-md-12 mt-1">
                                             <fieldset class="form-group">
-                                                {{ Form::label('ingredients', 'Ingredients *') }}
+                                                {{ Form::label('ingredients', 'Ingredients ') }}
                                                 {{ Form::textarea('ingredients', null, ['class' => 'form-control', 'placeholder' => 'Enter Address', 'id' => 'editor8']) }}
                                             </fieldset>
                                         </div>
