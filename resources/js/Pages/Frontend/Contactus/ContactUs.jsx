@@ -36,15 +36,13 @@ export default function ContactUs({ auth, company }) {
                         </div>
                         <div className="col-lg-3">
                             <div className="contact-us-social pt-5">
-                                <a href="" className="contactSocial">
+                                <a href={company.facebook} className="contactSocial">
                                     <i className="ri-facebook-fill"></i>
                                 </a>
-                                <a href="" className="contactSocial my-3">
+                                <a href={company.instagram} className="contactSocial my-3">
                                     <i className="ri-instagram-line"></i>
                                 </a>
-                                <a href="" className="contactSocial">
-                                    <i className="ri-twitter-x-fill"></i>
-                                </a>
+                        
                             </div>
                         </div>
                     </div>

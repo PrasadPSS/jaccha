@@ -74,13 +74,14 @@ class HomeController extends Controller
 
     public function storeContactUs(Request $request)
     {
-        
+
         $data = request()->validate(['name' =>'required', 
         'email'=>'required', 
-        'mobile_no'=>'required', 
+        
         'comment'=>'required']);
+        
     
-        $userDetails = ['name'=>$data['name'],'email'=> $data['email'], 'mobile_no'=> $data['mobile_no'], 'comment'=>$data['comment']];
+        $userDetails = ['name'=>$data['name'],'email'=> $data['email'], 'mobile_no'=> $request->mobile_no ?? null , 'comment'=>$data['comment']];
         Contactus::create($userDetails);
         $mailService = new phpMailerService();
         $company = Company::first();
@@ -136,10 +137,12 @@ class HomeController extends Controller
                     <td>Email</td>
                     <td>{$data['email']}</td>
                 </tr>
+                
                 <tr>
                     <td>Mobile Number</td>
-                    <td>{$data['mobile_no']}</td>
+                    <td>{$request->mobile_no}</td>
                 </tr>
+                
                 <tr>
                     <td>Comment</td>
                     <td>{$data['comment']}</td>
