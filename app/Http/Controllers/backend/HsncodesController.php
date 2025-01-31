@@ -56,7 +56,7 @@ class HsncodesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-          'hsncode_name' => ['required',],
+          'hsncode_name' => ['required', 'unique:' . HSNCodes::class],
           'category_id' => ['required',],
           'subcategory_id' => ['required',],
           
