@@ -50,7 +50,7 @@ class RegisteredUserController extends Controller
             'mobile_no' => 'required|min_digits:10|max_digits:10|numeric|unique:' . User::class,
             'lastName' => 'required|alpha:ascii|string|max:255',
         ], [
-            'password.regex' => '',
+            'password.regex' => 'Please enter password in correct format',
             'password.confirmed' => 'Password Field does not match Confirm Password field'
         ]);
   
