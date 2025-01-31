@@ -81,7 +81,7 @@
                                         </div>
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
-                                                {{ Form::label('product_sub_title', 'Product Sub Title *') }}
+                                                {{ Form::label('product_sub_title', 'Product Sub Title ') }}
                                                 {{ Form::text('product_sub_title', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Sub Title',]) }}
                                             </div>
                                         </div>
